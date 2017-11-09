@@ -63,9 +63,18 @@ $(REFS)/trainset14_032015.% :
 #
 ################################################################################
 
+# Create the necessary mothur .file files
+$(PROC)/amp.files\
+$(PROC)/mock_amp.files : code/make_amp_file.R
+	R -e "source('code/make_amp_file.R')"
+
+
+# Run the mothur analysis for error based on MOCK samples
 $(PROC)/mock_error.% : code/mock_amp_mothur.batch
 	bash code/mock_amp_mothur.batch
 
+
+# Run the full analysis with different levels of subsampling with MOCK and Samples
 $(PROC)/all_amp.% : code/amp_mothur.batch
 	bash code/amp_mothur.batch
 
