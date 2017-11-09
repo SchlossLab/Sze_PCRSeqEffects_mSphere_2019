@@ -1,0 +1,106 @@
+#!bash
+
+#Set local variables
+mothurRv=/mnt/EXT/Schloss-data/bin/mothur
+tempMothur=/nfs/turbo/schloss-lab/msze/axiom_home_stuff/bin/mothurV1.39.3/mothur/mothur
+DOWNDIR=data/raw
+WORKDIR=data/process
+REF=data/references
+
+module load sratoolkit/2.8.2-1
+
+#Unzip fastq files and place them in work directory
+#cp $DOWNDIR/part_one/*.fastq.gz $WORKDIR
+#cp $DOWNDIR/part_two/*.fastq.gz $WORKDIR
+#cp $DOWNDIR/repeated_V2_frozens/*.fastq.gz $WORKDIR
+#gzip -d $WORKDIR/*.gz
+
+# Rename all files with "-" to "_" in workdir
+#for i in `ls $WORKDIR/*-*`;
+#do
+#	NEW=`echo $i|tr '-' '_'`
+#	mv $i $NEW
+#done
+
+# Run mothur process
+#$tempMothur "#make.contigs(file=$WORKDIR/amp.files);
+#	summary.seqs(fasta=current, processors=8);
+#	screen.seqs(fasta=current, group=current, summary=current, maxambig=0, maxlength=275);
+#	summary.seqs(fasta=current);
+#	unique.seqs(fasta=current);
+#	summary.seqs(fasta=current, name=current);
+#	count.seqs(name=current, group=current);
+#	summary.seqs(fasta=current, count=current);
+#	align.seqs(fasta=current, reference=$REF/silva.v4.align);
+#	summary.seqs(fasta=current, count=current);
+#	screen.seqs(fasta=current, count=current, summary=current, start=1968, end=11550, maxhomop=8);
+#	summary.seqs(fasta=current,count=current);
+#	filter.seqs(fasta=current, vertical=T, trump=.);
+#	unique.seqs(fasta=current, count=current);
+#	pre.cluster(fasta=current, count=current, diffs=2);
+#	chimera.vsearch(fasta=current, count=current, dereplicate=t, processors=4);
+#	remove.seqs(fasta=current, accnos=current);
+#	summary.seqs(fasta=current, count=current);
+#	classify.seqs(fasta=current, count=current, reference=$REF/trainset14_032015.pds.fasta, taxonomy=$REF/trainset14_032015.pds.tax, cutoff=80);
+#	remove.lineage(fasta=current, count=current, taxonomy=current, taxon=Chloroplast-Mitochondria-unknown-Archaea-Eukaryota)"
+
+# Rename specific files for error analysis run through mothur (count, taxa, and fasta)
+#mv $WORKDIR/amp.trim.contigs.good.unique.good.filter.unique.precluster.denovo.vsearch.pick.pick.count_table $WORKDIR/temp.amp.count_table
+#mv $WORKDIR/amp.trim.contigs.good.unique.good.filter.unique.precluster.pick.pick.fasta $WORKDIR/temp.amp.fasta
+#mv $WORKDIR/amp.trim.contigs.good.unique.good.filter.unique.precluster.pick.pds.wang.pick.taxonomy $WORKDIR/temp.amp.taxonomy
+
+# Remove used fastq
+
+#rm $WORKDIR/*.fastq
+
+
+#$tempMothur "#cluster.split(fasta=$WORKDIR/temp.amp.fasta, count=$WORKDIR/temp.amp.count_table, taxonomy=$WORKDIR/temp.amp.taxonomy, method=opti, metric=mcc, taxlevel=5, cutoff=0.03, cluster=F, processors=8)"
+
+
+#Run mothur clustering and make shared process
+
+#$tempMothur "#cluster.split(file=$WORKDIR/temp.amp.file, method=opti, metric=mcc, processors=4);
+#	make.shared(list=current, count=$WORKDIR/temp.amp.count_table, label=0.03);
+#	classify.otu(list=current, count=current, taxonomy=$WORKDIR/temp.amp.taxonomy, label=0.03);
+#	get.oturep(fasta=$WORKDIR/temp.amp.fasta, count=current, list=current, label=0.03, method=abundance);
+#	count.groups()"
+
+# Rename data files
+#mv $WORKDIR/temp.amp.opti_mcc.unique_list.shared $WORKDIR/all_amp.shared
+#mv $WORKDIR/temp.amp.opti_mcc.unique_list.0.03.cons.taxonomy $WORKDIR/all_amp.taxonomy
+#mv $WORKDIR/temp.amp.opti_mcc.unique_list.0.03.rep.fasta $WORKDIR/all_amp.rep.seqs
+#mv $WORKDIR/temp.amp.opti_mcc.unique_list.0.03.rep.count_table $WORKDIR/all_amp.rep.count_table
+
+# Remove unneeded intermidate files
+#rm $WORKDIR/temp.amp.opti_mcc* $WORKDIR/temp.amp*
+#rm $WORKDIR/*.map $WORKDIR/amp.trim.contigs* $WORKDIR/amp.contigs.*
+#rm $WORKDIR/amp.scrap.* $WORKDIR/amp.filter
+
+# Run alpha and beta at different subsamplings as well as rarefaction
+for i in 50 100 500 1000 5000 10000;
+do
+	# rarefaction
+	$tempMothur "#sub.sample(shared=$WORKDIR/all_amp.shared, size=$i, label=0.03)"
+	mv $WORKDIR/all_amp.0.03.subsample.shared $WORKDIR/all_amp.0.03.subsample.$i.shared
+	# Alpha and Beta diversity
+	$tempMothur "#summary.single(shared=$WORKDIR/all_amp.shared, calc=nseqs-sobs-shannon-shannoneven, subsample=$i);
+		dist.shared(shared=$WORKDIR/all_amp.shared, calc=thetayc-braycurtis, label=0.03, subsample=$i, iters=100)"
+	# Renaming based on subsampling level
+	mv $WORKDIR/all_amp.thetayc.0.03.lt.dist $WORKDIR/all_amp.thetayc.0.03.lt.$i.dist
+	mv $WORKDIR/all_amp.braycurtis.0.03.lt.dist $WORKDIR/all_amp.braycurtis.0.03.lt.$i.dist
+	mv $WORKDIR/all_amp.thetayc.0.03.lt.ave.dist $WORKDIR/all_amp.thetayc.0.03.lt.ave.$i.dist
+	mv $WORKDIR/all_amp.braycurtis.0.03.lt.ave.dist $WORKDIR/all_amp.braycurtis.0.03.lt.ave.$i.dist
+	mv $WORKDIR/all_amp.thetayc.0.03.lt.std.dist $WORKDIR/all_amp.thetayc.0.03.lt.std.$i.dist
+	mv $WORKDIR/all_amp.braycurtis.0.03.lt.std.dist $WORKDIR/all_amp.braycurtis.0.03.lt.std.$i.dist
+	mv $WORKDIR/all_amp.groups.ave_std.summary $WORKDIR/all_amp.groups.ave_std.$i.summary
+	mv $WORKDIR/all_amp.groups.summary $WORKDIR/all_amp.groups.$i.summary
+
+done
+
+# Remove extra files generated during the for loop
+rm $WORKDIR/*.rabund
+
+
+
+
+
