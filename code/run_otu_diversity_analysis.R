@@ -4,7 +4,7 @@
 # Load in needed functions and libraries
 source('code/functions.R')
 
-loadLibs(c("tidyverse", "stringr"))
+loadLibs(c("tidyverse", "stringr", "viridis"))
 
 
 # Read in Meta data file
@@ -32,7 +32,7 @@ pare_down_table <- function(i, dataList, meta_table, remove_samples){
   tempMeta <- meta_table %>% filter(sample_type != remove_samples)
   
   tempData <- dataList[[i]] %>% 
-    slice(match(Group, tempMeta$full_name))
+    slice(match(tempMeta$full_name, Group))
     
   selected_tempData <- tempData %>% 
     select(-label, -Group, -numOtus) %>% 
@@ -47,17 +47,46 @@ pare_down_table <- function(i, dataList, meta_table, remove_samples){
 # Function to generate OTU counts from subsample shared file
 make_count_table <- function(i, dataList){
   
+  tempData <- dataList[[i]]
+  
   # generate a present/abscence data table
-  tempData <- dataList[[i]] %>% 
+  count_tempData <- tempData %>% 
     select(-Group) %>% 
-    mutate_all(function(x) ifelse(x == 0, invisible(0), invisible(1)))
+    mutate_all(function(x) ifelse(x == 0, invisible(0), invisible(1))) %>% 
+    mutate(Group = tempData$Group) %>% 
+    select(Group, everything())
   
   print(paste("Completed table ", i, " presence/absence analysis", sep = ""))
+  
+  return(count_tempData)
+  
+}
+
+
+# Function to sum counts and save them per sample
+sum_OTU_counts <- function(i, dataList){
+  
+  tempData <- dataList[[i]]
+  
+  sum_tempData <- tempData %>% 
+    select(-Group) %>% 
+    mutate(numOTUs = rowSums(.), 
+           Group = tempData$Group) %>% 
+    select(Group, numOTUs)
+    
+  return(sum_tempData)
+}
+
+
+# Function to add final counts with meta data information
+combine_tables <- function(i, dataList, meta_table){
+  
+  tempData <- dataList[[i]] %>% 
+    left_join(meta_table, by = c("Group" = "full_name"))
   
   return(tempData)
   
 }
-
 
 
 
@@ -81,6 +110,32 @@ mock_samples_data <- sapply(sub_sample_level,
 # Generate OTU presence/absence table
 mock_presence_table <- sapply(sub_sample_level, 
                               function(x) make_count_table(x, mock_samples_data), simplify = F)
+
+# Generate OTU counts for each sample 
+mock_OTU_counts <- sapply(sub_sample_level, 
+                          function(x) sum_OTU_counts(x, mock_presence_table), simplify = F)
+
+# Combine counts with metadata
+mock_OTU_combined_table <- sapply(sub_sample_level, 
+                                  function(x) combine_tables(x, mock_OTU_counts, metadata), simplify = F)
+
+
+# Generate graph of Mock DNA samples (not subsampled)
+mock_OTU_combined_table[[1]] %>% 
+  mutate(taq = factor(taq, 
+                      levels = c("ACC", "K", "PHU", "PL", "Q5"), 
+                      labels = c("Accuprime", "Kappa", "Phusion", "Platinum", "Q5"))) %>% 
+  ggplot(aes(cycles, numOTUs, color = taq, group = taq)) + 
+  geom_smooth(size = 1, se = FALSE) + 
+  geom_point(size = 2, alpha = 0.7) + theme_bw() + 
+  scale_color_viridis(name = "Taq Used", discrete = TRUE) + 
+  labs(x = "Amplification Cycles", y = "Number of OTUs") + 
+  ggtitle("Mock DNA") + coor
+
+
+
+
+
 
 
 
