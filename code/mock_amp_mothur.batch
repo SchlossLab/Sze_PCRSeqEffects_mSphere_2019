@@ -56,7 +56,7 @@ mv $WORKDIR/mock_amp.trim.contigs.good.unique.good.filter.unique.precluster.pick
 mv $WORKDIR/mock_amp.trim.contigs.good.unique.good.filter.unique.precluster.pick.pick.error.chimera $WORKDIR/mock_error.chimera
 
 # Remove all the extra files
-#rm $WORKDIR/*.fastq
+rm $WORKDIR/*.fastq
 #rm $WORKDIR/mock_amp.trim.* $WORKDIR/mock_amp.contigs.* $WORKDIR/mock_amp.scrap.*
 rm $WORKDIR/mock_amp.filter
 
