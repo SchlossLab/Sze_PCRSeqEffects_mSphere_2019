@@ -26,39 +26,36 @@ read_data <- function(pathing, start_name, end_name, differentiator){
 }
 
 
-# Function to generate OTU counts from subsample shared file
-make_count_table <- function(){
+# Function to seperate data tables between DNA ctrls and FS
+pare_down_table <- function(i, dataList, meta_table, remove_samples){
   
+  tempMeta <- meta_table %>% filter(sample_type != remove_samples)
   
+  tempData <- dataList[[i]] %>% 
+    slice(match(Group, tempMeta$full_name))
+    
+  selected_tempData <- tempData %>% 
+    select(-label, -Group, -numOtus) %>% 
+    select(which(colSums(.) > 0)) %>% 
+    mutate(Group = tempData$Group) %>% 
+    select(Group, everything())
+  
+  return(selected_tempData)
 }
 
 
+# Function to generate OTU counts from subsample shared file
+make_count_table <- function(i, dataList){
+  
+  # generate a present/abscence data table
+  tempData <- dataList[[i]] %>% 
+    select(-Group) %>% 
+    mutate_all(function(x) ifelse(x == 0, invisible(0), invisible(1)))
+  
+  return(tempData)
+  
+}
 
-
-# Generate absence/presence groups
-dna_test <- dna_shared %>% 
-  select(-label, -Group, -numOtus) %>% 
-  select(which(colSums(.) > 0)) %>% 
-  mutate(Group = dna_shared$Group) %>% 
-  select(Group, everything())
-
-sub_dna_test <- sub_dna_shared %>% 
-  select(-label, -Group, -numOtus) %>% 
-  select(which(colSums(.) > 0)) %>% 
-  mutate(Group = sub_dna_shared$Group) %>% 
-  select(Group, everything())
-
-stool_test <- stool_shared %>% 
-  select(-label, -Group, -numOtus) %>% 
-  select(which(colSums(.) > 0)) %>% 
-  mutate(Group = stool_shared$Group) %>% 
-  select(Group, everything())
-
-sub_stool_test <- sub_stool_shared %>% 
-  select(-label, -Group, -numOtus) %>% 
-  select(which(colSums(.) > 0)) %>% 
-  mutate(Group = sub_stool_shared$Group) %>% 
-  select(Group, everything())
 
 
 # generate a present/abscence data table
@@ -85,13 +82,6 @@ sub_stool_pres_absen_test <- sub_stool_test %>%
 
 
 
-
-
-
-
-
-
-
 ###########################################################################################################################
 ############################### Run actual analysis programs  #############################################################
 ###########################################################################################################################
@@ -104,10 +94,13 @@ sub_shared_data <- sapply(sub_sample_level,
                           function(x) read_data("data/process/", "all_amp.0.03.subsample.", ".shared", x), 
                           simplify = F)
 
+# Select only DNA MOCK samples and keep only OTUs that are not 0 for every sample
+mock_samples_data <- sapply(sub_sample_level, 
+               function(x) pare_down_table(x, sub_shared_data, metadata, "FS"), simplify = F)
 
-
-
-
+# Generate OTU presence/absence table
+mock_presence_table <- sapply(sub_sample_level, 
+                              function(x) make_count_table(x, mock_samples_data), simplify = F)
 
 
 
