@@ -68,14 +68,9 @@ do
 done
 
 # Remove all the extra files
-<<<<<<< HEAD
-rm $WORKDIR/*.fastq
-#rm $WORKDIR/mock_amp.trim.* $WORKDIR/mock_amp.contigs.* $WORKDIR/mock_amp.scrap.*
-rm $WORKDIR/mock_amp.filter
-=======
 #rm $WORKDIR/*.fastq
 rm $WORKDIR/mock_amp.trim.* $WORKDIR/mock_amp.contigs.* $WORKDIR/mock_amp.scrap.*
 #rm $WORKDIR/mock_amp.filter
->>>>>>> 182a00c34575a3eb0e0a143a0c1aa780a5faa9bc
+
 
 	
