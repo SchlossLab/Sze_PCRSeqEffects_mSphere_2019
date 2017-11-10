@@ -1,0 +1,12 @@
+queryName	bestRef	bestSequenceMismatch	leftParentChi,rightParentChi	breakPointChi	minMismatchToChimera	distToBestMera	numParents
+M02127_238_000000000-B2HYR_1_1103_8875_27468	Staphylococcus_aureus_16S	0	NA	NA	NA	NA	1
+M02127_238_000000000-B2HYR_1_1110_17351_6190	Listeria_monocytogenes_16S	0	NA	NA	NA	NA	1
+M02127_238_000000000-B2HYR_1_1112_24169_23142	Escherichia_coli_16S_1	0	NA	NA	NA	NA	1
+M02127_238_000000000-B2HYR_1_1108_18875_12688	Salmonella_enterica_16S_1	0	NA	NA	NA	NA	1
+M02127_238_000000000-B2HYR_1_1112_13235_7895	Pseudomonas_aeruginosa_16S	0	NA	NA	NA	NA	1
+M02127_238_000000000-B2HYR_1_1109_16878_13492	Enterococcus_faecalis_16S	0	NA	NA	NA	NA	1
+M02127_238_000000000-B2HYR_1_2104_26586_7807	Lactobacillus_fermentum_16S	0	NA	NA	NA	NA	1
+M02127_238_000000000-B2HYR_1_2110_10907_19786	Bacillus_subtilis_16S	0	NA	NA	NA	NA	1
+M02127_238_000000000-B2HYR_1_2104_19397_20095	Enterococcus_faecalis_16S	41	Lactobacillus_fermentum_16S,Enterococcus_faecalis_16S	99	39		0.162055	1
+M02127_238_000000000-B2HYR_1_1104_23071_16020	Bacillus_subtilis_16S	3	Bacillus_subtilis_16S,Listeria_monocytogenes_16S	119	0		0	2
+M02127_238_000000000-B2HYR_1_1103_21151_17934	Listeria_monocytogenes_16S	7	Listeria_monocytogenes_16S,Bacillus_subtilis_16S	86	4		0.0158103	2
