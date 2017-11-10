@@ -52,31 +52,11 @@ make_count_table <- function(i, dataList){
     select(-Group) %>% 
     mutate_all(function(x) ifelse(x == 0, invisible(0), invisible(1)))
   
+  print(paste("Completed table ", i, " presence/absence analysis", sep = ""))
+  
   return(tempData)
   
 }
-
-
-
-# generate a present/abscence data table
-dna_pres_absen_test <- dna_test %>% 
-  select(-Group) %>% 
-  mutate_all(function(x) ifelse(x == 0, invisible(0), invisible(1)))
-
-sub_dna_pres_absen_test <- sub_dna_test %>% 
-  select(-Group) %>% 
-  mutate_all(function(x) ifelse(x == 0, invisible(0), invisible(1)))
-
-stool_pres_absen_test <- stool_test %>% 
-  select(-Group) %>% 
-  mutate_all(function(x) ifelse(x == 0, invisible(0), invisible(1)))
-
-sub_stool_pres_absen_test <- sub_stool_test %>% 
-  select(-Group) %>% 
-  mutate_all(function(x) ifelse(x == 0, invisible(0), invisible(1)))
-
-
-
 
 
 
