@@ -15,7 +15,8 @@ temp_data <- file_data %>%
       grepl("_PHU_", X1) == T | 
       grepl("_PL_", X1) == T | 
       grepl("_Q5_", X1) == T | 
-      grepl("PMM_ZymoControl", X1) == T)
+      grepl("PMM_ZymoControl", X1) == T | 
+      grepl("Zmock", X1) == T)
 
 temp_data_no_samples <- temp_data %>% 
   filter(grepl("_DA10", X1) != T)
