@@ -99,6 +99,10 @@ run_comparison <- function(i, dataList){
   tempTests <- sapply(amp_cycles, 
                       function(x) run_anova(x, tempData), simplify = F)
   
+  tempTests <- tempTests[!sapply(tempTests, is.null)]
+  
+  tempTests <- tempTests %>% bind_rows()
+  
   return(tempTests)
   
 }
@@ -109,8 +113,18 @@ run_anova <- function(ac, dataTable){
   
   tempData <- dataTable %>% filter(cycles == ac)
   
-  tempComparison <- try(
-    summary(aov(numOTUs ~ taq, data = tempData)), silent = T)
+  tempComparison <- as.data.frame.list(try(
+    summary(aov(numOTUs ~ taq, data = tempData)), silent = T))["taq", ] %>% tbl_df()
+  
+  if(length(colnames(tempComparison)) == 1){
+    
+    tempComparison <- c()
+  } else{
+    
+    tempComparison <- tempComparison %>% 
+      rename(pvalue = Pr..F.) %>%  
+      mutate(cycle = ac)
+  }
   
   return(tempComparison)
   
