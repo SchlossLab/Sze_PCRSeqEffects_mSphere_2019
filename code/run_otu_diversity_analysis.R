@@ -101,7 +101,9 @@ run_comparison <- function(i, dataList){
   
   tempTests <- tempTests[!sapply(tempTests, is.null)]
   
-  tempTests <- tempTests %>% bind_rows()
+  tempTests <- tempTests %>% bind_rows() %>% 
+    mutate(bh = p.adjust(pvalue, method = "BH")) %>% 
+    select(Df, Sum.sq, Mean.Sq, F.value, pvalue, bh, cycle)
   
   return(tempTests)
   
@@ -163,8 +165,6 @@ mock_OTU_combined_table <- sapply(sub_sample_level,
 anova_tests <- sapply(sub_sample_level, 
                       function(x) run_comparison(x, mock_OTU_combined_table), simplify = F)
 
-
-run_comparison("1000", mock_OTU_combined_table)
 
 # Generate graph of Mock DNA samples (not subsampled)
 mock_OTU_combined_table[[4]] %>% 
