@@ -248,6 +248,10 @@ combined_tukey_table <- tukey_tests %>% bind_rows()
 write_csv(combined_anova_table, "data/process/tables/mock_overall_anova_results.csv")
 write_csv(combined_tukey_table, "data/process/tables/mock_overall_tukey_results.csv")
 
+# Write meta data with count tables for later use
+sapply(sub_sample_level, 
+       function(x) write_csv(mock_OTU_combined_table[[x]], 
+                             paste("data/process/tables/mock_sub_sample_", x, "_count_table.csv", sep = "")))
 
 ###########################################################################################################################
 ############################### Deprecated Code for graphing ##############################################################
