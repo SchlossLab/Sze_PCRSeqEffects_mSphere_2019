@@ -103,7 +103,7 @@ run_comparison <- function(i, dataList){
   
   tempTests <- tempTests %>% bind_rows() %>% 
     mutate(bh = p.adjust(pvalue, method = "BH")) %>% 
-    select(Df, Sum.sq, Mean.Sq, F.value, pvalue, bh, cycle)
+    select(Df, Sum.Sq, Mean.Sq, F.value, pvalue, bh, cycle)
   
   return(tempTests)
   
@@ -146,6 +146,10 @@ run_tukey <- function(i, dataList, rawData){
     tempResults <- c()
   } else{
     
+    tempResults <- sapply(tempVector, 
+                          function(x) get_tukey_test(i, x, rawData), simplify = F)
+    
+    tempResults <- tempResults %>% bind_rows()
     
   }
   
@@ -156,6 +160,13 @@ run_tukey <- function(i, dataList, rawData){
 get_tukey_test <- function(subsample, cycle_num, dataTable){
   
   tempData <- dataTable[[subsample]] %>% filter(cycles == cycle_num)
+  
+  post_hoc_outcome <- TukeyHSD(aov(lm(numOTUs ~ taq, data = tempData)))[["taq"]] %>% 
+    as.data.frame() %>% 
+    mutate(comparison = rownames(.), cycle = cycle_num, sub_sample_level = subsample)
+  
+  return(post_hoc_outcome)
+  
 }
 
 ###########################################################################################################################
@@ -191,9 +202,11 @@ anova_tests <- sapply(sub_sample_level,
                       function(x) run_comparison(x, mock_OTU_combined_table), simplify = F)
 
 
+test <- sapply(sub_sample_level, 
+               function(x) run_tukey(x, anova_tests, mock_OTU_combined_table), simplify = F)
 
+test2 <- test %>% bind_rows()
 
-run_tukey("50", anova_tests)
 
 # Generate graph of Mock DNA samples (not subsampled)
 mock_OTU_combined_table[[4]] %>% 
