@@ -121,16 +121,16 @@ mock_OTU_combined_table <- sapply(sub_sample_level,
 
 
 # Generate graph of Mock DNA samples (not subsampled)
-mock_OTU_combined_table[[1]] %>% 
+mock_OTU_combined_table[[4]] %>% 
   mutate(taq = factor(taq, 
                       levels = c("ACC", "K", "PHU", "PL", "Q5"), 
                       labels = c("Accuprime", "Kappa", "Phusion", "Platinum", "Q5"))) %>% 
-  ggplot(aes(cycles, numOTUs, color = taq, group = taq)) + 
-  geom_smooth(size = 1, se = FALSE) + 
+  ggplot(aes(cycles, log2(numOTUs), color = taq, group = taq)) + 
+  geom_smooth(size = 1, method = "lm", formula = y ~ poly(x, 2), se = FALSE) + 
   geom_point(size = 2, alpha = 0.7) + theme_bw() + 
   scale_color_viridis(name = "Taq Used", discrete = TRUE) + 
-  labs(x = "Amplification Cycles", y = "Number of OTUs") + 
-  ggtitle("Mock DNA") + coor
+  labs(x = "Amplification Cycles", y = expression(Log["2"]~Number~of~OTUs)) + 
+  ggtitle("Mock DNA") + coord_cartesian(ylim = c(0, 8))
 
 
 
