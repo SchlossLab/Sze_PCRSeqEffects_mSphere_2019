@@ -19,7 +19,10 @@ separated_mock_file <- raw_file %>%
   bind_cols(filter(raw_file, str_detect(full_name, "DA1") == F)[, "full_name"]) %>% 
   select(full_name, cycles, taq, sample_type, sample_name) %>% 
   mutate(cycles = str_replace(cycles, "PMM", "30x"), 
-         taq = str_replace(taq, "ZymoControl(\\d)", "ACC"))
+         taq = str_replace(taq, "ZymoControl(\\d)", "ACC"), 
+         cycles = str_replace(cycles, "Zmock", "30x"), 
+         taq = ifelse(str_detect(full_name, "Zmock") == T, str_replace(taq, "[ABCD]", "ACC"), invisible(taq)), 
+         sample_type = str_replace(sample_type, "(\\d{1,})", "Mock"))
 
 # Separate the fecal samples into specified categories
 separated_samples_file <- raw_file %>% 
