@@ -97,13 +97,13 @@ run_comparison <- function(i, dataList){
   tempData <- dataList[[i]]
   
   tempTests <- sapply(amp_cycles, 
-                      function(x) run_anova(x, tempData), simplify = F)
+                      function(x) run_anova(x, i, tempData), simplify = F)
   
   tempTests <- tempTests[!sapply(tempTests, is.null)]
   
   tempTests <- tempTests %>% bind_rows() %>% 
     mutate(bh = p.adjust(pvalue, method = "BH")) %>% 
-    select(Df, Sum.Sq, Mean.Sq, F.value, pvalue, bh, cycle)
+    select(Df, Sum.Sq, Mean.Sq, F.value, pvalue, bh, cycle, sub_sample_level)
   
   return(tempTests)
   
@@ -111,7 +111,7 @@ run_comparison <- function(i, dataList){
 
 
 # Function that runs the actual ANOVA with a select data set
-run_anova <- function(ac, dataTable){
+run_anova <- function(ac, subsample, dataTable){
   
   tempData <- dataTable %>% filter(cycles == ac)
   
@@ -125,7 +125,8 @@ run_anova <- function(ac, dataTable){
     
     tempComparison <- tempComparison %>% 
       rename(pvalue = Pr..F.) %>%  
-      mutate(cycle = ac)
+      mutate(cycle = ac, 
+             sub_sample_level = subsample)
   }
   
   return(tempComparison)
@@ -201,24 +202,36 @@ mock_OTU_combined_table <- sapply(sub_sample_level,
 anova_tests <- sapply(sub_sample_level, 
                       function(x) run_comparison(x, mock_OTU_combined_table), simplify = F)
 
+combined_anova_table <- anova_tests %>% bind_rows()
 
-test <- sapply(sub_sample_level, 
+# Run the Tukey post-hoc test comparisons on only the ANOVAs that were significant after BH correction
+tukey_tests <- sapply(sub_sample_level, 
                function(x) run_tukey(x, anova_tests, mock_OTU_combined_table), simplify = F)
 
-test2 <- test %>% bind_rows()
+combined_tukey_table <- tukey_tests %>% bind_rows()
+
+# Add data table write out
+write_csv(combined_anova_table, "data/process/tables/mock_overall_anova_results.csv")
+write_csv(combined_tukey_table, "data/process/tables/mock_overall_tukey_results.csv")
+
+
+###########################################################################################################################
+############################### Deprecated Code for graphing ##############################################################
+###########################################################################################################################
+
 
 
 # Generate graph of Mock DNA samples (not subsampled)
-mock_OTU_combined_table[[4]] %>% 
-  mutate(taq = factor(taq, 
-                      levels = c("ACC", "K", "PHU", "PL", "Q5"), 
-                      labels = c("Accuprime", "Kappa", "Phusion", "Platinum", "Q5"))) %>% 
-  ggplot(aes(cycles, log2(numOTUs), color = taq, group = taq)) + 
-  geom_smooth(size = 1, method = "lm", formula = y ~ poly(x, 2), se = FALSE) + 
-  geom_point(size = 2, alpha = 0.7) + theme_bw() + 
-  scale_color_viridis(name = "Taq Used", discrete = TRUE) + 
-  labs(x = "Amplification Cycles", y = expression(Log["2"]~Number~of~OTUs)) + 
-  ggtitle("Mock DNA") + coord_cartesian(ylim = c(0, 8))
+#mock_OTU_combined_table[[4]] %>% 
+#  mutate(taq = factor(taq, 
+#                      levels = c("ACC", "K", "PHU", "PL", "Q5"), 
+#                      labels = c("Accuprime", "Kappa", "Phusion", "Platinum", "Q5"))) %>% 
+#  ggplot(aes(cycles, log2(numOTUs), color = taq, group = taq)) + 
+#  geom_smooth(size = 1, method = "lm", formula = y ~ poly(x, 2), se = FALSE) + 
+#  geom_point(size = 2, alpha = 0.7) + theme_bw() + 
+#  scale_color_viridis(name = "Taq Used", discrete = TRUE) + 
+#  labs(x = "Amplification Cycles", y = expression(Log["2"]~Number~of~OTUs)) + 
+#  ggtitle("Mock DNA") + coord_cartesian(ylim = c(0, 8))
 
 
 
