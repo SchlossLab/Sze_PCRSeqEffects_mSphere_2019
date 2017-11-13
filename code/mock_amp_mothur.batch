@@ -63,7 +63,7 @@ do
 	mv $WORKDIR/mock_error.subsample.error.matrix $WORKDIR/mock_error.$i.matrix
 	mv $WORKDIR/mock_error.subsample.error.count $WORKDIR/mock_error.$i.count
 	mv $WORKDIR/mock_error.subsample.error.chimera $WORKDIR/mock_error.$i.chimera
-	mv $WORKDIR/mock_error.subsample.count_table $WORKDIR.mock_error.$i.count_table
+	mv $WORKDIR/mock_error.subsample.count_table $WORKDIR/mock_error.$i.count_table
 
 done
 
