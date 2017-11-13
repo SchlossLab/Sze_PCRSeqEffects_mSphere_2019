@@ -133,6 +133,31 @@ run_anova <- function(ac, dataTable){
 }
 
 
+# Function to run Tukey post hoc test on only those that are significant after bh correction
+run_tukey <- function(i, dataList, rawData){
+  
+  tempData <- dataList[[i]] %>% 
+    filter(bh < 0.05)
+  
+  tempVector <- as.data.frame(tempData)[, "cycle"]
+  
+  if(length(rownames(tempData)) == 0){
+    
+    tempResults <- c()
+  } else{
+    
+    
+  }
+  
+  return(tempResults)
+}
+
+# Function that runs that actual Tukey post-hoc test
+get_tukey_test <- function(subsample, cycle_num, dataTable){
+  
+  tempData <- dataTable[[subsample]] %>% filter(cycles == cycle_num)
+}
+
 ###########################################################################################################################
 ############################### Run actual analysis programs  #############################################################
 ###########################################################################################################################
@@ -165,6 +190,10 @@ mock_OTU_combined_table <- sapply(sub_sample_level,
 anova_tests <- sapply(sub_sample_level, 
                       function(x) run_comparison(x, mock_OTU_combined_table), simplify = F)
 
+
+
+
+run_tukey("50", anova_tests)
 
 # Generate graph of Mock DNA samples (not subsampled)
 mock_OTU_combined_table[[4]] %>% 
