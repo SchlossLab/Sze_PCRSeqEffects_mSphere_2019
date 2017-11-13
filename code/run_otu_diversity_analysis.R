@@ -89,6 +89,32 @@ combine_tables <- function(i, dataList, meta_table){
 }
 
 
+# Create ANOVA function to test differences between groups at each amplification cycle
+run_comparison <- function(i, dataList){
+  
+  amp_cycles <- c("15x", "20x", "25x", "30x", "35x")
+  
+  tempData <- dataList[[i]]
+  
+  tempTests <- sapply(amp_cycles, 
+                      function(x) run_anova(x, tempData), simplify = F)
+  
+  return(tempTests)
+  
+}
+
+
+# Function that runs the actual ANOVA with a select data set
+run_anova <- function(ac, dataTable){
+  
+  tempData <- dataTable %>% filter(cycles == ac)
+  
+  tempComparison <- try(
+    summary(aov(numOTUs ~ taq, data = tempData)), silent = T)
+  
+  return(tempComparison)
+  
+}
 
 
 ###########################################################################################################################
@@ -119,6 +145,12 @@ mock_OTU_counts <- sapply(sub_sample_level,
 mock_OTU_combined_table <- sapply(sub_sample_level, 
                                   function(x) combine_tables(x, mock_OTU_counts, metadata), simplify = F)
 
+# Run the ANOVA comparisons between amp cycle across subsamplings
+anova_tests <- sapply(sub_sample_level, 
+                      function(x) run_comparison(x, mock_OTU_combined_table), simplify = F)
+
+
+run_comparison("1000", mock_OTU_combined_table)
 
 # Generate graph of Mock DNA samples (not subsampled)
 mock_OTU_combined_table[[4]] %>% 
