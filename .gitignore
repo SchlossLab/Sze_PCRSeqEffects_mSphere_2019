@@ -7,3 +7,6 @@
 data/raw/part_one
 data/raw/part_two
 data/raw/repeated_V2_frozens
+data/references/
+*.logfile
+*.pbs.*
