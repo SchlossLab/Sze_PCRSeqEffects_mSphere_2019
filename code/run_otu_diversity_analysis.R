@@ -1,5 +1,6 @@
 ### Analyzing OTUS and diversity metrics from cycle number
-### Analyze both actual samples and Mock communities
+### Analysis of Mock communities only
+### Marc Sze
 
 # Load in needed functions and libraries
 source('code/functions.R')
