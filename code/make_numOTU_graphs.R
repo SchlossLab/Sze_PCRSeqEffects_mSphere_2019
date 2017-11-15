@@ -5,7 +5,7 @@
 # Load in needed functions and libraries
 source('code/functions.R')
 
-loadLibs(c("tidyverse", "stringr", "viridis"))
+loadLibs(c("tidyverse", "stringr", "viridis", "gridExtra"))
 
 
 ###########################################################################################################################
@@ -28,34 +28,6 @@ read_data <- function(pathing, start_name, end_name, differentiator){
 
 
 
-# Generate graph of Mock DNA samples (not subsampled)
-numOTU_data[["1000"]] %>% 
-  mutate(taq = factor(taq, 
-                      levels = c("ACC", "K", "PHU", "PL", "Q5"), 
-                      labels = c("Accuprime", "Kappa", "Phusion", "Platinum", "Q5"))) %>% 
-  ggplot(aes(cycles, log2(numOTUs), color = taq, group = taq)) + 
-  geom_smooth(size = 1, method = "lm", formula = y ~ poly(x, 2), se = FALSE) + 
-  geom_point(size = 2, alpha = 0.7) + theme_bw() + 
-  scale_color_viridis(name = "Taq Used", discrete = TRUE) + 
-  labs(x = "Amplification Cycles", y = expression(Log["2"]~Number~of~OTUs)) + 
-  ggtitle("A") + coord_cartesian(ylim = c(0, 8)) + 
-  annotate("text", label = paste("Sub-sampled to 1000 Sequences"), x = 1, y = 8.2, size = 2.5) + 
-  theme(plot.title = element_text(face="bold", hjust = -0.07, size = 20), 
-        panel.grid.major = element_blank(), 
-        panel.grid.minor = element_blank(), 
-        axis.text.y = element_text(size = 10), 
-        legend.position = c(0.10, 0.18), 
-        legend.title = element_blank(), 
-        legend.key = element_blank(), 
-        legend.background = element_rect(color = "black"))
-
-
-
-
-
-
-
-
 ###########################################################################################################################
 ############################### Run actual analysis programs  #############################################################
 ###########################################################################################################################
@@ -70,7 +42,77 @@ numOTU_data <- sapply(sub_sample_level,
 
 
 
+# Generate graph of Mock DNA samples (not subsampled)
+thousand_graph <- numOTU_data[["1000"]] %>% 
+  mutate(taq = factor(taq, 
+                      levels = c("ACC", "K", "PHU", "PL", "Q5"), 
+                      labels = c("Accuprime", "Kappa", "Phusion", "Platinum", "Q5"))) %>% 
+  ggplot(aes(cycles, log2(numOTUs), color = taq, group = taq)) + 
+  geom_smooth(size = 1, method = "lm", formula = y ~ poly(x, 2), se = FALSE) + 
+  geom_point(size = 2, alpha = 0.7) + theme_bw() + 
+  scale_color_manual(name = "Taq Used", 
+                     values = c("#440154FF", "#3B528BFF", "#21908CFF", "#5DC863FF", "#FDE725FF")) + 
+  labs(x = "Amplification Cycles", y = expression(Log["2"]~Number~of~OTUs)) + 
+  ggtitle("A") + coord_cartesian(ylim = c(0, 8)) + 
+  annotate("text", label = paste("Sub-sampled to 1000 Sequences"), x = 1.5, y = 8.2, size = 2.5) + 
+  theme(plot.title = element_text(face="bold", hjust = -0.07, size = 20), 
+        panel.grid.major = element_blank(), 
+        panel.grid.minor = element_blank(), 
+        axis.text.y = element_text(size = 10), 
+        legend.position = c(0.20, 0.18), 
+        legend.title = element_blank(), 
+        legend.key = element_blank(), 
+        legend.background = element_rect(color = "black"))
 
+
+five_thousand_graph <- numOTU_data[["5000"]] %>% 
+  mutate(taq = factor(taq, 
+                      levels = c("ACC", "K", "PHU", "PL", "Q5"), 
+                      labels = c("Accuprime", "Kappa", "Phusion", "Platinum", "Q5"))) %>% 
+  ggplot(aes(cycles, log2(numOTUs), color = taq, group = taq)) + 
+  geom_smooth(size = 1, method = "lm", formula = y ~ poly(x, 2), se = FALSE) + 
+  geom_point(size = 2, alpha = 0.7) + theme_bw() + 
+  scale_color_manual(name = "Taq Used", 
+                     values = c("#440154FF", "#21908CFF", "#5DC863FF", "#FDE725FF")) +  
+  labs(x = "Amplification Cycles", y = expression(Log["2"]~Number~of~OTUs)) + 
+  ggtitle("B") + coord_cartesian(ylim = c(0, 8)) + 
+  annotate("text", label = paste("Sub-sampled to 5000 Sequences"), x = 1.5, y = 8.2, size = 2.5) + 
+  theme(plot.title = element_text(face="bold", hjust = -0.07, size = 20), 
+        panel.grid.major = element_blank(), 
+        panel.grid.minor = element_blank(), 
+        axis.text.y = element_text(size = 10), 
+        legend.position = c(0.20, 0.18), 
+        legend.title = element_blank(), 
+        legend.key = element_blank(), 
+        legend.background = element_rect(color = "black"))
+
+
+
+ten_thousand_graph <- numOTU_data[["10000"]] %>% 
+  mutate(taq = factor(taq, 
+                      levels = c("ACC", "K", "PHU", "PL", "Q5"), 
+                      labels = c("Accuprime", "Kappa", "Phusion", "Platinum", "Q5"))) %>% 
+  ggplot(aes(cycles, log2(numOTUs), color = taq, group = taq)) + 
+  geom_smooth(size = 1, method = "lm", formula = y ~ poly(x, 2), se = FALSE) + 
+  geom_point(size = 2, alpha = 0.7) + theme_bw() + 
+  scale_color_manual(name = "Taq Used", 
+                     values = c("#440154FF", "#21908CFF", "#5DC863FF", "#FDE725FF")) +  
+  labs(x = "Amplification Cycles", y = expression(Log["2"]~Number~of~OTUs)) + 
+  ggtitle("C") + coord_cartesian(ylim = c(0, 8)) + 
+  annotate("text", label = paste("Sub-sampled to 10000 Sequences"), x = 1.5, y = 8.2, size = 2.5) + 
+  theme(plot.title = element_text(face="bold", hjust = -0.07, size = 20), 
+        panel.grid.major = element_blank(), 
+        panel.grid.minor = element_blank(), 
+        axis.text.y = element_text(size = 10), 
+        legend.position = c(0.2, 0.18), 
+        legend.title = element_blank(), 
+        legend.key = element_blank(), 
+        legend.background = element_rect(color = "black"))
+
+
+combined_graph <- grid.arrange(thousand_graph, five_thousand_graph, ten_thousand_graph, ncol = 3)
+
+ggsave("results/figures/mock_numOTU_graph.pdf", combined_graph, width = 11, height = 7, dpi = 300)
 
 
 
