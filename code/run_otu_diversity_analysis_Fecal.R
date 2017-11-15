@@ -126,8 +126,9 @@ run_comparison <- function(i, dataList){
   tempTests <- tempTests[!sapply(tempTests, is.null)]
   # converts the list to a data frame, run the BH correction, and reorganizes the table
   tempTests <- tempTests %>% bind_rows() %>% 
-    mutate(bh = p.adjust(pvalue, method = "BH")) %>% 
-    select(Df, Sum.Sq, Mean.Sq, F.value, pvalue, bh, cycle, sub_sample_level)
+    mutate(bh = p.adjust(Pr..F., method = "BH")) %>% 
+    select(Df, Sum.Sq, Mean.Sq, F.value, Pr..F., bh, cycle, sub_sample_level) %>% 
+    rename(pvalue = Pr..F.)
   # Return the results to the global work environment
   return(tempTests)
   
@@ -152,7 +153,6 @@ run_anova <- function(ac, subsample, dataTable){
   } else{
     # rename the pvalue and add a cycle and sub-sample level to the data frame
     tempComparison <- tempComparison %>% 
-      rename(pvalue = Pr..F.) %>%  
       mutate(cycle = ac, 
              sub_sample_level = subsample)
   }
@@ -210,7 +210,7 @@ get_tukey_test <- function(subsample, cycle_num, dataTable){
 ###########################################################################################################################
 
 # Read in subsample.shared files
-sub_sample_level <- c("1000", "5000", "10000")
+sub_sample_level <- c("1000", "5000", "10000", "15000", "20000")
 
 sub_shared_data <- sapply(sub_sample_level, 
                           function(x) read_data("data/process/", "all_amp.0.03.subsample.", ".shared", x), 
