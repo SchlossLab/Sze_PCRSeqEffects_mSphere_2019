@@ -42,7 +42,7 @@ numOTU_data <- sapply(sub_sample_level,
 
 
 
-# Generate graph of Mock DNA samples (not subsampled)
+# Generate graph of Mock DNA samples 
 thousand_graph <- numOTU_data[["1000"]] %>% 
   mutate(taq = factor(taq, 
                       levels = c("ACC", "K", "PHU", "PL", "Q5"), 
