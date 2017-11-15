@@ -77,7 +77,7 @@ rm $WORKDIR/*.map $WORKDIR/amp.trim.contigs* $WORKDIR/amp.contigs.*
 rm $WORKDIR/amp.scrap.* $WORKDIR/amp.filter
 
 # Run alpha and beta at different subsamplings as well as rarefaction
-for i in 50 100 500 1000 5000 10000;
+for i in 50 100 500 1000 5000 10000 15000 20000;
 do
 	# rarefaction
 	$tempMothur "#sub.sample(shared=$WORKDIR/all_amp.shared, size=$i, label=0.03)"
