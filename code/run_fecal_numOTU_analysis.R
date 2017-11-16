@@ -42,7 +42,7 @@ normalize_data <- function(i, dataList){
   return(tempData)
 }
 
-  
+
 # Create ANOVA function to test differences between groups at each amplification cycle
 run_comparison <- function(i, dataList){
   # i is the sub sampled level of interest
@@ -59,8 +59,9 @@ run_comparison <- function(i, dataList){
   tempTests <- tempTests[!sapply(tempTests, is.null)]
   # converts the list to a data frame, run the BH correction, and reorganizes the table
   tempTests <- tempTests %>% bind_rows() %>% 
-    mutate(bh = p.adjust(pvalue, method = "BH")) %>% 
-    select(Df, Sum.Sq, Mean.Sq, F.value, pvalue, bh, cycle, sub_sample_level)
+    mutate(bh = p.adjust(Pr..F., method = "BH")) %>% 
+    select(Df, Sum.Sq, Mean.Sq, F.value, Pr..F., bh, cycle, sub_sample_level) %>% 
+    rename(pvalue = Pr..F.)
   # Return the results to the global work environment
   return(tempTests)
   
@@ -77,7 +78,7 @@ run_anova <- function(ac, subsample, dataTable){
   tempData <- dataTable %>% filter(cycles == ac)
   # run the ANOVA for that specific amplifcation cycle looking a Taq differences
   tempComparison <- as.data.frame.list(try(
-    summary(aov(numOTUs ~ taq, data = tempData)), silent = T))["taq", ] %>% tbl_df()
+    summary(aov(scaled_numOTU ~ taq, data = tempData)), silent = T))["taq", ] %>% tbl_df()
   # Check to see if the length of the table is 1 due to error out in the try function
   if(length(colnames(tempComparison)) == 1){
     # assign a null place holder
@@ -85,7 +86,6 @@ run_anova <- function(ac, subsample, dataTable){
   } else{
     # rename the pvalue and add a cycle and sub-sample level to the data frame
     tempComparison <- tempComparison %>% 
-      rename(pvalue = Pr..F.) %>%  
       mutate(cycle = ac, 
              sub_sample_level = subsample)
   }
@@ -110,6 +110,11 @@ numOTU_data <- sapply(sub_sample_level,
 # Normalize the data
 zscore_data <- sapply(sub_sample_level, 
                       function(x) normalize_data(x, numOTU_data), simplify = F)
+
+# Run the ANOVA
+anova_tests <- sapply(sub_sample_level, 
+                      function(x) run_comparison(x, zscore_data), simplify = F)
+
 
 
 
