@@ -20,7 +20,9 @@ read_data <- function(pathing, start_name, end_name, differentiator){
   
   # reads in the respective file 
   tempData <- read_csv(paste(pathing, start_name, differentiator, end_name, sep = "")) %>% 
-    filter(sample_name %in% c("DA10001", "DA10016", "DA10029", "DA10040"))
+    filter(sample_name %in% c("DA10001", "DA10016", "DA10029", "DA10040")) %>% 
+    mutate(cycle_num = as.numeric(str_replace(cycles, "x", "")))
+    
   # returns the file to the global environment
   return(tempData)
   
@@ -35,21 +37,26 @@ sub_sample_level <- c("1000", "5000", "10000", "15000", "20000")
 
 # Read in the count data
 numOTU_data <- sapply(sub_sample_level, 
-                      function(x) read_data("data/process/tables/", "fecal_sub_sample_", "_count_table.csv", x), 
+                      function(x) read_data("data/process/tables/", "fecal_zscore_sub_sample_", "_count_table.csv", x), 
                       simplify = F)
 
 
 thousand_graph <- numOTU_data[["1000"]] %>% 
   mutate(taq = factor(taq, 
                       levels = c("ACC", "K", "PHU", "PL", "Q5"), 
-                      labels = c("Accuprime", "Kappa", "Phusion", "Platinum", "Q5"))) %>% 
-  ggplot(aes(cycles, log2(numOTUs), color = taq, group = taq)) + 
+                      labels = c("Accuprime", "Kappa", "Phusion", "Platinum", "Q5")), 
+         cycle_num = factor(cycle_num, 
+                         levels = c(15, 20, 25, 30, 35), 
+                         labels = c("15x", "20x", "25x", "30x", "35x"))) %>% 
+  ggplot(aes(cycle_num, scaled_numOTU, color = taq, group = taq)) + 
   geom_point(size = 2, alpha = 0.7, show.legend = F) + theme_bw() + 
+  geom_vline(xintercept = c(1.5, 2.5, 3.5), color = "gray") + 
+  geom_hline(yintercept = 0, linetype = "dashed") + 
   facet_grid(. ~ sample_name) + 
   scale_color_manual(name = "Taq Used", 
                      values = c("#440154FF", "#3B528BFF", "#21908CFF", "#5DC863FF", "#FDE725FF")) + 
-  labs(x = "Amplification Cycles", y = expression(Log["2"]~Number~of~OTUs)) + 
-  ggtitle("A") + coord_cartesian(ylim = c(0, 9.2)) + 
+  labs(x = "Amplification Cycles", y = "Z-Score Normalized Number of OTUs") + 
+  ggtitle("A") + 
   theme(plot.title = element_text(face="bold", hjust = -0.07, size = 20), 
         panel.grid.major = element_blank(), 
         panel.grid.minor = element_blank(), 
