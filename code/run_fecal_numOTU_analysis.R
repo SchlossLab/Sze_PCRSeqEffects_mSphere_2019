@@ -170,7 +170,10 @@ combined_tukey_table <- tukey_tests %>% bind_rows() %>% arrange(`p adj`)
 write_csv(combined_anova_table, "data/process/tables/fecal_overall_anova_results.csv")
 write_csv(combined_tukey_table, "data/process/tables/fecal_overall_tukey_results.csv")
 
-
+# Write out zscore normalized tables
+sapply(sub_sample_level, 
+       function(x) write_csv(zscore_data[[x]], paste("data/process/tables/fecal_zscore_sub_sample_", 
+                                      x, "_count_table.csv", sep = "")))
 
 
 
