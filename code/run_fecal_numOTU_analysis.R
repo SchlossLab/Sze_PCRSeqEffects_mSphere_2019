@@ -94,7 +94,49 @@ run_anova <- function(ac, subsample, dataTable){
 }
 
 
+# Function to run Tukey post hoc test on only those that are significant after bh correction
+run_tukey <- function(i, dataList, rawData){
+  # i is the sub sample level of interest
+  # dataList is the ANOVA list results
+  # rawData is is the combined count and meta data list
+  
+  # Remove all samples that have a BH corrected value of over 0.05
+  tempData <- dataList[[i]] %>% 
+    filter(bh < 0.05)
+  # Pull out the specific cycle numbers that this occured for
+  tempVector <- as.data.frame(tempData)[, "cycle"]
+  # Check if the vector is empty or not
+  if(length(rownames(tempData)) == 0){
+    # Assigns the value a NULL place holder
+    tempResults <- c()
+  } else{
+    # Runs the Tukey post hoc test for each amplification cycle in the tempVector
+    tempResults <- sapply(tempVector, 
+                          function(x) get_tukey_test(i, x, rawData), simplify = F)
+    # Converts the results from a list to a data frame
+    tempResults <- tempResults %>% bind_rows()
+    
+  }
+  # Returns the final table to the global work environment
+  return(tempResults)
+}
 
+# Function that runs that actual Tukey post-hoc test
+get_tukey_test <- function(subsample, cycle_num, dataTable){
+  # subsample is the sub sampled level of interest
+  # cycle_num is the amplification cycle number of interest
+  # dataTable is the combined count and meta data list
+  
+  # filter the data based on subsample level and cycle number of interest
+  tempData <- dataTable[[subsample]] %>% filter(cycles == cycle_num)
+  # Run the Tukey test and convert to a data frame with cycle number and sub sampling level
+  post_hoc_outcome <- TukeyHSD(aov(lm(numOTUs ~ taq, data = tempData)))[["taq"]] %>% 
+    as.data.frame() %>% 
+    mutate(comparison = rownames(.), cycle = cycle_num, sub_sample_level = subsample)
+  # return results to the run_tukey work environment
+  return(post_hoc_outcome)
+  
+}
 
 ###########################################################################################################################
 ############################### Run actual analysis programs  #############################################################
