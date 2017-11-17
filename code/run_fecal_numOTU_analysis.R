@@ -158,6 +158,12 @@ zscore_data <- sapply(sub_sample_level,
 anova_tests <- sapply(sub_sample_level, 
                       function(x) run_comparison(x, zscore_data), simplify = F)
 
+combined_anova_table <- anova_tests %>% bind_rows()
 
+# Run the Tukey post-hoc test comparisons on only the ANOVAs that were significant after BH correction
+tukey_tests <- sapply(sub_sample_level, 
+                      function(x) run_tukey(x, anova_tests, zscore_data), simplify = F)
+
+combined_tukey_table <- tukey_tests %>% bind_rows() %>% arrange(`p adj`)
 
 
