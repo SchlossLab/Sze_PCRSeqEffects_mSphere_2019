@@ -166,4 +166,12 @@ tukey_tests <- sapply(sub_sample_level,
 
 combined_tukey_table <- tukey_tests %>% bind_rows() %>% arrange(`p adj`)
 
+# Add data table write out
+write_csv(combined_anova_table, "data/process/tables/fecal_overall_anova_results.csv")
+write_csv(combined_tukey_table, "data/process/tables/fecal_overall_tukey_results.csv")
+
+
+
+
+
 
