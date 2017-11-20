@@ -44,8 +44,25 @@ count_tables <- sapply(sub_sample_level,
                           function(x) read_data("data/process/", "mock_error.", ".count_table", x), 
                           simplify = F)
 
-test <- read_tsv("data/process/mock_error.1000.summary", na = character())
+error_summary <- sapply(sub_sample_level, 
+               function(x) read_data("data/process/", "mock_error.", ".summary", x), 
+               simplify = F)
 
-# Read in seq data
+# Read in master meta data file
+metadata <- read_csv("data/process/tables/meta_data.csv")
+
+test_count <- count_tables[[4]]
+test_error <- error_summary[[4]]
+
+test <- test_error %>% 
+  left_join(test_count, by = c("query" = "Representative_Sequence")) %>% 
+  gather("sample_name", "total_seqs", colnames(test_count)[-c(1:2)]) %>% 
+  left_join(metadata, by = c("sample_name" = "full_name"))
+
+
+
+
+
+
 
 
