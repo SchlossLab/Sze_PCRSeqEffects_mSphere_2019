@@ -27,10 +27,10 @@ read_data <- function(pathing, start_name, end_name, differentiator){
 }
 
 # Function to create a full version and a slim version of the summary data files
-combine_data <- function(i, countList, errorList, meta, simple = F){
+combine_data <- function(countList, errorList, meta, simple = F){
   
-  tempCount <- countList[[i]]
-  tempError <- errorList[[i]]
+  tempCount <- countList
+  tempError <- errorList
   
   if(simple == F){
     
@@ -66,30 +66,23 @@ combine_data <- function(i, countList, errorList, meta, simple = F){
 sub_sample_level <- c("50", "100", "500", "1000", "5000", "10000")
 
 # Read in needed count files
-count_tables <- sapply(sub_sample_level, 
-                          function(x) read_data("data/process/", "mock_error.", ".count_table", x), 
-                          simplify = F)
+count_table <- read_data("data/process/", "mock_error", ".count_table", "")
 
-error_summary <- sapply(sub_sample_level, 
-               function(x) read_data("data/process/", "mock_error.", ".summary", x), 
-               simplify = F)
+error_summary <- read_data("data/process/", "mock_error", ".summary", "")
+
 
 # Read in master meta data file
 metadata <- read_csv("data/process/tables/meta_data.csv")
 
 # Combine and make full data tables
-full_combined <- sapply(sub_sample_level, 
-                        function(x) combine_data(x, count_tables, error_summary, metadata), simplify = F)
+full_combined <- combine_data(count_table, error_summary, metadata)
 
 # Combine and make slim data table
-slim_combined <- sapply(sub_sample_level, 
-                        function(x) combine_data(x, count_tables, error_summary, metadata, simple = T), simplify = F)
-
-
+slim_combined <- combine_data(count_table, error_summary, metadata, simple = T)
+  
 
 ##### I need to incorporate the number of times a sequence occurs
 
-slim_test <- slim_combined[[4]]
 
 
 
