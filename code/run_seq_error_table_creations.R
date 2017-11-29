@@ -70,8 +70,18 @@ get_random_sample <- function(dataTable, sample_vector, depth){
   # Remove null elements
   above_depth_List <- above_depth_List[!sapply(above_depth_List, is.null)] 
   
+  # Runs the random sampling across samples
+  tempRSamplingList <- lapply(above_depth_List, 
+                              function(x) run_random_sampling(depth, x))
   
-  return(above_depth_List)
+  # Replace the current sample vectors with only those included in the random sampling
+  sample_vector <- names(tempRSamplingList)
+  
+  # Recombine with full data set
+  tempRecombinedList <- sapply(sample_vector, 
+                               function(x) run_recombine_data(x, tempRSamplingList, tempList), simplify = F)
+  
+  return(tempRecombinedList)
 }
 
 
@@ -98,12 +108,33 @@ get_depth_check <- function(i, depth_check, dataList){
   
 }
 
+# Function that randomly samples a set amount
+run_random_sampling <- function(depth_used, tempData){
+  
+  temp_sampling <- sample(tempData, size = depth_used, replace = F)
+  
+  return(temp_sampling)
+}
+
+# Function to pull full seq information based on the random sampling
+run_recombine_data <- function(i, RsamplingList, fullDataList){
+  
+  # Pull specific samples from full data list to make a new data frame
+  tempData <- fullDataList[[i]][RsamplingList[[i]], ] %>% select(-total_seqs)
+  
+  return(tempData)
+}
+
 
 test <- get_random_sample(slim_combined, unique(slim_combined$full_name), 50)
 
 testSampling <- get_random_sample(slim_combined, unique(slim_combined$full_name), 50)
 
 testCheck <- get_random_sample(slim_combined, unique(slim_combined$full_name), 50)
+
+testRandom <- get_random_sample(slim_combined, unique(slim_combined$full_name), 50)
+
+testRecombine <- get_random_sample(slim_combined, unique(slim_combined$full_name), 50)
 
 ###########################################################################################################################
 ############################### Run actual analysis programs  #############################################################
