@@ -64,8 +64,14 @@ get_random_sample <- function(dataTable, sample_vector, depth){
   tempSamplingList <- sapply(sample_vector, 
                              function(x) get_rand_vectors(x, tempList))
   
+  above_depth_List <- sapply(sample_vector, 
+                             function(x) get_depth_check(x, depth, tempSamplingList), simplify = F)
   
-  return(tempSamplingList)
+  # Remove null elements
+  above_depth_List <- above_depth_List[!sapply(above_depth_List, is.null)] 
+  
+  
+  return(above_depth_List)
 }
 
 
@@ -83,8 +89,12 @@ get_rand_vectors <- function(i, dataList){
 }
 
 # Function to check if total sequence is equal to or greater than depth and toss those that arent
-get_depth_check <- function(i, dataList){
+get_depth_check <- function(i, depth_check, dataList){
   
+  tempData <- dataList[[i]]
+  
+  ifelse(length(tempData) >= depth_check, 
+         return(tempData), return(NULL))
   
 }
 
@@ -92,6 +102,8 @@ get_depth_check <- function(i, dataList){
 test <- get_random_sample(slim_combined, unique(slim_combined$full_name), 50)
 
 testSampling <- get_random_sample(slim_combined, unique(slim_combined$full_name), 50)
+
+testCheck <- get_random_sample(slim_combined, unique(slim_combined$full_name), 50)
 
 ###########################################################################################################################
 ############################### Run actual analysis programs  #############################################################
