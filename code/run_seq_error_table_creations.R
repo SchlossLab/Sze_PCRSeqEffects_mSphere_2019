@@ -55,8 +55,43 @@ combine_data <- function(countList, errorList, meta, simple = F){
 }
 
 
+# Function to randomly sample each sample to a specified depth
+get_random_sample <- function(dataTable, sample_vector, depth){
+  
+  tempList <- sapply(sample_vector, 
+                     function(x) filter(dataTable, full_name == x), simplify = F)
+  
+  tempSamplingList <- sapply(sample_vector, 
+                             function(x) get_rand_vectors(x, tempList))
+  
+  
+  return(tempSamplingList)
+}
 
 
+# Function to generate sampling vectors
+get_rand_vectors <- function(i, dataList){
+  
+  test_set <- dataList[[i]]$total_seqs
+  
+  total_unique <- length(test_set)
+  
+  test_vector <- rep(1:total_unique, test_set)
+  
+  return(test_vector)
+  
+}
+
+# Function to check if total sequence is equal to or greater than depth and toss those that arent
+get_depth_check <- function(i, dataList){
+  
+  
+}
+
+
+test <- get_random_sample(slim_combined, unique(slim_combined$full_name), 50)
+
+testSampling <- get_random_sample(slim_combined, unique(slim_combined$full_name), 50)
 
 ###########################################################################################################################
 ############################### Run actual analysis programs  #############################################################
