@@ -120,7 +120,8 @@ run_random_sampling <- function(depth_used, tempData){
 run_recombine_data <- function(i, RsamplingList, fullDataList){
   
   # Pull specific samples from full data list to make a new data frame
-  tempData <- fullDataList[[i]][RsamplingList[[i]], ] %>% select(-total_seqs)
+  tempData <- fullDataList[[i]][RsamplingList[[i]], ] %>% select(-total_seqs) %>% 
+    mutate(sequence_number = rownames(.))
   
   return(tempData)
 }
