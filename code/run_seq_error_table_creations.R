@@ -81,6 +81,7 @@ get_depth_check <- function(i, depth_check, dataList){
 # Function that randomly samples a set amount
 run_random_sampling <- function(depth_used, tempData){
   
+  set.seed(12345)
   temp_sampling <- sample(tempData, size = depth_used, replace = F)
   
   return(temp_sampling)
