@@ -99,8 +99,8 @@ run_recombine_data <- function(i, RsamplingList, fullDataList){
 
 
 # Function to randomly sample each sample to a specified depth
-get_random_sample <- function(dataTable, sample_vector, depth){
-  
+get_random_sample <- function(depth, dataTable, sample_vector){
+
   tempList <- sapply(sample_vector, 
                      function(x) filter(dataTable, full_name == x), simplify = F)
   
@@ -141,10 +141,12 @@ run_chimera_check <- function(dataTable){
 # Function to create summary data
 get_summary_data <- function(dataList, depth){
   
+  dataList <- dataList[[as.character(depth)]]
+  
   tempData <- dataList %>% 
     bind_rows() %>% 
     group_by(taq, cycles, sample_name) %>% 
-    summarise(mean_error = mean(error), sd_error = sd(error), 
+    summarise(mean_error = mean(error, na.rm = T), sd_error = sd(error, na.rm = T), 
               chimera_prevalence = sum(chimera)/depth)
   
   return(tempData)
@@ -158,7 +160,7 @@ get_summary_data <- function(dataList, depth){
 ###########################################################################################################################
 
 # Create vector with different subsample levels
-sub_sample_level <- c("50", "100", "500", "1000", "5000", "10000")
+sub_sample_level <- c(50, 100, 500, 1000, 5000, 10000)
 
 # Read in needed count files
 count_table <- read_data("data/process/", "mock_error", ".count_table", "")
@@ -176,12 +178,24 @@ full_combined <- combine_data(count_table, error_summary, metadata)
 slim_combined <- combine_data(count_table, error_summary, metadata, simple = T)
   
 # Generate the random sampling 
-testRecombine <- get_random_sample(slim_combined, unique(slim_combined$full_name), 50)
+testRecombine <- sapply(sub_sample_level, 
+                        function(x) get_random_sample(x, slim_combined, unique(slim_combined$full_name)), simplify = F)
+
+names(testRecombine) <- sub_sample_level  
+
 
 # Add Chimera checked column
-testRecombine <- lapply(testRecombine, function(x) run_chimera_check(x))
+testRecombine <- lapply(testRecombine, 
+                        function(x) lapply(x, function(y) run_chimera_check(y)))
 
 # Generate Summary Data
-good_summary_data <- get_summary_data(testRecombine, 50)
+good_summary_data <- sapply(sub_sample_level, 
+                            function(x) get_summary_data(testRecombine, x), simplify = F)
+
+test <- good_summary_data[[1]]
+
+
+
+
 
 
