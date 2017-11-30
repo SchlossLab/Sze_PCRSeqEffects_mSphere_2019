@@ -138,24 +138,18 @@ run_chimera_check <- function(dataTable){
 }
 
 
-
-
-test <- testRecombine %>% 
-  bind_rows() %>% 
-  group_by(taq, full_name) %>% 
-  summarise(mean_error = mean(error), sd_error = sd(error), 
-            mean_chimeras = sum(chimera)/50)
+# Function to create summary data
+get_summary_data <- function(dataList, depth){
   
+  tempData <- dataList %>% 
+    bind_rows() %>% 
+    group_by(taq, cycles, sample_name) %>% 
+    summarise(mean_error = mean(error), sd_error = sd(error), 
+              chimera_prevalence = sum(chimera)/depth)
+  
+  return(tempData)
+}
 
-
-
-test <- get_random_sample(slim_combined, unique(slim_combined$full_name), 50)
-
-testSampling <- get_random_sample(slim_combined, unique(slim_combined$full_name), 50)
-
-testCheck <- get_random_sample(slim_combined, unique(slim_combined$full_name), 50)
-
-testRandom <- get_random_sample(slim_combined, unique(slim_combined$full_name), 50)
 
 
 
@@ -187,6 +181,7 @@ testRecombine <- get_random_sample(slim_combined, unique(slim_combined$full_name
 # Add Chimera checked column
 testRecombine <- lapply(testRecombine, function(x) run_chimera_check(x))
 
-
+# Generate Summary Data
+good_summary_data <- get_summary_data(testRecombine, 50)
 
 
