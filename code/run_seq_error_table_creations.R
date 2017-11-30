@@ -55,36 +55,6 @@ combine_data <- function(countList, errorList, meta, simple = F){
 }
 
 
-# Function to randomly sample each sample to a specified depth
-get_random_sample <- function(dataTable, sample_vector, depth){
-  
-  tempList <- sapply(sample_vector, 
-                     function(x) filter(dataTable, full_name == x), simplify = F)
-  
-  tempSamplingList <- sapply(sample_vector, 
-                             function(x) get_rand_vectors(x, tempList))
-  
-  above_depth_List <- sapply(sample_vector, 
-                             function(x) get_depth_check(x, depth, tempSamplingList), simplify = F)
-  
-  # Remove null elements
-  above_depth_List <- above_depth_List[!sapply(above_depth_List, is.null)] 
-  
-  # Runs the random sampling across samples
-  tempRSamplingList <- lapply(above_depth_List, 
-                              function(x) run_random_sampling(depth, x))
-  
-  # Replace the current sample vectors with only those included in the random sampling
-  sample_vector <- names(tempRSamplingList)
-  
-  # Recombine with full data set
-  tempRecombinedList <- sapply(sample_vector, 
-                               function(x) run_recombine_data(x, tempRSamplingList, tempList), simplify = F)
-  
-  return(tempRecombinedList)
-}
-
-
 # Function to generate sampling vectors
 get_rand_vectors <- function(i, dataList){
   
@@ -127,6 +97,58 @@ run_recombine_data <- function(i, RsamplingList, fullDataList){
 }
 
 
+
+# Function to randomly sample each sample to a specified depth
+get_random_sample <- function(dataTable, sample_vector, depth){
+  
+  tempList <- sapply(sample_vector, 
+                     function(x) filter(dataTable, full_name == x), simplify = F)
+  
+  tempSamplingList <- sapply(sample_vector, 
+                             function(x) get_rand_vectors(x, tempList))
+  
+  above_depth_List <- sapply(sample_vector, 
+                             function(x) get_depth_check(x, depth, tempSamplingList), simplify = F)
+  
+  # Remove null elements
+  above_depth_List <- above_depth_List[!sapply(above_depth_List, is.null)] 
+  
+  # Runs the random sampling across samples
+  tempRSamplingList <- lapply(above_depth_List, 
+                              function(x) run_random_sampling(depth, x))
+  
+  # Replace the current sample vectors with only those included in the random sampling
+  sample_vector <- names(tempRSamplingList)
+  
+  # Recombine with full data set
+  tempRecombinedList <- sapply(sample_vector, 
+                               function(x) run_recombine_data(x, tempRSamplingList, tempList), simplify = F)
+  
+  return(tempRecombinedList)
+}
+
+
+# Function that checks for whether sequence is chimeric or not based on number of parents
+run_chimera_check <- function(dataTable){
+  
+  tempData <- dataTable %>% 
+    mutate(chimera = ifelse(numparents == 1, invisible(0), invisible(1)))
+  
+  return(tempData)
+}
+
+
+
+
+test <- testRecombine %>% 
+  bind_rows() %>% 
+  group_by(taq, full_name) %>% 
+  summarise(mean_error = mean(error), sd_error = sd(error), 
+            mean_chimeras = sum(chimera)/50)
+  
+
+
+
 test <- get_random_sample(slim_combined, unique(slim_combined$full_name), 50)
 
 testSampling <- get_random_sample(slim_combined, unique(slim_combined$full_name), 50)
@@ -135,7 +157,7 @@ testCheck <- get_random_sample(slim_combined, unique(slim_combined$full_name), 5
 
 testRandom <- get_random_sample(slim_combined, unique(slim_combined$full_name), 50)
 
-testRecombine <- get_random_sample(slim_combined, unique(slim_combined$full_name), 50)
+
 
 ###########################################################################################################################
 ############################### Run actual analysis programs  #############################################################
@@ -159,9 +181,11 @@ full_combined <- combine_data(count_table, error_summary, metadata)
 # Combine and make slim data table
 slim_combined <- combine_data(count_table, error_summary, metadata, simple = T)
   
+# Generate the random sampling 
+testRecombine <- get_random_sample(slim_combined, unique(slim_combined$full_name), 50)
 
-##### I need to incorporate the number of times a sequence occurs
-
+# Add Chimera checked column
+testRecombine <- lapply(testRecombine, function(x) run_chimera_check(x))
 
 
 
