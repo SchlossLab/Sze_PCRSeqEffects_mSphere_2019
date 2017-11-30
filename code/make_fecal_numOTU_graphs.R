@@ -81,7 +81,7 @@ five_thousand_graph <- numOTU_data[["5000"]] %>%
   facet_grid(. ~ sample_name) + 
   scale_color_manual(name = "Taq Used", 
                      values = c("#440154FF", "#3B528BFF", "#21908CFF", "#5DC863FF", "#FDE725FF")) + 
-  labs(x = "Amplification Cycles", y = expression(Log["2"]~Number~of~OTUs)) + 
+  labs(x = "Amplification Cycles", y = "Z-Score Normalized Number of OTUs") + 
   ggtitle("B") + coord_cartesian(ylim = c(-2.0, 2.0)) + 
   theme(plot.title = element_text(face="bold", hjust = -0.09, size = 20), 
         panel.grid.major = element_blank(), 
@@ -107,7 +107,7 @@ ten_thousand_graph <- numOTU_data[["10000"]] %>%
   facet_grid(. ~ sample_name) + 
   scale_color_manual(name = "Taq Used", 
                      values = c("#440154FF", "#3B528BFF", "#21908CFF", "#5DC863FF", "#FDE725FF")) + 
-  labs(x = "Amplification Cycles", y = expression(Log["2"]~Number~of~OTUs)) + 
+  labs(x = "Amplification Cycles", y = "Z-Score Normalized Number of OTUs") + 
   ggtitle("C") + coord_cartesian(ylim = c(-2.0, 2.0)) + 
   theme(plot.title = element_text(face="bold", hjust = -0.09, size = 20), 
         panel.grid.major = element_blank(), 
@@ -133,7 +133,7 @@ fifteen_thousand_graph <- numOTU_data[["15000"]] %>%
   facet_grid(. ~ sample_name) + 
   scale_color_manual(name = "Taq Used", 
                      values = c("#440154FF", "#3B528BFF", "#21908CFF", "#5DC863FF", "#FDE725FF")) + 
-  labs(x = "Amplification Cycles", y = expression(Log["2"]~Number~of~OTUs)) + 
+  labs(x = "Amplification Cycles", y = "Z-Score Normalized Number of OTUs") + 
   ggtitle("D") + coord_cartesian(ylim = c(-2.0, 2.0)) + 
   theme(plot.title = element_text(face="bold", hjust = -0.09, size = 20), 
         panel.grid.major = element_blank(), 
