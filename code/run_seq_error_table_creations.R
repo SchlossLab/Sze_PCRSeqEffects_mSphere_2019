@@ -192,9 +192,12 @@ testRecombine <- lapply(testRecombine,
 good_summary_data <- sapply(sub_sample_level, 
                             function(x) get_summary_data(testRecombine, x), simplify = F)
 
-test <- good_summary_data[[1]]
+# Write out summarized data tables for graphing
+sapply(c(1:length(good_summary_data)), 
+       function(x) write_csv(good_summary_data[[x]], 
+                             paste("data/process/tables/error_", sub_sample_level[x], "_summary.csv", sep = "")))
 
-
+sapply(sub_sample_level, function(x) str(good_summary_data[[as.character(x)]]))
 
 
 
