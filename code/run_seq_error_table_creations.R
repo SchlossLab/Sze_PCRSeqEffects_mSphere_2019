@@ -197,8 +197,3 @@ sapply(c(1:length(good_summary_data)),
        function(x) write_csv(good_summary_data[[x]], 
                              paste("data/process/tables/error_", sub_sample_level[x], "_summary.csv", sep = "")))
 
-sapply(sub_sample_level, function(x) str(good_summary_data[[as.character(x)]]))
-
-
-
-
