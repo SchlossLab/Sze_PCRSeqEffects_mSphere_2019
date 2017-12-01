@@ -58,7 +58,7 @@ thousand <- error_data[["1000"]] %>%
   theme_bw() + 
   scale_color_manual(name = "Taq Used", 
                      values = c("#440154FF", "#3B528BFF", "#21908CFF", "#5DC863FF", "#FDE725FF")) + 
-  labs(x = "Amplification Cycles", y = "Median Error") + 
+  labs(x = "Amplification Cycles", y = "Median Average Error Rate Per Base") + 
   coord_cartesian(ylim = c(0, 0.03)) + 
   scale_y_continuous(labels = scales::percent) + 
   ggtitle("A") + 
@@ -87,7 +87,7 @@ five_thousand <- error_data[["5000"]] %>%
   theme_bw() + 
   scale_color_manual(name = "Taq Used", 
                      values = c("#440154FF", "#21908CFF", "#5DC863FF", "#FDE725FF")) + 
-  labs(x = "Amplification Cycles", y = "Median Error") + 
+  labs(x = "Amplification Cycles", y = "Median Average Error Rate Per Base") + 
   coord_cartesian(ylim = c(0, 0.003)) + 
   scale_y_continuous(labels = scales::percent) + 
   ggtitle("B") + 
@@ -116,7 +116,7 @@ ten_thousand <-  error_data[["10000"]] %>%
   theme_bw() + 
   scale_color_manual(name = "Taq Used", 
                      values = c("#440154FF", "#21908CFF", "#5DC863FF", "#FDE725FF")) + 
-  labs(x = "Amplification Cycles", y = "Median Error") + 
+  labs(x = "Amplification Cycles", y = "Median Average Error Rate Per Base") + 
   coord_cartesian(ylim = c(0, 0.003)) + 
   scale_y_continuous(labels = scales::percent) + 
   ggtitle("C") + 
