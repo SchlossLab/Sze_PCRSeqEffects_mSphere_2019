@@ -41,14 +41,14 @@ error_data <- sapply(sub_sample_level,
 
 
 # Generate graph of Mock DNA samples 
-error_data[["1000"]] %>% 
+thousand <- error_data[["1000"]] %>% 
   mutate(taq = factor(taq, 
                       levels = c("ACC", "K", "PHU", "PL", "Q5"), 
                       labels = c("Accuprime", "Kappa", "Phusion", "Platinum", "Q5"))) %>% 
   group_by(taq, cycles) %>% 
-  summarise(group_seq_error = median(seq_error_prevalence), group_iqr25 = quantile(seq_error_prevalence)["25%"], 
-            group_iqr75 = quantile(seq_error_prevalence)["75%"]) %>% 
-  ggplot(aes(cycles, group_seq_error, color = taq, group = taq)) + 
+  summarise(group_chimera = median(chimera_prevalence), group_iqr25 = quantile(chimera_prevalence)["25%"], 
+            group_iqr75 = quantile(chimera_prevalence)["75%"]) %>% 
+  ggplot(aes(cycles, group_chimera, color = taq, group = taq)) + 
   geom_line() + 
   geom_errorbar(aes(ymin=group_iqr25, 
                     ymax=group_iqr75), 
@@ -57,16 +57,85 @@ error_data[["1000"]] %>%
   theme_bw() + 
   scale_color_manual(name = "Taq Used", 
                      values = c("#440154FF", "#3B528BFF", "#21908CFF", "#5DC863FF", "#FDE725FF")) + 
-  labs(x = "Amplification Cycles", y = "Percent of Sequences with Error") + 
-  coord_cartesian(ylim = c(0, 0.15)) + 
+  labs(x = "Amplification Cycles", y = "Chimeric Sequences") + 
+  coord_cartesian(ylim = c(0, 0.10)) + 
   scale_y_continuous(labels = scales::percent) + 
   ggtitle("A") + 
-  annotate("text", label = paste("Sub-sampled to 1000 Sequences"), x = 1.7, y = 0.155, size = 2.5) + 
+  annotate("text", label = paste("Sub-sampled to 1000 Sequences"), x = 1.7, y = 0.102, size = 2.5) + 
   theme(plot.title = element_text(face="bold", hjust = -0.07, size = 20), 
         panel.grid.major = element_blank(), 
         panel.grid.minor = element_blank(), 
         axis.text.y = element_text(size = 10), 
-        legend.position = c(0.75, 0.85), 
+        legend.position = c(0.25, 0.83), 
         legend.title = element_blank(), 
         legend.key = element_blank(), 
         legend.background = element_rect(color = "black"))
+
+
+five_thousand <- error_data[["5000"]] %>% 
+  mutate(taq = factor(taq, 
+                      levels = c("ACC", "K", "PHU", "PL", "Q5"), 
+                      labels = c("Accuprime", "Kappa", "Phusion", "Platinum", "Q5"))) %>% 
+  group_by(taq, cycles) %>% 
+  summarise(group_chimera = median(chimera_prevalence), group_iqr25 = quantile(chimera_prevalence)["25%"], 
+            group_iqr75 = quantile(chimera_prevalence)["75%"]) %>% 
+  ggplot(aes(cycles, group_chimera, color = taq, group = taq)) + 
+  geom_line() + 
+  geom_errorbar(aes(ymin=group_iqr25, 
+                    ymax=group_iqr75), 
+                width = 0.1, size = 0.5, alpha = 0.4) + 
+  geom_point(size = 2, alpha = 0.7) + 
+  theme_bw() + 
+  scale_color_manual(name = "Taq Used", 
+                     values = c("#440154FF", "#21908CFF", "#5DC863FF", "#FDE725FF")) + 
+  labs(x = "Amplification Cycles", y = "Chimeric Sequences") + 
+  coord_cartesian(ylim = c(0, 0.10)) + 
+  scale_y_continuous(labels = scales::percent) + 
+  ggtitle("B") + 
+  annotate("text", label = paste("Sub-sampled to 5000 Sequences"), x = 1.7, y = 0.102, size = 2.5) + 
+  theme(plot.title = element_text(face="bold", hjust = -0.07, size = 20), 
+        panel.grid.major = element_blank(), 
+        panel.grid.minor = element_blank(), 
+        axis.text.y = element_text(size = 10), 
+        legend.position = c(0.25, 0.85), 
+        legend.title = element_blank(), 
+        legend.key = element_blank(), 
+        legend.background = element_rect(color = "black"))
+
+
+
+ten_thousand <- error_data[["10000"]] %>% 
+  mutate(taq = factor(taq, 
+                      levels = c("ACC", "K", "PHU", "PL", "Q5"), 
+                      labels = c("Accuprime", "Kappa", "Phusion", "Platinum", "Q5"))) %>% 
+  group_by(taq, cycles) %>% 
+  summarise(group_chimera = median(chimera_prevalence), group_iqr25 = quantile(chimera_prevalence)["25%"], 
+            group_iqr75 = quantile(chimera_prevalence)["75%"]) %>% 
+  ggplot(aes(cycles, group_chimera, color = taq, group = taq)) + 
+  geom_line() + 
+  geom_errorbar(aes(ymin=group_iqr25, 
+                    ymax=group_iqr75), 
+                width = 0.1, size = 0.5, alpha = 0.4) + 
+  geom_point(size = 2, alpha = 0.7) + 
+  theme_bw() + 
+  scale_color_manual(name = "Taq Used", 
+                     values = c("#440154FF", "#21908CFF", "#5DC863FF", "#FDE725FF")) + 
+  labs(x = "Amplification Cycles", y = "Chimeric Sequences") + 
+  coord_cartesian(ylim = c(0, 0.1)) + 
+  scale_y_continuous(labels = scales::percent) + 
+  ggtitle("C") + 
+  annotate("text", label = paste("Sub-sampled to 10000 Sequences"), x = 1.7, y = 0.102, size = 2.5) + 
+  theme(plot.title = element_text(face="bold", hjust = -0.07, size = 20), 
+        panel.grid.major = element_blank(), 
+        panel.grid.minor = element_blank(), 
+        axis.text.y = element_text(size = 10), 
+        legend.position = c(0.25, 0.85), 
+        legend.title = element_blank(), 
+        legend.key = element_blank(), 
+        legend.background = element_rect(color = "black"))
+
+
+combined_graph <- grid.arrange(thousand, five_thousand, ten_thousand, ncol = 3)
+
+ggsave("results/figures/mock_chimera_graph.pdf", combined_graph, width = 11, height = 7, dpi = 300)
+
