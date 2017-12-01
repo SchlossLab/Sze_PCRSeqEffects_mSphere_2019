@@ -129,11 +129,12 @@ get_random_sample <- function(depth, dataTable, sample_vector){
 }
 
 
-# Function that checks for whether sequence is chimeric or not based on number of parents
-run_chimera_check <- function(dataTable){
+# Function that checks for whether sequence is chimeric or not based on number of parents and sequence errors
+run_checks <- function(dataTable){
   
   tempData <- dataTable %>% 
-    mutate(chimera = ifelse(numparents == 1, invisible(0), invisible(1)))
+    mutate(chimera = ifelse(numparents == 1, invisible(0), invisible(1)), 
+           seq_error = ifelse(error > 0, invisible(1), invisible(0)))
   
   return(tempData)
 }
@@ -148,7 +149,8 @@ get_summary_data <- function(dataList, depth){
     bind_rows() %>% 
     group_by(taq, cycles, sample_name) %>% 
     summarise(mean_error = mean(error, na.rm = T), sd_error = sd(error, na.rm = T), 
-              chimera_prevalence = sum(chimera)/depth)
+              chimera_prevalence = sum(chimera)/depth, 
+              seq_error_prevalence = sum(seq_error)/depth)
   
   return(tempData)
 }
@@ -187,7 +189,7 @@ names(testRecombine) <- sub_sample_level
 
 # Add Chimera checked column
 testRecombine <- lapply(testRecombine, 
-                        function(x) lapply(x, function(y) run_chimera_check(y)))
+                        function(x) lapply(x, function(y) run_checks(y)))
 
 # Generate Summary Data
 good_summary_data <- sapply(sub_sample_level, 
