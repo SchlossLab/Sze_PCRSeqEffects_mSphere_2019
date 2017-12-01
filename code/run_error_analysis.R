@@ -5,7 +5,7 @@
 # Load in needed functions and libraries
 source('code/functions.R')
 
-loadLibs(c("tidyverse", "stringr", "viridis", "gridExtra"))
+loadLibs(c("tidyverse", "stringr", "dunn.test"))
 
 ###########################################################################################################################
 ############################### List of functions to make analysis work ###################################################
@@ -80,7 +80,7 @@ run_kruskal <- function(ac, subsample, comparator_var, taq_var, dataTable){
 
 
 # Function to run Tukey post hoc test on only those that are significant after bh correction
-run_tukey <- function(i, col_of_int, taq_name, dataList, rawData){
+run_dunn <- function(i, col_of_int, taq_name, dataList, rawData){
   # i is the sub sample level of interest
   # dataList is the ANOVA list results
   # rawData is is the combined count and meta data list
@@ -97,7 +97,7 @@ run_tukey <- function(i, col_of_int, taq_name, dataList, rawData){
   } else{
     # Runs the Tukey post hoc test for each amplification cycle in the tempVector
     tempResults <- sapply(tempVector, 
-                          function(x) get_tukey_test(i, x, col_of_int, taq_name, rawData), simplify = F)
+                          function(x) get_dunn_test(i, x, col_of_int, taq_name, rawData), simplify = F)
     # Converts the results from a list to a data frame
     tempResults <- tempResults %>% bind_rows()
     
@@ -107,18 +107,27 @@ run_tukey <- function(i, col_of_int, taq_name, dataList, rawData){
 }
 
 # Function that runs that actual Tukey post-hoc test
-get_tukey_test <- function(subsample, cycle_num, comparator_var, taq_var, dataTable){
+get_dunn_test <- function(subsample, cycle_num, comparator_var, taq_var, dataTable){
   # subsample is the sub sampled level of interest
   # cycle_num is the amplification cycle number of interest
   # dataTable is the combined count and meta data list
   
   # filter the data based on subsample level and cycle number of interest
-  tempData <- dataTable[[subsample]] %>% filter(cycles == cycle_num)
+  tempData <- as.data.frame(dataTable[[subsample]] %>% filter(cycles == cycle_num))
+  
+  tempValues <- tempData[, comparator_var]
+  tempLabels <- as.factor(tempData[, taq_var])
+  
+  # Run the Dunn test and convert to a data frame with cycle number and sub sampling level
+  post_hoc_outcome <- as.data.frame.list(dunn.test(tempValues, tempLabels, method = "bh")) %>% 
+    mutate(cycle = cycle_num, sub_sample_level = subsample) %>% 
+    rename(pvalue = P, bh = P.adjusted)
+  
   # Run the Tukey test and convert to a data frame with cycle number and sub sampling level
-  post_hoc_outcome <- TukeyHSD(aov(lm(
-    formula(paste(comparator_var, " ~ ", taq_var, sep = "")), data = tempData)))[["taq"]] %>% 
-    as.data.frame() %>% 
-    mutate(comparison = rownames(.), cycle = cycle_num, sub_sample_level = subsample)
+  #post_hoc_outcome <- TukeyHSD(aov(lm(
+  #  formula(paste(comparator_var, " ~ ", taq_var, sep = "")), data = tempData)))[["taq"]] %>% 
+  #  as.data.frame() %>% 
+  #  mutate(comparison = rownames(.), cycle = cycle_num, sub_sample_level = subsample)
   # return results to the run_tukey work environment
   return(post_hoc_outcome)
   
@@ -138,32 +147,59 @@ error_data <- sapply(sub_sample_level,
                      simplify = F)
 
 
-# Run the ANOVA comparisons between amp cycle across subsamplings error per base
+# Run the kruskal comparisons between amp cycle across subsamplings error per base
 kruskal_tests_error <- sapply(sub_sample_level, 
                       function(x) run_comparison(x, "mean_error", "taq", error_data), simplify = F)
 
 combined_kruskal_table_error <- kruskal_tests_error %>% bind_rows()
 
-# Run the ANOVA comparisons between amp cycle across subsamplings number of seqs with error
+# Run the kruskal comparisons between amp cycle across subsamplings number of seqs with error
 kruskal_tests_seq_error_count <- sapply(sub_sample_level, 
                             function(x) run_comparison(x, "seq_error_prevalence", "taq", error_data), simplify = F)
 
 combined_kruskal_table_seq_error_count <- kruskal_tests_seq_error_count %>% bind_rows()
 
 
-# Run the ANOVA comparisons between amp cycle across subsamplings number of chimeras
+# Run the kruskal comparisons between amp cycle across subsamplings number of chimeras
 kruskal_tests_chimera <- sapply(sub_sample_level, 
                                       function(x) run_comparison(x, "chimera_prevalence", "taq", error_data), simplify = F)
 
 combined_kruskal_table_chimera <- kruskal_tests_chimera %>% bind_rows()
 
 
-# Run the Tukey post-hoc test comparisons on only the ANOVAs that were significant after BH correction
-tukey_tests_error <- sapply(sub_sample_level, 
-                      function(x) run_tukey(x, "mean_error", "taq", 
-                                            anova_tests, error_data), simplify = F)
+# Run the Dunn post-hoc test comparisons on only the Kruskal that were significant after BH correction
+dunn_tests_error <- sapply(sub_sample_level, 
+                      function(x) run_dunn(x, "mean_error", "taq", 
+                                            kruskal_tests_error, error_data), simplify = F)
 
-combined_tukey_table_error <- tukey_tests %>% bind_rows()
+combined_dunn_error <- dunn_tests_error %>% bind_rows()
+
+
+dunn_tests_seq_error_count <- sapply(sub_sample_level, 
+                           function(x) run_dunn(x, "seq_error_prevalence", "taq", 
+                                                kruskal_tests_seq_error_count, error_data), simplify = F)
+
+combined_dunn_seq_error_count <- dunn_tests_seq_error_count %>% bind_rows()
+
+
+
+dunn_tests_chimera <- sapply(sub_sample_level, 
+                                     function(x) run_dunn(x, "chimera_prevalence", "taq", 
+                                                          kruskal_tests_chimera, error_data), simplify = F)
+
+combined_dunn_chimera<- dunn_tests_chimera %>% bind_rows()
+
+# Add data table write out
+write_csv(combined_kruskal_table_error, "data/process/tables/mock_error_overall_kruskal_results.csv")
+write_csv(combined_dunn_error, "data/process/tables/mock_error_overall_dunn_results.csv")
+
+write_csv(combined_kruskal_table_seq_error_count, "data/process/tables/mock_error_count_overall_kruskal_results.csv")
+write_csv(combined_dunn_seq_error_count, "data/process/tables/mock_error_count_overall_dunn_results.csv")
+
+write_csv(combined_kruskal_table_chimera, "data/process/tables/mock_chimera_overall_kruskal_results.csv")
+write_csv(combined_dunn_chimera, "data/process/tables/mock_chimera_overall_tukey_results.csv")
+
+
 
 
 
