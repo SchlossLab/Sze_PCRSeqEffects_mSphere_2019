@@ -37,13 +37,13 @@ run_comparison <- function(i, col_of_int, taq_name, dataList){
   tempData <- dataList[[i]]
   # Runs the ANOVA across all the different amp cycles
   tempTests <- sapply(amp_cycles, 
-                      function(x) run_anova(x, i, col_of_int, taq_name, tempData), simplify = F)
+                      function(x) run_kruskal(x, i, col_of_int, taq_name, tempData), simplify = F)
   # removes all the cycles that do not have any values
   tempTests <- tempTests[!sapply(tempTests, is.null)]
   # converts the list to a data frame, run the BH correction, and reorganizes the table
   tempTests <- tempTests %>% bind_rows() %>% 
     mutate(bh = p.adjust(pvalue, method = "BH")) %>% 
-    select(Df, Sum.Sq, Mean.Sq, F.value, pvalue, bh, cycle, sub_sample_level)
+    select(statistic, parameter, pvalue, bh, cycle, sub_sample_level)
   # Return the results to the global work environment
   return(tempTests)
   
@@ -51,7 +51,7 @@ run_comparison <- function(i, col_of_int, taq_name, dataList){
 
 
 # Function that runs the actual ANOVA with a select data set
-run_anova <- function(ac, subsample, comparator_var, taq_var, dataTable){
+run_kruskal <- function(ac, subsample, comparator_var, taq_var, dataTable){
   # ac is the amplification cycle of interest
   # subsample is the sub sampled level of interest
   # dataTable is the data frame for a specific sub sampling level
@@ -60,8 +60,9 @@ run_anova <- function(ac, subsample, comparator_var, taq_var, dataTable){
   tempData <- dataTable %>% filter(cycles == ac)
   # run the ANOVA for that specific amplifcation cycle looking a Taq differences
   tempComparison <- as.data.frame.list(try(
-    summary(aov(formula(paste(comparator_var, " ~ ", taq_var, sep = "")), 
-                data = tempData)), silent = T))["taq", ] %>% tbl_df()
+    kruskal.test(formula(paste(comparator_var, " ~ ", "factor(", taq_var, ")", sep = "")), 
+                data = tempData), silent = T))
+  
   # Check to see if the length of the table is 1 due to error out in the try function
   if(length(colnames(tempComparison)) == 1){
     # assign a null place holder
@@ -69,7 +70,7 @@ run_anova <- function(ac, subsample, comparator_var, taq_var, dataTable){
   } else{
     # rename the pvalue and add a cycle and sub-sample level to the data frame
     tempComparison <- tempComparison %>% 
-      rename(pvalue = Pr..F.) %>%  
+      rename(pvalue = p.value) %>%  
       mutate(cycle = ac, 
              sub_sample_level = subsample)
   }
@@ -137,18 +138,32 @@ error_data <- sapply(sub_sample_level,
                      simplify = F)
 
 
-# Run the ANOVA comparisons between amp cycle across subsamplings
-anova_tests <- sapply(sub_sample_level, 
+# Run the ANOVA comparisons between amp cycle across subsamplings error per base
+kruskal_tests_error <- sapply(sub_sample_level, 
                       function(x) run_comparison(x, "mean_error", "taq", error_data), simplify = F)
 
-combined_anova_table <- anova_tests %>% bind_rows()
+combined_kruskal_table_error <- kruskal_tests_error %>% bind_rows()
+
+# Run the ANOVA comparisons between amp cycle across subsamplings number of seqs with error
+kruskal_tests_seq_error_count <- sapply(sub_sample_level, 
+                            function(x) run_comparison(x, "seq_error_prevalence", "taq", error_data), simplify = F)
+
+combined_kruskal_table_seq_error_count <- kruskal_tests_seq_error_count %>% bind_rows()
+
+
+# Run the ANOVA comparisons between amp cycle across subsamplings number of chimeras
+kruskal_tests_chimera <- sapply(sub_sample_level, 
+                                      function(x) run_comparison(x, "chimera_prevalence", "taq", error_data), simplify = F)
+
+combined_kruskal_table_chimera <- kruskal_tests_chimera %>% bind_rows()
+
 
 # Run the Tukey post-hoc test comparisons on only the ANOVAs that were significant after BH correction
-tukey_tests <- sapply(sub_sample_level, 
+tukey_tests_error <- sapply(sub_sample_level, 
                       function(x) run_tukey(x, "mean_error", "taq", 
                                             anova_tests, error_data), simplify = F)
 
-combined_tukey_table <- tukey_tests %>% bind_rows()
+combined_tukey_table_error <- tukey_tests %>% bind_rows()
 
 
 
