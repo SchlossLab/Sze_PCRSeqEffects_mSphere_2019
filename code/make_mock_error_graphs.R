@@ -53,7 +53,7 @@ thousand <- error_data[["1000"]] %>%
             group_iqr75 = quantile(mean_error)["75%"]) %>% 
   ggplot(aes(cycles, group_median, color = taq, group = taq)) + 
   geom_line() + 
-  geom_errorbar(aes(ymin=group_median-group_iqr25, ymax=group_median+group_iqr75), width = 0.1, size = 0.5, alpha = 0.4) + 
+  geom_errorbar(aes(ymin=group_iqr25, ymax=group_iqr75), width = 0.1, size = 0.5, alpha = 0.4) + 
   geom_point(size = 2, alpha = 0.7) + 
   theme_bw() + 
   scale_color_manual(name = "Taq Used", 
@@ -82,7 +82,7 @@ five_thousand <- error_data[["5000"]] %>%
             group_iqr75 = quantile(mean_error)["75%"]) %>% 
   ggplot(aes(cycles, group_median, color = taq, group = taq)) + 
   geom_line() + 
-  geom_errorbar(aes(ymin=group_median-group_iqr25, ymax=group_median+group_iqr75), width = 0.1, size = 0.5, alpha = 0.4) + 
+  geom_errorbar(aes(ymin=group_iqr25, ymax=group_iqr75), width = 0.1, size = 0.5, alpha = 0.4) + 
   geom_point(size = 2, alpha = 0.7) + 
   theme_bw() + 
   scale_color_manual(name = "Taq Used", 
@@ -111,7 +111,7 @@ ten_thousand <-  error_data[["10000"]] %>%
             group_iqr75 = quantile(mean_error)["75%"]) %>% 
   ggplot(aes(cycles, group_median, color = taq, group = taq)) + 
   geom_line() + 
-  geom_errorbar(aes(ymin=group_median-group_iqr25, ymax=group_median+group_iqr75), width = 0.1, size = 0.5, alpha = 0.4) + 
+  geom_errorbar(aes(ymin=group_iqr25, ymax=group_iqr75), width = 0.1, size = 0.5, alpha = 0.4) + 
   geom_point(size = 2, alpha = 0.7) + 
   theme_bw() + 
   scale_color_manual(name = "Taq Used", 
