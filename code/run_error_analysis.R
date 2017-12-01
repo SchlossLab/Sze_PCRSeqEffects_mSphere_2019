@@ -26,7 +26,130 @@ read_data <- function(pathing, start_name, end_name, differentiator){
 }
 
 
+# Create ANOVA function to test differences between groups at each amplification cycle
+run_comparison <- function(i, col_of_int, taq_name, dataList){
+  # i is the sub sampled level of interest
+  # dataList is the combined meta data with OTU count data table list
+  
+  # Add a vector with all possible cycles analyzed
+  amp_cycles <- c("15x", "20x", "25x", "30x", "35x")
+  # Pull out data table of interest
+  tempData <- dataList[[i]]
+  # Runs the ANOVA across all the different amp cycles
+  tempTests <- sapply(amp_cycles, 
+                      function(x) run_anova(x, i, col_of_int, taq_name, tempData), simplify = F)
+  # removes all the cycles that do not have any values
+  tempTests <- tempTests[!sapply(tempTests, is.null)]
+  # converts the list to a data frame, run the BH correction, and reorganizes the table
+  tempTests <- tempTests %>% bind_rows() %>% 
+    mutate(bh = p.adjust(pvalue, method = "BH")) %>% 
+    select(Df, Sum.Sq, Mean.Sq, F.value, pvalue, bh, cycle, sub_sample_level)
+  # Return the results to the global work environment
+  return(tempTests)
+  
+}
+
+
+# Function that runs the actual ANOVA with a select data set
+run_anova <- function(ac, subsample, comparator_var, taq_var, dataTable){
+  # ac is the amplification cycle of interest
+  # subsample is the sub sampled level of interest
+  # dataTable is the data frame for a specific sub sampling level
+  
+  # create a new temp data frame filtered on the amplification cycle
+  tempData <- dataTable %>% filter(cycles == ac)
+  # run the ANOVA for that specific amplifcation cycle looking a Taq differences
+  tempComparison <- as.data.frame.list(try(
+    summary(aov(formula(paste(comparator_var, " ~ ", taq_var, sep = "")), 
+                data = tempData)), silent = T))["taq", ] %>% tbl_df()
+  # Check to see if the length of the table is 1 due to error out in the try function
+  if(length(colnames(tempComparison)) == 1){
+    # assign a null place holder
+    tempComparison <- c()
+  } else{
+    # rename the pvalue and add a cycle and sub-sample level to the data frame
+    tempComparison <- tempComparison %>% 
+      rename(pvalue = Pr..F.) %>%  
+      mutate(cycle = ac, 
+             sub_sample_level = subsample)
+  }
+  # Return the data table to the work environment of the run_comparison function
+  return(tempComparison)
+}
+
+
+# Function to run Tukey post hoc test on only those that are significant after bh correction
+run_tukey <- function(i, col_of_int, taq_name, dataList, rawData){
+  # i is the sub sample level of interest
+  # dataList is the ANOVA list results
+  # rawData is is the combined count and meta data list
+  
+  # Remove all samples that have a BH corrected value of over 0.05
+  tempData <- dataList[[i]] %>% 
+    filter(bh < 0.05)
+  # Pull out the specific cycle numbers that this occured for
+  tempVector <- as.data.frame(tempData)[, "cycle"]
+  # Check if the vector is empty or not
+  if(length(rownames(tempData)) == 0){
+    # Assigns the value a NULL place holder
+    tempResults <- c()
+  } else{
+    # Runs the Tukey post hoc test for each amplification cycle in the tempVector
+    tempResults <- sapply(tempVector, 
+                          function(x) get_tukey_test(i, x, col_of_int, taq_name, rawData), simplify = F)
+    # Converts the results from a list to a data frame
+    tempResults <- tempResults %>% bind_rows()
+    
+  }
+  # Returns the final table to the global work environment
+  return(tempResults)
+}
+
+# Function that runs that actual Tukey post-hoc test
+get_tukey_test <- function(subsample, cycle_num, comparator_var, taq_var, dataTable){
+  # subsample is the sub sampled level of interest
+  # cycle_num is the amplification cycle number of interest
+  # dataTable is the combined count and meta data list
+  
+  # filter the data based on subsample level and cycle number of interest
+  tempData <- dataTable[[subsample]] %>% filter(cycles == cycle_num)
+  # Run the Tukey test and convert to a data frame with cycle number and sub sampling level
+  post_hoc_outcome <- TukeyHSD(aov(lm(
+    formula(paste(comparator_var, " ~ ", taq_var, sep = "")), data = tempData)))[["taq"]] %>% 
+    as.data.frame() %>% 
+    mutate(comparison = rownames(.), cycle = cycle_num, sub_sample_level = subsample)
+  # return results to the run_tukey work environment
+  return(post_hoc_outcome)
+  
+}
+
+
 ###########################################################################################################################
 ############################### Run actual analysis programs  #############################################################
 ###########################################################################################################################
+
+# Read in subsample.shared files
+sub_sample_level <- c("50", "100", "500", "1000", "5000", "10000")
+
+# Read in the count data
+error_data <- sapply(sub_sample_level, 
+                     function(x) read_data("data/process/tables/error_", "", "_summary.csv", x), 
+                     simplify = F)
+
+
+# Run the ANOVA comparisons between amp cycle across subsamplings
+anova_tests <- sapply(sub_sample_level, 
+                      function(x) run_comparison(x, "mean_error", "taq", error_data), simplify = F)
+
+combined_anova_table <- anova_tests %>% bind_rows()
+
+# Run the Tukey post-hoc test comparisons on only the ANOVAs that were significant after BH correction
+tukey_tests <- sapply(sub_sample_level, 
+                      function(x) run_tukey(x, "mean_error", "taq", 
+                                            anova_tests, error_data), simplify = F)
+
+combined_tukey_table <- tukey_tests %>% bind_rows()
+
+
+
 
