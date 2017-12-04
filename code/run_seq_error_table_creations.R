@@ -159,6 +159,52 @@ get_summary_data <- function(dataList, depth){
 }
 
 
+# Function to count the number of sequences type of error
+run_nucleotide_error_check <- function(dataTable){
+  
+  tempData <- dataTable %>% 
+    mutate(at = ifelse(AT == 0, invisible(0), invisible(1)), 
+           ag = ifelse(AG == 0, invisible(0), invisible(1)), 
+           ac = ifelse(AC == 0, invisible(0), invisible(1)), 
+           ta = ifelse(TA == 0, invisible(0), invisible(1)), 
+           tg = ifelse(TG == 0, invisible(0), invisible(1)), 
+           tc = ifelse(TC == 0, invisible(0), invisible(1)), 
+           ga = ifelse(GA == 0, invisible(0), invisible(1)), 
+           gt = ifelse(GT == 0, invisible(0), invisible(1)), 
+           gc = ifelse(GC == 0, invisible(0), invisible(1)), 
+           ca = ifelse(CA == 0, invisible(0), invisible(1)), 
+           ct = ifelse(CT == 0, invisible(0), invisible(1)), 
+           cg = ifelse(CG == 0, invisible(0), invisible(1)))
+  
+  return(tempData)
+}
+
+
+# Function to create individual nucleotide summary data
+get_nucleotide_summary_data <- function(dataList, depth){
+  
+  dataList <- dataList[[as.character(depth)]]
+  
+  tempData <- dataList %>% 
+    bind_rows() %>% 
+    group_by(taq, cycles, sample_name.y) %>% 
+    summarise(at_rate = sum(AT)/sum(total.x), ag_rate = sum(AG)/sum(total.x), 
+              ac_rate = sum(AC)/sum(total.x), ta_rate = sum(TA)/sum(total.x), 
+              tg_rate = sum(TG)/sum(total.x), tc_rate = sum(TC)/sum(total.x), 
+              ga_rate = sum(GA)/sum(total.x), gt_rate = sum(GT)/sum(total.x), 
+              gc_rate = sum(GC)/sum(total.x), ca_rate = sum(CA)/sum(total.x), 
+              ct_rate = sum(CT)/sum(total.x), cg_rate = sum(CG)/sum(total.x))
+      
+      
+      
+      #mean_error = mean(error, na.rm = T), sd_error = sd(error, na.rm = T), 
+      #        chimera_prevalence = sum(chimera)/depth, 
+       #       seq_error_prevalence = sum(seq_error)/depth)
+  
+  return(tempData)
+}
+
+
 
 
 ###########################################################################################################################
@@ -222,9 +268,13 @@ full_Recombine <- sapply(sub_sample_level,
 
 names(full_Recombine) <- sub_sample_level  
 
+# Add nucleotide changes checked column
+full_Recombine <- lapply(full_Recombine, 
+                        function(x) lapply(x, function(y) run_nucleotide_error_check(y)))
 
-
-
+# Generate Nucleotide Summary Data
+nucleotide_summary_data <- sapply(sub_sample_level, 
+                            function(x) get_nucleotide_summary_data(full_Recombine, x), simplify = F)
 
 
 
