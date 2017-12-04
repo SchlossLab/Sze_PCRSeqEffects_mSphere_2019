@@ -8,6 +8,9 @@ source('code/functions.R')
 loadLibs(c("tidyverse", "stringr"))
 
 
+### Recognized an error in the error calculation and will need to go back and run through mothur to get correct errors ###
+
+
 ###########################################################################################################################
 ############################### List of functions to make analysis work ###################################################
 ###########################################################################################################################
@@ -175,7 +178,8 @@ error_summary <- read_data("data/process/", "mock_error", ".summary", "")
 metadata <- read_csv("data/process/tables/meta_data.csv")
 
 # Combine and make full data tables
-full_combined <- combine_data(count_table, error_summary, metadata)
+full_combined <- combine_data(count_table, error_summary, metadata) %>% 
+  rename(full_name = sample_name)
 
 # Combine and make slim data table
 slim_combined <- combine_data(count_table, error_summary, metadata, simple = T)
@@ -199,4 +203,13 @@ good_summary_data <- sapply(sub_sample_level,
 sapply(c(1:length(good_summary_data)), 
        function(x) write_csv(good_summary_data[[x]], 
                              paste("data/process/tables/error_", sub_sample_level[x], "_summary.csv", sep = "")))
+
+
+###########################################################################################################################
+############################### Run actual analysis for actual seq error ##################################################
+###########################################################################################################################
+
+
+
+
 
