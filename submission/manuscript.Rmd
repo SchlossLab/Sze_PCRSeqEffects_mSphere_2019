@@ -27,7 +27,7 @@ loadLibs(c("tidyverse", "scales", "knitr", "rmarkdown", "stringr"))
 
 
 
-# Insert Title Here
+# What the Taq? The Influence of Taq Polymerase on 16S rRNA Sequencing
 
 \begin{center}
 \vspace{25mm}
