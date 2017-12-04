@@ -22,6 +22,31 @@ temp_data_no_samples <- temp_data %>%
   filter(grepl("_DA10", X1) != T)
 
 
+# Create files file for each Taq specifically
+seperated_data <- list(
+  acc_data = temp_data %>% 
+    filter(grepl("_ACC_", X1) == T |
+           grepl("Zmock", X1) == T) %>% 
+    filter(grepl("_Water", X1) == F, grepl("_DA10", X1) != T), 
+  k_data = temp_data %>% 
+    filter(grepl("_K_", X1) == T) %>% 
+    filter(grepl("_Water", X1) == F, grepl("_DA10", X1) != T), 
+  phu_data = temp_data %>% 
+    filter(grepl("_PHU_", X1) == T) %>% 
+    filter(grepl("_Water", X1) == F, grepl("_DA10", X1) != T), 
+  pl_data = temp_data %>% 
+    filter(grepl("_PL_", X1) == T) %>% 
+    filter(grepl("_Water", X1) == F, grepl("_DA10", X1) != T), 
+  q5_data = temp_data %>% 
+    filter(grepl("_Q5_", X1) == T) %>% 
+    filter(grepl("_Water", X1) == F, grepl("_DA10", X1) != T))
+
+
+# Write out needed files file for mothur processing
 write_tsv(temp_data, "data/process/amp.files", col_names = F)
 
 write_tsv(temp_data_no_samples, "data/process/mock_amp.files", col_names = F)
+
+sapply(names(seperated_data), 
+       function(x) write_tsv(seperated_data[[x]], 
+                             paste("data/process/", x, "_only.files", sep = ""), col_names = F))
