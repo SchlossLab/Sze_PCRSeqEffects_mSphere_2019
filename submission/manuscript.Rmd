@@ -1,92 +1,187 @@
 ---
-title: "**NAME OF THIS STUDY**"
-bibliography: references.bib
+title: ''
+csl: peerj.csl
+fontsize: 12pt
 output:
   pdf_document:
-    keep_tex: true
     includes:
       in_header: header.tex
-csl: mbio.csl #Get themes at https://github.com/citation-style-language/styles
-fontsize: 11pt
+    keep_tex: yes
+  word_document: default
 geometry: margin=1.0in
+bibliography: references.bib
 ---
 
+```{r knitr_settings, eval=TRUE, echo=FALSE, warning=FALSE, message=FALSE}
 
-```{r knitr_settings, eval=TRUE, echo=FALSE, cache=FALSE}
-opts_chunk$set("tidy" = TRUE)
-opts_chunk$set("echo" = FALSE)
-opts_chunk$set("eval" = TRUE)
-opts_chunk$set("warning" = FALSE)
-opts_chunk$set("cache" = FALSE)
+source('../code/functions.R')
 
-inline_hook <- function(x){
-	print(x)
+loadLibs(c("tidyverse", "scales", "knitr", "rmarkdown", "stringr"))
 
-	if(is.list(x)){
-		x <- unlist(x)
-	}
+```
 
-	if(is.numeric(x)){
-		if(abs(x - round(x)) < .Machine$double.eps^0.5){
-			paste(format(x,big.mark=',', digits=0, scientific=FALSE))
-		} else {
-			paste(format(x,big.mark=',', digits=1, nsmall=1, scientific=FALSE))
-		}
-	} else {
-    	paste(x)      
-	}
-}
-knitr::knit_hooks$set(inline=inline_hook)
+```{r rdata_tables, eval=TRUE, echo=FALSE, warning=FALSE, message=FALSE}
+
+
 ```
 
 
 
-\vspace{35mm}
+# Insert Title Here
 
-Running title: INSERT RUNNING TITLE HERE
+\begin{center}
+\vspace{25mm}
 
-\vspace{35mm}
+Marc A Sze${^1}$ and Patrick D Schloss${^1}$${^\dagger}$
 
-
-Your Name Here^1, Joeseph P. Schmo^2, Sally J. Rivers^1, Patrick D. Schloss^1$\dagger$^
-
-\vspace{40mm}
+\vspace{20mm}
 
 $\dagger$ To whom correspondence should be addressed: pschloss@umich.edu
 
-1\. Department of Microbiology and Immunology, University of Michigan, Ann Arbor, MI 48109
+$1$ Department of Microbiology and Immunology, University of Michigan, Ann Arbor, MI
 
-2\. Other department contact information
+
+
+
+\end{center}
+
+Co-author e-mails:
+
+* marcsze@med.umich.edu
+
 
 
 \newpage
 \linenumbers
 
-
 ## Abstract
+
+**Background.** 
+
+**Methods.**
+
+**Results.** 
+
+**Conclusions.** 
+
+
 
 
 \newpage
+
 
 ## Introduction
 
 
-## Results and Discussion
-
-
-## Conclusions
-
-
-## Materials and Methods
 
 
 \newpage
 
-Insert figure legends with the first sentence in bold, for example:
+## Materials & Methods
 
-**Figure 1. Number of OTUs sampled among bacterial and archaeal 16S rRNA gene sequences for different OTU definitions and level of sequencing effort.** Rarefaction curves for different OTU definitions of Bacteria (A) and Archaea (B). Rarefaction curves for the coarse environments in Table 1 for Bacteria (C) and Archaea (D).
+***Insert Sub section here***
 
+
+
+***Reproducible Methods:***
+The code and analysis can be found here https://github.com/SchlossLab/Sze_PCRSeqEffects_XXXX_2017. 
+
+
+\newpage
+
+
+## Results
+
+***Insert Sub title here***
+
+
+
+
+\newpage
+
+## Discussion
+
+
+
+\newpage
+
+## Conclusion
+
+
+
+\newpage
+
+
+
+## Acknowledgements
+
+The authors would like to thank all the study participants who were a part of each of the individual studies utilized. We would also like to thank each of the study authors for making their data available for use. Finally we would like to thank the members of the Schloss lab for valuable feed back and proof reading during the formulation of this manuscript.
 
 \newpage
 
 ## References
+
+<div id="refs"></div>
+
+\newpage
+
+
+**Table 1: **
+
+\footnotesize
+
+```{r table1, echo=FALSE, message=FALSE, warning=FALSE}
+
+
+```
+
+\normalsize
+\newpage
+
+**Table 2: **
+
+\footnotesize
+
+```{r table2, echo=FALSE, message=FALSE, warning=FALSE}
+
+
+```
+
+\normalsize
+\newpage
+
+
+
+**Figure 1: .** 
+
+**Figure 2: .** 
+
+**Figure 3: .**
+
+**Figure 4: .** 
+
+**Figure 5: .** 
+
+**Figure 6: .** 
+
+**Figure 7: .**  
+
+
+\newpage
+
+
+**Figure S1: .**
+
+**Figure S2: .** 
+
+**Figure S3: .** 
+
+**Figure S4: .** 
+
+**Figure S5: .** 
+
+**Figure S6: .** 
+
+**Figure S7: .** 
+
+\newpage

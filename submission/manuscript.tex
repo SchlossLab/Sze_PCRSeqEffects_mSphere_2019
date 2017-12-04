@@ -1,4 +1,4 @@
-\documentclass[11pt,]{article}
+\documentclass[12pt,]{article}
 \usepackage{lmodern}
 \usepackage{amssymb,amsmath}
 \usepackage{ifxetex,ifluatex}
@@ -9,12 +9,10 @@
 \else % if luatex or xelatex
   \ifxetex
     \usepackage{mathspec}
-    \usepackage{xltxtra,xunicode}
   \else
     \usepackage{fontspec}
   \fi
-  \defaultfontfeatures{Mapping=tex-text,Scale=MatchLowercase}
-  \newcommand{\euro}{€}
+  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
 \fi
 % use upquote if available, for straight quotes in verbatim environments
 \IfFileExists{upquote.sty}{\usepackage{upquote}}{}
@@ -24,22 +22,10 @@
 \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
 }{}
 \usepackage[margin=1.0in]{geometry}
-\ifxetex
-  \usepackage[setpagesize=false, % page size defined by xetex
-              unicode=false, % unicode breaks when used with xetex
-              xetex]{hyperref}
-\else
-  \usepackage[unicode=true]{hyperref}
-\fi
-\hypersetup{breaklinks=true,
-            bookmarks=true,
-            pdfauthor={},
-            pdftitle={NAME OF THIS STUDY},
-            colorlinks=true,
-            citecolor=blue,
-            urlcolor=blue,
-            linkcolor=magenta,
-            pdfborder={0 0 0}}
+\usepackage{hyperref}
+\hypersetup{unicode=true,
+            pdfborder={0 0 0},
+            breaklinks=true}
 \urlstyle{same}  % don't use monospace font for urls
 \usepackage{graphicx,grffile}
 \makeatletter
@@ -50,12 +36,25 @@
 % margins by default, and it is still possible to overwrite the defaults
 % using explicit options in \includegraphics[width, height, ...]{}
 \setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+\IfFileExists{parskip.sty}{%
+\usepackage{parskip}
+}{% else
 \setlength{\parindent}{0pt}
 \setlength{\parskip}{6pt plus 2pt minus 1pt}
+}
 \setlength{\emergencystretch}{3em}  % prevent overfull lines
 \providecommand{\tightlist}{%
   \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
 \setcounter{secnumdepth}{0}
+% Redefines (sub)paragraphs to behave more like sections
+\ifx\paragraph\undefined\else
+\let\oldparagraph\paragraph
+\renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+\let\oldsubparagraph\subparagraph
+\renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
 
 %%% Use protect on footnotes to avoid problems with footnotes in titles
 \let\rmarkdownfootnote\footnote%
@@ -72,9 +71,9 @@
 }
 
 \setlength{\droptitle}{-2em}
-  \title{\textbf{NAME OF THIS STUDY}}
-  \pretitle{\vspace{\droptitle}\centering\huge}
-  \posttitle{\par}
+  \title{}
+  \pretitle{\vspace{\droptitle}}
+  \posttitle{}
   \author{}
   \preauthor{}\postauthor{}
   \date{}
@@ -94,37 +93,37 @@
 
 \usepackage{pdfpages}
 
-% Redefines (sub)paragraphs to behave more like sections
-\ifx\paragraph\undefined\else
-\let\oldparagraph\paragraph
-\renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
-\fi
-\ifx\subparagraph\undefined\else
-\let\oldsubparagraph\subparagraph
-\renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
-\fi
+\usepackage{amsmath}
+
+\usepackage{mathtools}
 
 \begin{document}
-\maketitle
 
-\vspace{35mm}
+\section{Insert Title Here}\label{insert-title-here}
 
-Running title: INSERT RUNNING TITLE HERE
+\begin{center}
+\vspace{25mm}
 
-\vspace{35mm}
+Marc A Sze${^1}$ and Patrick D Schloss${^1}$${^\dagger}$
 
-Your Name Here\^{}1, Joeseph P. Schmo\^{}2, Sally J. Rivers\^{}1,
-Patrick D. Schloss\textsuperscript{1\(\dagger\)}
+\vspace{20mm}
 
-\vspace{40mm}
+$\dagger$ To whom correspondence should be addressed: pschloss@umich.edu
 
-\(\dagger\) To whom correspondence should be addressed:
-\href{mailto:pschloss@umich.edu}{\nolinkurl{pschloss@umich.edu}}
+$1$ Department of Microbiology and Immunology, University of Michigan, Ann Arbor, MI
 
-1. Department of Microbiology and Immunology, University of Michigan,
-Ann Arbor, MI 48109
 
-2. Other department contact information
+
+
+\end{center}
+
+Co-author e-mails:
+
+\begin{itemize}
+\tightlist
+\item
+  \href{mailto:marcsze@med.umich.edu}{\nolinkurl{marcsze@med.umich.edu}}
+\end{itemize}
 
 \newpage
 
@@ -132,31 +131,105 @@ Ann Arbor, MI 48109
 
 \subsection{Abstract}\label{abstract}
 
+\textbf{Background.}
+
+\textbf{Methods.}
+
+\textbf{Results.}
+
+\textbf{Conclusions.}
+
 \newpage
 
 \subsection{Introduction}\label{introduction}
 
-\subsection{Results and Discussion}\label{results-and-discussion}
+\newpage
 
-\subsection{Conclusions}\label{conclusions}
+\subsection{Materials \& Methods}\label{materials-methods}
 
-\subsection{Materials and Methods}\label{materials-and-methods}
+\textbf{\emph{Insert Sub section here}}
+
+\textbf{\emph{Reproducible Methods:}} The code and analysis can be found
+here \url{https://github.com/SchlossLab/Sze_PCRSeqEffects_XXXX_2017}.
 
 \newpage
 
-Insert figure legends with the first sentence in bold, for example:
+\subsection{Results}\label{results}
 
-\textbf{Figure 1. Number of OTUs sampled among bacterial and archaeal
-16S rRNA gene sequences for different OTU definitions and level of
-sequencing effort.} Rarefaction curves for different OTU definitions of
-Bacteria (A) and Archaea (B). Rarefaction curves for the coarse
-environments in Table 1 for Bacteria (C) and Archaea (D).
+\textbf{\emph{Insert Sub title here}}
 
 \newpage
 
-\subsection*{References}\label{references}
-\addcontentsline{toc}{subsection}{References}
+\subsection{Discussion}\label{discussion}
+
+\newpage
+
+\subsection{Conclusion}\label{conclusion}
+
+\newpage
+
+\subsection{Acknowledgements}\label{acknowledgements}
+
+The authors would like to thank all the study participants who were a
+part of each of the individual studies utilized. We would also like to
+thank each of the study authors for making their data available for use.
+Finally we would like to thank the members of the Schloss lab for
+valuable feed back and proof reading during the formulation of this
+manuscript.
+
+\newpage
+
+\subsection{References}\label{references}
 
 \hypertarget{refs}{}
+
+\newpage
+
+\textbf{Table 1: }
+
+\footnotesize
+
+\normalsize
+\newpage
+
+\textbf{Table 2: }
+
+\footnotesize
+
+\normalsize
+\newpage
+
+\textbf{Figure 1: .}
+
+\textbf{Figure 2: .}
+
+\textbf{Figure 3: .}
+
+\textbf{Figure 4: .}
+
+\textbf{Figure 5: .}
+
+\textbf{Figure 6: .}
+
+\textbf{Figure 7: .}
+
+\newpage
+
+\textbf{Figure S1: .}
+
+\textbf{Figure S2: .}
+
+\textbf{Figure S3: .}
+
+\textbf{Figure S4: .}
+
+\textbf{Figure S5: .}
+
+\textbf{Figure S6: .}
+
+\textbf{Figure S7: .}
+
+\newpage
+
 
 \end{document}
