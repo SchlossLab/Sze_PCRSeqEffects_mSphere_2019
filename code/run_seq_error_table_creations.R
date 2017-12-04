@@ -167,12 +167,19 @@ get_summary_data <- function(dataList, depth){
 
 # Create vector with different subsample levels
 sub_sample_level <- c(50, 100, 500, 1000, 5000, 10000)
+#taqs_used <- c("acc", "k", "phu", "pl", "q5")
+
 
 # Read in needed count files
 count_table <- read_data("data/process/", "mock_error", ".count_table", "")
 
+#good_counts <- sapply(taqs_used, 
+#                      function(x) read_data("data/process/", x, ".count_table", "_data_only"), simplify = F)
+
 error_summary <- read_data("data/process/", "mock_error", ".summary", "")
 
+#good_error <- sapply(taqs_used, 
+#                      function(x) read_data("data/process/", x, ".summary", "_data_only"), simplify = F)
 
 # Read in master meta data file
 metadata <- read_csv("data/process/tables/meta_data.csv")
@@ -208,6 +215,18 @@ sapply(c(1:length(good_summary_data)),
 ###########################################################################################################################
 ############################### Run actual analysis for actual seq error ##################################################
 ###########################################################################################################################
+
+# Generate the random sampling 
+full_Recombine <- sapply(sub_sample_level, 
+                        function(x) get_random_sample(x, full_combined, unique(full_combined$full_name)), simplify = F)
+
+names(full_Recombine) <- sub_sample_level  
+
+
+
+
+
+
 
 
 
