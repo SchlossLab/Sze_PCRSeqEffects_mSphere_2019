@@ -193,14 +193,16 @@ get_nucleotide_summary_data <- function(dataList, depth){
               tg_rate = sum(TG)/sum(total.x), tc_rate = sum(TC)/sum(total.x), 
               ga_rate = sum(GA)/sum(total.x), gt_rate = sum(GT)/sum(total.x), 
               gc_rate = sum(GC)/sum(total.x), ca_rate = sum(CA)/sum(total.x), 
-              ct_rate = sum(CT)/sum(total.x), cg_rate = sum(CG)/sum(total.x))
+              ct_rate = sum(CT)/sum(total.x), cg_rate = sum(CG)/sum(total.x), 
+              at_seq_prev = sum(at)/depth, ag_seq_prev = sum(ag)/depth, 
+              ac_seq_prev = sum(ac)/depth, ta_seq_prev = sum(ta)/depth, 
+              tg_seq_prev = sum(tg)/depth, tc_seq_prev = sum(tc)/depth, 
+              ga_seq_prev = sum(ga)/depth, gt_seq_prev = sum(gt)/depth, 
+              gc_seq_prev = sum(gc)/depth, ca_seq_prev = sum(ca)/depth, 
+              ct_seq_prev = sum(ct)/depth, cg_seq_prev = sum(cg)/depth) %>% 
+    rename(sample_name = sample_name.y)
       
-      
-      
-      #mean_error = mean(error, na.rm = T), sd_error = sd(error, na.rm = T), 
-      #        chimera_prevalence = sum(chimera)/depth, 
-       #       seq_error_prevalence = sum(seq_error)/depth)
-  
+
   return(tempData)
 }
 
@@ -275,9 +277,14 @@ full_Recombine <- lapply(full_Recombine,
 # Generate Nucleotide Summary Data
 nucleotide_summary_data <- sapply(sub_sample_level, 
                             function(x) get_nucleotide_summary_data(full_Recombine, x), simplify = F)
+names(nucleotide_summary_data) <- sub_sample_level
 
 
-
+# Write out summarized data tables for graphing
+sapply(c(1:length(nucleotide_summary_data)), 
+       function(x) write_csv(nucleotide_summary_data[[x]], 
+                             paste("data/process/tables/nucleotide_error_", sub_sample_level[x], 
+                                   "_summary.csv", sep = "")))
 
 
 
