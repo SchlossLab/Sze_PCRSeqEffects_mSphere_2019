@@ -1,9 +1,6 @@
-Download the [latest release](https://github.com/SchlossLab/new_project/releases/latest) to the directory and decompress
+## What the Taq? The Influence of Taq Polymerase on 16S rRNA Sequencing
 
-
-## TITLE OF YOUR PAPER GOES HERE
-
-YOUR PAPER'S ABSTRACT GOES HERE
+Under Construction
 
 
 
@@ -48,15 +45,15 @@ YOUR PAPER'S ABSTRACT GOES HERE
 ### How to regenerate this repository
 
 #### Dependencies and locations
-* Gnu Make should be located in the user's PATH
-* mothur (v1.XX.0) should be located in the user's PATH
-* R (v. 3.X.X) should be located in the user's PATH
-* etc.
+* Gnu Make (v3.81) should be located in the user's PATH
+* mothur (v1.39.3) should be located in the user's PATH
+* sratoolkit (2.8.2-1) should be located in the user's PATH
+* R (v.3.4.2) should be located in the user's PATH
 
 
 #### Running analysis
 
 ```
-git clone https://github.com/SchlossLab/LastName_BriefDescription_Journal_Year.git
+git clone https://github.com/SchlossLab/Sze_PCRSeqEffects_XXXX_2017.git
 make write.paper
 ```
