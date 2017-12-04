@@ -1,3 +1,5 @@
+M_SAMPLING = 50 100 500 1000 5000 10000
+H_SAMPLING = 1000 5000 10000 15000 20000 
 REFS = data/references
 FIGS = results/figures
 TABLES = results/tables
@@ -63,7 +65,13 @@ $(REFS)/trainset14_032015.% :
 #
 ################################################################################
 
+# Set up specific Taq variables
+TAQ_USED = acc_data k_data phu_data pl_data q5_data
+TAQ_USED_PATH=$(addprefix $(PROC)/,$(H_SAMPLING))
+TAQ_USED_FILES=$(addsuffix _only.files,$(TAQ_USED_PATH))
+
 # Create the necessary mothur .file files
+$(TAQ_USED_FILES)\
 $(PROC)/amp.files\
 $(PROC)/mock_amp.files : code/make_amp_file.R
 	R -e "source('code/make_amp_file.R')"
@@ -78,10 +86,80 @@ $(PROC)/mock_error.% : code/mock_amp_mothur.batch
 $(PROC)/all_amp.% : code/amp_mothur.batch
 	bash code/amp_mothur.batch
 
+################################################################################
+#
+# Part 3: Metadata Processing and Analysis
+#
+#	Run scripts that analyze the generated data
+#
+################################################################################
+
+# Create master meta data file
+$(PROC)/amp.files : (TABLES)/meta_data.csv code/make_metadata_file.R
+	R -e "source('code/make_metadata_file.R')"
+
+
+# Set up fecal sample count files
+FS_SHARED_PATH=$(addprefix $(PROC)/all_amp.0.03.subsample._,$(H_SAMPLING))
+FS_SHARED_TABLES=$(addsuffix .shared,$(FS_PATH))
+FS_PATH=$(addprefix $(TABLES)/fecal_sub_sample_,$(H_SAMPLING))
+FS_COUNT_TABLES=$(addsuffix _count_table.csv,$(FS_PATH))
+FS_ZSCORE_PATH=$(addprefix $(TABLES)/fecal_zscore_sub_sample_,$(H_SAMPLING))
+FS_ZSCORE_TABLES=$(addsuffix _count_table.csv,$(FS_ZSCORE_PATH))
+
+
+# Generate the fecal sample count tables
+$(FS_SHARED_TABLES)\
+$(TABLES)/meta_data.csv : $(FS_SHARED_TABLES) code/run_fecal_otu_count_tables.R
+	R -e "source('code/run_fecal_otu_count_tables.R')"
+
+
+# Generate the analysis tables for the number OTUs by subsampling for fecal samples
+$(FS_COUNT_TABLES) : $(TABLES)/fecal_overall_anova_results.csv\
+$(TABLES)/fecal_overall_tukey_results.csv $(FS_ZSCORE_TABLES)\
+code/run_fecal_numOTU_analysis.R
+	R -e "source('code/run_fecal_numOTU_analysis.R')"
+
+
+# Set up mock sample count files
+M_SHARED_PATH=$(addprefix $(PROC)/all_amp.0.03.subsample._,$(M_SAMPLING))
+M_SHARED_TABLES=$(addsuffix .shared,$(M_SHARED_PATH))
+M_PATH=$(addprefix $(TABLES)/mock_sub_sample_,$(M_SAMPLING))
+M_COUNT_TABLES=$(addsuffix _count_table.csv,$(M_PATH))
+
+
+# Generate the number of OTUs by subsampling for Mock samples
+$(M_SHARED_TABLES) : $(TABLES)/mock_overall_anova_results.csv\
+$(TABLES)/mock_overall_tukey_results.csv $(M_COUNT_TABLES)\
+code/run_otu_diversity_analysis.R
+	R -e "source('code/run_otu_diversity_analysis.R')"
+
+
+# Set up mock seq error tables
+M_ERROR_PATH=$(addprefix $(TABLES)/error_,$(M_SAMPLING))
+M_ERROR_COUNT_TABLES=$(addsuffix _summary.csv,$(M_ERROR_PATH))
+
+
+# Generate the needed tables for error analysis and graphing
+$(M_ERROR_COUNT_TABLES) : $(PROC)/mock_error.count_table\
+$(PROC)/mock_error.summary $(TABLES)/meta_data.csv\
+code/run_seq_error_table_creations.R
+	R -e "source('code/run_seq_error_table_creations.R')"
+
+#Generate the analysis tables for the error metrics by subsampling for mocks
+$(TABLES)/mock_error_overall_kruskal_results.csv\
+$(TABLES)/mock_error_overall_dunn_results.csv\
+$(TABLES)/mock_error_count_overall_kruskal_results.csv\
+$(TABLES)/mock_error_count_overall_dunn_results.csv\
+$(TABLES)/mock_chimera_overall_kruskal_results.csv\
+$(TABLES)/mock_chimera_overall_tukey_results.csv : $(M_ERROR_COUNT_TABLES)\
+code/run_error_analysis.R
+	R -e "source('code/run_error_analysis.R')"
+
 
 ################################################################################
 #
-# Part 3: Figure and table generation
+# Part 4: Figure and table generation
 #
 #	Run scripts to generate figures and tables
 #
@@ -91,20 +169,12 @@ $(PROC)/all_amp.% : code/amp_mothur.batch
 
 ################################################################################
 #
-# Part 4: Pull it all together
+# Part 5: Pull it all together
 #
 # Render the manuscript
 #
 ################################################################################
 
-
-#$(FINAL)/study.% : 			\ #include data files that are needed for paper
-#						$(FINAL)/peerj.csl\
-#						$(FINAL)/references.bib\
-#						$(FINAL)/study.Rmd
-#	R -e 'render("$(FINAL)/study.Rmd", clean=FALSE)'
-#	mv $(FINAL)/study.knit.md $@
-#	rm $(FINAL)/study.utf8.md
 
 #write.paper : $(TABLES)/table_1.pdf $(TABLES)/table_2.pdf\ #customize to include
 #				$(FIGS)/figure_1.pdf $(FIGS)/figure_2.pdf\	# appropriate tables and
