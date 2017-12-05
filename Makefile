@@ -138,10 +138,13 @@ code/run_otu_diversity_analysis.R
 # Set up mock seq error tables
 M_ERROR_PATH=$(addprefix $(TABLES)/error_,$(M_SAMPLING))
 M_ERROR_COUNT_TABLES=$(addsuffix _summary.csv,$(M_ERROR_PATH))
+M_NUC_PATH=$(addprefix $(TABLES)/nucleotide_error_,$(M_SAMPLING))
+M_NUC_TABLES=$(addsuffix _summary.csv,$(M_NUC_PATH))
 
 
 # Generate the needed tables for error analysis and graphing
-$(M_ERROR_COUNT_TABLES) : $(PROC)/mock_error.count_table\
+$(M_ERROR_COUNT_TABLES)\
+$(M_NUC_TABLES) : $(PROC)/mock_error.count_table\
 $(PROC)/mock_error.summary $(TABLES)/meta_data.csv\
 code/run_seq_error_table_creations.R
 	R -e "source('code/run_seq_error_table_creations.R')"
@@ -165,6 +168,44 @@ code/run_error_analysis.R
 #
 ################################################################################
 
+# Run code to create Figure 1 - Fecal number of OTUs
+$(FIGS)/Figure1.pdf : $(FS_ZSCORE_TABLES)\
+code/make_fecal_numOTU_graphs.R
+	R -e "source('code/make_fecal_numOTU_graphs.R')"
+
+
+# Run code to create Figure 2 - Mock number of OTUs
+$(FIGS)/Figure2.pdf : $(M_COUNT_TABLES)\
+code/make_numOTU_graphs.R
+	R -e "source('code/make_numOTU_graphs.R')"
+
+
+# Run code to create Figure 3 - Mock Sequence Error Rate
+$(FIGS)/Figure3.pdf : $(M_ERROR_COUNT_TABLES)\
+code/make_mock_error_graphs.R
+	R -e "source('code/make_mock_error_graphs.R')"
+
+
+
+# Run code to create Figure 4 - Mock Chimera Frequency
+$(FIGS)/Figure4.pdf : $(M_ERROR_COUNT_TABLES)\
+code/make_mock_chimera_count_graphs.R
+	R -e "source('code/make_mock_chimera_count_graphs.R')"
+
+
+
+# Run code to create Figure S1 - Mock Sequences with Error
+$(FIGS)/FigureS1.pdf : $(M_ERROR_COUNT_TABLES)\
+code/make_mock_seq_error_count_graphs.R
+	R -e "source('code/make_mock_seq_error_count_graphs.R')"
+
+
+# Run code to create Figure S2, 3, and 4 - Mock Sequences substitution frequency
+$(FIGS)/FigureS2.pdf\
+$(FIGS)/FigureS3.pdf\
+$(FIGS)/FigureS4.pdf : $(M_NUC_TABLES)\
+code/make_nucleotide_graphs.R
+	R -e "source('code/make_nucleotide_graphs.R')"
 
 
 ################################################################################
