@@ -26,9 +26,21 @@ loadLibs(c("tidyverse", "scales", "knitr", "rmarkdown", "stringr"))
 fs_anova_summary <- read_csv("../data/process/tables/fecal_overall_anova_results.csv")
 fs_tukey_summary <- read_csv("../data/process/tables/fecal_overall_tukey_results.csv")
 
+# Read in mock sample number of OTU results
+mock_anova_summary <- read_csv("../data/process/tables/mock_overall_anova_results.csv")
+mock_tukey_summary <- read_csv("../data/process/tables/mock_overall_tukey_results.csv")
+
 # Read in error rate results
 krsukal_error_rate <- read_csv("../data/process/tables/mock_error_overall_kruskal_results.csv")
 dunn_error_rate <- read_csv("../data/process/tables/mock_error_overall_dunn_results.csv")
+
+# Read in sequence error count results
+kruskal_seq_error_count <- read_csv("../data/process/tables/mock_error_count_overall_kruskal_results.csv")
+dunn_seq_error_count <- read_csv("../data/process/tables/mock_error_count_overall_dunn_results.csv")
+
+# Read in chimera prevalence results
+kruskal_chimera_prev <- read_csv("../data/process/tables/mock_chimera_overall_kruskal_results.csv")
+dunn_chimera_prev <- read_csv("../data/process/tables/mock_chimera_overall_dunn_results.csv")
 
 ```
 
