@@ -98,9 +98,11 @@ Co-author e-mails:
 
 ## Materials & Methods
 
-***Insert Sub section here***
+***Human and Mock Samples:***
+A single fecal sample was obtained from 4 individuals who were part of the Enterics Research Investigational Network (ERIN) and the processing and storage of these samples have been published previously [@erin_seekatz_2016]. Clinical data and other types of meta data were not utilized or accessed for this study. All samples were extracted using the MOBIO^TM^ PowerMag Microbiome RNA/DNA extraction kit (now Qiagen, MD, USA). The ZymoBIOMICS^TM^ Microbial Community DNA Standard (Zymo, CA, USA) was used in this study and is made up of *Pseudomonas aeruginosa*, *Escherichia coli*, *Salmonella enterica*, *Lactobacillus fermentum*, *Enterococcus faecalis*, *Staphylococcus aureus*, *Listeria monocytogenes*, and *Bacillus subtilis* at equal genomic DNA abundance  (http://www.zymoresearch.com/microbiomics/microbial-standards/zymobiomics-microbial-community-standards).
 
-
+***PCR Protocol:***
+The five different high fidelity Taq DNA polymerase that were tested were AccuPrime^TM^ (ThermoFisher, MA, USA), KAPA HIFI (Roche, IN, USA). 
 
 ***Reproducible Methods:***
 The code and analysis can be found here https://github.com/SchlossLab/Sze_PCRSeqEffects_XXXX_2017. 
