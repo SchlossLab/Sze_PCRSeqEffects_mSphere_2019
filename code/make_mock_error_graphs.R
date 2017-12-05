@@ -133,4 +133,4 @@ ten_thousand <-  error_data[["10000"]] %>%
 
 combined_graph <- grid.arrange(thousand, five_thousand, ten_thousand, ncol = 3)
 
-ggsave("results/figures/mock_error_graph.pdf", combined_graph, width = 11, height = 7, dpi = 300)
+ggsave("results/figures/Figure3.pdf", combined_graph, width = 11, height = 7, dpi = 300)

@@ -174,4 +174,4 @@ twenty_thousand_graph <- numOTU_data[["20000"]] %>%
 combined_graph <- grid.arrange(thousand_graph, five_thousand_graph, ten_thousand_graph, fifteen_thousand_graph, 
                                layout_matrix = rbind(c(1, 2), c(3, 4)))
 
-ggsave("results/figures/fecal_numOTU_graph.pdf", combined_graph, width = 11, height = 8, dpi = 300)
+ggsave("results/figures/Figure1.pdf", combined_graph, width = 11, height = 8, dpi = 300)

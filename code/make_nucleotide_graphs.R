@@ -139,9 +139,9 @@ ten_thousand <- nucleotide_data[["10000"]] %>%
         legend.background = element_rect(color = "black"))
 
 
-ggsave("results/figures/mock_1000_sub_rate_graph.pdf", thousand, width = 8, height = 7, dpi = 300)
-ggsave("results/figures/mock_5000_sub_rate_graph.pdf", five_thousand, width = 8, height = 7, dpi = 300)
-ggsave("results/figures/mock_10000_sub_rate_graph.pdf", ten_thousand, width = 8, height = 7, dpi = 300)
+ggsave("results/figures/FigureS2.pdf", thousand, width = 8, height = 7, dpi = 300)
+ggsave("results/figures/FigureS3.pdf", five_thousand, width = 8, height = 7, dpi = 300)
+ggsave("results/figures/FigureS4.pdf", ten_thousand, width = 8, height = 7, dpi = 300)
 
 
 
