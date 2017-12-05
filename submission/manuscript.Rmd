@@ -22,12 +22,19 @@ loadLibs(c("tidyverse", "scales", "knitr", "rmarkdown", "stringr"))
 
 ```{r rdata_tables, eval=TRUE, echo=FALSE, warning=FALSE, message=FALSE}
 
+# Read in fecal sample number of OTU results
+fs_anova_summary <- read_csv("../data/process/tables/fecal_overall_anova_results.csv")
+fs_tukey_summary <- read_csv("../data/process/tables/fecal_overall_tukey_results.csv")
+
+# Read in error rate results
+krsukal_error_rate <- read_csv("../data/process/tables/mock_error_overall_kruskal_results.csv")
+dunn_error_rate <- read_csv("../data/process/tables/mock_error_overall_dunn_results.csv")
 
 ```
 
 
 
-# What the Taq? The Influence of Taq Polymerase on 16S rRNA Sequencing
+# What the Taq? The Influence of Different Hi-Fidelity Taq Polymerase on 16S rRNA Sequencing
 
 \begin{center}
 \vspace{25mm}
