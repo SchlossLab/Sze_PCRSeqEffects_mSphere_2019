@@ -197,7 +197,7 @@ write_csv(combined_kruskal_table_seq_error_count, "data/process/tables/mock_erro
 write_csv(combined_dunn_seq_error_count, "data/process/tables/mock_error_count_overall_dunn_results.csv")
 
 write_csv(combined_kruskal_table_chimera, "data/process/tables/mock_chimera_overall_kruskal_results.csv")
-write_csv(combined_dunn_chimera, "data/process/tables/mock_chimera_overall_tukey_results.csv")
+write_csv(combined_dunn_chimera, "data/process/tables/mock_chimera_overall_dunn_results.csv")
 
 
 
