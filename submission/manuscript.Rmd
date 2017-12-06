@@ -126,7 +126,7 @@ The code and analysis can be found here https://github.com/SchlossLab/Sze_PCRSeq
 ## Results
 
 ***The Number of OTUs is Dependent on HiFi Taq Used:***
-
+After normalization by individual, for each cycle number, we observed that for fecal samples the number of OTUs identified was dependent upon the HiFi Taq used and this difference increased as the depth of sub-sampling increased [Figure 1]. Lower cycle numbers (15-25) resulted in less differences between Taq while cycle numbers of 30 and 35 had larger clearer defined differences [Figure 1]. Generally, the lowest number of OTUs identified was from Accuprime^TM^ while the highest was from Platinum [Figure 1]. This Taq dependent difference in the number of OTUs was also observed in the mock community samples with the same Taq polymerases being high (Platinum) and low (Accuprime) respectively [Figure 2].  
 
 ***Per Base Error Rate is Dependent on both Taq and Cycle Number Used:***
 
