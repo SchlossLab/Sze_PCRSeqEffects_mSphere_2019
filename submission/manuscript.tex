@@ -181,6 +181,18 @@ was used for both fecal and mock samples. The fecal PCR consisted of all
 (total samples = 130). For all the mock community samples there was not
 enough PCR product at 15 cycles for adequate sequencing.
 
+\textbf{\emph{Sequence Processing:}} The mothur software program was
+utilized for all sequence processing steps (Schloss et al., 2009). The
+protocol followed was similar to that used by Kozich, \emph{et al.}
+(Kozich et al., 2013) (\url{https://www.mothur.org/wiki/MiSeq_SOP}). Two
+major differences from the stated protocol were the use VSEARCH instead
+of UCHIME for chimera detection and the use of the OptiClust algorithmn
+instead of average neighbor for OTU generation (Edgar et al., 2011;
+Rognes et al., 2016; Westcott \& Schloss, 2017). Sequence error was
+determined using the seq.error command on mock samples after chimera
+removal and classification to the RDP to remove non-bacterial sequences
+(Schloss et al., 2009; Cole et al., 2013; Rognes et al., 2016).
+
 \textbf{\emph{Reproducible Methods:}} The code and analysis can be found
 here \url{https://github.com/SchlossLab/Sze_PCRSeqEffects_XXXX_2017}.
 
@@ -214,6 +226,19 @@ manuscript.
 \subsection{References}\label{references}
 
 \hypertarget{refs}{}
+\hypertarget{ref-rdp_Cole_2013}{}
+Cole JR., Wang Q., Fish JA., Chai B., McGarrell DM., Sun Y., Brown CT.,
+Porras-Alfaro A., Kuske CR., Tiedje JM. 2013. Ribosomal database
+project: Data and tools for high throughput rRNA analysis. \emph{Nucleic
+Acids Research} 42:D633--D642. DOI:
+\href{https://doi.org/10.1093/nar/gkt1244}{10.1093/nar/gkt1244}.
+
+\hypertarget{ref-uchime_Edgar_2011}{}
+Edgar RC., Haas BJ., Clemente JC., Quince C., Knight R. 2011. UCHIME
+improves sensitivity and speed of chimera detection.
+\emph{Bioinformatics} 27:2194--2200. DOI:
+\href{https://doi.org/10.1093/bioinformatics/btr381}{10.1093/bioinformatics/btr381}.
+
 \hypertarget{ref-protocol_Kozich_2013}{}
 Kozich JJ., Westcott SL., Baxter NT., Highlander SK., Schloss PD. 2013.
 Development of a dual-index sequencing strategy and curation pipeline
@@ -221,11 +246,31 @@ for analyzing amplicon sequence data on the MiSeq illumina sequencing
 platform. \emph{Applied and Environmental Microbiology} 79:5112--5120.
 DOI: \href{https://doi.org/10.1128/aem.01043-13}{10.1128/aem.01043-13}.
 
+\hypertarget{ref-vsearch_Rognes_2016}{}
+Rognes T., Flouri T., Nichols B., Quince C., Mahé F. 2016. VSEARCH: A
+versatile open source tool for metagenomics. \emph{PeerJ} 4:e2584. DOI:
+\href{https://doi.org/10.7717/peerj.2584}{10.7717/peerj.2584}.
+
+\hypertarget{ref-mothur_schloss_2009}{}
+Schloss PD., Westcott SL., Ryabin T., Hall JR., Hartmann M., Hollister
+EB., Lesniewski RA., Oakley BB., Parks DH., Robinson CJ., Sahl JW.,
+Stres B., Thallinger GG., Horn DJV., Weber CF. 2009. Introducing mothur:
+Open-source, platform-independent, community-supported software for
+describing and comparing microbial communities. \emph{Applied and
+Environmental Microbiology} 75:7537--7541. DOI:
+\href{https://doi.org/10.1128/aem.01541-09}{10.1128/aem.01541-09}.
+
 \hypertarget{ref-erin_seekatz_2016}{}
 Seekatz AM., Rao K., Santhosh K., Young VB. 2016. Dynamics of the fecal
 microbiome in patients with recurrent and nonrecurrent clostridium
 difficile infection. \emph{Genome Medicine} 8. DOI:
 \href{https://doi.org/10.1186/s13073-016-0298-8}{10.1186/s13073-016-0298-8}.
+
+\hypertarget{ref-opticlust_Westcott_2017}{}
+Westcott SL., Schloss PD. 2017. OptiClust, an improved method for
+assigning amplicon-based sequence data to operational taxonomic units.
+\emph{mSphere} 2:e00073--17. DOI:
+\href{https://doi.org/10.1128/mspheredirect.00073-17}{10.1128/mspheredirect.00073-17}.
 
 \newpage
 
