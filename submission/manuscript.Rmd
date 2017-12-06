@@ -113,7 +113,8 @@ The mothur software program was utilized for all sequence processing steps [@mot
 ***Statistical Analysis:***
 All analysis was done with the R (v `r paste(version$major, ".", version$minor, sep = "")`) software package [@r_citation_2017]. Data tranformation and graphing was completed using the tidyverse package (v `r paste(packageVersion("tidyverse")[1])`) and colors selected using the viridis package (v `r paste(packageVersion("viridis")[1])`) [@tidyverse_2017; @viridis_citation_2017]. The total number of OTUs were analyzed using an ANOVA with a tukey post-hoc test. For the fecal samples the data was normalized to each individual by cycle number to account for the biological variation between different people. For both error and chimera analysis, samples were tested using Kruskal-Wallis with a Dunns post-hoc test. Where applicable correction for multiple comparison utilized the Benjamini-Hochberg method [@benjamini_controlling_1995].    
 
-
+***Analysis Workflow:***
+The total number of OTUs after sub-sampling was analyzed for both the fecal and mock community samples. From these observations we wanted to next analyze potential reasons as to why some of these differences may have occured. First, analysis of general sequence error rate, number of sequences with an error, and base subsitution were assessed in the mock community for each Taq. After assessing these errors, the total number of chimeras was determined after sequence processing. The fecal samples were analyzed at 4 different sub-sampling levels, 1000, 5000, 10000, and 15000 while the mock community samples were analysed at 3 levels, 1000, 5000, 10000.
 
 ***Reproducible Methods:***
 The code and analysis can be found here https://github.com/SchlossLab/Sze_PCRSeqEffects_XXXX_2017. 
