@@ -125,9 +125,13 @@ The code and analysis can be found here https://github.com/SchlossLab/Sze_PCRSeq
 
 ## Results
 
-***Insert Sub title here***
+***The Number of OTUs is Dependent on HiFi Taq Used:***
 
 
+***Per Base Error Rate is Dependent on both Taq and Cycle Number Used:***
+
+
+***Chimeric Sequences are HiFi Taq Dependent:***
 
 
 \newpage
