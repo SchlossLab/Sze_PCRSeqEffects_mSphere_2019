@@ -164,9 +164,22 @@ aeruginosa}, \emph{Escherichia coli}, \emph{Salmonella enterica},
 \emph{Bacillus subtilis} at equal genomic DNA abundance
 (\url{http://www.zymoresearch.com/microbiomics/microbial-standards/zymobiomics-microbial-community-standards}).
 
-\textbf{\emph{PCR Protocol:}} The five different high fidelity Taq DNA
-polymerase that were tested were AccuPrime\textsuperscript{TM}
-(ThermoFisher, MA, USA), KAPA HIFI (Roche, IN, USA).
+\textbf{\emph{PCR Protocol:}} The five different high fidelity (HiFi)
+Taq DNA polymerase that were tested were AccuPrime\textsuperscript{TM}
+(ThermoFisher, MA, USA), KAPA HIFI (Roche, IN, USA), Phusion
+(ThermoFisher, MA, USA), Platinum (ThermoFisher, MA, USA), and Q5 (New
+England Biolabs, MA, USA). The PCR cycle conditions were the same for
+every primer (Kozich et al., 2013)
+(\url{https://github.com/SchlossLab/MiSeq_WetLab_SOP/blob/master/MiSeq_WetLab_SOP_v4.md}).
+If the HiFi Taq had a specific activation time that was different then 2
+minutes that was used instead. The 30 cycle default was used but the
+cycle conditions started at 15 and increased by 5 up to 35 cycles and
+was used for both fecal and mock samples. The fecal PCR consisted of all
+4 samples at 15, 20, 25, 30, and 35 cycles for each Taq (total samples =
+100). Although, the mock communities also had 4 replicates used for 15,
+20, 25, and 35 cycles, 10 replicates were used for 30 cycles for all Taq
+(total samples = 130). For all the mock community samples there was not
+enough PCR product at 15 cycles for adequate sequencing.
 
 \textbf{\emph{Reproducible Methods:}} The code and analysis can be found
 here \url{https://github.com/SchlossLab/Sze_PCRSeqEffects_XXXX_2017}.
@@ -201,6 +214,13 @@ manuscript.
 \subsection{References}\label{references}
 
 \hypertarget{refs}{}
+\hypertarget{ref-protocol_Kozich_2013}{}
+Kozich JJ., Westcott SL., Baxter NT., Highlander SK., Schloss PD. 2013.
+Development of a dual-index sequencing strategy and curation pipeline
+for analyzing amplicon sequence data on the MiSeq illumina sequencing
+platform. \emph{Applied and Environmental Microbiology} 79:5112--5120.
+DOI: \href{https://doi.org/10.1128/aem.01043-13}{10.1128/aem.01043-13}.
+
 \hypertarget{ref-erin_seekatz_2016}{}
 Seekatz AM., Rao K., Santhosh K., Young VB. 2016. Dynamics of the fecal
 microbiome in patients with recurrent and nonrecurrent clostridium
