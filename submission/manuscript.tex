@@ -183,7 +183,7 @@ enough PCR product at 15 cycles for adequate sequencing.
 
 \textbf{\emph{Sequence Processing:}} The mothur software program was
 utilized for all sequence processing steps (Schloss et al., 2009). The
-protocol followed was similar to that used by Kozich, \emph{et al.}
+protocol followed was similar to what has been previously publsihed
 (Kozich et al., 2013) (\url{https://www.mothur.org/wiki/MiSeq_SOP}). Two
 major differences from the stated protocol were the use VSEARCH instead
 of UCHIME for chimera detection and the use of the OptiClust algorithmn
@@ -192,6 +192,18 @@ Rognes et al., 2016; Westcott \& Schloss, 2017). Sequence error was
 determined using the seq.error command on mock samples after chimera
 removal and classification to the RDP to remove non-bacterial sequences
 (Schloss et al., 2009; Cole et al., 2013; Rognes et al., 2016).
+
+\textbf{\emph{Statistical Analysis:}} All analysis was done with the R
+(v 3.4.2) software package (R Core Team, 2017). Data tranformation and
+graphing was completed using the tidyverse package (v 1.1.1) and colors
+selected using the viridis package (v 0.4.0) (Garnier, 2017; Wickham,
+2017). The total number of OTUs were analyzed using an ANOVA with a
+tukey post-hoc test. For the fecal samples the data was normalized to
+each individual by cycle number to account for the biological variation
+between different people. For both error and chimera analysis, samples
+were tested using Kruskal-Wallis with a Dunns post-hoc test. Where
+applicable correction for multiple comparison utilized the
+Benjamini-Hochberg method (Benjamini \& Hochberg, 1995).
 
 \textbf{\emph{Reproducible Methods:}} The code and analysis can be found
 here \url{https://github.com/SchlossLab/Sze_PCRSeqEffects_XXXX_2017}.
@@ -226,6 +238,11 @@ manuscript.
 \subsection{References}\label{references}
 
 \hypertarget{refs}{}
+\hypertarget{ref-benjamini_controlling_1995}{}
+Benjamini Y., Hochberg Y. 1995. Controlling the false discovery rate: A
+practical and powerful approach to multiple testing. \emph{Journal of
+the Royal Statistical Society. Series B (Methodological)} 57:289--300.
+
 \hypertarget{ref-rdp_Cole_2013}{}
 Cole JR., Wang Q., Fish JA., Chai B., McGarrell DM., Sun Y., Brown CT.,
 Porras-Alfaro A., Kuske CR., Tiedje JM. 2013. Ribosomal database
@@ -239,12 +256,19 @@ improves sensitivity and speed of chimera detection.
 \emph{Bioinformatics} 27:2194--2200. DOI:
 \href{https://doi.org/10.1093/bioinformatics/btr381}{10.1093/bioinformatics/btr381}.
 
+\hypertarget{ref-viridis_citation_2017}{}
+Garnier S. 2017. \emph{Viridis: Default color maps from 'matplotlib'}.
+
 \hypertarget{ref-protocol_Kozich_2013}{}
 Kozich JJ., Westcott SL., Baxter NT., Highlander SK., Schloss PD. 2013.
 Development of a dual-index sequencing strategy and curation pipeline
 for analyzing amplicon sequence data on the MiSeq illumina sequencing
 platform. \emph{Applied and Environmental Microbiology} 79:5112--5120.
 DOI: \href{https://doi.org/10.1128/aem.01043-13}{10.1128/aem.01043-13}.
+
+\hypertarget{ref-r_citation_2017}{}
+R Core Team. 2017. \emph{R: A language and environment for statistical
+computing}. Vienna, Austria: R Foundation for Statistical Computing.
 
 \hypertarget{ref-vsearch_Rognes_2016}{}
 Rognes T., Flouri T., Nichols B., Quince C., Mahé F. 2016. VSEARCH: A
@@ -271,6 +295,10 @@ Westcott SL., Schloss PD. 2017. OptiClust, an improved method for
 assigning amplicon-based sequence data to operational taxonomic units.
 \emph{mSphere} 2:e00073--17. DOI:
 \href{https://doi.org/10.1128/mspheredirect.00073-17}{10.1128/mspheredirect.00073-17}.
+
+\hypertarget{ref-tidyverse_2017}{}
+Wickham H. 2017. \emph{Tidyverse: Easily install and load 'tidyverse'
+packages}.
 
 \newpage
 
