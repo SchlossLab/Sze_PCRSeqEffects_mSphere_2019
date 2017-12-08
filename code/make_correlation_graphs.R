@@ -5,7 +5,7 @@
 # Load in needed functions and libraries
 source('code/functions.R')
 
-loadLibs(c("tidyverse", "stringr", "dunn.test"))
+loadLibs(c("tidyverse", "stringr", "viridis"))
 
 
 ###########################################################################################################################
@@ -29,11 +29,24 @@ read_data <- function(pathing, start_name, end_name, differentiator){
 }
 
 
+# FUnction to create a new common column
+
+# Function to join data together
 
 
+# Read in subsample.shared files
+sub_sample_level <- c("50", "100", "500", "1000", "5000", "10000")
+
+# Read in the count data
+error_data <- sapply(sub_sample_level, 
+                     function(x) read_data("data/process/tables/error_", "", "_summary.csv", x), 
+                     simplify = F)
 
 
-
+# Read in the count data
+numOTU_data <- sapply(sub_sample_level, 
+                      function(x) read_data("data/process/tables/", "mock_sub_sample_", "_count_table.csv", x), 
+                      simplify = F)
 
 
 
