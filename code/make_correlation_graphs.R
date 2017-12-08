@@ -5,7 +5,7 @@
 # Load in needed functions and libraries
 source('code/functions.R')
 
-loadLibs(c("tidyverse", "stringr", "viridis"))
+loadLibs(c("tidyverse", "stringr", "viridis", "gridExtra"))
 
 
 ###########################################################################################################################
@@ -94,7 +94,7 @@ df1000 <- data.frame(eq = unclass(eqns1000), taq = rownames(eqns1000)) %>%
                       levels = c("ACC", "K", "PHU", "PL", "Q5"), 
                       labels = c("Accuprime", "Kappa", "Phusion", "Platinum", "Q5")))
 
-combined_list[["1000"]] %>% 
+thousand <- combined_list[["1000"]] %>% 
   mutate(taq = factor(taq.x, 
                       levels = c("ACC", "K", "PHU", "PL", "Q5"), 
                       labels = c("Accuprime", "Kappa", "Phusion", "Platinum", "Q5"))) %>% 
@@ -105,10 +105,10 @@ combined_list[["1000"]] %>%
   scale_color_manual(name = "Cycle Number", 
                      values = c("#0000FF", "#00C957", "#CD8500", "#FF1493")) + 
   labs(x = "Percent Chimera Prevalence", y = "Number of OTUs") + 
-  geom_text(data = df1000, aes(x = 0.5, y = 65, label = eq, family = "arial"), 
+  geom_text(data = df1000, aes(x = 1.5, y = 75, label = eq), 
             color = 'black',  parse = TRUE) + 
   ggtitle("A") + coord_cartesian(ylim = c(0, 80)) + 
-  annotate("text", label = paste("Sub-sampled to 1000 Sequences"), x = 24, y = 8.2, size = 2.5) + 
+  annotate("text", label = paste("Sub-sampled to 1000 Sequences"), x = 22, y = 8.2, size = 2.5) + 
   theme(plot.title = element_text(face="bold", hjust = -0.07, size = 20), 
         panel.grid.major = element_blank(), 
         panel.grid.minor = element_blank(), 
@@ -126,7 +126,7 @@ df5000 <- data.frame(eq = unclass(eqns5000), taq = rownames(eqns5000)) %>%
                       levels = c("ACC", "K", "PHU", "PL", "Q5"), 
                       labels = c("Accuprime", "Kappa", "Phusion", "Platinum", "Q5")))
 
-combined_list[["5000"]] %>% 
+five_thousand <- combined_list[["5000"]] %>% 
   mutate(taq = factor(taq.x, 
                       levels = c("ACC", "K", "PHU", "PL", "Q5"), 
                       labels = c("Accuprime", "Kappa", "Phusion", "Platinum", "Q5"))) %>% 
@@ -137,10 +137,41 @@ combined_list[["5000"]] %>%
   scale_color_manual(name = "Cycle Number", 
                      values = c("#0000FF", "#00C957", "#CD8500", "#FF1493")) + 
   labs(x = "Percent Chimera Prevalence", y = "Number of OTUs") + 
-  geom_text(data = df5000, aes(x = 0.5, y = 130, label = eq, family = "arial"), 
+  geom_text(data = df5000, aes(x = 1.2, y = 130, label = eq),  
             color = 'black',  parse = TRUE) + 
-  ggtitle("B") + coord_cartesian(ylim = c(0, 150)) + 
-  annotate("text", label = paste("Sub-sampled to 5000 Sequences"), x = 14.5, y = 8.2, size = 2.5) + 
+  ggtitle("B") + coord_cartesian(ylim = c(0, 140)) + 
+  annotate("text", label = paste("Sub-sampled to 5000 Sequences"), x = 12.5, y = 8.2, size = 2.5) + 
+  theme(plot.title = element_text(face="bold", hjust = -0.07, size = 20), 
+        panel.grid.major = element_blank(), 
+        panel.grid.minor = element_blank(), 
+        axis.text.y = element_text(size = 10), 
+        legend.position = "bottom", 
+        legend.title = element_blank(), 
+        legend.key = element_blank(), 
+        legend.background = element_rect(color = "black"))
+
+
+eqns10000 <- by(combined_list[["10000"]], combined_list[["10000"]]$taq.x, lm_eqn)
+df10000 <- data.frame(eq = unclass(eqns10000), taq = rownames(eqns10000)) %>% 
+  mutate(taq = factor(taq, 
+                      levels = c("ACC", "K", "PHU", "PL", "Q5"), 
+                      labels = c("Accuprime", "Kappa", "Phusion", "Platinum", "Q5")))
+
+ten_thousand <- combined_list[["10000"]] %>% 
+  mutate(taq = factor(taq.x, 
+                      levels = c("ACC", "K", "PHU", "PL", "Q5"), 
+                      labels = c("Accuprime", "Kappa", "Phusion", "Platinum", "Q5"))) %>% 
+  ggplot(aes(chimera_prevalence*100, numOTUs, color = cycles.x, group = taq)) + 
+  geom_smooth(size = 1, method = "lm", se = FALSE, color = "black") + 
+  geom_point(size = 2, alpha = 0.7) + theme_bw() + 
+  facet_grid(taq ~.) + 
+  scale_color_manual(name = "Cycle Number", 
+                     values = c("#0000FF", "#00C957", "#CD8500", "#FF1493")) + 
+  labs(x = "Percent Chimera Prevalence", y = "Number of OTUs") + 
+  geom_text(data = df10000, aes(x = 1.2, y = 240, label = eq), 
+            color = 'black',  parse = TRUE) + 
+  ggtitle("C") + coord_cartesian(ylim = c(0, 250)) + 
+  annotate("text", label = paste("Sub-sampled to 10000 Sequences"), x = 7.5, y = 8.2, size = 2.5) + 
   theme(plot.title = element_text(face="bold", hjust = -0.07, size = 20), 
         panel.grid.major = element_blank(), 
         panel.grid.minor = element_blank(), 
@@ -154,7 +185,9 @@ combined_list[["5000"]] %>%
 ############################### Run actual analysis programs  #############################################################
 ###########################################################################################################################
 
+combined_graph <- grid.arrange(thousand, five_thousand, ten_thousand, ncol = 3)
 
+ggsave("results/figures/Figure5.pdf", combined_graph, width = 15, height = 8, dpi = 300)
 
 
 
