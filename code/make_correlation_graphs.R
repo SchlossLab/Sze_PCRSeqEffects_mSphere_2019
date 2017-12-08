@@ -30,8 +30,24 @@ read_data <- function(pathing, start_name, end_name, differentiator){
 
 
 # FUnction to create a new common column
+make_common_column <- function(i, dataList){
+  
+  tempData <- dataList[[i]] %>% 
+    mutate(common_column = paste(cycles, "_", taq, "_", sample_name, sep = ""))
+  
+  return(tempData)
+  
+}
 
 # Function to join data together
+combine_data <- function(i, dataList, to_match_list){
+  
+  tempData <- dataList[[i]] %>% 
+    left_join(to_match_list[[i]], by = "common_column")
+  
+  return(tempData)
+    
+}
 
 
 # Read in subsample.shared files
@@ -49,8 +65,16 @@ numOTU_data <- sapply(sub_sample_level,
                       simplify = F)
 
 
+# Create new common column
+up_error_data <- sapply(sub_sample_level, 
+                        function(x) make_common_column(x, error_data), simplify = F)
 
+up_numOTU_data <- sapply(sub_sample_level, 
+                         function(x) make_common_column(x, numOTU_data), simplify = F)
 
+# Combine the data together
+combined_list <- sapply(sub_sample_level, 
+                        function(x) combine_data(x, up_error_data, up_numOTU_data), simplify = F)
 
 
 ###########################################################################################################################
