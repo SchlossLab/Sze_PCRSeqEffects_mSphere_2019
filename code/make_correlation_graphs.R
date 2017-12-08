@@ -50,6 +50,7 @@ combine_data <- function(i, dataList, to_match_list){
 }
 
 
+
 # Read in subsample.shared files
 sub_sample_level <- c("50", "100", "500", "1000", "5000", "10000")
 
@@ -77,16 +78,32 @@ combined_list <- sapply(sub_sample_level,
                         function(x) combine_data(x, up_error_data, up_numOTU_data), simplify = F)
 
 
+lm_eqn = function(df){
+  m = lm((chimera_prevalence*1000) ~ numOTUs, df);
+  eq <- substitute(~~R^2~"="~r2, 
+                   list(r2 = format(summary(m)$r.squared, digits = 3)))
+  as.character(as.expression(eq));                 
+}
+
+
+
+eqns <- by(combined_list[["1000"]], combined_list[["1000"]]$taq.x, lm_eqn)
+df2 <- data.frame(eq = unclass(eqns), taq = as.numeric(names(eqns)))
+
 combined_list[["1000"]] %>% 
   mutate(taq = factor(taq.x, 
                       levels = c("ACC", "K", "PHU", "PL", "Q5"), 
                       labels = c("Accuprime", "Kappa", "Phusion", "Platinum", "Q5"))) %>% 
-  ggplot(aes(cycles, log2(numOTUs), color = taq, group = taq)) + 
-  geom_smooth(size = 1, method = "lm", formula = y ~ poly(x, 2), se = FALSE) + 
+  ggplot(aes(chimera_prevalence*100, numOTUs, color = cycles.x, group = taq)) + 
+  geom_smooth(size = 1, method = "lm", se = FALSE, color = "black") + 
   geom_point(size = 2, alpha = 0.7) + theme_bw() + 
-  scale_color_manual(name = "Taq Used", 
-                     values = c("#440154FF", "#3B528BFF", "#21908CFF", "#5DC863FF", "#FDE725FF")) + 
-  labs(x = "Amplification Cycles", y = expression(Log["2"]~Number~of~OTUs)) + 
+  facet_grid(taq ~.) + 
+  scale_color_manual(name = "Cycle Number", 
+                     values = c("#0000FF", "#00C957", "#CD8500", "#FF1493")) + 
+  labs(x = "Percent Chimera Prevalence", y = "Number of OTUs") + 
+  geom_text(x = 25, y = 300, label = lm_eqn(), parse = TRUE)
+  
+  
   ggtitle("A") + coord_cartesian(ylim = c(0, 8)) + 
   annotate("text", label = paste("Sub-sampled to 1000 Sequences"), x = 1.5, y = 8.2, size = 2.5) + 
   theme(plot.title = element_text(face="bold", hjust = -0.07, size = 20), 
