@@ -193,6 +193,11 @@ code/make_mock_chimera_count_graphs.R
 	R -e "source('code/make_mock_chimera_count_graphs.R')"
 
 
+# Run code to create Figure 5 - Mock Chimera versus Numberof OTUs
+$(FIGS)/Figure5.pdf : $(M_ERROR_COUNT_TABLES)\
+$(M_COUNT_TABLES) code/make_correlation_graphs.R
+	R -e "source('code/make_correlation_graphs.R')"
+
 
 # Run code to create Figure S1 - Mock Sequences with Error
 $(FIGS)/FigureS1.pdf : $(M_ERROR_COUNT_TABLES)\
