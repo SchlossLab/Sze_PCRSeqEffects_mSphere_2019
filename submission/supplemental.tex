@@ -1,0 +1,183 @@
+\documentclass[12pt,]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+\else % if luatex or xelatex
+  \ifxetex
+    \usepackage{mathspec}
+  \else
+    \usepackage{fontspec}
+  \fi
+  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+\fi
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+% use microtype if available
+\IfFileExists{microtype.sty}{%
+\usepackage{microtype}
+\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\usepackage[margin=1.0in]{geometry}
+\usepackage{hyperref}
+\hypersetup{unicode=true,
+            pdfborder={0 0 0},
+            breaklinks=true}
+\urlstyle{same}  % don't use monospace font for urls
+\usepackage{longtable,booktabs}
+\usepackage{graphicx,grffile}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+\IfFileExists{parskip.sty}{%
+\usepackage{parskip}
+}{% else
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+}
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{0}
+% Redefines (sub)paragraphs to behave more like sections
+\ifx\paragraph\undefined\else
+\let\oldparagraph\paragraph
+\renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+\let\oldsubparagraph\subparagraph
+\renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+
+%%% Use protect on footnotes to avoid problems with footnotes in titles
+\let\rmarkdownfootnote\footnote%
+\def\footnote{\protect\rmarkdownfootnote}
+
+%%% Change title format to be more compact
+\usepackage{titling}
+
+% Create subtitle command for use in maketitle
+\newcommand{\subtitle}[1]{
+  \posttitle{
+    \begin{center}\large#1\end{center}
+    }
+}
+
+\setlength{\droptitle}{-2em}
+  \title{}
+  \pretitle{\vspace{\droptitle}}
+  \posttitle{}
+  \author{}
+  \preauthor{}\postauthor{}
+  \date{}
+  \predate{}\postdate{}
+
+\usepackage{helvet} % Helvetica font
+\renewcommand*\familydefault{\sfdefault} % Use the sans serif version of the font
+\usepackage[T1]{fontenc}
+
+\usepackage[none]{hyphenat}
+
+\usepackage{setspace}
+\doublespacing
+\setlength{\parskip}{1em}
+
+\usepackage{lineno}
+
+\usepackage{pdfpages}
+
+\usepackage{amsmath}
+
+\usepackage{mathtools}
+
+\begin{document}
+
+\section{What the Taq? The Influence of Different Hi-Fidelity Taq
+Polymerase on 16S rRNA
+Sequencing}\label{what-the-taq-the-influence-of-different-hi-fidelity-taq-polymerase-on-16s-rrna-sequencing}
+
+\vspace{10mm}
+
+\begin{center}
+Marc A Sze and Patrick D Schloss
+
+\vspace{10mm}
+
+Supplemental
+\end{center}
+
+\newpage
+
+\textbf{Table S1: ANOVA Results of HiFi Taq Differences in Fecal
+Samples}
+
+\begin{longtable}[]{@{}cccccccc@{}}
+\toprule
+DF & Sum Squares & Mean Squares & F value & P-value & BH & Cycles &
+Sub-Sample Depth\tabularnewline
+\midrule
+\endhead
+4 & 3.66 & 0.91 & 1.25 & 3.5e-01 & 3.5e-01 & 20x & 1000\tabularnewline
+4 & 6.90 & 1.73 & 2.84 & 6.1e-02 & 1.2e-01 & 25x & 1000\tabularnewline
+3 & 4.67 & 1.56 & 2.55 & 1.0e-01 & 1.4e-01 & 30x & 1000\tabularnewline
+4 & 13.01 & 3.25 & 16.35 & 2.4e-05 & 9.7e-05 & 35x & 1000\tabularnewline
+4 & 5.15 & 1.29 & 4.57 & 1.2e-01 & 1.2e-01 & 20x & 5000\tabularnewline
+4 & 8.11 & 2.03 & 4.98 & 1.3e-02 & 1.8e-02 & 25x & 5000\tabularnewline
+3 & 10.36 & 3.45 & 25.24 & 1.8e-05 & 3.6e-05 & 30x & 5000\tabularnewline
+4 & 14.38 & 3.59 & 81.00 & 1.6e-09 & 6.4e-09 & 35x & 5000\tabularnewline
+2 & 2.85 & 1.43 & 3.73 & 1.5e-01 & 1.5e-01 & 20x & 10000\tabularnewline
+4 & 10.39 & 2.60 & 11.92 & 3.8e-04 & 5.1e-04 & 25x &
+10000\tabularnewline
+3 & 11.22 & 3.74 & 57.90 & 2.1e-07 & 4.2e-07 & 30x &
+10000\tabularnewline
+4 & 13.25 & 3.31 & 57.20 & 4.0e-08 & 1.6e-07 & 35x &
+10000\tabularnewline
+2 & 0.27 & 0.13 & 0.10 & 9.1e-01 & 9.1e-01 & 20x & 15000\tabularnewline
+4 & 8.69 & 2.17 & 7.23 & 4.1e-03 & 5.5e-03 & 25x & 15000\tabularnewline
+3 & 10.40 & 3.47 & 25.95 & 1.6e-05 & 3.1e-05 & 30x &
+15000\tabularnewline
+4 & 12.24 & 3.06 & 48.03 & 2.7e-07 & 1.1e-06 & 35x &
+15000\tabularnewline
+1 & 1.00 & 1.00 & NA & NA & NA & 20x & 20000\tabularnewline
+4 & 9.84 & 2.46 & 12.50 & 4.5e-04 & 4.5e-04 & 25x & 20000\tabularnewline
+3 & 10.65 & 3.55 & 31.67 & 5.5e-06 & 8.3e-06 & 30x &
+20000\tabularnewline
+3 & 11.61 & 3.87 & 119.82 & 3.3e-09 & 9.9e-09 & 35x &
+20000\tabularnewline
+\bottomrule
+\end{longtable}
+
+\newpage
+
+\textbf{Table S2:}
+
+\newpage
+
+\textbf{Table S3: }
+
+\newpage
+
+\textbf{Table S4: }
+
+\newpage
+
+\textbf{Table S5: }
+
+\newpage
+
+\textbf{Table S6: }
+
+\newpage
+
+\textbf{Table S7: }
+
+
+\end{document}

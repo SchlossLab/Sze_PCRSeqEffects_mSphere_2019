@@ -1,0 +1,126 @@
+---
+title: ''
+csl: peerj.csl
+fontsize: 12pt
+output:
+  pdf_document:
+    includes:
+      in_header: header.tex
+    keep_tex: yes
+geometry: margin=1.0in
+bibliography: null
+---
+
+# What the Taq? The Influence of Different Hi-Fidelity Taq Polymerase on 16S rRNA Sequencing
+
+\vspace{10mm}
+
+\begin{center}
+Marc A Sze and Patrick D Schloss
+
+\vspace{10mm}
+
+Supplemental
+\end{center}
+
+
+\newpage
+
+```{r knitr_settings, eval=TRUE, echo=FALSE, warning=FALSE, message=FALSE}
+
+source('../code/functions.R')
+
+loadLibs(c("tidyverse", "scales", "knitr", "rmarkdown"))
+
+```
+
+
+**Table S1: ANOVA Results of HiFi Taq Differences in Fecal Samples**
+
+```{r supplemental_table1, echo=FALSE, message=FALSE, warning=FALSE}
+
+fs_anova <- as.data.frame(read_csv("../data/process/tables/fecal_overall_anova_results.csv")) %>% 
+  mutate_at(vars(Sum.Sq:F.value), funs(round(., digits = 2))) %>% 
+  mutate_at(vars(pvalue:bh), funs(format(., scientific = TRUE, digits = 2, nsmall = 2)))
+
+colnames(fs_anova) <- c("DF", "Sum Squares", "Mean Squares", "F value", "P-value", "BH", "Cycles", "Sub-Sample Depth")
+
+kable(fs_anova, format = "markdown", align = 'c', padding = 2)
+```
+
+
+\newpage
+
+
+**Table S2:**
+
+```{r supplemental_table2, echo=FALSE, message=FALSE, warning=FALSE}
+
+
+```
+
+
+\newpage
+
+
+**Table S3: **
+
+```{r supplemental_table3, echo=FALSE, message=FALSE, warning=FALSE}
+
+
+```
+
+
+\newpage
+
+
+**Table S4: **
+
+```{r supplemental_table4, echo=FALSE, message=FALSE, warning=FALSE}
+
+
+```
+
+
+\newpage
+
+**Table S5: **
+
+```{r supplemental_table5, echo=FALSE, message=FALSE, warning=FALSE}
+
+
+```
+
+
+
+\newpage
+
+
+**Table S6: **
+
+```{r supplemental_table6, echo=FALSE, message=FALSE, warning=FALSE}
+
+
+```
+
+\newpage
+
+**Table S7: **
+
+```{r supplemental_table7, echo=FALSE, message=FALSE, warning=FALSE}
+
+
+
+
+```
+
+
+
+
+
+
+
+
+
+
+
