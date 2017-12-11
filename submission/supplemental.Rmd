@@ -35,7 +35,7 @@ loadLibs(c("tidyverse", "scales", "knitr", "rmarkdown"))
 ```
 
 
-**Table S1: ANOVA Results of HiFi Taq Differences in Fecal Samples**
+**Table S1: ANOVA Results of Number of OTUs Differences between HiFi Taq in Fecal Samples**
 
 ```{r supplemental_table1, echo=FALSE, message=FALSE, warning=FALSE}
 
@@ -52,7 +52,7 @@ kable(fs_anova, format = "markdown", align = 'c', padding = 2)
 \newpage
 
 
-**Table S2: Tukey Post-Hoc Results of Significant HiFi Taq Differences in Fecal Samples**
+**Table S2: Tukey Post-Hoc Results of Number of OTUs Differences between HiFi Taq in Fecal Samples**
 
 ```{r supplemental_table2, echo=FALSE, message=FALSE, warning=FALSE}
 
@@ -73,11 +73,18 @@ kable(fs_tukey, format = "markdown", align = 'c', padding = 2)
 \newpage
 
 
-**Table S3: **
+**Table S3: ANOVA Results of Number of OTUs Differences between HiFi Taq in Mock Samples**
 
 ```{r supplemental_table3, echo=FALSE, message=FALSE, warning=FALSE}
 
+mock_anova <- as.data.frame(read_csv("../data/process/tables/mock_overall_anova_results.csv")) %>% 
+  mutate_at(vars(Sum.Sq:F.value), funs(round(., digits = 2))) %>% 
+  mutate_at(vars(pvalue:bh), funs(format(., scientific = TRUE, digits = 2, nsmall = 2))) %>% 
+  filter(sub_sample_level > 500)
 
+colnames(mock_anova) <- c("DF", "Sum Squares", "Mean Squares", "F value", "P-value", "BH", "Cycle", "Sub-Sample Depth")
+
+kable(mock_anova, format = "markdown", align = 'c', padding = 2)
 ```
 
 
