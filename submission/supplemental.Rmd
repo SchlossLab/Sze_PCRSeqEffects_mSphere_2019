@@ -112,7 +112,7 @@ kable(mock_tukey, format = "markdown", align = 'c', padding = 2)
 
 \newpage
 
-**Table S5: Kruskal-Wallis Results of Number of OTUs Differences between HiFi Taq in Mock Samples**
+**Table S5: Kruskal-Wallis Results of Per Base Error Rate Differences between HiFi Taq in Mock Samples**
 
 ```{r supplemental_table5, echo=FALSE, message=FALSE, warning=FALSE}
 
@@ -131,7 +131,7 @@ kable(mock_error_rate_kruskal, format = "markdown", align = 'c', padding = 2)
 \newpage
 
 
-**Table S6: **
+**Table S6: Dunn's Post-Hoc Results of Per Base Error Rate between HiFi Taq in Mock Samples**
 
 ```{r supplemental_table6, echo=FALSE, message=FALSE, warning=FALSE}
 
