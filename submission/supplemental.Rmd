@@ -150,15 +150,45 @@ kable(mock_error_rate_dunn, format = "markdown", align = 'c', padding = 2)
 
 \newpage
 
-**Table S7: **
+**Table S7: Kruskal-Wallis Results of Sequences with Error Differences between HiFi Taq in Mock Samples**
 
 ```{r supplemental_table7, echo=FALSE, message=FALSE, warning=FALSE}
 
+mock_error_count_kruskal <- as.data.frame(
+  read_csv("../data/process/tables/mock_error_count_overall_kruskal_results.csv")) %>% 
+  mutate_at(vars(statistic), funs(round(., digits = 2))) %>% 
+  mutate_at(vars(pvalue:bh), funs(format(., scientific = TRUE, digits = 2, nsmall = 2))) %>% 
+  filter(sub_sample_level > 500)
 
+colnames(mock_error_count_kruskal) <- c("Rank Sum Statistic", "DF", "P-value", "BH", "Cycle", "Sub-Sample Depth")
+
+kable(mock_error_count_kruskal, format = "markdown", align = 'c', padding = 2)
 
 
 ```
 
+
+
+\newpage
+
+**Table S8: Dunn's Post-Hoc Results of Sequences with Error Differences between HiFi Taq in Mock Samples**
+
+```{r supplemental_table8, echo=FALSE, message=FALSE, warning=FALSE}
+
+mock_error_count_dunn <- as.data.frame(read_csv("../data/process/tables/mock_error_count_overall_dunn_results.csv")) %>% 
+  mutate_at(vars(chi2:Z), funs(round(., digits = 2))) %>% 
+  filter(sub_sample_level > 500, pvalue < 0.05) %>% 
+  arrange(pvalue) %>% 
+  mutate_at(vars(pvalue:bh), funs(format(., scientific = TRUE, digits = 2, nsmall = 2))) %>% 
+  select(-bh)
+  
+
+colnames(mock_error_count_dunn) <- c("Chi Squared", "Z Statistic", "P Adjusted", "Comparison", "Cycle", "Sub-Sample Depth")
+
+kable(mock_error_count_dunn, format = "markdown", align = 'c', padding = 2)
+
+
+```
 
 
 

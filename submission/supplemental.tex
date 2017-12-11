@@ -319,7 +319,76 @@ Depth\tabularnewline
 
 \newpage
 
-\textbf{Table S7: }
+\textbf{Table S7: Kruskal-Wallis Results of Sequences with Error
+Differences between HiFi Taq in Mock Samples}
+
+\begin{longtable}[]{@{}cccccc@{}}
+\toprule
+Rank Sum Statistic & DF & P-value & BH & Cycle & Sub-Sample
+Depth\tabularnewline
+\midrule
+\endhead
+7.88 & 2 & 1.9e-02 & 2.6e-02 & 20x & 1000\tabularnewline
+14.24 & 4 & 6.6e-03 & 1.3e-02 & 25x & 1000\tabularnewline
+24.73 & 4 & 5.7e-05 & 2.3e-04 & 30x & 1000\tabularnewline
+9.79 & 4 & 4.4e-02 & 4.4e-02 & 35x & 1000\tabularnewline
+12.77 & 3 & 5.2e-03 & 5.2e-03 & 25x & 5000\tabularnewline
+19.86 & 3 & 1.8e-04 & 5.4e-04 & 30x & 5000\tabularnewline
+13.71 & 3 & 3.3e-03 & 5.0e-03 & 35x & 5000\tabularnewline
+12.94 & 3 & 4.8e-03 & 4.8e-03 & 25x & 10000\tabularnewline
+18.58 & 3 & 3.3e-04 & 1.0e-03 & 30x & 10000\tabularnewline
+13.06 & 3 & 4.5e-03 & 4.8e-03 & 35x & 10000\tabularnewline
+\bottomrule
+\end{longtable}
+
+\newpage
+
+\textbf{Table S8: Dunn's Post-Hoc Results of Sequences with Error
+Differences between HiFi Taq in Mock Samples}
+
+\begin{longtable}[]{@{}cccccc@{}}
+\toprule
+Chi Squared & Z Statistic & P Adjusted & Comparison & Cycle & Sub-Sample
+Depth\tabularnewline
+\midrule
+\endhead
+24.73 & 3.79 & 7.6e-05 & K - Q5 & 30x & 1000\tabularnewline
+19.86 & -3.65 & 1.3e-04 & PHU - PL & 30x & 5000\tabularnewline
+24.73 & 3.62 & 1.5e-04 & K - PHU & 30x & 1000\tabularnewline
+13.71 & -3.62 & 1.5e-04 & PHU - PL & 35x & 5000\tabularnewline
+13.06 & -3.56 & 1.8e-04 & PHU - PL & 35x & 10000\tabularnewline
+18.58 & -3.41 & 3.3e-04 & PHU - PL & 30x & 10000\tabularnewline
+12.77 & 3.35 & 4.0e-04 & ACC - PHU & 25x & 5000\tabularnewline
+12.94 & 3.20 & 6.9e-04 & ACC - PHU & 25x & 10000\tabularnewline
+19.86 & 3.18 & 7.4e-04 & PL - Q5 & 30x & 5000\tabularnewline
+18.58 & 3.16 & 7.8e-04 & PL - Q5 & 30x & 10000\tabularnewline
+14.24 & 3.07 & 1.1e-03 & K - PHU & 25x & 1000\tabularnewline
+14.24 & 2.95 & 1.6e-03 & K - PL & 25x & 1000\tabularnewline
+24.73 & -2.89 & 2.0e-03 & PHU - PL & 30x & 1000\tabularnewline
+9.79 & -2.88 & 2.0e-03 & PHU - PL & 35x & 1000\tabularnewline
+24.73 & 2.85 & 2.2e-03 & PL - Q5 & 30x & 1000\tabularnewline
+7.88 & 2.78 & 2.7e-03 & PHU - PL & 20x & 1000\tabularnewline
+12.94 & 2.75 & 3.0e-03 & ACC - Q5 & 25x & 10000\tabularnewline
+19.86 & 2.60 & 4.7e-03 & ACC - PHU & 30x & 5000\tabularnewline
+18.58 & 2.50 & 6.2e-03 & ACC - PHU & 30x & 10000\tabularnewline
+12.77 & 2.50 & 6.3e-03 & ACC - Q5 & 25x & 5000\tabularnewline
+24.73 & 2.41 & 8.0e-03 & ACC - PHU & 30x & 1000\tabularnewline
+14.24 & 2.30 & 1.1e-02 & ACC - PHU & 25x & 1000\tabularnewline
+9.79 & 2.29 & 1.1e-02 & PL - Q5 & 35x & 1000\tabularnewline
+13.71 & 2.29 & 1.1e-02 & PL - Q5 & 35x & 5000\tabularnewline
+14.24 & 2.18 & 1.5e-02 & ACC - PL & 25x & 1000\tabularnewline
+24.73 & 2.16 & 1.6e-02 & ACC - Q5 & 30x & 1000\tabularnewline
+18.58 & 2.12 & 1.7e-02 & ACC - Q5 & 30x & 10000\tabularnewline
+13.06 & 2.08 & 1.9e-02 & ACC - PHU & 35x & 10000\tabularnewline
+13.06 & 2.08 & 1.9e-02 & PL - Q5 & 35x & 10000\tabularnewline
+19.86 & 2.07 & 1.9e-02 & ACC - Q5 & 30x & 5000\tabularnewline
+12.77 & -2.05 & 2.0e-02 & PHU - PL & 25x & 5000\tabularnewline
+12.94 & -2.01 & 2.2e-02 & PHU - PL & 25x & 10000\tabularnewline
+14.24 & 1.93 & 2.7e-02 & K - Q5 & 25x & 1000\tabularnewline
+13.71 & 1.89 & 2.9e-02 & ACC - PHU & 35x & 5000\tabularnewline
+7.88 & -1.65 & 5.0e-02 & PL - Q5 & 20x & 1000\tabularnewline
+\bottomrule
+\end{longtable}
 
 
 \end{document}
