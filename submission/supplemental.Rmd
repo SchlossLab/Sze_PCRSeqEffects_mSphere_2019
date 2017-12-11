@@ -135,7 +135,17 @@ kable(mock_error_rate_kruskal, format = "markdown", align = 'c', padding = 2)
 
 ```{r supplemental_table6, echo=FALSE, message=FALSE, warning=FALSE}
 
+mock_error_rate_dunn <- as.data.frame(read_csv("../data/process/tables/mock_error_overall_dunn_results.csv")) %>% 
+  mutate_at(vars(chi2:Z), funs(round(., digits = 2))) %>% 
+  filter(sub_sample_level > 500, pvalue < 0.05) %>% 
+  arrange(pvalue) %>% 
+  mutate_at(vars(pvalue:bh), funs(format(., scientific = TRUE, digits = 2, nsmall = 2))) %>% 
+  select(-bh)
+  
 
+colnames(mock_error_rate_dunn) <- c("Chi Squared", "Z Statistic", "P Adjusted", "Comparison", "Cycle", "Sub-Sample Depth")
+
+kable(mock_error_rate_dunn, format = "markdown", align = 'c', padding = 2)
 ```
 
 \newpage
