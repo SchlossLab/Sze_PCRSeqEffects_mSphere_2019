@@ -191,6 +191,48 @@ kable(mock_error_count_dunn, format = "markdown", align = 'c', padding = 2)
 ```
 
 
+\newpage
+
+**Table S9: Kruskal-Wallis Results of Chimera Differences between HiFi Taq in Mock Samples**
+
+```{r supplemental_table9, echo=FALSE, message=FALSE, warning=FALSE}
+
+mock_chimera_kruskal <- as.data.frame(
+  read_csv("../data/process/tables/mock_chimera_overall_kruskal_results.csv")) %>% 
+  mutate_at(vars(statistic), funs(round(., digits = 2))) %>% 
+  mutate_at(vars(pvalue:bh), funs(format(., scientific = TRUE, digits = 2, nsmall = 2))) %>% 
+  filter(sub_sample_level > 500)
+
+colnames(mock_chimera_kruskal) <- c("Rank Sum Statistic", "DF", "P-value", "BH", "Cycle", "Sub-Sample Depth")
+
+kable(mock_chimera_kruskal, format = "markdown", align = 'c', padding = 2)
+
+
+```
+
+
+
+\newpage
+
+**Table S10: Dunn's Post-Hoc Results of Chimera Differences between HiFi Taq in Mock Samples**
+
+```{r supplemental_table10, echo=FALSE, message=FALSE, warning=FALSE}
+
+mock_chimera_dunn <- as.data.frame(read_csv("../data/process/tables/mock_chimera_overall_dunn_results.csv")) %>% 
+  mutate_at(vars(chi2:Z), funs(round(., digits = 2))) %>% 
+  filter(sub_sample_level > 500, pvalue < 0.05) %>% 
+  arrange(pvalue) %>% 
+  mutate_at(vars(pvalue:bh), funs(format(., scientific = TRUE, digits = 2, nsmall = 2))) %>% 
+  select(-bh)
+  
+
+colnames(mock_chimera_dunn) <- c("Chi Squared", "Z Statistic", "P Adjusted", "Comparison", "Cycle", "Sub-Sample Depth")
+
+kable(mock_chimera_dunn, format = "markdown", align = 'c', padding = 2)
+
+
+```
+
 
 
 
