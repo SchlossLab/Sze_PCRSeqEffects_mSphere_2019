@@ -112,11 +112,18 @@ kable(mock_tukey, format = "markdown", align = 'c', padding = 2)
 
 \newpage
 
-**Table S5: **
+**Table S5: Kruskal-Wallis Results of Number of OTUs Differences between HiFi Taq in Mock Samples**
 
 ```{r supplemental_table5, echo=FALSE, message=FALSE, warning=FALSE}
 
+mock_error_rate_kruskal <- as.data.frame(read_csv("../data/process/tables/mock_error_overall_kruskal_results.csv")) %>% 
+  mutate_at(vars(statistic), funs(round(., digits = 2))) %>% 
+  mutate_at(vars(pvalue:bh), funs(format(., scientific = TRUE, digits = 2, nsmall = 2))) %>% 
+  filter(sub_sample_level > 500)
 
+colnames(mock_error_rate_kruskal) <- c("Rank Sum Statistic", "DF", "P-value", "BH", "Cycle", "Sub-Sample Depth")
+
+kable(mock_error_rate_kruskal, format = "markdown", align = 'c', padding = 2)
 ```
 
 
