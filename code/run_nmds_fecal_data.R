@@ -54,12 +54,13 @@ sub_sample_level <- c("1000", "5000", "10000", "15000", "20000")
 
 
 # Read in distance matrix
-braycurtis_dist <- read.dist('data/process/all_amp.braycurtis.0.03.lt.1000.dist')
+braycurtis_dist <- sapply(sub_sample_level, 
+                          function(x) read.dist(paste("data/process/all_amp.braycurtis.0.03.lt.", 
+                                                      x, ".dist", sep = "")), simplify = F)
 
 
 # Read in meta data
-metadata <- read_data("data/process/tables/", "meta_data", ".csv", "") %>% 
-  filter(full_name %in% rownames(braycurtis_dist))
+metadata <- read_data("data/process/tables/", "meta_data", ".csv", "")
 
 sample_to_keep <- metadata$full_name
 
