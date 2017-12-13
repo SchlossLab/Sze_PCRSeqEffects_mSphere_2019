@@ -149,6 +149,26 @@ run_each_sample <- function(u_names, taq_used, meta_file, distList){
 }
 
 
+# Function to expand meta data tables into a nice table
+make_nice_table <- function(depth, dataList){
+  
+  tempData <- dataList[[depth]] %>% 
+    select(-taq, -sample_name) %>% 
+    separate(initial, c("lower_cycle", "taq", "kit", "sample_type", "sample_name")) %>% 
+    select(-taq, -kit, -sample_type, -sample_name) %>% 
+    separate(final, c("upper_cycle", "taq", "kit", "sample_type", "sample_name")) %>% 
+    select(-kit, -sample_type) %>% 
+    mutate(
+      cycle_compare = paste(
+        str_replace(lower_cycle, "x", "") , "to", str_replace(upper_cycle, "x", ""), sep = "")) %>% 
+    select(cycle_compare, taq, sample_name, distance)
+    
+    
+  return(tempData)
+}
+
+
+
 
 ###########################################################################################################################
 ############################### Run actual analysis programs  #############################################################
@@ -188,7 +208,8 @@ sep_meta_list <- sapply(sub_sample_level,
 next_distance_values <- sapply(sub_sample_level, 
                function(x) get_next_distance(x, sep_meta_list, sep_red_bray_dist), simplify = F)
 
-
+finalized_tables <- sapply(sub_sample_level, 
+               function(x) make_nice_table(x, next_distance_values), simplify = F)
 
 
 
