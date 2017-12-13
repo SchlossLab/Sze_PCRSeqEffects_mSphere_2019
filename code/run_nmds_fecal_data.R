@@ -75,13 +75,78 @@ separate_polymerase <- function(depth, metaList, distList,
 }
 
 
+# Function that pulls distances from the same individual but 5 cycles later from table 
+get_next_distance <- function(depth, metaList, distList, 
+                              taq_used = c("ACC", "K", "PHU", "PL", "Q5")){
+  
+  tempMeta <- metaList[[depth]]
+  tempDist <- distList[[depth]]
+  
+  final_data <- sapply(taq_used, 
+         function(x) pull_dist_data(x, tempMeta, tempDist), simplify = F)
+  
+  final_data <- try(final_data %>% bind_rows())
+  
+  return(as.data.frame(final_data))
+  
+}
 
 
+# Function that actuall gets the distances of the between current and previous cycle
+pull_dist_data <- function(taq_of_int, metaList, distList){
+  
+  tempMeta <- metaList[[taq_of_int]]
+  tempDist <- distList[[taq_of_int]]
+  
+  unique_names <- unique(tempMeta$sample_name)
+  
+  tempData <- sapply(unique_names, 
+         function(x) run_each_sample(x, taq_of_int, tempMeta, tempDist), simplify = F)
+  
+  tempData <- try(tempData %>% bind_rows())
+    
+  return(tempData)
+  
+}
 
 
-
-
-
+# Function that controls the flow within a single sample 
+run_each_sample <- function(u_names, taq_used, meta_file, distList){
+  
+  temp_names <- as.data.frame(filter(meta_file, sample_name == u_names))[, "full_name"]
+  
+  row_values <- temp_names[1:(length(temp_names)-1)]
+  
+  col_values <- temp_names[2:length(temp_names)]
+  
+  tempData <- t(sapply(c(1:length(row_values)), 
+                     function(x) 
+                       c(initial = row_values[x], 
+                         final = col_values[x],
+                         sample_name = u_names, 
+                         taq = taq_used, 
+                         distance = try(distList[row_values[x], col_values[x]])), simplify = T))
+  
+  if("distance" %in% colnames(tempData)){
+    
+    tempData <- as.data.frame(tempData)
+  } else {
+    
+    tempData <- as.data.frame(tempData) %>% 
+      mutate(distance = NA)
+  }
+  
+  if(grepl("Error", tempData$distance) == T){
+    
+    tempData <- as.data.frame(tempData) %>% 
+      mutate(distance = NA)
+  }
+  
+  
+  return(tempData)
+  
+  
+}
 
 
 
@@ -120,6 +185,8 @@ sep_meta_list <- sapply(sub_sample_level,
                                                             braycurtis_dist, meta_readout = T), simplify = F)
 
 
+next_distance_values <- sapply(sub_sample_level, 
+               function(x) get_next_distance(x, sep_meta_list, sep_red_bray_dist), simplify = F)
 
 
 
@@ -130,51 +197,50 @@ sep_meta_list <- sapply(sub_sample_level,
 
 
 
+#sample_to_keep <- metadata$full_name
 
-sample_to_keep <- metadata$full_name
-
-braycurtis_dist <- braycurtis_dist[sample_to_keep, sample_to_keep]
+#braycurtis_dist <- braycurtis_dist[sample_to_keep, sample_to_keep]
 
 # create select Taq distance table
-phu <- filter(metadata, taq == "PHU")[, "full_name"]
-q5 <- filter(metadata, taq == "Q5")[, "full_name"]
+#phu <- filter(metadata, taq == "PHU")[, "full_name"]
+#q5 <- filter(metadata, taq == "Q5")[, "full_name"]
 
-cycles <- filter(metadata, taq == "PHU")[, "cycles"]
-q5_cycles <- filter(metadata, taq == "Q5")[, "cycles"]
+#cycles <- filter(metadata, taq == "PHU")[, "cycles"]
+#q5_cycles <- filter(metadata, taq == "Q5")[, "cycles"]
 
-phu_braycurtis <- braycurtis_dist[phu$full_name, phu$full_name]
-q5_braycurtis <- braycurtis_dist[q5$full_name, q5$full_name]
+#phu_braycurtis <- braycurtis_dist[phu$full_name, phu$full_name]
+#q5_braycurtis <- braycurtis_dist[q5$full_name, q5$full_name]
 
 # get PERMANOVA
-set.seed(12345)
-tempAnalysisData <- 
-  adonis(as.dist(phu_braycurtis) ~ factor(cycles$cycles))
+#set.seed(12345)
+#tempAnalysisData <- 
+#  adonis(as.dist(phu_braycurtis) ~ factor(cycles$cycles))
 
-set.seed(12345)
-q5_AnalysisData <- 
-  adonis(as.dist(q5_braycurtis) ~ factor(q5_cycles$cycles))
+#set.seed(12345)
+#q5_AnalysisData <- 
+#  adonis(as.dist(q5_braycurtis) ~ factor(q5_cycles$cycles))
 
 # store important values
-beta_diver_summary <- c(tempAnalysisData$aov.tab$F.Model[1], 
-                             tempAnalysisData$aov.tab$R2[1], tempAnalysisData$aov.tab$`Pr(>F)`[1])
+#beta_diver_summary <- c(tempAnalysisData$aov.tab$F.Model[1], 
+#                             tempAnalysisData$aov.tab$R2[1], tempAnalysisData$aov.tab$`Pr(>F)`[1])
 
 # Create NMDS values
-set.seed(12345)
-phu_bray.mds.data <- metaMDS(as.dist(phu_braycurtis), trymax = 3000, trace = 0) %>% 
-  scores() %>% as.data.frame() %>% mutate(cycles = factor(cycles$cycles))
+#set.seed(12345)
+#phu_bray.mds.data <- metaMDS(as.dist(phu_braycurtis), trymax = 3000, trace = 0) %>% 
+#  scores() %>% as.data.frame() %>% mutate(cycles = factor(cycles$cycles))
 
-set.seed(12345)
-q5_bray.mds.data <- metaMDS(as.dist(q5_braycurtis), trymax = 3000, trace = 0) %>% 
-  scores() %>% as.data.frame() %>% mutate(cycles = factor(q5_cycles$cycles))
+#set.seed(12345)
+#q5_bray.mds.data <- metaMDS(as.dist(q5_braycurtis), trymax = 3000, trace = 0) %>% 
+#  scores() %>% as.data.frame() %>% mutate(cycles = factor(q5_cycles$cycles))
 
 # Create Graph
-ggplot(phu_bray.mds.data, aes(x=NMDS1, y=NMDS2)) + 
-  geom_point(aes(color=cycles), size = 3) + 
-  theme_bw()
+#ggplot(phu_bray.mds.data, aes(x=NMDS1, y=NMDS2)) + 
+#  geom_point(aes(color=cycles), size = 3) + 
+#  theme_bw()
     
-ggplot(q5_bray.mds.data, aes(x=NMDS1, y=NMDS2)) + 
-  geom_point(aes(color=cycles), size = 3) + 
-  theme_bw() 
+#ggplot(q5_bray.mds.data, aes(x=NMDS1, y=NMDS2)) + 
+#  geom_point(aes(color=cycles), size = 3) + 
+#  theme_bw() 
   
   
 
