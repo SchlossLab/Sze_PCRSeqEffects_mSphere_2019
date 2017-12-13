@@ -52,7 +52,27 @@ paredown_dist <- function(depth, metaList, distList){
 }
 
 
-
+# Function to seperate each DNA polymerase within each sub sampling
+separate_polymerase <- function(depth, metaList, distList, 
+                                taq_used = c("ACC", "K", "PHU", "PL", "Q5"), meta_readout = F){
+  
+  tempMeta <- sapply(taq_used, 
+                     function(x) filter(metaList[[depth]], taq == x), simplify = F)
+  
+  namesList <- sapply(taq_used, function(x) as.data.frame(tempMeta[[x]])[, "full_name"])
+  
+  tempDist <- sapply(taq_used, 
+                     function(x) distList[[depth]][namesList[[x]], namesList[[x]]], simplify = F)
+  
+  if(meta_readout == F){
+    
+    return(tempDist)
+  } else{
+    
+    return(tempMeta)
+  }
+  
+}
 
 
 
@@ -89,6 +109,25 @@ meta_list <- sapply(sub_sample_level,
 # Generate pared down dist list for each sub-sampling that matches meta-data
 red_bray_dist <- sapply(sub_sample_level, 
                     function(x) paredown_dist(x, meta_list, braycurtis_dist), simplify = F)
+
+
+# Separate each polymerase within each sub-sampling
+sep_red_bray_dist <- sapply(sub_sample_level, 
+                        function(x) separate_polymerase(x, meta_list, braycurtis_dist), simplify = F)
+
+sep_meta_list <- sapply(sub_sample_level, 
+                            function(x) separate_polymerase(x, meta_list, 
+                                                            braycurtis_dist, meta_readout = T), simplify = F)
+
+
+
+
+
+
+
+
+
+
 
 
 
