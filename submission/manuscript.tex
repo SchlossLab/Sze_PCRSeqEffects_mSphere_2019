@@ -27,6 +27,46 @@
             pdfborder={0 0 0},
             breaklinks=true}
 \urlstyle{same}  % don't use monospace font for urls
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
 \usepackage{graphicx,grffile}
 \makeatletter
 \def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
@@ -234,41 +274,43 @@ number \textbf{need to upload still}.
 \textbf{\emph{The Number of OTUs is Dependent on HiFi Taq Used:}} After
 normalization by individual, for each cycle number, we observed that for
 fecal samples the number of OTUs identified was dependent upon the HiFi
-Taq used and this difference increased as the depth of sub-sampling
-increased {[}Figure 1{]}. Lower cycle numbers (15-20) resulted in less
-differences between Taq while cycle numbers of 25, 30, and 35 had larger
-clearer defined differences {[}Figure 1{]}. Only 35 cycles had HiFi Taq
-differences that were significantly different at all sub-sampling levels
-(P-value \textless{} 0.0001) {[}Table S1{]}. At sub-sampling depth of
-5000 or higher 25 and 30 cycles had HiFi Taq differences (P-value
-\textless{} 0.05) {[}Table S1{]}. Using a Tukey post-hoc test only at 35
-cycles were significant differences found to be mainly driven by
-Platinum being different than all other Taq across sub-sampling depth
-(P-value \textless{} 0.05) {[}Table S2{]}.
+DNA polymerase used and this difference increased as the depth of
+sub-sampling increased {[}Figure 1{]}. Lower cycle numbers (15-20)
+resulted in less differences between HiFI DNA polymerase while cycle
+numbers of 25, 30, and 35 had larger clearer defined differences
+{[}Figure 1{]}. Only 35 cycles had HiFi Taq differences that were
+significantly different at all sub-sampling levels (P-value \textless{}
+0.0001) {[}Table S1{]}. At sub-sampling depth of 5000 or higher 25 and
+30 cycles had HiFi DNA polymerase differences (P-value \textless{} 0.05)
+{[}Table S1{]}. Using a Tukey post-hoc test only at 35 cycles were
+significant differences found to be mainly driven by Platinum being
+different than all other Taq across sub-sampling depth (P-value
+\textless{} 0.05) {[}Table S2{]}.
 
-This Taq dependent difference in the number of OTUs was also observed in
-the mock community samples with the same Taq polymerases being high
-(Platinum) and low (Accuprime) respectively {[}Figure 2 \& Table S3{]}.
-Conversely, differences between HiFi Taq were observed as early as 20
-cycles and a sub-sampling depth of 1000 sequences (P-value = 0.002)
-{[}Table S3{]}. Using a Tukey post-hoc test differences between Platinum
-and the other HiFi Taqs was the major driver of the differences seen at
-different cycle numbers and sub-sampling depths {[}Table S4{]}. Both
-fecal and mock samples consistently showed that across sub-sampling
-depth and cycle number the lowest number of OTUs identified was from
+This HiFi DNA polymerase dependent difference in the number of OTUs was
+also observed in the mock community samples with the same DNA
+polymerases being high (Platinum) and low (Accuprime) respectively
+{[}Figure 2 \& Table S3{]}. Conversely, differences between HiFi DNA
+polymerase were observed as early as 20 cycles and a sub-sampling depth
+of 1000 sequences (P-value = 0.002) {[}Table S3{]}. Using a Tukey
+post-hoc test differences between Platinum and the other HiFi DNA
+polymerases was the major driver of the differences seen at different
+cycle numbers and sub-sampling depths {[}Table S4{]}. Both fecal and
+mock samples consistently showed that across sub-sampling depth and
+cycle number the lowest number of OTUs identified was from
 Accuprime\textsuperscript{TM} while the highest was from Platinum for
 both fecal and mock samples {[}Figure 1 \& 2{]}.
 
 \textbf{\emph{Sequence Error is Dependent on both Taq and Cycle Number
 Used:}} Differences by HiFi Taq in the median average per base error
 varied without a clear pattern across sub-sampling depth {[}Table S5{]}.
-Generally, the highest values were for the Kappa HiFI Taq {[}Figure
-3A{]}. Sub-sampling depth seems to have little effect on this rate with
-both 5000 and 10000 sub-sampled sequences showing similar results
-{[}Figure 3B-C{]}. There were small differences between the various HiFi
-Taq at lower cycle number but larger differences at higher cycle number
-with Platinum having large differences between all other HiFi Taq
-{[}Figure 3B-C and Table S6{]}.
+Generally, the highest values were for the Kappa HiFI DNA polymerase
+{[}Figure 3A{]}. Sub-sampling depth seems to have little effect on this
+rate with both 5000 and 10000 sub-sampled sequences showing similar
+results {[}Figure 3B-C{]}. There were small differences between the
+various HiFi Taq at lower cycle number but larger differences at higher
+cycle number with Platinum having large differences between all other
+HiFi DNA polymerase {[}Figure 3B-C and Table S6{]}.
 
 The total seqeunces with at least one error had multiple differences at
 different cycle numbers and sub-sampling depth driven by large
@@ -277,28 +319,28 @@ other HiFi Taq tested {[}Figure S1 \& Table S7 \& S8{]}. Although
 Accuprime\textsuperscript{TM} had the lowest per base error rate it had
 either the largest or second largest number of sequences with at least
 one error regardless of cycle number or sub-sampling depth {[}Figure
-S1{]}. Investigation of whether there were Taq dependent effects on base
-subsitution found that there was no clear bias and this was indpendent
-of sub-sampling depth {[}Figure S2-S4{]}. Further, the variation in
-subsitution error seems to reduce as the sub-sampling depth increases
-{[}Figure S2-S4{]}.
+S1{]}. Investigation of whether there were HiFi DNA polymerase dependent
+effects on base subsitution found that there was no clear bias and this
+was indpendent of sub-sampling depth {[}Figure S2-S4{]}. Further, the
+variation in subsitution error seems to reduce as the sub-sampling depth
+increases {[}Figure S2-S4{]}.
 
 \textbf{\emph{Chimeric Sequences Corelate with OTUs and are HiFi Taq
 Dependent:}} After chimera removal using VSEARCH and removal of
 sequences that did not classify as bacteria we assessed the percentage
 of sequences that were still chimeric within our mock community. At all
 levels of sub-sampling and cycle number there were significant
-differences between the HiFi Taq used (P-value \textless{} 0.05)
-{[}Table S9{]}. Using a Dunn's post-hoc test the vast majority of these
-differences were driven by Platinum being different then all other HiFi
-Taq across cycle number and sub-sampling depth {[}Table S10{]}.
-Generally, across sub-sampling depth and cycle number
+differences between the HiFi DNA polymerase used (P-value \textless{}
+0.05) {[}Table S9{]}. Using a Dunn's post-hoc test the vast majority of
+these differences were driven by Platinum being different then all other
+HiFi DNA polymerase across cycle number and sub-sampling depth {[}Table
+S10{]}. Generally, across sub-sampling depth and cycle number
 Accuprime\textsuperscript{TM} had the lowest chimera prevalence of all
-the HiFi Taq {[}Figure 4{]}.
+the HiFi DNA Polymerase {[}Figure 4{]}.
 
 For all Taqs a positive correlation was observed between chimeric
 sequences and number of OTUs, with this correlation being strongest for
-Platinum and Phusion HiFi Taq {[}Figure 5{]}. In general, the
+Platinum and Phusion HiFi DNA Polymerase {[}Figure 5{]}. In general, the
 R\textsuperscript{2} value between the number of OTUs and chimeric
 sequences became stronger as sub-sampling depth increased {[}Figure
 5{]}. Taken together this data suggests that a strong correlation exists
@@ -311,6 +353,38 @@ across sub-sampling depth {[}Figure 5{]}.
 \newpage
 
 \subsection{Discussion}\label{discussion}
+
+Our observations build upon previous studies (Gohl et al., 2016) by
+showing that even different HiFi DNA Polymerase have significant
+differences in the number of OTUs and that the changes to total OTUs
+correlate with chimeras not removed after sequence processing {[}Figure
+1-2 \& 5{]}. This is important since many diversity metrics rely on the
+total number of OTUs as part of their calculations and changes to the
+total number of OTUs could drastically change the results as well as the
+findings. Although the attention has mostly been on standardizing and
+improving collection and extraction methods (Salter et al., 2014) our
+observations show that independent of this consideration HiFi DNA
+polymerase can have a noticeable affect on the OTUs generated that can
+be found across sub-sampling depth and PCR cycle number {[}Figure
+2-4{]}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#Results have an impact on downstream diversity measurements due to effects on total OTUs}
+
+
+\CommentTok{#Need to cover that different types of polymerase may affect outcome}
+\CommentTok{#- Accuprime HiFi from recombinant A-Family Taq DNA polymerase, Pyrococcus spp GB-D polymerase (proof-reading), platinum Taq Antibody (inhibits room temp activity)}
+
+\CommentTok{#- Kappa HiFi from B-family DNA polymerase (proof-reading baked in), propietary antibody (inhibit room temp activity)}
+
+\CommentTok{#- Q5 HiFi from B-family thermostable DNA polymerase with 3´→ 5´ exonuclease activity, fused to a processivity-enhancing Sso7d domain to support robust DNA amplification}
+
+\CommentTok{#-Phusion HiFi B-family DNA polymerase a novel Pyrococcus-like enzyme fused with a processivity-enhancing domain, generate blunt-ended products.}
+
+\CommentTok{#- Platinum HiFi recombinant A-Family Taq DNA polymerase, Pyrococcus species GB-D polymeras, Platinum Taq Antibody}
+\end{Highlighting}
+\end{Shaded}
 
 \newpage
 
@@ -376,6 +450,13 @@ computing}. Vienna, Austria: R Foundation for Statistical Computing.
 Rognes T., Flouri T., Nichols B., Quince C., Mahé F. 2016. VSEARCH: A
 versatile open source tool for metagenomics. \emph{PeerJ} 4:e2584. DOI:
 \href{https://doi.org/10.7717/peerj.2584}{10.7717/peerj.2584}.
+
+\hypertarget{ref-contamination_Salter2014}{}
+Salter SJ., Cox MJ., Turek EM., Calus ST., Cookson WO., Moffatt MF.,
+Turner P., Parkhill J., Loman NJ., Walker AW. 2014. Reagent and
+laboratory contamination can critically impact sequence-based microbiome
+analyses. \emph{BMC Biology} 12. DOI:
+\href{https://doi.org/10.1186/s12915-014-0087-z}{10.1186/s12915-014-0087-z}.
 
 \hypertarget{ref-mothur_schloss_2009}{}
 Schloss PD., Westcott SL., Ryabin T., Hall JR., Hartmann M., Hollister
