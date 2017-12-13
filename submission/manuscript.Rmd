@@ -50,7 +50,7 @@ dunn_chimera_prev <- read_csv("../data/process/tables/mock_chimera_overall_dunn_
 
 
 
-# What the Taq? The Influence of Different Hi-Fidelity Taq Polymerase on 16S rRNA Sequencing
+# What the Taq? The Influence of Different Hi-Fidelity Taq Polymerase on 16S rRNA Gene Sequencing
 
 \begin{center}
 \vspace{25mm}
