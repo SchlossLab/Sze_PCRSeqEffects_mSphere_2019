@@ -160,7 +160,8 @@ make_nice_table <- function(depth, dataList){
     select(-kit, -sample_type) %>% 
     mutate(
       cycle_compare = paste(
-        str_replace(lower_cycle, "x", "") , "to", str_replace(upper_cycle, "x", ""), sep = "")) %>% 
+        str_replace(lower_cycle, "x", "") , "to", str_replace(upper_cycle, "x", ""), sep = ""), 
+      distance = as.numeric(distance)) %>% 
     select(cycle_compare, taq, sample_name, distance)
     
     
@@ -168,6 +169,27 @@ make_nice_table <- function(depth, dataList){
 }
 
 
+# Function to run the krukal wallis test and store the P-values
+run_kruskal <- function(depth, dataList){
+  
+  taq_used <- c("ACC", "K", "PHU", "PL", "Q5")
+  
+  tempTest <- sapply(taq_used, 
+                     function(x) try(kruskal.test(distance ~ factor(cycle_compare), 
+                           data = filter(dataList[[depth]], taq == x))$p.value), simplify = F)
+
+  tempTest <- as.data.frame(t(tempTest %>% 
+    bind_rows())) %>% 
+    mutate(taq = rownames(.), 
+           pvalue = V1, 
+           pvalue = ifelse(grepl("Error", pvalue) == T, invisible(NA), 
+                           invisible(as.numeric(as.character(pvalue)))), 
+           bh = p.adjust(pvalue, method = "BH")) %>% 
+    select(taq, pvalue, bh)
+    
+  
+  return(tempTest)
+}
 
 
 ###########################################################################################################################
@@ -214,8 +236,11 @@ finalized_tables <- sapply(sub_sample_level,
 
 
 
+kruskal_test_data <- sapply(sub_sample_level, 
+               function(x) run_kruskal(x, finalized_tables), simplify = F)
 
 
+### Need to do PERMANOVAs by taq and subsampling ---probably don't need visualizations
 
 
 #sample_to_keep <- metadata$full_name
