@@ -148,10 +148,10 @@ For all Taqs a positive correlation was observed between chimeric sequences and 
 
 ## Discussion
 
-Our observations build upon previous studies [@taq_Gohl_2016] by showing that even different HiFi DNA Polymerase have significant differences in the number of OTUs and that the changes to total OTUs correlate with chimeras not removed after sequence processing [Figure 1-2 & 5]. This is important since many diversity metrics rely on the total number of OTUs as part of their calculations and changes to the total number of OTUs could drastically change the results as well as the findings. Although the attention has mostly been on standardizing and improving collection and extraction methods [@contamination_Salter2014] our observations show that independent of this consideration HiFi DNA polymerase can have a noticeable affect on the OTUs generated that can be found across sub-sampling depth and PCR cycle number [Figure 2-4].          
+Our observations build upon previous studies [@taq_Gohl_2016] by showing that even different HiFi DNA Polymerase have significant differences in the number of OTUs and that the changes to total OTUs correlate with chimeras not removed after sequence processing [Figure 1-2 & 5]. This is important since many diversity metrics rely on the total number of OTUs as part of their calculations and changes to the total number of OTUs could drastically change the results as well as the findings. Although the attention has mostly been on standardizing and improving collection and extraction methods [@contamination_Salter2014] our observations show that independent of this consideration HiFi DNA polymerase can have a noticeable affect on the OTUs generated that can be found across sub-sampling depth and PCR cycle number [Figure 2-4]. These differences were observed in high biomass samples, where biases introduced by such components like kit contamination have less of an effect, suggesting that these differences may be exacerbated in low biomass samples.       
 
 
-```{r}
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
 #Results have an impact on downstream diversity measurements due to effects on total OTUs
 
 
