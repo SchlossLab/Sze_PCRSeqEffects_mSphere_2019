@@ -184,11 +184,37 @@ run_kruskal <- function(depth, dataList){
            pvalue = V1, 
            pvalue = ifelse(grepl("Error", pvalue) == T, invisible(NA), 
                            invisible(as.numeric(as.character(pvalue)))), 
-           bh = p.adjust(pvalue, method = "BH")) %>% 
-    select(taq, pvalue, bh)
+           bh = p.adjust(pvalue, method = "BH"), 
+           sub_sample_level = depth) %>% 
+    select(taq, sub_sample_level, pvalue, bh)
     
   
   return(tempTest)
+}
+
+# Create function to run PERMANOVA analysis by subsampling by Taq
+get_permanova <- function(depth, metaList, dataList){
+  
+  taq_used <- c("ACC", "K", "PHU", "PL", "Q5")
+  
+  tempMeta <- metaList[[depth]]
+  tempData <- dataList[[depth]]
+  
+  set.seed(12345)
+  tempTest <- sapply(taq_used, 
+                     function(x) 
+                       try(adonis(as.dist(tempData[[x]]) ~ factor(tempMeta[[x]]$cycles))$aov.tab$`Pr(>F)`[1]), 
+                     simplify = F) %>% bind_rows() %>% t() %>% as.data.frame() %>% 
+    mutate(taq = rownames(.), 
+           pvalue = V1, 
+           pvalue = ifelse(grepl("Error", pvalue) == T, invisible(NA), invisible(as.character(pvalue))), 
+           pvalue = as.numeric(pvalue), 
+           bh = p.adjust(pvalue, method = "BH"), 
+           sub_sample_level = depth) %>% 
+    select(taq, sub_sample_level, pvalue, bh)
+    
+  return(tempTest)
+  
 }
 
 
@@ -233,61 +259,20 @@ next_distance_values <- sapply(sub_sample_level,
 finalized_tables <- sapply(sub_sample_level, 
                function(x) make_nice_table(x, next_distance_values), simplify = F)
 
-
-
-
+# Get kruskal-wallis results on similarity to last cycle group
 kruskal_test_data <- sapply(sub_sample_level, 
-               function(x) run_kruskal(x, finalized_tables), simplify = F)
+               function(x) run_kruskal(x, finalized_tables), simplify = F) %>% 
+  bind_rows()
 
 
-### Need to do PERMANOVAs by taq and subsampling ---probably don't need visualizations
+# Get PERMANOVA results
+permanova_results <- sapply(sub_sample_level, 
+               function(x) get_permanova(x, sep_meta_list, sep_red_bray_dist), simplify = F) %>% 
+  bind_rows()
 
-
-#sample_to_keep <- metadata$full_name
-
-#braycurtis_dist <- braycurtis_dist[sample_to_keep, sample_to_keep]
-
-# create select Taq distance table
-#phu <- filter(metadata, taq == "PHU")[, "full_name"]
-#q5 <- filter(metadata, taq == "Q5")[, "full_name"]
-
-#cycles <- filter(metadata, taq == "PHU")[, "cycles"]
-#q5_cycles <- filter(metadata, taq == "Q5")[, "cycles"]
-
-#phu_braycurtis <- braycurtis_dist[phu$full_name, phu$full_name]
-#q5_braycurtis <- braycurtis_dist[q5$full_name, q5$full_name]
-
-# get PERMANOVA
-#set.seed(12345)
-#tempAnalysisData <- 
-#  adonis(as.dist(phu_braycurtis) ~ factor(cycles$cycles))
-
-#set.seed(12345)
-#q5_AnalysisData <- 
-#  adonis(as.dist(q5_braycurtis) ~ factor(q5_cycles$cycles))
-
-# store important values
-#beta_diver_summary <- c(tempAnalysisData$aov.tab$F.Model[1], 
-#                             tempAnalysisData$aov.tab$R2[1], tempAnalysisData$aov.tab$`Pr(>F)`[1])
-
-# Create NMDS values
-#set.seed(12345)
-#phu_bray.mds.data <- metaMDS(as.dist(phu_braycurtis), trymax = 3000, trace = 0) %>% 
-#  scores() %>% as.data.frame() %>% mutate(cycles = factor(cycles$cycles))
-
-#set.seed(12345)
-#q5_bray.mds.data <- metaMDS(as.dist(q5_braycurtis), trymax = 3000, trace = 0) %>% 
-#  scores() %>% as.data.frame() %>% mutate(cycles = factor(q5_cycles$cycles))
-
-# Create Graph
-#ggplot(phu_bray.mds.data, aes(x=NMDS1, y=NMDS2)) + 
-#  geom_point(aes(color=cycles), size = 3) + 
-#  theme_bw()
-    
-#ggplot(q5_bray.mds.data, aes(x=NMDS1, y=NMDS2)) + 
-#  geom_point(aes(color=cycles), size = 3) + 
-#  theme_bw() 
-  
+# Write out results 
+write_csv(kruskal_test_data, "data/process/tables/bray_sim_to_prev_cycle_kruskal_results.csv")
+write_csv(permanova_results, "data/process/tables/bray_permanova_by_taq_results.csv")
   
 
   
