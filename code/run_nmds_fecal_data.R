@@ -29,7 +29,27 @@ read_data <- function(pathing, start_name, end_name, differentiator){
 }
 
 
+# Create unique metadata files for each sub-sampling
+paredown_meta <- function(depth, metafile, distfile){
+  
+  tempvalues <- rownames(distfile[[depth]])
+  
+  metafile <- metafile %>% filter(full_name %in% tempvalues)
+  
+  return(metafile)
+  
+}
 
+# Pare down distance matrix to match metadata file for each sub-sampling
+paredown_dist <- function(depth, metaList, distList){
+  
+  tempMeta_values <- as.data.frame(metaList[[depth]])[, "full_name"]
+  
+  tempData <- distList[[depth]][tempMeta_values, tempMeta_values]
+  
+  
+  return(tempData)
+}
 
 
 
@@ -61,6 +81,16 @@ braycurtis_dist <- sapply(sub_sample_level,
 
 # Read in meta data
 metadata <- read_data("data/process/tables/", "meta_data", ".csv", "")
+
+# Generate pared down meta matching each sub-sampling
+meta_list <- sapply(sub_sample_level, 
+                    function(x) paredown_meta(x, metadata, braycurtis_dist), simplify = F)
+
+# Generate pared down dist list for each sub-sampling that matches meta-data
+red_bray_dist <- sapply(sub_sample_level, 
+                    function(x) paredown_dist(x, meta_list, braycurtis_dist), simplify = F)
+
+
 
 sample_to_keep <- metadata$full_name
 
