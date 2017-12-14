@@ -103,30 +103,32 @@ run_recombine_data <- function(i, RsamplingList, fullDataList){
 
 
 # Function to randomly sample each sample to a specified depth
-get_random_sample <- function(depth, dataTable, sample_vector){
+get_samples <- function(depth, dataTable, sample_vector){
 
+  
   tempList <- sapply(sample_vector, 
                      function(x) filter(dataTable, full_name == x), simplify = F)
   
   tempSamplingList <- sapply(sample_vector, 
                              function(x) get_rand_vectors(x, tempList))
   
-  above_depth_List <- sapply(sample_vector, 
-                             function(x) get_depth_check(x, depth, tempSamplingList), simplify = F)
+  #above_depth_List <- sapply(sample_vector, 
+   #                          function(x) get_depth_check(x, depth, tempSamplingList), simplify = F)
   
   # Remove null elements
-  above_depth_List <- above_depth_List[!sapply(above_depth_List, is.null)] 
+  #above_depth_List <- above_depth_List[!sapply(above_depth_List, is.null)] 
   
   # Runs the random sampling across samples
-  tempRSamplingList <- lapply(above_depth_List, 
-                              function(x) run_random_sampling(depth, x))
+  #tempRSamplingList <- lapply(above_depth_List, 
+  #                            function(x) run_random_sampling(depth, x))
   
   # Replace the current sample vectors with only those included in the random sampling
-  sample_vector <- names(tempRSamplingList)
+  #sample_vector <- names(tempRSamplingList)
+  sample_vector <- names(tempSamplingList)
   
   # Recombine with full data set
   tempRecombinedList <- sapply(sample_vector, 
-                               function(x) run_recombine_data(x, tempRSamplingList, tempList), simplify = F)
+                               function(x) run_recombine_data(x, tempSamplingList, tempList), simplify = F)
   
   return(tempRecombinedList)
 }
@@ -146,14 +148,14 @@ run_checks <- function(dataTable){
 # Function to create summary data
 get_summary_data <- function(dataList, depth){
   
-  dataList <- dataList[[as.character(depth)]]
+  #dataList <- dataList[[as.character(depth)]]
   
   tempData <- dataList %>% 
-    bind_rows() %>% 
-    group_by(taq, cycles, sample_name) %>% 
-    summarise(mean_error = mean(error, na.rm = T), sd_error = sd(error, na.rm = T), 
-              chimera_prevalence = sum(chimera)/depth, 
-              seq_error_prevalence = sum(seq_error)/depth)
+    bind_rows()
+    #group_by(taq, cycles, sample_name) %>% 
+    #summarise(mean_error = mean(error, na.rm = T), sd_error = sd(error, na.rm = T), 
+    #          chimera_prevalence = sum(chimera)/depth, 
+    #          seq_error_prevalence = sum(seq_error)/depth)
   
   return(tempData)
 }
@@ -183,24 +185,24 @@ run_nucleotide_error_check <- function(dataTable){
 # Function to create individual nucleotide summary data
 get_nucleotide_summary_data <- function(dataList, depth){
   
-  dataList <- dataList[[as.character(depth)]]
+  #dataList <- dataList[[as.character(depth)]]
   
   tempData <- dataList %>% 
-    bind_rows() %>% 
-    group_by(taq, cycles, sample_name.y) %>% 
-    summarise(at_rate = sum(AT)/sum(total.x), ag_rate = sum(AG)/sum(total.x), 
-              ac_rate = sum(AC)/sum(total.x), ta_rate = sum(TA)/sum(total.x), 
-              tg_rate = sum(TG)/sum(total.x), tc_rate = sum(TC)/sum(total.x), 
-              ga_rate = sum(GA)/sum(total.x), gt_rate = sum(GT)/sum(total.x), 
-              gc_rate = sum(GC)/sum(total.x), ca_rate = sum(CA)/sum(total.x), 
-              ct_rate = sum(CT)/sum(total.x), cg_rate = sum(CG)/sum(total.x), 
-              at_seq_prev = sum(at)/depth, ag_seq_prev = sum(ag)/depth, 
-              ac_seq_prev = sum(ac)/depth, ta_seq_prev = sum(ta)/depth, 
-              tg_seq_prev = sum(tg)/depth, tc_seq_prev = sum(tc)/depth, 
-              ga_seq_prev = sum(ga)/depth, gt_seq_prev = sum(gt)/depth, 
-              gc_seq_prev = sum(gc)/depth, ca_seq_prev = sum(ca)/depth, 
-              ct_seq_prev = sum(ct)/depth, cg_seq_prev = sum(cg)/depth) %>% 
-    rename(sample_name = sample_name.y)
+    bind_rows()
+    #group_by(taq, cycles, sample_name.y) %>% 
+    #summarise(at_rate = sum(AT)/sum(total.x), ag_rate = sum(AG)/sum(total.x), 
+     #         ac_rate = sum(AC)/sum(total.x), ta_rate = sum(TA)/sum(total.x), 
+      #        tg_rate = sum(TG)/sum(total.x), tc_rate = sum(TC)/sum(total.x), 
+       #       ga_rate = sum(GA)/sum(total.x), gt_rate = sum(GT)/sum(total.x), 
+        #      gc_rate = sum(GC)/sum(total.x), ca_rate = sum(CA)/sum(total.x), 
+        #      ct_rate = sum(CT)/sum(total.x), cg_rate = sum(CG)/sum(total.x), 
+        #      at_seq_prev = sum(at)/depth, ag_seq_prev = sum(ag)/depth, 
+        #      ac_seq_prev = sum(ac)/depth, ta_seq_prev = sum(ta)/depth, 
+        #      tg_seq_prev = sum(tg)/depth, tc_seq_prev = sum(tc)/depth, 
+        #      ga_seq_prev = sum(ga)/depth, gt_seq_prev = sum(gt)/depth, 
+        #      gc_seq_prev = sum(gc)/depth, ca_seq_prev = sum(ca)/depth, 
+         #     ct_seq_prev = sum(ct)/depth, cg_seq_prev = sum(cg)/depth) %>% 
+  #  rename(sample_name = sample_name.y)
       
 
   return(tempData)
@@ -214,7 +216,7 @@ get_nucleotide_summary_data <- function(dataList, depth){
 ###########################################################################################################################
 
 # Create vector with different subsample levels
-sub_sample_level <- c(50, 100, 500, 1000, 5000, 10000)
+#sub_sample_level <- c(50, 100, 500, 1000, 5000, 10000)
 #taqs_used <- c("acc", "k", "phu", "pl", "q5")
 
 
@@ -240,24 +242,34 @@ full_combined <- combine_data(count_table, error_summary, metadata) %>%
 slim_combined <- combine_data(count_table, error_summary, metadata, simple = T)
   
 # Generate the random sampling 
-testRecombine <- sapply(sub_sample_level, 
-                        function(x) get_random_sample(x, slim_combined, unique(slim_combined$full_name)), simplify = F)
+testRecombine <- get_samples("full_data", slim_combined, unique(slim_combined$full_name))
+#testRecombine <- sapply(sub_sample_level, 
+ #                       function(x) get_random_sample(x, slim_combined, unique(slim_combined$full_name)), simplify = F)
 
-names(testRecombine) <- sub_sample_level  
+#names(testRecombine) <- sub_sample_level  
 
 
 # Add Chimera checked column
-testRecombine <- lapply(testRecombine, 
-                        function(x) lapply(x, function(y) run_checks(y)))
+testRecombine <- lapply(testRecombine, function(y) run_checks(y))
 
 # Generate Summary Data
-good_summary_data <- sapply(sub_sample_level, 
-                            function(x) get_summary_data(testRecombine, x), simplify = F)
+good_summary_data <- get_summary_data(testRecombine, "full_data") %>% 
+  group_by(taq, cycles, sample_name) %>% 
+  summarise(mean_error = mean(error, na.rm = T), sd_error = sd(error, na.rm = T),  
+            chimera_prevalence = sum(chimera)/length(query), 
+            seq_error_prevalence = sum(seq_error)/length(query)) %>% 
+  filter(!is.na(sample_name))
+
+
+#good_summary_data <- sapply(sub_sample_level, 
+#                            function(x) get_summary_data(testRecombine, x), simplify = F)
 
 # Write out summarized data tables for graphing
-sapply(c(1:length(good_summary_data)), 
-       function(x) write_csv(good_summary_data[[x]], 
-                             paste("data/process/tables/error_", sub_sample_level[x], "_summary.csv", sep = "")))
+write_csv(good_summary_data, "data/process/tables/full_error_summary.csv")
+
+#sapply(c(1:length(good_summary_data)), 
+#       function(x) write_csv(good_summary_data[[x]], 
+#                             paste("data/process/tables/error_", sub_sample_level[x], "_summary.csv", sep = "")))
 
 
 ###########################################################################################################################
@@ -265,26 +277,47 @@ sapply(c(1:length(good_summary_data)),
 ###########################################################################################################################
 
 # Generate the random sampling 
-full_Recombine <- sapply(sub_sample_level, 
-                        function(x) get_random_sample(x, full_combined, unique(full_combined$full_name)), simplify = F)
+full_Recombine <- get_samples("full_data", full_combined, unique(full_combined$full_name))
 
-names(full_Recombine) <- sub_sample_level  
+#full_Recombine <- sapply(sub_sample_level, 
+#                        function(x) get_random_sample(x, full_combined, unique(full_combined$full_name)), simplify = F)
+
+#names(full_Recombine) <- sub_sample_level  
 
 # Add nucleotide changes checked column
-full_Recombine <- lapply(full_Recombine, 
-                        function(x) lapply(x, function(y) run_nucleotide_error_check(y)))
+full_Recombine <- lapply(full_Recombine, function(y) run_nucleotide_error_check(y))
 
 # Generate Nucleotide Summary Data
-nucleotide_summary_data <- sapply(sub_sample_level, 
-                            function(x) get_nucleotide_summary_data(full_Recombine, x), simplify = F)
-names(nucleotide_summary_data) <- sub_sample_level
+nucleotide_summary_data <- get_nucleotide_summary_data(full_Recombine, "full_data") %>% 
+  group_by(taq, cycles, sample_name.y) %>% 
+  summarise(at_rate = sum(AT)/sum(total.x), ag_rate = sum(AG)/sum(total.x), 
+            ac_rate = sum(AC)/sum(total.x), ta_rate = sum(TA)/sum(total.x), 
+            tg_rate = sum(TG)/sum(total.x), tc_rate = sum(TC)/sum(total.x), 
+            ga_rate = sum(GA)/sum(total.x), gt_rate = sum(GT)/sum(total.x), 
+            gc_rate = sum(GC)/sum(total.x), ca_rate = sum(CA)/sum(total.x), 
+            ct_rate = sum(CT)/sum(total.x), cg_rate = sum(CG)/sum(total.x), 
+            at_seq_prev = sum(at)/length(query), ag_seq_prev = sum(ag)/length(query), 
+            ac_seq_prev = sum(ac)/length(query), ta_seq_prev = sum(ta)/length(query), 
+            tg_seq_prev = sum(tg)/length(query), tc_seq_prev = sum(tc)/length(query), 
+            ga_seq_prev = sum(ga)/length(query), gt_seq_prev = sum(gt)/length(query), 
+            gc_seq_prev = sum(gc)/length(query), ca_seq_prev = sum(ca)/length(query), 
+            ct_seq_prev = sum(ct)/length(query), cg_seq_prev = sum(cg)/length(query)) %>% 
+  rename(sample_name = sample_name.y) %>% 
+  filter(!is.na(sample_name))
+
+
+#nucleotide_summary_data <- sapply(sub_sample_level, 
+#                            function(x) get_nucleotide_summary_data(full_Recombine, x), simplify = F)
+#names(nucleotide_summary_data) <- sub_sample_level
 
 
 # Write out summarized data tables for graphing
-sapply(c(1:length(nucleotide_summary_data)), 
-       function(x) write_csv(nucleotide_summary_data[[x]], 
-                             paste("data/process/tables/nucleotide_error_", sub_sample_level[x], 
-                                   "_summary.csv", sep = "")))
+write_csv (nucleotide_summary_data, "data/process/tables/full_nucleotide_error_summary.csv")
+
+#sapply(c(1:length(nucleotide_summary_data)), 
+#       function(x) write_csv(nucleotide_summary_data[[x]], 
+#                             paste("data/process/tables/nucleotide_error_", sub_sample_level[x], 
+#                                   "_summary.csv", sep = "")))
 
 
 
