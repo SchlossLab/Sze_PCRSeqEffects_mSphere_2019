@@ -206,18 +206,18 @@ selected using the viridis package (v 0.4.0) (Garnier, 2017; Wickham,
 2017). The total number of OTUs were analyzed using an ANOVA with a
 tukey post-hoc test. For the fecal samples the data was normalized to
 each individual by cycle number to account for the biological variation
-between different people. Bray-Curtis distance matrices were generated
-using mothur after 100 sub-samplings at 1000, 5000, 10000, and 15000.
-The distance matrix data was analyzed using PERMANOVA with the vegan
-package (v 2.4.4) (Oksanen et al., 2017) and kruskal-wallis tests within
-R. For both error and chimera analysis, samples were tested using
+between different people. Bray-Curtis matrices were generated using
+mothur after 100 sub-samplings at 1000, 5000, 10000, and 15000. The
+distance matrix data was analyzed using PERMANOVA with the vegan package
+(v 2.4.4) (Oksanen et al., 2017) and kruskal-wallis tests within R. For
+both error and chimera analysis, samples were tested using
 Kruskal-Wallis with a Dunns post-hoc test. Where applicable correction
 for multiple comparison utilized the Benjamini-Hochberg method
 (Benjamini \& Hochberg, 1995).
 
 \textbf{\emph{Analysis Workflow:}} The total number of OTUs after
 sub-sampling was analyzed for both the fecal and mock community samples.
-Cycle dependent affects on Bray-Curits distances were next assessed for
+Cycle dependent affects on Bray-Curits indicies were next assessed for
 the fecal samples looking at both overall cycle differences and within
 individual differences for the previous cycle (e.g.~20 versus 25, 25
 versus 30, etc.). From these observations we wanted to next analyze
@@ -276,11 +276,11 @@ had cycle dependent differences at 1000 and 5000 sub-sampling depth
 of only two DNA polymerase that managed to have samples for the 1000
 sub-sampling depth at 15 cycles. Next, we assessed whether there were
 any major differences between 5 cycle increments within each sample. We
-found that there was no detectable difference in distance when comparing
-to the previous 5 cycle increment (P-value \textgreater{} 0.05).
-However, Phusion at 1000 sub-sampling depth had a P-value = 0.02 before
-multiple comparison correction. It should be noted that at higher
-sub-sampling depths these differences in Bray-Curits distance disappear
+found that there was no detectable difference in Bray-Curits index when
+comparing to the previous 5 cycle increment (P-value \textgreater{}
+0.05). However, Phusion at 1000 sub-sampling depth had a P-value = 0.02
+before multiple comparison correction. It should be noted that at higher
+sub-sampling depths these differences in Bray-Curits indicies disappear
 for both differences in cycle number and within 5 cycle increments
 within an individual.
 
@@ -354,6 +354,24 @@ biases introduced by such components like kit contamination have less of
 an effect, suggesting that these differences may be exacerbated in low
 biomass samples.
 
+Although we did not observe strong differences, based on cycle number,
+using the Bray-Curtis index the data suggests that there may be
+differences between 15 cycles and higher cycle numbers, such as 30, that
+are commonly used. What is most interesting is that there was no
+difference within individuals between corresponding 5 cycle increments
+(e.g.~15 to 20, 20 to 25, etc.). This finding, in conjunction with the
+PERMANOVA results, would suggest that differences based on Bray-Curtis
+incrementaly build up so that within 5 cycle increments the differences
+are not that large but when comparing larger cycle differences, as with
+the PERMANOVA, these differences start to become detectable. Although
+our data suggests that it is possible to overcome these types of cycle
+dependent differences with increased sub-sampling depth, for some DNA
+polymerase increased sub-sampling depth increases chimera prevalence and
+per base error rate. Conversely, it is possible that many of the
+increased number of OTUs, generated as cycle number increases, are not
+highly abundant and the Bray-Curtis index is able to successfully
+downweight these respective OTUs (Minchin, 1987).
+
 \newpage
 
 \subsection{Conclusion}\label{conclusion}
@@ -409,6 +427,11 @@ Development of a dual-index sequencing strategy and curation pipeline
 for analyzing amplicon sequence data on the MiSeq illumina sequencing
 platform. \emph{Applied and Environmental Microbiology} 79:5112--5120.
 DOI: \href{https://doi.org/10.1128/aem.01043-13}{10.1128/aem.01043-13}.
+
+\hypertarget{ref-bc_index_Minchin1987}{}
+Minchin PR. 1987. An evaluation of the relative robustness of techniques
+for ecological ordination. \emph{Vegetatio} 69:89--107. DOI:
+\href{https://doi.org/10.1007/bf00038690}{10.1007/bf00038690}.
 
 \hypertarget{ref-vegan_citation}{}
 Oksanen J., Blanchet FG., Friendly M., Kindt R., Legendre P., McGlinn
