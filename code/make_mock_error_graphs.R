@@ -166,4 +166,4 @@ full_graph <- error_data %>%
 # 
 # combined_graph <- grid.arrange(thousand, five_thousand, ten_thousand, ncol = 3)
 
-ggsave("results/figures/Figure3.pdf", full_graph, width = 11, height = 7, dpi = 300)
+ggsave("results/figures/Figure3.pdf", full_graph, width = 7, height = 7, dpi = 300)
