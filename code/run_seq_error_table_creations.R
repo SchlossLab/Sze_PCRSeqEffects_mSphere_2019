@@ -74,9 +74,10 @@ get_rand_vectors <- function(i, dataList){
 # Function to check if total sequence is equal to or greater than depth and toss those that arent
 get_depth_check <- function(i, depth_check, dataList){
   
-  tempData <- dataList[[i]]
+  tempData <- dataList
+  #tempData <- dataList[[i]]
   
-  ifelse(length(tempData) >= depth_check, 
+  ifelse(length(rownames(tempData)) >= depth_check, 
          return(tempData), return(NULL))
   
 }
@@ -113,12 +114,14 @@ get_samples <- function(depth, dataTable, sample_vector){
                              function(x) get_rand_vectors(x, tempList))
   
   #above_depth_List <- sapply(sample_vector, 
-   #                          function(x) get_depth_check(x, depth, tempSamplingList), simplify = F)
+  #                           function(x) get_depth_check(x, depth, tempSamplingList), simplify = F)
   
   # Remove null elements
   #above_depth_List <- above_depth_List[!sapply(above_depth_List, is.null)] 
   
   # Runs the random sampling across samples
+  
+  
   #tempRSamplingList <- lapply(above_depth_List, 
   #                            function(x) run_random_sampling(depth, x))
   
@@ -254,8 +257,14 @@ testRecombine <- lapply(testRecombine, function(y) run_checks(y))
 
 # Generate Summary Data
 good_summary_data <- get_summary_data(testRecombine, "full_data") %>% 
+  mutate(sample_name = ifelse(grepl("Zmock_A_111716", full_name) == T, invisible("A"), 
+                              ifelse(grepl("Zmock_B_", full_name) == T, invisible("B"), 
+                                     ifelse(grepl("Zmock_C_", full_name) == T, invisible("C"), 
+                                            ifelse(grepl("Zmock_D_", full_name) == T, 
+                                                   invisible("D"), invisible(sample_name)))))) %>% 
   group_by(taq, cycles, sample_name) %>% 
-  summarise(mean_error = mean(error, na.rm = T), sd_error = sd(error, na.rm = T),  
+  summarise(mean_error = mean(error, na.rm = T), sd_error = sd(error, na.rm = T), 
+            total_seqs = length(query), 
             chimera_prevalence = sum(chimera)/length(query), 
             seq_error_prevalence = sum(seq_error)/length(query)) %>% 
   filter(!is.na(sample_name))
@@ -289,8 +298,14 @@ full_Recombine <- lapply(full_Recombine, function(y) run_nucleotide_error_check(
 
 # Generate Nucleotide Summary Data
 nucleotide_summary_data <- get_nucleotide_summary_data(full_Recombine, "full_data") %>% 
+  mutate(sample_name.y = ifelse(grepl("Zmock_A_111716", full_name) == T, invisible("A"), 
+                              ifelse(grepl("Zmock_B_", full_name) == T, invisible("B"), 
+                                     ifelse(grepl("Zmock_C_", full_name) == T, invisible("C"), 
+                                            ifelse(grepl("Zmock_D_", full_name) == T, 
+                                                   invisible("D"), invisible(sample_name.y)))))) %>% 
   group_by(taq, cycles, sample_name.y) %>% 
-  summarise(at_rate = sum(AT)/sum(total.x), ag_rate = sum(AG)/sum(total.x), 
+  summarise(total_seqs = length(query), 
+    at_rate = sum(AT)/sum(total.x), ag_rate = sum(AG)/sum(total.x), 
             ac_rate = sum(AC)/sum(total.x), ta_rate = sum(TA)/sum(total.x), 
             tg_rate = sum(TG)/sum(total.x), tc_rate = sum(TC)/sum(total.x), 
             ga_rate = sum(GA)/sum(total.x), gt_rate = sum(GT)/sum(total.x), 
