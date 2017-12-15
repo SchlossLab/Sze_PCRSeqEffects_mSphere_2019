@@ -1,0 +1,8 @@
+Escherichia_coli_16S_1	Bacteria(100);Proteobacteria(100);Gammaproteobacteria(100);Enterobacteriales(100);Enterobacteriaceae(100);Escherichia/Shigella(89);
+Salmonella_enterica_16S_1	Bacteria(100);Proteobacteria(100);Gammaproteobacteria(100);Enterobacteriales(100);Enterobacteriaceae(100);Salmonella(100);
+Bacillus_subtilis_16S	Bacteria(100);Firmicutes(100);Bacilli(100);Bacillales(99);Bacillaceae_1(91);Bacillus(91);
+Enterococcus_faecalis_16S	Bacteria(100);Firmicutes(100);Bacilli(100);Lactobacillales(100);Enterococcaceae(100);Enterococcus(100);
+Lactobacillus_fermentum_16S	Bacteria(100);Firmicutes(100);Bacilli(100);Lactobacillales(100);Lactobacillaceae(100);Lactobacillus(97);
+Listeria_monocytogenes_16S	Bacteria(100);Firmicutes(100);Bacilli(100);Bacillales(100);Listeriaceae(100);Listeria(100);
+Pseudomonas_aeruginosa_16S	Bacteria(100);Proteobacteria(100);Gammaproteobacteria(100);Pseudomonadales(100);Pseudomonadaceae(100);Pseudomonas(94);
+Staphylococcus_aureus_16S	Bacteria(100);Firmicutes(100);Bacilli(100);Bacillales(100);Staphylococcaceae(100);Staphylococcus(100);
