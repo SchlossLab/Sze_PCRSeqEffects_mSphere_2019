@@ -1,0 +1,40 @@
+#!bash
+
+#Set local variables
+mothurRv=/mnt/EXT/Schloss-data/bin/mothur
+tempMothur=/nfs/turbo/schloss-lab/msze/axiom_home_stuff/bin/mothurV1.39.3/mothur/mothur
+DOWNDIR=data/raw
+WORKDIR=data/process
+REF=data/references
+
+module load sratoolkit/2.8.2-1
+
+
+# Run mothur process
+$tempMothur "#pcr.seqs(fasta=$REF/zymo.mock.16S.align, start=11894, end=25319, keepdots=F);
+	summary.seqs(fasta=current);
+	unique.seqs(fasta=current);
+	count.seqs(name=current, group=$WORKDIR/mock_run.group);
+	filter.seqs(fasta=current, vertical=T, trump=.);
+	unique.seqs(fasta=current, count=current);
+	summary.seqs(fasta=current, count=current);
+	pre.cluster(fasta=current, count=current, diffs=2);
+	chimera.vsearch(fasta=current, count=current, dereplicate=t);
+	remove.seqs(fasta=current, count=current, accnos=current);
+	summary.seqs(fasta=current, count=current);
+	classify.seqs(fasta=current, count=current, reference=$REF/trainset14_032015.pds.fasta, taxonomy=$REF/trainset14_032015.pds.tax, cutoff=80);
+	remove.lineage(fasta=current, count=current, taxonomy=current, taxon=Chloroplast-Mitochondria-unknown-Archaea-Eukaryota);
+	dist.seqs(fasta=current, cutoff=0.15);
+	cluster(column=current, count=current);
+	make.shared(list=current, count=current, label=0.03)"
+
+# Rename data files
+mv $REF/zymo.mock.16S.pcr.unique.filter.unique.precluster.pick.pick.opti_mcc.shared $WORKDIR/zymo_mock_only.shared
+mv $REF/zymo.mock.16S.pcr.unique.filter.unique.precluster.pick.pds.wang.taxonomy $WORKDIR/zymo_mock_only.taxonomy
+
+# Remove unneeded intermidate files
+rm $REF/zymo.mock.16S.pcr* 
+rm $REF/zymo.filter
+
+
+
