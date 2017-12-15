@@ -39,7 +39,18 @@ dist_data <- sapply(sub_sample_level,
 
 
 
-
+dist_data[["1000"]] %>% 
+  filter(taq != "K") %>% 
+  mutate(taq = factor(taq, 
+                      levels = c("ACC", "PHU", "PL", "Q5"), 
+                      labels = c("Accuprime", "Phusion", "Platinum", "Q5")), 
+         cycle_compare = factor(cycle_compare, 
+                                levels = c("15to20", "20to25", "25to30", "30to35"), 
+                                labels = c("15x to 20x", "20x to 25x", "25x to 30x", "30x to 35x"))) %>% 
+  ggplot(aes(cycle_compare, distance, color = sample_name, group = taq)) + 
+  geom_jitter(width = 0.2) + 
+  facet_grid(~taq)
+  
 
 
 
