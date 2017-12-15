@@ -21,7 +21,7 @@ module load sratoolkit/2.8.2-1
 #	mv $i $NEW
 #done
 
-# Run mothur process
+# Run mothur process checking error after full process
 #$tempMothur "#make.contigs(file=$WORKDIR/mock_amp.files);
 #	summary.seqs(fasta=current, processors=8);
 #	screen.seqs(fasta=current, group=current, summary=current, maxambig=0, maxlength=275);
