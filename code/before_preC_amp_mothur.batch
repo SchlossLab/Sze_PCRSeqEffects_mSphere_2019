@@ -1,0 +1,59 @@
+#!bash
+
+mothurRv=/mnt/EXT/Schloss-data/bin/mothur
+tempMothur=/nfs/turbo/schloss-lab/msze/axiom_home_stuff/bin/mothurV1.39.3/mothur/mothur
+DOWNDIR=data/raw
+WORKDIR=data/process
+REF=data/references
+
+module load sratoolkit/2.8.2-1
+
+#Unzip fastq files and place them in work directory
+#cp $DOWNDIR/part_one/*.fastq.gz $WORKDIR
+#cp $DOWNDIR/part_two/*.fastq.gz $WORKDIR
+#cp $DOWNDIR/repeated_V2_frozens/*.fastq.gz $WORKDIR
+#gzip -d $WORKDIR/*.gz
+
+# Rename all files with "-" to "_" in workdir
+#for i in `ls $WORKDIR/*-*`;
+#do
+#	NEW=`echo $i|tr '-' '_'`
+#	mv $i $NEW
+#done
+
+# Run mothur process checking error before pre.cluster
+#$tempMothur "#make.contigs(file=$WORKDIR/mock_amp.files);
+#	summary.seqs(fasta=current, processors=8);
+#	screen.seqs(fasta=current, group=current, summary=current, maxambig=0, maxlength=275);
+#	summary.seqs(fasta=current);
+#	unique.seqs(fasta=current);
+#	summary.seqs(fasta=current, name=current);
+#	count.seqs(name=current, group=current);
+#	summary.seqs(fasta=current, count=current);
+#	align.seqs(fasta=current, reference=$REF/silva.v4.align);
+#	summary.seqs(fasta=current, count=current);
+#	screen.seqs(fasta=current, count=current, summary=current, start=1968, end=11550, maxhomop=8);
+#	summary.seqs(fasta=current,count=current);
+#	filter.seqs(fasta=current, vertical=T, trump=.);
+#	unique.seqs(fasta=current, count=current);
+#	seq.error(fasta=current, count=current, reference=$REF/zymo.mock.16S.align, aligned=F, processors=8)"
+
+# Rename the relevent fasta and count file to be used for later analysis
+mv $WORKDIR/mock_amp.trim.contigs.good.unique.good.filter.unique.error.summary $WORKDIR/mock_precluster_error.summary
+mv $WORKDIR/mock_amp.trim.contigs.good.unique.good.filter.unique.error.seq.reverse $WORKDIR/mock_precluster_error.seq.reverse
+mv $WORKDIR/mock_amp.trim.contigs.good.unique.good.filter.unique.error.seq.forward $WORKDIR/mock_precluster_error.seq.forward
+mv $WORKDIR/mock_amp.trim.contigs.good.unique.good.filter.unique.error.seq $WORKDIR/mock_precluster_error.seq
+mv $WORKDIR/mock_amp.trim.contigs.good.unique.good.filter.unique.error.ref $WORKDIR/mock_precluster_error.ref
+mv $WORKDIR/mock_amp.trim.contigs.good.unique.good.filter.unique.error.matrix $WORKDIR/mock_precluster_error.matrix
+mv $WORKDIR/mock_amp.trim.contigs.good.unique.good.filter.unique.error.count $WORKDIR/mock_precluster_error.count
+mv $WORKDIR/mock_amp.trim.contigs.good.unique.good.filter.unique.error.chimera $WORKDIR/mock_precluster_error.chimera
+mv $WORKDIR/mock_amp.trim.contigs.good.unique.good.filter.count_table $WORKDIR/mock_precluter_error.count_table
+mv $WORKDIR/mock_amp.trim.contigs.good.unique.good.filter.unique.fasta $WORKDIR/mock_precluster_error.fasta
+
+# Remove all the extra files
+#rm $WORKDIR/*.fastq
+rm $WORKDIR/mock_amp.trim.* $WORKDIR/mock_amp.contigs.* $WORKDIR/mock_amp.scrap.*
+rm $WORKDIR/mock_amp.filter
+
+
+	
