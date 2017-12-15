@@ -47,7 +47,7 @@ mv $WORKDIR/mock_amp.trim.contigs.good.unique.good.filter.unique.error.ref $WORK
 mv $WORKDIR/mock_amp.trim.contigs.good.unique.good.filter.unique.error.matrix $WORKDIR/mock_precluster_error.matrix
 mv $WORKDIR/mock_amp.trim.contigs.good.unique.good.filter.unique.error.count $WORKDIR/mock_precluster_error.count
 mv $WORKDIR/mock_amp.trim.contigs.good.unique.good.filter.unique.error.chimera $WORKDIR/mock_precluster_error.chimera
-mv $WORKDIR/mock_amp.trim.contigs.good.unique.good.filter.count_table $WORKDIR/mock_precluter_error.count_table
+mv $WORKDIR/mock_amp.trim.contigs.good.unique.good.filter.count_table $WORKDIR/mock_precluster_error.count_table
 mv $WORKDIR/mock_amp.trim.contigs.good.unique.good.filter.unique.fasta $WORKDIR/mock_precluster_error.fasta
 
 # Remove all the extra files
