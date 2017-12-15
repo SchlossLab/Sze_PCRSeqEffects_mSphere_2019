@@ -277,4 +277,6 @@ write_csv(permanova_results, "data/process/tables/bray_permanova_by_taq_results.
 sapply(c(1:length(finalized_tables)), 
        function(x) write_csv(finalized_tables[[x]], 
                              paste("data/process/tables/bray_5_cycle_dist_", sub_sample_level[x], "_data.csv", sep = "")))
-  
+
+
+
