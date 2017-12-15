@@ -64,7 +64,7 @@ before_precluster <- error_data[["mock_precluster_error"]] %>%
         panel.grid.major = element_blank(), 
         panel.grid.minor = element_blank(), 
         axis.text.y = element_text(size = 10), 
-        legend.position = c(0.40, 0.80), 
+        legend.position = c(0.20, 0.80), 
         legend.title = element_blank(), 
         legend.key = element_blank(), 
         legend.background = element_rect(color = "black"))
@@ -134,4 +134,4 @@ full_pipeline <- error_data[["mock_error"]] %>%
  
  combined_graph <- grid.arrange(before_precluster, before_chimera_vsearch, full_pipeline, ncol = 3)
 
-ggsave("results/figures/Figure3.pdf", combined_graph, width = 7, height = 7, dpi = 300)
+ggsave("results/figures/Figure3.pdf", combined_graph, width = 11, height = 7, dpi = 300)
