@@ -30,16 +30,14 @@ read_data <- function(pathing, start_name, end_name, differentiator){
 ############################### Run actual analysis programs  #############################################################
 ###########################################################################################################################
 
-# Read in the count data
-error_data <- read_csv("data/process/tables/full_error_summary.csv")
+error_files <- c("mock_precluster_error", "mock_chimera_error", "mock_error") 
 
-#error_data <- sapply(sub_sample_level, 
-#                     function(x) read_data("data/process/tables/error_", "", "_summary.csv", x), 
-#                     simplify = F)
-
+# # Read in the count data
+error_data <- sapply(error_files, function(x) read_csv(paste("data/process/tables/", x, "_summary.csv", sep = "")) %>% 
+                       filter(total_seqs >= 1000), simplify = F)
 
 # Generate graph of Mock DNA samples 
-full_graph <- error_data %>% 
+before_precluster <- error_data[["mock_precluster_error"]] %>% 
   filter(total_seqs >= 1000) %>% 
   mutate(taq = factor(taq, 
                       levels = c("ACC", "K", "PHU", "PL", "Q5"), 
@@ -57,123 +55,84 @@ full_graph <- error_data %>%
   scale_color_manual(name = "Taq Used", 
                      values = c("#440154FF", "#3B528BFF", "#21908CFF", "#5DC863FF", "#FDE725FF")) + 
   labs(x = "Amplification Cycles", y = "Percent of Sequences with Error") + 
-  coord_cartesian(ylim = c(0, 0.10)) + 
+  coord_cartesian(ylim = c(0, 0.40)) + 
   scale_y_continuous(labels = scales::percent) + 
+  ggtitle("A") + 
+  annotate("text", label = paste("Before Pre-Cluster Step"), x = 2.5, y = 0.41, size = 2.5) + 
   theme(plot.title = element_text(face="bold", hjust = -0.07, size = 20), 
         panel.grid.major = element_blank(), 
         panel.grid.minor = element_blank(), 
         axis.text.y = element_text(size = 10), 
-        legend.position = c(0.10, 0.83), 
+        legend.position = c(0.20, 0.83), 
         legend.title = element_blank(), 
         legend.key = element_blank(), 
         legend.background = element_rect(color = "black"))
 
 
+before_chimera_vsearch <- error_data[["mock_chimera_error"]] %>% 
+  filter(total_seqs >= 1000) %>% 
+  mutate(taq = factor(taq, 
+                      levels = c("ACC", "K", "PHU", "PL", "Q5"), 
+                      labels = c("Accuprime", "Kappa", "Phusion", "Platinum", "Q5"))) %>% 
+  group_by(taq, cycles) %>% 
+  summarise(group_seq_error = median(seq_error_prevalence), group_iqr25 = quantile(seq_error_prevalence)["25%"], 
+            group_iqr75 = quantile(seq_error_prevalence)["75%"]) %>% 
+  ggplot(aes(cycles, group_seq_error, color = taq, group = taq)) + 
+  geom_line(show.legend = F) + 
+  geom_errorbar(aes(ymin=group_iqr25, 
+                    ymax=group_iqr75), show.legend = F, 
+                width = 0.1, size = 0.5, alpha = 0.4) + 
+  geom_point(size = 2, alpha = 0.7, show.legend = F) + 
+  theme_bw() + 
+  scale_color_manual(name = "Taq Used", 
+                     values = c("#440154FF", "#3B528BFF", "#21908CFF", "#5DC863FF", "#FDE725FF")) + 
+  labs(x = "Amplification Cycles", y = "Percent of Sequences with Error") + 
+  coord_cartesian(ylim = c(0, 0.40)) + 
+  scale_y_continuous(labels = scales::percent) + 
+  ggtitle("B") + 
+  annotate("text", label = paste("Before Chimera VSEARCH Step"), x = 2.5, y = 0.41, size = 2.5) + 
+  theme(plot.title = element_text(face="bold", hjust = -0.07, size = 20), 
+        panel.grid.major = element_blank(), 
+        panel.grid.minor = element_blank(), 
+        axis.text.y = element_text(size = 10), 
+        legend.position = c(0.40, 0.80), 
+        legend.title = element_blank(), 
+        legend.key = element_blank(), 
+        legend.background = element_rect(color = "black"))
 
 
-# # Vector of sub samples used
-# sub_sample_level <- c("50", "100", "500", "1000", "5000", "10000")
-# 
-# # Read in the count data
-# error_data <- sapply(sub_sample_level, 
-#                      function(x) read_data("data/process/tables/error_", "", "_summary.csv", x), 
-#                      simplify = F)
-# 
-# 
-# # Generate graph of Mock DNA samples 
-# thousand <- error_data[["1000"]] %>% 
-#   mutate(taq = factor(taq, 
-#                       levels = c("ACC", "K", "PHU", "PL", "Q5"), 
-#                       labels = c("Accuprime", "Kappa", "Phusion", "Platinum", "Q5"))) %>% 
-#   group_by(taq, cycles) %>% 
-#   summarise(group_seq_error = median(seq_error_prevalence), group_iqr25 = quantile(seq_error_prevalence)["25%"], 
-#             group_iqr75 = quantile(seq_error_prevalence)["75%"]) %>% 
-#   ggplot(aes(cycles, group_seq_error, color = taq, group = taq)) + 
-#   geom_line() + 
-#   geom_errorbar(aes(ymin=group_iqr25, 
-#                     ymax=group_iqr75), 
-#                 width = 0.1, size = 0.5, alpha = 0.4) + 
-#   geom_point(size = 2, alpha = 0.7) + 
-#   theme_bw() + 
-#   scale_color_manual(name = "Taq Used", 
-#                      values = c("#440154FF", "#3B528BFF", "#21908CFF", "#5DC863FF", "#FDE725FF")) + 
-#   labs(x = "Amplification Cycles", y = "Percent of Sequences with Error") + 
-#   coord_cartesian(ylim = c(0, 0.15)) + 
-#   scale_y_continuous(labels = scales::percent) + 
-#   ggtitle("A") + 
-#   annotate("text", label = paste("Sub-sampled to 1000 Sequences"), x = 1.7, y = 0.155, size = 2.5) + 
-#   theme(plot.title = element_text(face="bold", hjust = -0.07, size = 20), 
-#         panel.grid.major = element_blank(), 
-#         panel.grid.minor = element_blank(), 
-#         axis.text.y = element_text(size = 10), 
-#         legend.position = c(0.75, 0.85), 
-#         legend.title = element_blank(), 
-#         legend.key = element_blank(), 
-#         legend.background = element_rect(color = "black"))
-# 
-# 
-# # Generate graph of Mock DNA samples 
-# five_thousand <- error_data[["5000"]] %>% 
-#   mutate(taq = factor(taq, 
-#                       levels = c("ACC", "K", "PHU", "PL", "Q5"), 
-#                       labels = c("Accuprime", "Kappa", "Phusion", "Platinum", "Q5"))) %>% 
-#   group_by(taq, cycles) %>% 
-#   summarise(group_seq_error = median(seq_error_prevalence), group_iqr25 = quantile(seq_error_prevalence)["25%"], 
-#             group_iqr75 = quantile(seq_error_prevalence)["75%"]) %>% 
-#   ggplot(aes(cycles, group_seq_error, color = taq, group = taq)) + 
-#   geom_line() + 
-#   geom_errorbar(aes(ymin=group_iqr25, ymax=group_iqr75), 
-#                 width = 0.1, size = 0.5, alpha = 0.4) + 
-#   geom_point(size = 2, alpha = 0.7) + 
-#   theme_bw() + 
-#   scale_color_manual(name = "Taq Used", 
-#                      values = c("#440154FF", "#21908CFF", "#5DC863FF", "#FDE725FF")) + 
-#   labs(x = "Amplification Cycles", y = "Percent of Sequences with Error") + 
-#   coord_cartesian(ylim = c(0, 0.1)) + 
-#   scale_y_continuous(labels = scales::percent) + 
-#   ggtitle("B") + 
-#   annotate("text", label = paste("Sub-sampled to 5000 Sequences"), x = 1.7, y = 0.103, size = 2.5) + 
-#   theme(plot.title = element_text(face="bold", hjust = -0.07, size = 20), 
-#         panel.grid.major = element_blank(), 
-#         panel.grid.minor = element_blank(), 
-#         axis.text.y = element_text(size = 10), 
-#         legend.position = c(0.75, 0.85), 
-#         legend.title = element_blank(), 
-#         legend.key = element_blank(), 
-#         legend.background = element_rect(color = "black"))
-# 
-# 
-# # Generate graph of Mock DNA samples 
-# ten_thousand <- error_data[["10000"]] %>% 
-#   mutate(taq = factor(taq, 
-#                       levels = c("ACC", "K", "PHU", "PL", "Q5"), 
-#                       labels = c("Accuprime", "Kappa", "Phusion", "Platinum", "Q5"))) %>% 
-#   group_by(taq, cycles) %>% 
-#   summarise(group_seq_error = median(seq_error_prevalence), group_iqr25 = quantile(seq_error_prevalence)["25%"], 
-#             group_iqr75 = quantile(seq_error_prevalence)["75%"]) %>% 
-#   ggplot(aes(cycles, group_seq_error, color = taq, group = taq)) + 
-#   geom_line() + 
-#   geom_errorbar(aes(ymin=group_iqr25, ymax=group_iqr75), 
-#                 width = 0.1, size = 0.5, alpha = 0.4) + 
-#   geom_point(size = 2, alpha = 0.7) + 
-#   theme_bw() + 
-#   scale_color_manual(name = "Taq Used", 
-#                      values = c("#440154FF", "#21908CFF", "#5DC863FF", "#FDE725FF")) + 
-#   labs(x = "Amplification Cycles", y = "Percent of Sequences with Error") + 
-#   coord_cartesian(ylim = c(0, 0.1)) + 
-#   scale_y_continuous(labels = scales::percent) + 
-#   ggtitle("C") + 
-#   annotate("text", label = paste("Sub-sampled to 10000 Sequences"), x = 1.7, y = 0.103, size = 2.5) + 
-#   theme(plot.title = element_text(face="bold", hjust = -0.07, size = 20), 
-#         panel.grid.major = element_blank(), 
-#         panel.grid.minor = element_blank(), 
-#         axis.text.y = element_text(size = 10), 
-#         legend.position = c(0.75, 0.85), 
-#         legend.title = element_blank(), 
-#         legend.key = element_blank(), 
-#         legend.background = element_rect(color = "black"))
-# 
-# 
-# combined_graph <- grid.arrange(thousand, five_thousand, ten_thousand, ncol = 3)
+full_pipeline <- error_data[["mock_error"]] %>% 
+  filter(total_seqs >= 1000) %>% 
+  mutate(taq = factor(taq, 
+                      levels = c("ACC", "K", "PHU", "PL", "Q5"), 
+                      labels = c("Accuprime", "Kappa", "Phusion", "Platinum", "Q5"))) %>% 
+  group_by(taq, cycles) %>% 
+  summarise(group_seq_error = median(seq_error_prevalence), group_iqr25 = quantile(seq_error_prevalence)["25%"], 
+            group_iqr75 = quantile(seq_error_prevalence)["75%"]) %>% 
+  ggplot(aes(cycles, group_seq_error, color = taq, group = taq)) + 
+  geom_line(show.legend = F) + 
+  geom_errorbar(aes(ymin=group_iqr25, 
+                    ymax=group_iqr75), show.legend = F, 
+                width = 0.1, size = 0.5, alpha = 0.4) + 
+  geom_point(size = 2, alpha = 0.7, show.legend = F) + 
+  theme_bw() + 
+  scale_color_manual(name = "Taq Used", 
+                     values = c("#440154FF", "#3B528BFF", "#21908CFF", "#5DC863FF", "#FDE725FF")) + 
+  labs(x = "Amplification Cycles", y = "Percent of Sequences with Error") + 
+  coord_cartesian(ylim = c(0, 0.40)) + 
+  scale_y_continuous(labels = scales::percent) + 
+  ggtitle("C") + 
+  annotate("text", label = paste("Full Pipeline"), x = 2.5, y = 0.41, size = 2.5) + 
+  theme(plot.title = element_text(face="bold", hjust = -0.07, size = 20), 
+        panel.grid.major = element_blank(), 
+        panel.grid.minor = element_blank(), 
+        axis.text.y = element_text(size = 10), 
+        legend.position = c(0.40, 0.80), 
+        legend.title = element_blank(), 
+        legend.key = element_blank(), 
+        legend.background = element_rect(color = "black"))
 
-ggsave("results/figures/FigureS1.pdf", full_graph, width = 7, height = 7, dpi = 300)
+# 
+combined_graph <- grid.arrange(before_precluster, before_chimera_vsearch, full_pipeline, ncol = 3)
+
+ggsave("results/figures/FigureS1.pdf", combined_graph, width = 11, height = 7, dpi = 300)
