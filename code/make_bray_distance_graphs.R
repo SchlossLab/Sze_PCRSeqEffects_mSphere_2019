@@ -7,6 +7,9 @@ source('code/functions.R')
 
 loadLibs(c("tidyverse", "stringr", "viridis", "gridExtra"))
 
+### Had to remove Kappa since it was missing 30x so could not do the same 5 increment comparison ###
+
+
 ###########################################################################################################################
 ############################### List of functions to make analysis work ###################################################
 ###########################################################################################################################
