@@ -112,7 +112,7 @@ ten_thousand_graph <- numOTU_data[["10000"]] %>%
 
 combined_graph <- grid.arrange(thousand_graph, five_thousand_graph, ten_thousand_graph, ncol = 3)
 
-ggsave("results/figures/mock_numOTU_graph.pdf", combined_graph, width = 11, height = 7, dpi = 300)
+ggsave("results/figures/Figure2.pdf", combined_graph, width = 11, height = 7, dpi = 300)
 
 
 

@@ -1,4 +1,4 @@
-## What the Taq? The Influence of Taq Polymerase on 16S rRNA Sequencing
+## What the Taq? The Influence of Taq Polymerase on 16S rRNA Gene Sequencing
 
 Under Construction
 
