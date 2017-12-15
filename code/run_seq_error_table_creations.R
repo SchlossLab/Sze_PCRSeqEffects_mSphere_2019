@@ -8,9 +8,6 @@ source('code/functions.R')
 loadLibs(c("tidyverse", "stringr"))
 
 
-### Recognized an error in the error calculation and will need to go back and run through mothur to get correct errors ###
-
-
 ###########################################################################################################################
 ############################### List of functions to make analysis work ###################################################
 ###########################################################################################################################
@@ -221,42 +218,50 @@ get_nucleotide_summary_data <- function(dataList, depth){
 # Create vector with different subsample levels
 #sub_sample_level <- c(50, 100, 500, 1000, 5000, 10000)
 #taqs_used <- c("acc", "k", "phu", "pl", "q5")
-
+error_files <- c("mock_precluster_error", "mock_chimera_error", "mock_error")
 
 # Read in needed count files
-count_table <- read_data("data/process/", "mock_error", ".count_table", "")
+#count_table <- read_data("data/process/", "mock_error", ".count_table", "")
 
-#good_counts <- sapply(taqs_used, 
-#                      function(x) read_data("data/process/", x, ".count_table", "_data_only"), simplify = F)
+good_counts <- sapply(error_files, 
+                      function(x) read_data("data/process/", x, ".count_table", ""), simplify = F)
 
-error_summary <- read_data("data/process/", "mock_error", ".summary", "")
+#error_summary <- read_data("data/process/", "mock_error", ".summary", "")
 
-#good_error <- sapply(taqs_used, 
-#                      function(x) read_data("data/process/", x, ".summary", "_data_only"), simplify = F)
+good_error <- sapply(error_files, 
+                      function(x) read_data("data/process/", x, ".summary", ""), simplify = F)
 
 # Read in master meta data file
 metadata <- read_csv("data/process/tables/meta_data.csv")
 
 # Combine and make full data tables
-full_combined <- combine_data(count_table, error_summary, metadata) %>% 
-  rename(full_name = sample_name)
+full_combined <- sapply(error_files, 
+                        function(x) combine_data(good_counts[[x]], good_error[[x]], metadata) %>% 
+                          rename(full_name = sample_name), simplify = F)
+
+#full_combined <- combine_data(count_table, error_summary, metadata) %>% 
+#  rename(full_name = sample_name)
 
 # Combine and make slim data table
-slim_combined <- combine_data(count_table, error_summary, metadata, simple = T)
-  
+#slim_combined <- combine_data(count_table, error_summary, metadata, simple = T)
+
+slim_combined <- sapply(error_files, 
+                        function(x) combine_data(good_counts[[x]], good_error[[x]], metadata, simple = T), simplify = F)
+
 # Generate the random sampling 
-testRecombine <- get_samples("full_data", slim_combined, unique(slim_combined$full_name))
-#testRecombine <- sapply(sub_sample_level, 
- #                       function(x) get_random_sample(x, slim_combined, unique(slim_combined$full_name)), simplify = F)
+#testRecombine <- get_samples("full_data", slim_combined, unique(slim_combined$full_name))
 
-#names(testRecombine) <- sub_sample_level  
-
+testRecombine <- sapply(error_files, 
+                        function(x) get_samples("full_data", 
+                                                      slim_combined[[x]], unique(slim_combined[[x]]$full_name)), simplify = F)
 
 # Add Chimera checked column
-testRecombine <- lapply(testRecombine, function(y) run_checks(y))
+testRecombine <- lapply(testRecombine, 
+                        function(x) lapply(x, function(y) run_checks(y)))
 
 # Generate Summary Data
-good_summary_data <- get_summary_data(testRecombine, "full_data") %>% 
+good_summary_data <- sapply(error_files, 
+                            function(x) get_summary_data(testRecombine[[x]], "full_data") %>% 
   mutate(sample_name = ifelse(grepl("Zmock_A_111716", full_name) == T, invisible("A"), 
                               ifelse(grepl("Zmock_B_", full_name) == T, invisible("B"), 
                                      ifelse(grepl("Zmock_C_", full_name) == T, invisible("C"), 
@@ -267,18 +272,18 @@ good_summary_data <- get_summary_data(testRecombine, "full_data") %>%
             total_seqs = length(query), 
             chimera_prevalence = sum(chimera)/length(query), 
             seq_error_prevalence = sum(seq_error)/length(query)) %>% 
-  filter(!is.na(sample_name))
+  filter(!is.na(sample_name)), simplify = F)
 
 
 #good_summary_data <- sapply(sub_sample_level, 
 #                            function(x) get_summary_data(testRecombine, x), simplify = F)
 
 # Write out summarized data tables for graphing
-write_csv(good_summary_data, "data/process/tables/full_error_summary.csv")
+#write_csv(good_summary_data, "data/process/tables/full_error_summary.csv")
 
-#sapply(c(1:length(good_summary_data)), 
-#       function(x) write_csv(good_summary_data[[x]], 
-#                             paste("data/process/tables/error_", sub_sample_level[x], "_summary.csv", sep = "")))
+sapply(c(1:length(good_summary_data)), 
+       function(x) write_csv(good_summary_data[[x]], 
+                             paste("data/process/tables/", error_files[x], "_summary.csv", sep = "")))
 
 
 ###########################################################################################################################
