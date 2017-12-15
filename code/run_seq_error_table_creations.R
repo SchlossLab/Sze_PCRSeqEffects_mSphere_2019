@@ -291,7 +291,9 @@ sapply(c(1:length(good_summary_data)),
 ###########################################################################################################################
 
 # Generate the random sampling 
-full_Recombine <- get_samples("full_data", full_combined, unique(full_combined$full_name))
+full_Recombine <- sapply(error_files, 
+                         function(x) get_samples("full_data", full_combined[[x]], 
+                                                 unique(full_combined[[x]]$full_name)), simplify = F)
 
 #full_Recombine <- sapply(sub_sample_level, 
 #                        function(x) get_random_sample(x, full_combined, unique(full_combined$full_name)), simplify = F)
@@ -299,10 +301,11 @@ full_Recombine <- get_samples("full_data", full_combined, unique(full_combined$f
 #names(full_Recombine) <- sub_sample_level  
 
 # Add nucleotide changes checked column
-full_Recombine <- lapply(full_Recombine, function(y) run_nucleotide_error_check(y))
+full_Recombine <- lapply(full_Recombine, function(x) 
+  lapply(x, function(y) run_nucleotide_error_check(y)))
 
 # Generate Nucleotide Summary Data
-nucleotide_summary_data <- get_nucleotide_summary_data(full_Recombine, "full_data") %>% 
+nucleotide_summary_data <- sapply(error_files, function(x) get_nucleotide_summary_data(full_Recombine[[x]], "full_data") %>% 
   mutate(sample_name.y = ifelse(grepl("Zmock_A_111716", full_name) == T, invisible("A"), 
                               ifelse(grepl("Zmock_B_", full_name) == T, invisible("B"), 
                                      ifelse(grepl("Zmock_C_", full_name) == T, invisible("C"), 
@@ -323,7 +326,7 @@ nucleotide_summary_data <- get_nucleotide_summary_data(full_Recombine, "full_dat
             gc_seq_prev = sum(gc)/length(query), ca_seq_prev = sum(ca)/length(query), 
             ct_seq_prev = sum(ct)/length(query), cg_seq_prev = sum(cg)/length(query)) %>% 
   rename(sample_name = sample_name.y) %>% 
-  filter(!is.na(sample_name))
+  filter(!is.na(sample_name)), simplify = F)
 
 
 #nucleotide_summary_data <- sapply(sub_sample_level, 
@@ -332,12 +335,12 @@ nucleotide_summary_data <- get_nucleotide_summary_data(full_Recombine, "full_dat
 
 
 # Write out summarized data tables for graphing
-write_csv (nucleotide_summary_data, "data/process/tables/full_nucleotide_error_summary.csv")
+#write_csv (nucleotide_summary_data, "data/process/tables/full_nucleotide_error_summary.csv")
 
-#sapply(c(1:length(nucleotide_summary_data)), 
-#       function(x) write_csv(nucleotide_summary_data[[x]], 
-#                             paste("data/process/tables/nucleotide_error_", sub_sample_level[x], 
-#                                   "_summary.csv", sep = "")))
+sapply(c(1:length(nucleotide_summary_data)), 
+       function(x) write_csv(nucleotide_summary_data[[x]], 
+                             paste("data/process/tables/nucleotide_", error_files[x], 
+                                   "_summary.csv", sep = "")))
 
 
 
