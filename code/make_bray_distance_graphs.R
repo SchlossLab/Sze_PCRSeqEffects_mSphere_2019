@@ -49,15 +49,84 @@ dist_data[["1000"]] %>%
                       labels = c("Accuprime", "Phusion", "Platinum", "Q5")), 
          cycle_compare = factor(cycle_compare, 
                                 levels = c("15to20", "20to25", "25to30", "30to35"), 
-                                labels = c("15x to 20x", "20x to 25x", "25x to 30x", "30x to 35x"))) %>% 
+                                labels = c("15x vs 20x", "20x vs 25x", "25x vs 30x", "30x vs 35x"))) %>% 
   ggplot(aes(cycle_compare, distance, color = sample_name, group = taq)) + 
-  geom_jitter(width = 0.2) + 
-  facet_grid(~taq)
+  geom_point(size = 2) + 
+  stat_summary(fun.y = median, fun.ymin = median, fun.ymax = median, 
+               colour = "black", geom = "crossbar", size = 0.5, width = 0.5) +
+  facet_grid(~taq) + 
+  scale_color_manual(name = "Samples", 
+                     values = c("#FF00FF", "#0000FF", "#8B1A1A", "#EE9A00")) + 
+  labs(x = "Cycles", y = "Bray Curtis Index") + 
+  theme_bw() + 
+  coord_cartesian(ylim = c(0, 1)) + 
+  ggtitle("A") +  
+  theme(plot.title = element_text(face="bold", hjust = -0.07, size = 20), 
+        panel.grid.major = element_blank(), 
+        panel.grid.minor = element_blank(), 
+        axis.text.y = element_text(size = 10), 
+        legend.position = "bottom", 
+        legend.title = element_blank(), 
+        legend.key = element_blank(), 
+        legend.background = element_rect(color = "black"))
   
 
+dist_data[["5000"]] %>% 
+  filter(taq != "K", !is.na(taq), cycle_compare != "15to25") %>% 
+  mutate(taq = factor(taq, 
+                      levels = c("ACC", "PHU", "PL", "Q5"), 
+                      labels = c("Accuprime", "Phusion", "Platinum", "Q5")), 
+         cycle_compare = factor(cycle_compare, 
+                                levels = c("15to20", "20to25", "25to30", "30to35"), 
+                                labels = c("15x vs 20x", "20x vs 25x", "25x vs 30x", "30x vs 35x"))) %>% 
+  ggplot(aes(cycle_compare, distance, color = sample_name, group = taq)) + 
+  geom_point(size = 2) + 
+  stat_summary(fun.y = median, fun.ymin = median, fun.ymax = median, 
+               colour = "black", geom = "crossbar", size = 0.5, width = 0.5) +
+  facet_grid(~taq) + 
+  scale_color_manual(name = "Samples", 
+                     values = c("#FF00FF", "#0000FF", "#8B1A1A", "#EE9A00")) + 
+  labs(x = "Cycles", y = "Bray Curtis Index") + 
+  theme_bw() + 
+  coord_cartesian(ylim = c(0, 1)) + 
+  ggtitle("B") +  
+  theme(plot.title = element_text(face="bold", hjust = -0.07, size = 20), 
+        panel.grid.major = element_blank(), 
+        panel.grid.minor = element_blank(), 
+        axis.text.y = element_text(size = 10), 
+        legend.position = "bottom", 
+        legend.title = element_blank(), 
+        legend.key = element_blank(), 
+        legend.background = element_rect(color = "black"))
 
 
-
+dist_data[["10000"]] %>% 
+  filter(taq != "K", !is.na(taq), cycle_compare != "15to25") %>% 
+  mutate(taq = factor(taq, 
+                      levels = c("ACC", "PHU", "PL", "Q5"), 
+                      labels = c("Accuprime", "Phusion", "Platinum", "Q5")), 
+         cycle_compare = factor(cycle_compare, 
+                                levels = c("15to20", "20to25", "25to30", "30to35"), 
+                                labels = c("15x vs 20x", "20x vs 25x", "25x vs 30x", "30x vs 35x"))) %>% 
+  ggplot(aes(cycle_compare, distance, color = sample_name, group = taq)) + 
+  geom_point(size = 2) + 
+  stat_summary(fun.y = median, fun.ymin = median, fun.ymax = median, 
+               colour = "black", geom = "crossbar", size = 0.5, width = 0.5) +
+  facet_grid(~taq) + 
+  scale_color_manual(name = "Samples", 
+                     values = c("#FF00FF", "#0000FF", "#8B1A1A", "#EE9A00")) + 
+  labs(x = "Cycles", y = "Bray Curtis Index") + 
+  theme_bw() + 
+  coord_cartesian(ylim = c(0, 1)) + 
+  ggtitle("C") +  
+  theme(plot.title = element_text(face="bold", hjust = -0.07, size = 20), 
+        panel.grid.major = element_blank(), 
+        panel.grid.minor = element_blank(), 
+        axis.text.y = element_text(size = 10), 
+        legend.position = "bottom", 
+        legend.title = element_blank(), 
+        legend.key = element_blank(), 
+        legend.background = element_rect(color = "black"))
 
 
 
