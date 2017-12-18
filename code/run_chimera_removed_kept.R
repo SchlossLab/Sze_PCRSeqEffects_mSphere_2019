@@ -41,6 +41,17 @@ read_data <- function(pathing, start_name, end_name, differentiator){
 # Read in subsample.shared files
 sub_sample_level <- c("1000", "5000", "10000")
 
-sub_shared_data <- sapply(sub_sample_level, 
-                          function(x) read_data("data/process/", "all_amp.0.03.subsample.", ".shared", x), 
+mock_count_tables <- sapply(sub_sample_level, 
+                          function(x) read_data("data/process/tables/", "mock_sub_sample_", "_count_table.csv", x), 
                           simplify = F)
+
+fecal_count_tables <- sapply(sub_sample_level, 
+                             function(x) read_data("data/process/tables/", "fecal_sub_sample_", "_count_table.csv", x), 
+                             simplify = F)
+  
+
+
+
+
+
+
