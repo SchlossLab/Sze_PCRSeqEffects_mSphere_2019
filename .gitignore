@@ -3,7 +3,7 @@
 *.Rproj
 *.pbs
 *.fastq
-*.gz
+data/raw/*.gz
 data/raw/part_one
 data/raw/part_two
 data/raw/repeated_V2_frozens
