@@ -34,22 +34,28 @@ read_data <- function(pathing, start_name, end_name, differentiator){
 ###########################################################################################################################
 
 # Vector of sub samples used
-sub_sample_level <- c("1000", "5000", "10000", "15000", "20000")
+sub_sample_level <- c("1000", "5000", "10000")
 
 dist_data <- sapply(sub_sample_level, 
                     function(x) read_csv(paste("data/process/tables/bray_5_cycle_dist_", 
                                                x, "_data.csv", sep = "")), simplify = F)
 
+mock_dist_data <- sapply(sub_sample_level, 
+                    function(x) read_csv(paste("data/process/tables/mock_bray_5_cycle_dist_", 
+                                               x, "_data.csv", sep = "")), simplify = F)
 
+ann_text <- data.frame(cycle_compare = 2.2, distance = 0.95, lab = "Sub-Sampled", 
+                       taq = factor("ACC", levels = c("ACC", "PHU", "PL", "Q5"), 
+                                    labels = c("Accuprime", "Phusion", "Platinum", "Q5")))
 
-dist_data[["1000"]] %>% 
+fs_1000 <- dist_data[["1000"]] %>% 
   filter(taq != "K") %>% 
   mutate(taq = factor(taq, 
                       levels = c("ACC", "PHU", "PL", "Q5"), 
                       labels = c("Accuprime", "Phusion", "Platinum", "Q5")), 
          cycle_compare = factor(cycle_compare, 
                                 levels = c("15to20", "20to25", "25to30", "30to35"), 
-                                labels = c("15x vs 20x", "20x vs 25x", "25x vs 30x", "30x vs 35x"))) %>% 
+                                labels = c("15x\nvs\n20x", "20x\nvs\n25x", "25x\nvs\n30x", "30x\nvs\n35x"))) %>% 
   ggplot(aes(cycle_compare, distance, color = sample_name, group = taq)) + 
   geom_point(size = 2) + 
   stat_summary(fun.y = median, fun.ymin = median, fun.ymax = median, 
@@ -57,10 +63,11 @@ dist_data[["1000"]] %>%
   facet_grid(~taq) + 
   scale_color_manual(name = "Samples", 
                      values = c("#FF00FF", "#0000FF", "#8B1A1A", "#EE9A00")) + 
-  labs(x = "Cycles", y = "Bray Curtis Index") + 
+  labs(x = "", y = "Bray Curtis Index") + 
   theme_bw() + 
   coord_cartesian(ylim = c(0, 1)) + 
   ggtitle("A") +  
+  geom_text(data = ann_text, color = "black", label = "Sub-Sampled to\n1000 Sequences", size = 2) + 
   theme(plot.title = element_text(face="bold", hjust = -0.07, size = 20), 
         panel.grid.major = element_blank(), 
         panel.grid.minor = element_blank(), 
@@ -71,14 +78,14 @@ dist_data[["1000"]] %>%
         legend.background = element_rect(color = "black"))
   
 
-dist_data[["5000"]] %>% 
+fs_5000 <- dist_data[["5000"]] %>% 
   filter(taq != "K", !is.na(taq), cycle_compare != "15to25") %>% 
   mutate(taq = factor(taq, 
                       levels = c("ACC", "PHU", "PL", "Q5"), 
                       labels = c("Accuprime", "Phusion", "Platinum", "Q5")), 
          cycle_compare = factor(cycle_compare, 
                                 levels = c("15to20", "20to25", "25to30", "30to35"), 
-                                labels = c("15x vs 20x", "20x vs 25x", "25x vs 30x", "30x vs 35x"))) %>% 
+                                labels = c("15x\nvs\n20x", "20x\nvs\n25x", "25x\nvs\n30x", "30x\nvs\n35x"))) %>% 
   ggplot(aes(cycle_compare, distance, color = sample_name, group = taq)) + 
   geom_point(size = 2) + 
   stat_summary(fun.y = median, fun.ymin = median, fun.ymax = median, 
@@ -86,10 +93,11 @@ dist_data[["5000"]] %>%
   facet_grid(~taq) + 
   scale_color_manual(name = "Samples", 
                      values = c("#FF00FF", "#0000FF", "#8B1A1A", "#EE9A00")) + 
-  labs(x = "Cycles", y = "Bray Curtis Index") + 
+  labs(x = "", y = "Bray Curtis Index") + 
   theme_bw() + 
   coord_cartesian(ylim = c(0, 1)) + 
   ggtitle("B") +  
+  geom_text(data = ann_text, color = "black", label = "Sub-Sampled to\n5000 Sequences", size = 2) + 
   theme(plot.title = element_text(face="bold", hjust = -0.07, size = 20), 
         panel.grid.major = element_blank(), 
         panel.grid.minor = element_blank(), 
@@ -100,14 +108,18 @@ dist_data[["5000"]] %>%
         legend.background = element_rect(color = "black"))
 
 
-dist_data[["10000"]] %>% 
+ann_text_1000 <- data.frame(cycle_compare = 1.8, distance = 0.95, lab = "Sub-Sampled", 
+                       taq = factor("ACC", levels = c("ACC", "PHU", "PL", "Q5"), 
+                                    labels = c("Accuprime", "Phusion", "Platinum", "Q5")))
+
+fs_10000 <- dist_data[["10000"]] %>% 
   filter(taq != "K", !is.na(taq), cycle_compare != "15to25") %>% 
   mutate(taq = factor(taq, 
                       levels = c("ACC", "PHU", "PL", "Q5"), 
                       labels = c("Accuprime", "Phusion", "Platinum", "Q5")), 
          cycle_compare = factor(cycle_compare, 
                                 levels = c("15to20", "20to25", "25to30", "30to35"), 
-                                labels = c("15x vs 20x", "20x vs 25x", "25x vs 30x", "30x vs 35x"))) %>% 
+                                labels = c("15x\nvs\n20x", "20x\nvs\n25x", "25x\nvs\n30x", "30x\nvs\n35x"))) %>% 
   ggplot(aes(cycle_compare, distance, color = sample_name, group = taq)) + 
   geom_point(size = 2) + 
   stat_summary(fun.y = median, fun.ymin = median, fun.ymax = median, 
@@ -115,10 +127,11 @@ dist_data[["10000"]] %>%
   facet_grid(~taq) + 
   scale_color_manual(name = "Samples", 
                      values = c("#FF00FF", "#0000FF", "#8B1A1A", "#EE9A00")) + 
-  labs(x = "Cycles", y = "Bray Curtis Index") + 
+  labs(x = "", y = "Bray Curtis Index") + 
   theme_bw() + 
   coord_cartesian(ylim = c(0, 1)) + 
   ggtitle("C") +  
+  geom_text(data = ann_text_1000, color = "black", label = "Sub-Sampled to\n10000 Sequences", size = 2) + 
   theme(plot.title = element_text(face="bold", hjust = -0.07, size = 20), 
         panel.grid.major = element_blank(), 
         panel.grid.minor = element_blank(), 
@@ -129,5 +142,99 @@ dist_data[["10000"]] %>%
         legend.background = element_rect(color = "black"))
 
 
+ann_text <- data.frame(cycle_compare = 1.8, distance = 0.95, lab = "Sub-Sampled", 
+                       taq = factor("ACC", levels = c("ACC", "PHU", "PL", "Q5"), 
+                                    labels = c("Accuprime", "Phusion", "Platinum", "Q5")))
+
+m_1000 <- mock_dist_data[["1000"]] %>% 
+  filter(taq != "K") %>% 
+  mutate(taq = factor(taq, 
+                      levels = c("ACC", "PHU", "PL", "Q5"), 
+                      labels = c("Accuprime", "Phusion", "Platinum", "Q5")), 
+         cycle_compare = factor(cycle_compare, 
+                                levels = c("15to20", "20to25", "25to30", "30to35"), 
+                                labels = c("15x\nvs\n20x", "20x\nvs\n25x", "25x\nvs\n30x", "30x\nvs\n35x"))) %>% 
+  ggplot(aes(cycle_compare, distance, color = sample_name, group = taq)) + 
+  geom_point(size = 2) + 
+  stat_summary(fun.y = median, fun.ymin = median, fun.ymax = median, 
+               colour = "black", geom = "crossbar", size = 0.5, width = 0.5) +
+  facet_grid(~taq) + 
+  scale_color_manual(name = "Samples", 
+                     values = c("#FF00FF", "#0000FF", "#8B1A1A", "#EE9A00")) + 
+  labs(x = "", y = "Bray Curtis Index") + 
+  theme_bw() + 
+  coord_cartesian(ylim = c(0, 1)) + 
+  ggtitle("D") +  
+  geom_text(data = ann_text, color = "black", label = "Sub-Sampled to\n1000 Sequences", size = 2) + 
+  theme(plot.title = element_text(face="bold", hjust = -0.07, size = 20), 
+        panel.grid.major = element_blank(), 
+        panel.grid.minor = element_blank(), 
+        axis.text.y = element_text(size = 10), 
+        legend.position = "bottom", 
+        legend.title = element_blank(), 
+        legend.key = element_blank(), 
+        legend.background = element_rect(color = "black"))
 
 
+m_5000 <- mock_dist_data[["5000"]] %>% 
+  filter(taq != "K", !is.na(taq), cycle_compare != "15to25") %>% 
+  mutate(taq = factor(taq, 
+                      levels = c("ACC", "PHU", "PL", "Q5"), 
+                      labels = c("Accuprime", "Phusion", "Platinum", "Q5")), 
+         cycle_compare = factor(cycle_compare, 
+                                levels = c("15to20", "20to25", "25to30", "30to35"), 
+                                labels = c("15x\nvs\n20x", "20x\nvs\n25x", "25x\nvs\n30x", "30x\nvs\n35x"))) %>% 
+  ggplot(aes(cycle_compare, distance, color = sample_name, group = taq)) + 
+  geom_point(size = 2) + 
+  stat_summary(fun.y = median, fun.ymin = median, fun.ymax = median, 
+               colour = "black", geom = "crossbar", size = 0.5, width = 0.5) +
+  facet_grid(~taq) + 
+  scale_color_manual(name = "Samples", 
+                     values = c("#FF00FF", "#0000FF", "#8B1A1A", "#EE9A00")) + 
+  labs(x = "", y = "Bray Curtis Index") + 
+  theme_bw() + 
+  coord_cartesian(ylim = c(0, 1)) + 
+  ggtitle("E") +  
+  geom_text(data = ann_text, color = "black", label = "Sub-Sampled to\n5000 Sequences", size = 2) + 
+  theme(plot.title = element_text(face="bold", hjust = -0.07, size = 20), 
+        panel.grid.major = element_blank(), 
+        panel.grid.minor = element_blank(), 
+        axis.text.y = element_text(size = 10), 
+        legend.position = "bottom", 
+        legend.title = element_blank(), 
+        legend.key = element_blank(), 
+        legend.background = element_rect(color = "black"))
+
+
+m_10000 <- mock_dist_data[["10000"]] %>% 
+  filter(taq != "K", !is.na(taq), cycle_compare != "15to25", cycle_compare != "25to35") %>% 
+  mutate(taq = factor(taq, 
+                      levels = c("ACC", "PHU", "PL", "Q5"), 
+                      labels = c("Accuprime", "Phusion", "Platinum", "Q5")), 
+         cycle_compare = factor(cycle_compare, 
+                                levels = c("15to20", "20to25", "25to30", "30to35"), 
+                                labels = c("15x\nvs\n20x", "20x\nvs\n25x", "25x\nvs\n30x", "30x\nvs\n35x"))) %>% 
+  ggplot(aes(cycle_compare, distance, color = sample_name, group = taq)) + 
+  geom_point(size = 2) + 
+  stat_summary(fun.y = median, fun.ymin = median, fun.ymax = median, 
+               colour = "black", geom = "crossbar", size = 0.5, width = 0.5) +
+  facet_grid(~taq) + 
+  scale_color_manual(name = "Samples", 
+                     values = c("#FF00FF", "#0000FF", "#8B1A1A", "#EE9A00")) + 
+  labs(x = "", y = "Bray Curtis Index") + 
+  theme_bw() + 
+  coord_cartesian(ylim = c(0, 1)) + 
+  ggtitle("F") +  
+  geom_text(data = ann_text_1000, color = "black", label = "Sub-Sampled to\n10000 Sequences", size = 2) + 
+  theme(plot.title = element_text(face="bold", hjust = -0.07, size = 20), 
+        panel.grid.major = element_blank(), 
+        panel.grid.minor = element_blank(), 
+        axis.text.y = element_text(size = 8), 
+        legend.position = "bottom", 
+        legend.title = element_blank(), 
+        legend.key = element_blank(), 
+        legend.background = element_rect(color = "black"))
+
+combined_graph <- grid.arrange(fs_1000, fs_5000, fs_10000, m_1000, m_5000, m_10000, ncol = 3, nrow = 2)
+
+ggsave("results/figures/Figure3.pdf", combined_graph, width = 15, height = 7, dpi = 300)

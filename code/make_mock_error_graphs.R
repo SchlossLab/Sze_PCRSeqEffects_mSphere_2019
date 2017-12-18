@@ -134,4 +134,4 @@ full_pipeline <- error_data[["mock_error"]] %>%
  
  combined_graph <- grid.arrange(before_precluster, before_chimera_vsearch, full_pipeline, ncol = 3)
 
-ggsave("results/figures/Figure3.pdf", combined_graph, width = 11, height = 7, dpi = 300)
+ggsave("results/figures/Figure4.pdf", combined_graph, width = 11, height = 7, dpi = 300)
