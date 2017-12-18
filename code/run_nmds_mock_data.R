@@ -22,7 +22,7 @@ read_data <- function(pathing, start_name, end_name, differentiator){
   
   # reads in the respective file 
   tempData <- read_csv(paste(pathing, start_name, differentiator, end_name, sep = "")) %>% 
-    filter(sample_type != "FS")
+    filter(sample_type == "Mock")
   # returns the file to the global environment
   return(tempData)
   
@@ -57,7 +57,9 @@ separate_polymerase <- function(depth, metaList, distList,
                                 taq_used = c("ACC", "K", "PHU", "PL", "Q5"), meta_readout = F){
   
   tempMeta <- sapply(taq_used, 
-                     function(x) filter(metaList[[depth]], taq == x), simplify = F)
+                     function(x) 
+                       filter(metaList[[depth]], taq == x) %>% 
+                       arrange(cycles), simplify = F)
   
   namesList <- sapply(taq_used, function(x) as.data.frame(tempMeta[[x]])[, "full_name"])
   
@@ -153,11 +155,10 @@ run_each_sample <- function(u_names, taq_used, meta_file, distList){
 make_nice_table <- function(depth, dataList){
   
   tempData <- dataList[[depth]] %>% 
-    select(-taq, -sample_name) %>% 
-    separate(initial, c("lower_cycle", "taq", "kit", "sample_type", "sample_name")) %>% 
-    select(-taq, -kit, -sample_type, -sample_name) %>% 
-    separate(final, c("upper_cycle", "taq", "kit", "sample_type", "sample_name")) %>% 
-    select(-kit, -sample_type) %>% 
+    mutate(initial = ifelse(grepl("Zmock", initial) == T, invisible("30x_Zmock"), invisible(initial)), 
+           final = ifelse(grepl("Zmock", final) == T, invisible("30x_Zmock"), invisible(final))) %>% 
+    separate(initial, c("lower_cycle")) %>% 
+    separate(final, c("upper_cycle")) %>% 
     mutate(
       cycle_compare = paste(
         str_replace(lower_cycle, "x", "") , "to", str_replace(upper_cycle, "x", ""), sep = ""), 
@@ -233,7 +234,13 @@ braycurtis_dist <- sapply(sub_sample_level,
 
 
 # Read in meta data
-metadata <- read_data("data/process/tables/", "meta_data", ".csv", "")
+metadata <- read_data("data/process/tables/", "meta_data", ".csv", "") %>% 
+  mutate(sample_name = ifelse(grepl("Zmock_A_", full_name) == T, invisible("DNA1"), 
+                              ifelse(grepl("Zmock_B_", full_name) == T, invisible("DNA2"), 
+                              ifelse(grepl("Zmock_C_", full_name) == T, invisible("DNA3"), 
+                              ifelse(grepl("Zmock_D_", full_name) == T, invisible("DNA4"), invisible(sample_name)))))) %>% 
+  filter(sample_name %in% c("DNA1", "DNA2", "DNA3", "DNA4")) %>% 
+  filter(!(full_name %in% c("30x_ACC_Mock_DNA1", "30x_ACC_Mock_DNA2", "30x_ACC_Mock_DNA3", "30x_ACC_Mock_DNA4")))
 
 # Generate pared down meta matching each sub-sampling
 meta_list <- sapply(sub_sample_level, 
@@ -271,9 +278,12 @@ permanova_results <- sapply(sub_sample_level,
   bind_rows()
 
 # Write out results 
-write_csv(kruskal_test_data, "data/process/tables/bray_sim_to_prev_cycle_kruskal_results.csv")
-write_csv(permanova_results, "data/process/tables/bray_permanova_by_taq_results.csv")
+write_csv(kruskal_test_data, "data/process/tables/mock_bray_sim_to_prev_cycle_kruskal_results.csv")
+write_csv(permanova_results, "data/process/tables/mock_bray_permanova_by_taq_results.csv")
 
 sapply(c(1:length(finalized_tables)), 
        function(x) write_csv(finalized_tables[[x]], 
-                             paste("data/process/tables/bray_5_cycle_dist_", sub_sample_level[x], "_data.csv", sep = "")))
+                             paste("data/process/tables/mock_bray_5_cycle_dist_", sub_sample_level[x], "_data.csv", sep = "")))
+
+
+
