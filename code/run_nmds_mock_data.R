@@ -1,5 +1,5 @@
 ### Create graphs of the different numOTUs based on cycle number and sub sampling
-### Fecal Sample Community only
+### Mock Sample Community only
 ### Marc Sze
 
 # Load in needed functions and libraries
@@ -22,7 +22,7 @@ read_data <- function(pathing, start_name, end_name, differentiator){
   
   # reads in the respective file 
   tempData <- read_csv(paste(pathing, start_name, differentiator, end_name, sep = "")) %>% 
-    filter(sample_name %in% c("DA10001", "DA10016", "DA10029", "DA10040"))
+    filter(sample_type == "Mock")
   # returns the file to the global environment
   return(tempData)
   
@@ -57,7 +57,9 @@ separate_polymerase <- function(depth, metaList, distList,
                                 taq_used = c("ACC", "K", "PHU", "PL", "Q5"), meta_readout = F){
   
   tempMeta <- sapply(taq_used, 
-                     function(x) filter(metaList[[depth]], taq == x), simplify = F)
+                     function(x) 
+                       filter(metaList[[depth]], taq == x) %>% 
+                       arrange(cycles), simplify = F)
   
   namesList <- sapply(taq_used, function(x) as.data.frame(tempMeta[[x]])[, "full_name"])
   
@@ -83,7 +85,7 @@ get_next_distance <- function(depth, metaList, distList,
   tempDist <- distList[[depth]]
   
   final_data <- sapply(taq_used, 
-         function(x) pull_dist_data(x, tempMeta, tempDist), simplify = F)
+                       function(x) pull_dist_data(x, tempMeta, tempDist), simplify = F)
   
   final_data <- try(final_data %>% bind_rows())
   
@@ -101,10 +103,10 @@ pull_dist_data <- function(taq_of_int, metaList, distList){
   unique_names <- unique(tempMeta$sample_name)
   
   tempData <- sapply(unique_names, 
-         function(x) run_each_sample(x, taq_of_int, tempMeta, tempDist), simplify = F)
+                     function(x) run_each_sample(x, taq_of_int, tempMeta, tempDist), simplify = F)
   
   tempData <- try(tempData %>% bind_rows())
-    
+  
   return(tempData)
   
 }
@@ -120,12 +122,12 @@ run_each_sample <- function(u_names, taq_used, meta_file, distList){
   col_values <- temp_names[2:length(temp_names)]
   
   tempData <- t(sapply(c(1:length(row_values)), 
-                     function(x) 
-                       c(initial = row_values[x], 
-                         final = col_values[x],
-                         sample_name = u_names, 
-                         taq = taq_used, 
-                         distance = try(distList[row_values[x], col_values[x]])), simplify = T))
+                       function(x) 
+                         c(initial = row_values[x], 
+                           final = col_values[x],
+                           sample_name = u_names, 
+                           taq = taq_used, 
+                           distance = try(distList[row_values[x], col_values[x]])), simplify = T))
   
   if("distance" %in% colnames(tempData)){
     
@@ -153,18 +155,17 @@ run_each_sample <- function(u_names, taq_used, meta_file, distList){
 make_nice_table <- function(depth, dataList){
   
   tempData <- dataList[[depth]] %>% 
-    select(-taq, -sample_name) %>% 
-    separate(initial, c("lower_cycle", "taq", "kit", "sample_type", "sample_name")) %>% 
-    select(-taq, -kit, -sample_type, -sample_name) %>% 
-    separate(final, c("upper_cycle", "taq", "kit", "sample_type", "sample_name")) %>% 
-    select(-kit, -sample_type) %>% 
+    mutate(initial = ifelse(grepl("Zmock", initial) == T, invisible("30x_Zmock"), invisible(initial)), 
+           final = ifelse(grepl("Zmock", final) == T, invisible("30x_Zmock"), invisible(final))) %>% 
+    separate(initial, c("lower_cycle")) %>% 
+    separate(final, c("upper_cycle")) %>% 
     mutate(
       cycle_compare = paste(
         str_replace(lower_cycle, "x", "") , "to", str_replace(upper_cycle, "x", ""), sep = ""), 
       distance = as.numeric(distance)) %>% 
     select(cycle_compare, taq, sample_name, distance)
-    
-    
+  
+  
   return(tempData)
 }
 
@@ -176,10 +177,10 @@ run_kruskal <- function(depth, dataList){
   
   tempTest <- sapply(taq_used, 
                      function(x) try(kruskal.test(distance ~ factor(cycle_compare), 
-                           data = filter(dataList[[depth]], taq == x))$p.value), simplify = F)
-
+                                                  data = filter(dataList[[depth]], taq == x))$p.value), simplify = F)
+  
   tempTest <- as.data.frame(t(tempTest %>% 
-    bind_rows())) %>% 
+                                bind_rows())) %>% 
     mutate(taq = rownames(.), 
            pvalue = V1, 
            pvalue = ifelse(grepl("Error", pvalue) == T, invisible(NA), 
@@ -187,7 +188,7 @@ run_kruskal <- function(depth, dataList){
            bh = p.adjust(pvalue, method = "BH"), 
            sub_sample_level = depth) %>% 
     select(taq, sub_sample_level, pvalue, bh)
-    
+  
   
   return(tempTest)
 }
@@ -212,7 +213,7 @@ get_permanova <- function(depth, metaList, dataList){
            bh = p.adjust(pvalue, method = "BH"), 
            sub_sample_level = depth) %>% 
     select(taq, sub_sample_level, pvalue, bh)
-    
+  
   return(tempTest)
   
 }
@@ -223,7 +224,7 @@ get_permanova <- function(depth, metaList, dataList){
 ###########################################################################################################################
 
 # Vector of sub samples used
-sub_sample_level <- c("1000", "5000", "10000", "15000", "20000")
+sub_sample_level <- c("1000", "5000", "10000")
 
 
 # Read in distance matrix
@@ -233,7 +234,13 @@ braycurtis_dist <- sapply(sub_sample_level,
 
 
 # Read in meta data
-metadata <- read_data("data/process/tables/", "meta_data", ".csv", "")
+metadata <- read_data("data/process/tables/", "meta_data", ".csv", "") %>% 
+  mutate(sample_name = ifelse(grepl("Zmock_A_", full_name) == T, invisible("DNA1"), 
+                              ifelse(grepl("Zmock_B_", full_name) == T, invisible("DNA2"), 
+                              ifelse(grepl("Zmock_C_", full_name) == T, invisible("DNA3"), 
+                              ifelse(grepl("Zmock_D_", full_name) == T, invisible("DNA4"), invisible(sample_name)))))) %>% 
+  filter(sample_name %in% c("DNA1", "DNA2", "DNA3", "DNA4")) %>% 
+  filter(!(full_name %in% c("30x_ACC_Mock_DNA1", "30x_ACC_Mock_DNA2", "30x_ACC_Mock_DNA3", "30x_ACC_Mock_DNA4")))
 
 # Generate pared down meta matching each sub-sampling
 meta_list <- sapply(sub_sample_level, 
@@ -241,42 +248,42 @@ meta_list <- sapply(sub_sample_level,
 
 # Generate pared down dist list for each sub-sampling that matches meta-data
 red_bray_dist <- sapply(sub_sample_level, 
-                    function(x) paredown_dist(x, meta_list, braycurtis_dist), simplify = F)
+                        function(x) paredown_dist(x, meta_list, braycurtis_dist), simplify = F)
 
 
 # Separate each polymerase within each sub-sampling
 sep_red_bray_dist <- sapply(sub_sample_level, 
-                        function(x) separate_polymerase(x, meta_list, braycurtis_dist), simplify = F)
+                            function(x) separate_polymerase(x, meta_list, braycurtis_dist), simplify = F)
 
 sep_meta_list <- sapply(sub_sample_level, 
-                            function(x) separate_polymerase(x, meta_list, 
-                                                            braycurtis_dist, meta_readout = T), simplify = F)
+                        function(x) separate_polymerase(x, meta_list, 
+                                                        braycurtis_dist, meta_readout = T), simplify = F)
 
 
 next_distance_values <- sapply(sub_sample_level, 
-               function(x) get_next_distance(x, sep_meta_list, sep_red_bray_dist), simplify = F)
+                               function(x) get_next_distance(x, sep_meta_list, sep_red_bray_dist), simplify = F)
 
 finalized_tables <- sapply(sub_sample_level, 
-               function(x) make_nice_table(x, next_distance_values), simplify = F)
+                           function(x) make_nice_table(x, next_distance_values), simplify = F)
 
 # Get kruskal-wallis results on similarity to last cycle group
 kruskal_test_data <- sapply(sub_sample_level, 
-               function(x) run_kruskal(x, finalized_tables), simplify = F) %>% 
+                            function(x) run_kruskal(x, finalized_tables), simplify = F) %>% 
   bind_rows()
 
 
 # Get PERMANOVA results
 permanova_results <- sapply(sub_sample_level, 
-               function(x) get_permanova(x, sep_meta_list, sep_red_bray_dist), simplify = F) %>% 
+                            function(x) get_permanova(x, sep_meta_list, sep_red_bray_dist), simplify = F) %>% 
   bind_rows()
 
 # Write out results 
-write_csv(kruskal_test_data, "data/process/tables/bray_sim_to_prev_cycle_kruskal_results.csv")
-write_csv(permanova_results, "data/process/tables/bray_permanova_by_taq_results.csv")
-  
+write_csv(kruskal_test_data, "data/process/tables/mock_bray_sim_to_prev_cycle_kruskal_results.csv")
+write_csv(permanova_results, "data/process/tables/mock_bray_permanova_by_taq_results.csv")
+
 sapply(c(1:length(finalized_tables)), 
        function(x) write_csv(finalized_tables[[x]], 
-                             paste("data/process/tables/bray_5_cycle_dist_", sub_sample_level[x], "_data.csv", sep = "")))
+                             paste("data/process/tables/mock_bray_5_cycle_dist_", sub_sample_level[x], "_data.csv", sep = "")))
 
 
 

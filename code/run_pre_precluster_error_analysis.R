@@ -1,4 +1,4 @@
-### Create analysis of the mock error and chimera
+### Create analysis of the mock error before pre.cluster command
 ### Mock Community only
 ### Marc Sze
 
@@ -6,6 +6,7 @@
 source('code/functions.R')
 
 loadLibs(c("tidyverse", "stringr", "dunn.test"))
+
 
 ###########################################################################################################################
 ############################### List of functions to make analysis work ###################################################
@@ -62,7 +63,7 @@ run_kruskal <- function(ac, subsample, comparator_var, taq_var, dataTable){
   # run the ANOVA for that specific amplifcation cycle looking a Taq differences
   tempComparison <- as.data.frame.list(try(
     kruskal.test(formula(paste(comparator_var, " ~ ", "factor(", taq_var, ")", sep = "")), 
-                data = tempData), silent = T))
+                 data = tempData), silent = T))
   
   # Check to see if the length of the table is 1 due to error out in the try function
   if(length(colnames(tempComparison)) == 1){
@@ -143,11 +144,10 @@ get_dunn_test <- function(subsample, cycle_num, comparator_var, taq_var, dataTab
 
 # Read in subsample.shared files
 # sub_sample_level <- c("50", "100", "500", "1000", "5000", "10000")
-error_files <- c("mock_precluster_error", "mock_chimera_error", "mock_error") 
-
+# 
 # # Read in the count data
-error_data <- sapply(error_files, function(x) read_csv(paste("data/process/tables/", x, "_summary.csv", sep = "")) %>% 
-  filter(total_seqs >= 1000), simplify = F)
+error_data <- read_csv("data/process/tables/full_error_summary.csv") %>% 
+  filter(total_seqs >= 1000)
 
 # error_data <- sapply(sub_sample_level, 
 #                      function(x) read_data("data/process/tables/error_", "", "_summary.csv", x), 
@@ -155,8 +155,7 @@ error_data <- sapply(error_files, function(x) read_csv(paste("data/process/table
 
 
 # Run the kruskal comparisons between amp cycle across subsamplings error per base
-krsukal_tests_error <- sapply(error_files, 
-                              function(x) run_comparison("full_data", "mean_error", "taq", error_data[[x]]), simplify = F)
+krsukal_tests_error <- run_comparison("full_data", "mean_error", "taq", error_data)
 
 #  kruskal_tests_error <- sapply(sub_sample_level, 
 #                        function(x) run_comparison(x, "mean_error", "taq", error_data), simplify = F)
@@ -164,9 +163,7 @@ krsukal_tests_error <- sapply(error_files,
 # combined_kruskal_table_error <- kruskal_tests_error %>% bind_rows()
 
 # Run the kruskal comparisons between amp cycle across subsamplings number of seqs with error
-kruskal_tests_seq_error_count <- sapply(error_files, 
-                                        function(x) run_comparison("full_data", "seq_error_prevalence", "taq", 
-                                                                   error_data[[x]]), simplify = F)
+kruskal_tests_seq_error_count <- run_comparison("full_data", "seq_error_prevalence", "taq", error_data)
 
 # kruskal_tests_seq_error_count <- sapply(sub_sample_level, 
 #                             function(x) run_comparison(x, "seq_error_prevalence", "taq", error_data), simplify = F)
@@ -175,9 +172,7 @@ kruskal_tests_seq_error_count <- sapply(error_files,
 
 
 # Run the kruskal comparisons between amp cycle across subsamplings number of chimeras
-kruskal_tests_chimera <- sapply(error_files, 
-                                function(x) run_comparison("full_data", "chimera_prevalence", "taq", 
-                                                           error_data[[x]]), simplify = F)
+kruskal_tests_chimera <- run_comparison("full_data", "chimera_prevalence", "taq", error_data)
 # kruskal_tests_chimera <- sapply(sub_sample_level, 
 #                                       function(x) run_comparison(x, "chimera_prevalence", "taq", error_data), simplify = F)
 # 
@@ -185,9 +180,7 @@ kruskal_tests_chimera <- sapply(error_files,
 
 
 # Run the Dunn post-hoc test comparisons on only the Kruskal that were significant after BH correction
-dunn_tests_error <- sapply(error_files, 
-                           function(x) run_dunn("full_data", "mean_error", "taq",
-                                                krsukal_tests_error[[x]], error_data[[x]]), simplify = F)
+dunn_tests_error <- run_dunn("full_data", "mean_error", "taq", krsukal_tests_error, error_data)
 
 # dunn_tests_error <- sapply(sub_sample_level, 
 #                       function(x) run_dunn(x, "mean_error", "taq", 
@@ -195,9 +188,7 @@ dunn_tests_error <- sapply(error_files,
 # 
 # combined_dunn_error <- dunn_tests_error %>% bind_rows()
 
-dunn_tests_seq_error_count <- sapply(error_files, 
-                                     function(x) run_dunn("full_data", "seq_error_prevalence", "taq", 
-                                                          kruskal_tests_seq_error_count[[x]], error_data[[x]]), simplify = F)
+dunn_tests_seq_error_count <- run_dunn("full_data", "seq_error_prevalence", "taq", kruskal_tests_seq_error_count, error_data)
 # dunn_tests_seq_error_count <- sapply(sub_sample_level, 
 #                            function(x) run_dunn(x, "seq_error_prevalence", "taq", 
 #                                                 kruskal_tests_seq_error_count, error_data), simplify = F)
@@ -205,9 +196,7 @@ dunn_tests_seq_error_count <- sapply(error_files,
 # combined_dunn_seq_error_count <- dunn_tests_seq_error_count %>% bind_rows()
 
 
-dunn_tests_chimera <- sapply(error_files, 
-                             function(x) run_dunn("full_data", "chimera_prevalence", "taq", 
-                                                  kruskal_tests_chimera[[x]], error_data[[x]]), simplify = F)
+dunn_tests_chimera <- run_dunn("full_data", "chimera_prevalence", "taq", kruskal_tests_chimera, error_data)
 # dunn_tests_chimera <- sapply(sub_sample_level, 
 #                                      function(x) run_dunn(x, "chimera_prevalence", "taq", 
 #                                                           kruskal_tests_chimera, error_data), simplify = F)
@@ -215,33 +204,11 @@ dunn_tests_chimera <- sapply(error_files,
 # combined_dunn_chimera<- dunn_tests_chimera %>% bind_rows()
 
 # Add data table write out
+write_csv(krsukal_tests_error, "data/process/tables/mock_error_overall_kruskal_results.csv")
+write_csv(dunn_tests_error, "data/process/tables/mock_error_overall_dunn_results.csv")
 
-sapply(c(1:length(error_files)), function(x) 
-       write_csv(krsukal_tests_error[[x]], 
-                 paste("data/process/tables/", error_files[x], "_overall_kruskal_results.csv", sep = "")))
+write_csv(kruskal_tests_seq_error_count, "data/process/tables/mock_error_count_overall_kruskal_results.csv")
+write_csv(dunn_tests_seq_error_count, "data/process/tables/mock_error_count_overall_dunn_results.csv")
 
-sapply(c(1:length(error_files)), function(x) 
-  write_csv(dunn_tests_error[[x]], 
-            paste("data/process/tables/", error_files[x], "_overall_dunn_results.csv", sep = "")))
-
-sapply(c(1:length(error_files)), function(x) 
-  write_csv(kruskal_tests_seq_error_count[[x]], 
-            paste("data/process/tables/", error_files[x], "_count_overall_kruskal_results.csv", sep = "")))
-
-sapply(c(1:length(error_files)), function(x) 
-  write_csv(dunn_tests_seq_error_count[[x]], 
-            paste("data/process/tables/", error_files[x], "_count_overall_dunn_results.csv", sep = "")))
-
-sapply(c(1:length(error_files)), function(x) 
-  write_csv(kruskal_tests_chimera[[x]], 
-            paste("data/process/tables/", error_files[x], "_chimera_overall_kruskal_results.csv", sep = "")))
-
-sapply(c(1:length(error_files)), function(x) 
-  write_csv(dunn_tests_chimera[[x]], 
-            paste("data/process/tables/", error_files[x], "_chimera_overall_dunn_results.csv", sep = "")))
-
-
-
-
-
-
+write_csv(kruskal_tests_chimera, "data/process/tables/mock_chimera_overall_kruskal_results.csv")
+write_csv(dunn_tests_chimera, "data/process/tables/mock_chimera_overall_dunn_results.csv")

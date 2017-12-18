@@ -187,7 +187,7 @@ ten_thousand <- combined_list[["10000"]] %>%
 
 combined_graph <- grid.arrange(thousand, five_thousand, ten_thousand, ncol = 3)
 
-ggsave("results/figures/Figure5.pdf", combined_graph, width = 15, height = 8, dpi = 300)
+ggsave("results/figures/Figure6.pdf", combined_graph, width = 15, height = 8, dpi = 300)
 
 
 

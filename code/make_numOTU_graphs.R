@@ -40,7 +40,8 @@ numOTU_data <- sapply(sub_sample_level,
                           function(x) read_data("data/process/tables/", "mock_sub_sample_", "_count_table.csv", x), 
                           simplify = F)
 
-
+ref_otu_num <- read_tsv("data/process/zymo_mock_only.shared") %>% 
+  select(numOtus)
 
 # Generate graph of Mock DNA samples 
 thousand_graph <- numOTU_data[["1000"]] %>% 
@@ -49,7 +50,9 @@ thousand_graph <- numOTU_data[["1000"]] %>%
                       labels = c("Accuprime", "Kappa", "Phusion", "Platinum", "Q5"))) %>% 
   ggplot(aes(cycles, log2(numOTUs), color = taq, group = taq)) + 
   geom_smooth(size = 1, method = "lm", formula = y ~ poly(x, 2), se = FALSE) + 
-  geom_point(size = 2, alpha = 0.7) + theme_bw() + 
+  geom_point(size = 2, alpha = 0.7) + 
+  geom_hline(yintercept = log2(ref_otu_num$numOtus), linetype = "dashed") + 
+  theme_bw() + 
   scale_color_manual(name = "Taq Used", 
                      values = c("#440154FF", "#3B528BFF", "#21908CFF", "#5DC863FF", "#FDE725FF")) + 
   labs(x = "Amplification Cycles", y = expression(Log["2"]~Number~of~OTUs)) + 
@@ -71,7 +74,9 @@ five_thousand_graph <- numOTU_data[["5000"]] %>%
                       labels = c("Accuprime", "Kappa", "Phusion", "Platinum", "Q5"))) %>% 
   ggplot(aes(cycles, log2(numOTUs), color = taq, group = taq)) + 
   geom_smooth(size = 1, method = "lm", formula = y ~ poly(x, 2), se = FALSE) + 
-  geom_point(size = 2, alpha = 0.7) + theme_bw() + 
+  geom_point(size = 2, alpha = 0.7) + 
+  geom_hline(yintercept = log2(ref_otu_num$numOtus), linetype = "dashed") + 
+  theme_bw() + 
   scale_color_manual(name = "Taq Used", 
                      values = c("#440154FF", "#21908CFF", "#5DC863FF", "#FDE725FF")) +  
   labs(x = "Amplification Cycles", y = expression(Log["2"]~Number~of~OTUs)) + 
@@ -94,7 +99,8 @@ ten_thousand_graph <- numOTU_data[["10000"]] %>%
                       labels = c("Accuprime", "Kappa", "Phusion", "Platinum", "Q5"))) %>% 
   ggplot(aes(cycles, log2(numOTUs), color = taq, group = taq)) + 
   geom_smooth(size = 1, method = "lm", formula = y ~ poly(x, 2), se = FALSE) + 
-  geom_point(size = 2, alpha = 0.7) + theme_bw() + 
+  geom_point(size = 2, alpha = 0.7) + geom_hline(yintercept = log2(ref_otu_num$numOtus), linetype = "dashed") + 
+  theme_bw() + 
   scale_color_manual(name = "Taq Used", 
                      values = c("#440154FF", "#21908CFF", "#5DC863FF", "#FDE725FF")) +  
   labs(x = "Amplification Cycles", y = expression(Log["2"]~Number~of~OTUs)) + 
