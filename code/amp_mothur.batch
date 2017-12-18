@@ -70,13 +70,18 @@ module load sratoolkit/2.8.2-1
 #mv $WORKDIR/temp.amp.opti_mcc.unique_list.0.03.cons.taxonomy $WORKDIR/all_amp.taxonomy
 #mv $WORKDIR/temp.amp.opti_mcc.unique_list.0.03.rep.fasta $WORKDIR/all_amp.rep.seqs
 #mv $WORKDIR/temp.amp.opti_mcc.unique_list.0.03.rep.count_table $WORKDIR/all_amp.rep.count_table
+mv $WORKDIR/amp.trim.contigs.good.unique.good.filter.unique.precluster.count_table $WORKDIR/before_chimera_vsearch.count_table
 mv $WORKDIR/amp.trim.contigs.good.unique.good.filter.unique.precluster.denovo.vsearch.chimeras $WORKDIR/all_amp.chimeras
 mv $WORKDIR/amp.trim.contigs.good.unique.good.filter.unique.precluster.denovo.vsearch.accnos $WORKDIR/all_amp_chimera.accnos
 
+# Zip larger files
+gzip $WORKDIR/all_amp.chimeras
+gzip $WORKDIR/before_chimera_vsearch.count_table
+
 # Remove unneeded intermidate files
-#rm $WORKDIR/temp.amp.opti_mcc* $WORKDIR/temp.amp*
-#rm $WORKDIR/*.map $WORKDIR/amp.trim.contigs* $WORKDIR/amp.contigs.*
-#rm $WORKDIR/amp.scrap.* $WORKDIR/amp.filter
+rm $WORKDIR/temp.amp.opti_mcc* $WORKDIR/temp.amp*
+rm $WORKDIR/*.map $WORKDIR/amp.trim.contigs* $WORKDIR/amp.contigs.*
+rm $WORKDIR/amp.scrap.* $WORKDIR/amp.filter
 
 # Run alpha and beta at different subsamplings as well as rarefaction
 #for i in 50 100 500 1000 5000 10000 15000 20000;
