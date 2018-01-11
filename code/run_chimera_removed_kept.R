@@ -49,9 +49,19 @@ fecal_count_tables <- sapply(sub_sample_level,
                              function(x) read_data("data/process/tables/", "fecal_sub_sample_", "_count_table.csv", x), 
                              simplify = F)
   
+# Read in chimera data tables and respective count table
 
+combined_table <- read_tsv("data/process/before_chimera_vsearch.count_table") %>% 
+  left_join(
+    read_tsv("data/process/all_amp.chimeras", col_names = F) %>% 
+      select(X1, X2, X18) %>% rename(sequence_name = X2, chimera = X18) %>% 
+      separate(sequence_name, c("sequence_name", "extra"), sep = ";") %>% 
+      select(X1, sequence_name, chimera), 
+    by = c("Representative_Sequence" = "sequence_name"))
 
-
-
-
+# Rearrange the table and generate summary stats on chimera number versus totals
+rearranged_combined_table <- combined_table %>% gather(sample_name, seq_count, 3:281) %>% 
+  mutate(chimera_positive = ifelse(chimera == "N", invisible(0), invisible(1))) %>% 
+  group_by(sample_name, chimera) %>% 
+  summarise(total_seqs = sum(seq_count))
 
