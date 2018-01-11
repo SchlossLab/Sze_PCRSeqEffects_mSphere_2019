@@ -267,13 +267,12 @@ good_summary_data <- sapply(error_files,
                                      ifelse(grepl("Zmock_C_", full_name) == T, invisible("C"), 
                                             ifelse(grepl("Zmock_D_", full_name) == T, 
                                                    invisible("D"), invisible(sample_name)))))) %>% 
-  group_by(taq, cycles, sample_name) %>% 
+  group_by(taq, cycles, sample_name, full_name) %>% 
   summarise(mean_error = mean(error, na.rm = T), sd_error = sd(error, na.rm = T), 
             total_seqs = length(query), 
             chimera_prevalence = sum(chimera)/length(query), 
             seq_error_prevalence = sum(seq_error)/length(query)) %>% 
   filter(!is.na(sample_name)), simplify = F)
-
 
 #good_summary_data <- sapply(sub_sample_level, 
 #                            function(x) get_summary_data(testRecombine, x), simplify = F)
