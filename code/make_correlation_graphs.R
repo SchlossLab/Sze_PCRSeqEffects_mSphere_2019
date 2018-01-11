@@ -51,7 +51,7 @@ combine_data <- function(i, dataList, to_match_list){
 
 # Function to make label for R2 (found on stack overflow)
 lm_eqn = function(df){
-  m = lm((chimera_prevalence*1000) ~ numOTUs, df);
+  m = lm((chimera_prevalence*1000) ~ total_otus, df);
   eq <- substitute(~~R^2~"="~r2, 
                    list(r2 = format(summary(m)$r.squared, digits = 3)))
   as.character(as.expression(eq));                 
@@ -60,55 +60,68 @@ lm_eqn = function(df){
 
 
 # Read in subsample.shared files
-sub_sample_level <- c("50", "100", "500", "1000", "5000", "10000")
+error_files <- c("mock_precluster_error", "mock_chimera_error", "mock_error") 
+
+# # Read in the count data
+error_data <- sapply(error_files, function(x) read_csv(paste("data/process/tables/", x, "_summary.csv", sep = "")) %>% 
+                       filter(total_seqs >= 1000), simplify = F)
 
 # Read in the count data
-error_data <- sapply(sub_sample_level, 
-                     function(x) read_data("data/process/tables/error_", "", "_summary.csv", x), 
-                     simplify = F)
+#numOTU_data <- sapply(sub_sample_level, 
+ #                     function(x) read_data("data/process/tables/", "mock_sub_sample_", "_count_table.csv", x), 
+  #                    simplify = F)
 
 
-# Read in the count data
-numOTU_data <- sapply(sub_sample_level, 
-                      function(x) read_data("data/process/tables/", "mock_sub_sample_", "_count_table.csv", x), 
-                      simplify = F)
 
+
+test <- read_tsv("data/process/all_amp.shared") %>% 
+  select(-label, -numOtus) %>% 
+  mutate_at(vars(contains("Otu")), function(x) ifelse(x > 0, invisible(1), invisible(0))) %>% 
+  mutate(total_otus = select(., -Group) %>% rowSums(.)) %>% 
+  select(Group, total_otus)
+
+
+num_otu_data <- sapply(error_files, 
+                       function(x) 
+                         error_data[[x]] %>% 
+                         select(full_name, cycles, taq, sample_name) %>% 
+                         left_join(test, by = c("full_name" = "Group")), simplify = F)
+  
 
 # Create new common column
-up_error_data <- sapply(sub_sample_level, 
+up_error_data <- sapply(error_files, 
                         function(x) make_common_column(x, error_data), simplify = F)
 
-up_numOTU_data <- sapply(sub_sample_level, 
-                         function(x) make_common_column(x, numOTU_data), simplify = F)
+up_numOTU_data <- sapply(error_files, 
+                         function(x) make_common_column(x, num_otu_data), simplify = F)
 
 # Combine the data together
-combined_list <- sapply(sub_sample_level, 
+combined_list <- sapply(error_files, 
                         function(x) combine_data(x, up_error_data, up_numOTU_data), simplify = F)
 
 
-
-
-eqns1000 <- by(combined_list[["1000"]], combined_list[["1000"]]$taq.x, lm_eqn)
-df1000 <- data.frame(eq = unclass(eqns1000), taq = rownames(eqns1000)) %>% 
+eqns_m_pc_error <- by(combined_list[["mock_precluster_error"]], 
+               combined_list[["mock_precluster_error"]]$taq.x, lm_eqn)
+df_m_pc_error<- data.frame(eq = unclass(eqns_m_pc_error), taq = rownames(eqns_m_pc_error)) %>% 
   mutate(taq = factor(taq, 
                       levels = c("ACC", "K", "PHU", "PL", "Q5"), 
                       labels = c("Accuprime", "Kappa", "Phusion", "Platinum", "Q5")))
 
-thousand <- combined_list[["1000"]] %>% 
+mock_pc <- combined_list[["mock_precluster_error"]] %>% 
   mutate(taq = factor(taq.x, 
                       levels = c("ACC", "K", "PHU", "PL", "Q5"), 
                       labels = c("Accuprime", "Kappa", "Phusion", "Platinum", "Q5"))) %>% 
-  ggplot(aes(chimera_prevalence*100, numOTUs, color = cycles.x, group = taq)) + 
+  ggplot(aes(chimera_prevalence*100, total_otus, color = cycles.x, group = taq)) + 
   geom_smooth(size = 1, method = "lm", se = FALSE, color = "black") + 
   geom_point(size = 2, alpha = 0.7) + theme_bw() + 
   facet_grid(taq ~.) + 
   scale_color_manual(name = "Cycle Number", 
                      values = c("#0000FF", "#00C957", "#CD8500", "#FF1493")) + 
-  labs(x = "Percent Chimera Prevalence", y = "Number of OTUs") + 
-  geom_text(data = df1000, aes(x = 1.5, y = 75, label = eq), 
+  labs(x = "Chimera Sequence Prevalence (%)", y = "Number of OTUs") + 
+  geom_text(data = df_m_pc_error, aes(x = 1.5, y = 350, label = eq), 
             color = 'black',  parse = TRUE) + 
-  ggtitle("A") + coord_cartesian(ylim = c(0, 80)) + 
-  annotate("text", label = paste("Sub-sampled to 1000 Sequences"), x = 22, y = 8.2, size = 2.5) + 
+  ggtitle("A") + coord_cartesian(ylim = c(0, 400)) + 
+  annotate("text", label = paste("Before Precluster Step"), x = 22, y = 100, size = 2.5) + 
   theme(plot.title = element_text(face="bold", hjust = -0.07, size = 20), 
         panel.grid.major = element_blank(), 
         panel.grid.minor = element_blank(), 
@@ -120,27 +133,29 @@ thousand <- combined_list[["1000"]] %>%
 
 
 
-eqns5000 <- by(combined_list[["5000"]], combined_list[["5000"]]$taq.x, lm_eqn)
-df5000 <- data.frame(eq = unclass(eqns5000), taq = rownames(eqns5000)) %>% 
+eqns_m_ch_error <- by(combined_list[["mock_chimera_error"]], 
+               combined_list[["mock_chimera_error"]]$taq.x, lm_eqn)
+
+df_m_ch_error <- data.frame(eq = unclass(eqns_m_ch_error), taq = rownames(eqns_m_ch_error)) %>% 
   mutate(taq = factor(taq, 
                       levels = c("ACC", "K", "PHU", "PL", "Q5"), 
                       labels = c("Accuprime", "Kappa", "Phusion", "Platinum", "Q5")))
 
-five_thousand <- combined_list[["5000"]] %>% 
+mock_ch <- combined_list[["mock_chimera_error"]] %>% 
   mutate(taq = factor(taq.x, 
                       levels = c("ACC", "K", "PHU", "PL", "Q5"), 
                       labels = c("Accuprime", "Kappa", "Phusion", "Platinum", "Q5"))) %>% 
-  ggplot(aes(chimera_prevalence*100, numOTUs, color = cycles.x, group = taq)) + 
+  ggplot(aes(chimera_prevalence*100, total_otus, color = cycles.x, group = taq)) + 
   geom_smooth(size = 1, method = "lm", se = FALSE, color = "black") + 
   geom_point(size = 2, alpha = 0.7) + theme_bw() + 
   facet_grid(taq ~.) + 
   scale_color_manual(name = "Cycle Number", 
                      values = c("#0000FF", "#00C957", "#CD8500", "#FF1493")) + 
-  labs(x = "Percent Chimera Prevalence", y = "Number of OTUs") + 
-  geom_text(data = df5000, aes(x = 1.2, y = 130, label = eq),  
+  labs(x = "Chimera Sequence Prevalence (%)", y = "Number of OTUs") + 
+  geom_text(data = df_m_ch_error, aes(x = 1.5, y = 350, label = eq), 
             color = 'black',  parse = TRUE) + 
-  ggtitle("B") + coord_cartesian(ylim = c(0, 140)) + 
-  annotate("text", label = paste("Sub-sampled to 5000 Sequences"), x = 12.5, y = 8.2, size = 2.5) + 
+  ggtitle("B") + coord_cartesian(ylim = c(0, 400)) + 
+  annotate("text", label = paste("Before Chimera Removal Step"), x = 22, y = 120, size = 2.5) + 
   theme(plot.title = element_text(face="bold", hjust = -0.07, size = 20), 
         panel.grid.major = element_blank(), 
         panel.grid.minor = element_blank(), 
@@ -151,27 +166,29 @@ five_thousand <- combined_list[["5000"]] %>%
         legend.background = element_rect(color = "black"))
 
 
-eqns10000 <- by(combined_list[["10000"]], combined_list[["10000"]]$taq.x, lm_eqn)
-df10000 <- data.frame(eq = unclass(eqns10000), taq = rownames(eqns10000)) %>% 
+eqns_m_error <- by(combined_list[["mock_error"]], 
+                      combined_list[["mock_error"]]$taq.x, lm_eqn)
+
+df_m_error <- data.frame(eq = unclass(eqns_m_ch_error), taq = rownames(eqns_m_ch_error)) %>% 
   mutate(taq = factor(taq, 
                       levels = c("ACC", "K", "PHU", "PL", "Q5"), 
                       labels = c("Accuprime", "Kappa", "Phusion", "Platinum", "Q5")))
 
-ten_thousand <- combined_list[["10000"]] %>% 
+mock_error <- combined_list[["mock_error"]] %>% 
   mutate(taq = factor(taq.x, 
                       levels = c("ACC", "K", "PHU", "PL", "Q5"), 
                       labels = c("Accuprime", "Kappa", "Phusion", "Platinum", "Q5"))) %>% 
-  ggplot(aes(chimera_prevalence*100, numOTUs, color = cycles.x, group = taq)) + 
+  ggplot(aes(chimera_prevalence*100, total_otus, color = cycles.x, group = taq)) + 
   geom_smooth(size = 1, method = "lm", se = FALSE, color = "black") + 
   geom_point(size = 2, alpha = 0.7) + theme_bw() + 
   facet_grid(taq ~.) + 
   scale_color_manual(name = "Cycle Number", 
                      values = c("#0000FF", "#00C957", "#CD8500", "#FF1493")) + 
-  labs(x = "Percent Chimera Prevalence", y = "Number of OTUs") + 
-  geom_text(data = df10000, aes(x = 1.2, y = 240, label = eq), 
+  labs(x = "Chimera Sequence Prevalence (%)", y = "Number of OTUs") + 
+  geom_text(data = df_m_error, aes(x = 0.5, y = 450, label = eq), 
             color = 'black',  parse = TRUE) + 
-  ggtitle("C") + coord_cartesian(ylim = c(0, 250)) + 
-  annotate("text", label = paste("Sub-sampled to 10000 Sequences"), x = 7.5, y = 8.2, size = 2.5) + 
+  ggtitle("C") + coord_cartesian(ylim = c(0, 500)) + 
+  annotate("text", label = paste("Before Chimera\nRemoval Step"), x = 8.5, y = 120, size = 2.5) + 
   theme(plot.title = element_text(face="bold", hjust = -0.07, size = 20), 
         panel.grid.major = element_blank(), 
         panel.grid.minor = element_blank(), 
@@ -185,7 +202,7 @@ ten_thousand <- combined_list[["10000"]] %>%
 ############################### Run actual analysis programs  #############################################################
 ###########################################################################################################################
 
-combined_graph <- grid.arrange(thousand, five_thousand, ten_thousand, ncol = 3)
+combined_graph <- grid.arrange(mock_pc, mock_ch, mock_error, ncol = 3)
 
 ggsave("results/figures/Figure6.pdf", combined_graph, width = 15, height = 8, dpi = 300)
 
