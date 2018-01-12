@@ -68,7 +68,6 @@ full_graph <- nucleotide_data %>%
                       values = c("#440154FF", "#3B528BFF", "#21908CFF", "#5DC863FF", "#FDE725FF")) + 
    labs(x = "", y = expression(Log["10"]~Substitution~Rate)) + 
    coord_cartesian(ylim = c(0, -6)) + 
-   ggtitle("Sub-Sampled to 1000 Sequences") +  
    theme(plot.title = element_text(face="bold", hjust = -0.07, size = 10), 
          panel.grid.major = element_blank(), 
          panel.grid.minor = element_blank(), 
