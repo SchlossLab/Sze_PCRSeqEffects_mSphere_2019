@@ -67,15 +67,17 @@ error_data <- sapply(error_files, function(x) read_csv(paste("data/process/table
                        filter(total_seqs >= 1000), simplify = F)
 
 # Read in the count data
-#numOTU_data <- sapply(sub_sample_level, 
- #                     function(x) read_data("data/process/tables/", "mock_sub_sample_", "_count_table.csv", x), 
-  #                    simplify = F)
-
-
-
-
 test <- read_tsv("data/process/all_amp.shared") %>% 
   select(-label, -numOtus) %>% 
+  filter(str_detect(Group, "FS") == FALSE)
+
+test2 <- select(test, contains("Otu"))
+test <- test2[, colSums(test2) > 0] %>% 
+  mutate(Group = test$Group)
+
+rm(test2)
+
+test <- test %>%   
   mutate_at(vars(contains("Otu")), function(x) ifelse(x > 0, invisible(1), invisible(0))) %>% 
   mutate(total_otus = select(., -Group) %>% rowSums(.)) %>% 
   select(Group, total_otus)
@@ -118,10 +120,10 @@ mock_pc <- combined_list[["mock_precluster_error"]] %>%
   scale_color_manual(name = "Cycle Number", 
                      values = c("#0000FF", "#00C957", "#CD8500", "#FF1493")) + 
   labs(x = "Chimera Sequence Prevalence (%)", y = "Number of OTUs") + 
-  geom_text(data = df_m_pc_error, aes(x = 1.5, y = 350, label = eq), 
+  geom_text(data = df_m_pc_error, aes(x = 32, y = 50, label = eq), 
             color = 'black',  parse = TRUE) + 
-  ggtitle("A") + coord_cartesian(ylim = c(0, 400)) + 
-  annotate("text", label = paste("Before Precluster Step"), x = 22, y = 100, size = 2.5) + 
+  ggtitle("A") + coord_cartesian(ylim = c(0, 500)) + scale_x_continuous(limits = c(0, 40)) + 
+  annotate("text", label = paste("Before Precluster Step"), x = 32, y = 110, size = 2.5) + 
   theme(plot.title = element_text(face="bold", hjust = -0.07, size = 20), 
         panel.grid.major = element_blank(), 
         panel.grid.minor = element_blank(), 
@@ -152,10 +154,10 @@ mock_ch <- combined_list[["mock_chimera_error"]] %>%
   scale_color_manual(name = "Cycle Number", 
                      values = c("#0000FF", "#00C957", "#CD8500", "#FF1493")) + 
   labs(x = "Chimera Sequence Prevalence (%)", y = "Number of OTUs") + 
-  geom_text(data = df_m_ch_error, aes(x = 1.5, y = 350, label = eq), 
+  geom_text(data = df_m_ch_error, aes(x = 32, y = 50, label = eq), 
             color = 'black',  parse = TRUE) + 
-  ggtitle("B") + coord_cartesian(ylim = c(0, 400)) + 
-  annotate("text", label = paste("Before Chimera Removal Step"), x = 22, y = 120, size = 2.5) + 
+  ggtitle("B") + coord_cartesian(ylim = c(0, 500)) + scale_x_continuous(limits = c(0, 40)) + 
+  annotate("text", label = paste("Before Chimera Removal Step"), x = 32, y = 110, size = 2.5) + 
   theme(plot.title = element_text(face="bold", hjust = -0.07, size = 20), 
         panel.grid.major = element_blank(), 
         panel.grid.minor = element_blank(), 
@@ -185,10 +187,10 @@ mock_error <- combined_list[["mock_error"]] %>%
   scale_color_manual(name = "Cycle Number", 
                      values = c("#0000FF", "#00C957", "#CD8500", "#FF1493")) + 
   labs(x = "Chimera Sequence Prevalence (%)", y = "Number of OTUs") + 
-  geom_text(data = df_m_error, aes(x = 0.5, y = 450, label = eq), 
+  geom_text(data = df_m_error, aes(x = 32, y = 50, label = eq), 
             color = 'black',  parse = TRUE) + 
-  ggtitle("C") + coord_cartesian(ylim = c(0, 500)) + 
-  annotate("text", label = paste("Before Chimera\nRemoval Step"), x = 8.5, y = 120, size = 2.5) + 
+  ggtitle("C") +coord_cartesian(ylim = c(0, 500)) + scale_x_continuous(limits = c(0, 40)) + 
+  annotate("text", label = paste("Full Pipeline"), x = 32, y = 110, size = 2.5) + 
   theme(plot.title = element_text(face="bold", hjust = -0.07, size = 20), 
         panel.grid.major = element_blank(), 
         panel.grid.minor = element_blank(), 
