@@ -40,8 +40,9 @@ read_data <- function(pathing, start_name, end_name, differentiator){
 
 # Read in subsample.shared files
 sub_sample_level <- c("1000", "5000", "10000")
+error_files <- c("mock_precluster_error", "mock_chimera_error", "mock_error") 
 
-mock_count_tables <- sapply(sub_sample_level, 
+mock_count_tables <- sapply(error_files, 
                           function(x) read_data("data/process/tables/", "mock_sub_sample_", "_count_table.csv", x), 
                           simplify = F)
 
@@ -64,4 +65,5 @@ rearranged_combined_table <- combined_table %>% gather(sample_name, seq_count, 3
   mutate(chimera_positive = ifelse(chimera == "N", invisible(0), invisible(1))) %>% 
   group_by(sample_name, chimera) %>% 
   summarise(total_seqs = sum(seq_count))
+
 
