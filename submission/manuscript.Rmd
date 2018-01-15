@@ -95,7 +95,17 @@ Co-author e-mails:
 
 ## Introduction
 
+Over recent years there has been an increasing focus on standardizing methodological approaches in microbiota research []. In particular, a lot of the attention of this standardization push has been invested in investigating ways that 16S rRNA gene surveys can be made more replicatable []. Although 16S rRNA gene sequencing has been much maligned for introduced bias, many of these same considerations also affect metagenomic sequencing [@metagenomcis_bias_Nayfach_2016]. Between the two approaches similar bias considerations include, but are not limited to, preservation media, storage conditions, DNA extraction kit, PCR, and sequece library preparation. Thus what is identified as a source of bias in 16S rRNA gene sequencing for these overlapping considerations will also influence metagenomic sequencing results.
 
+The most commonly studied biases are by far the skews introduced to the data via preservation media used, storage conditions, and DNA extraction kits chosen. The study of these specific biases has become so large, aggregating them all together has become a difficult task and some researchers provide resources to actively track new findings (e.g. Microbiome Digest - https://microbiomedigest.com/microbiome-papers-collection/microbiome-techniques/sample-storage/). Within the literature DNA extraction kits and storage condition chosen have consistently been shown to add bias to downstream analysis []. However, the current literature on preservation media has been more mixed, with some studies showing biases while others do not []. Although these are important sources of bias they are not the only sources that should be critically examined. The type of DNA polymerase chosen could have a wide ranging affect on downstream results due to error rates and chimeras that may not be easily resolved using bioinformatic approaches.
+
+A recent study in *Nature Biotechnology* showed that there were clear differences between normal and high fidelity (HiFi) DNA polymerase and that you could reduce error and chimera generation by optimizing the PCR protocol [@taq_Gohl_2016]. Another important component of this study was that differences, based on DNA polymerase, in the number of OTUs generated were not easily removed using the authors chosen bioinformatic pipeline [@taq_Gohl_2016]. Although it is probably not surprising that normal DNA polymerase performed worse than HiFi DNA polymerase, it is natural to extend this line of inquiry and ask whether different HiFi DNA polymerase contribute different biases to downstream sequencing results. There is some reason to think that they may since many of these HiFi DNA polymerase come from different families and may intrinsically have different error rates that cannot be completely removed with modifications [@polymerase_Ishino_2014].     
+
+  - Only a few have focused on DNA polymerase (highlight Knights paper)
+    - HiFi DNA polymerase is generally seen as better 
+  - Are all HiFi DNA polymerase created equal
+    - add that there are many families of DNA polymerase
+  - Brief overview of what was done
 
 
 \newpage
