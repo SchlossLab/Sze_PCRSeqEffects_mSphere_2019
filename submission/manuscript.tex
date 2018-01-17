@@ -161,9 +161,10 @@ between HiFi DNA polymerase for fecal samples (P-value \textless{}
 identified as early as 20 cycles in the mock communities (P-value =
 0.002). Chimera prevalence varied by HiFi DNA polymerase and these
 differences were still observed after chimera removal using VSEARCH.
-Further, the chimera prevalence had a strong positive correlation with
-the number of OTUs observed in a sample that was also not changed by
-chimera removal with VSEARCH.\\
+Additionally, the chimera prevalence had a strong positive correlation
+with the number of OTUs observed in a sample and was also not changed by
+chimera removal with VSEARCH.
+
 \textbf{Conclusions.} Due to the impact of HiFi DNA polymerase on the
 number of OTUs, common diversity metrics that incorporate this value
 could give artificially inflated numbers due to higher undetected
@@ -187,9 +188,9 @@ bias, many of these same considerations also affect metagenomic
 sequencing (Nayfach \& Pollard, 2016; Costea et al., 2017). Between the
 two approaches similar bias considerations include, but are not limited
 to, preservation media, storage conditions, DNA extraction kit, PCR, and
-sequece library preparation. Thus what is identified as a source of bias
-in 16S rRNA gene sequencing for these overlapping considerations will
-also influence metagenomic sequencing results.
+sequence library preparation. Thus what is identified as a source of
+bias in 16S rRNA gene sequencing for these overlapping considerations
+will also influence metagenomic sequencing results.
 
 The most commonly studied biases are by far the skews introduced to the
 data via preservation media used, storage conditions, and DNA extraction
@@ -220,11 +221,11 @@ bioinformatic pipeline (Gohl et al., 2016). Although it is probably not
 surprising that normal DNA polymerase performed worse than HiFi DNA
 polymerase, it is natural to extend this line of inquiry and ask whether
 different HiFi DNA polymerase contribute different biases to downstream
-sequencing results. There is some reason to think that they may since
-many of these HiFi DNA polymerase come from different families and may
-intrinsically have different error rates that cannot be completely
-removed with modifications (Ishino \& Ishino, 2014). In this study we
-critically examine if any of five different HiFi DNA polymerase
+sequencing results. There is some reason to think that this may be the
+case since many of these HiFi DNA polymerase come from different
+families and may intrinsically have different error rates that cannot be
+completely removed with modifications (Ishino \& Ishino, 2014). In this
+study we critically examine if any of five different HiFi DNA polymerase
 introduce noticeable biases into 16S rRNA gene surveys, if this is a
 cycle dependent phenomenon, and whether they can be removed using a
 standard bioinformatic pipeline.
@@ -233,7 +234,7 @@ We amplified the 16S rRNA gene in both fecal and mock community samples
 using either Accuprime, Kappa, Q5, Phusion, or Platinum HiFi DNA
 polymerase. First, we tested if we could identify differences in the
 number of OTUs between the differen HiFi DNA polymerase for both the
-fecal and mock samples. Next, since there were differences based of HiFi
+fecal and mock samples. Next, since there were differences based on HiFi
 DNA polymerase, we examined if a community measure such as the
 Bray-Curtis index would be affected. After assessing these community
 measures we then examined if the different HiFi DNA polymerase had
@@ -270,10 +271,10 @@ England Biolabs, MA, USA). The PCR cycle conditions for Platinum and
 Accuprime followed a previously published protocol (Kozich et al., 2013)
 (\url{https://github.com/SchlossLab/MiSeq_WetLab_SOP/blob/master/MiSeq_WetLab_SOP_v4.md}).
 If the HiFi Taq had a specific activation time that was different then 2
-minutes that was used instead. For Kappa and Q5 the protocol previously
-published by Gohl and colleagues was used (Gohl et al., 2016). For
-Phusion the company defined conditions were used but the same extension
-time as that used for Accuprime and Platinum was used.
+minutes, the specified activation was used instead. For Kappa and Q5 the
+protocol previously published by Gohl and colleagues was used (Gohl et
+al., 2016). For Phusion the company defined conditions were used but the
+same extension time as that used for Accuprime and Platinum was used.
 
 The 30 cycle default was used but the cycle conditions started at 15 and
 increased by 5 up to 35 cycles and was used for both fecal and mock
@@ -288,27 +289,27 @@ For all the mock community samples there was not enough PCR product at
 utilized for all sequence processing steps (Schloss et al., 2009). The
 protocol followed was similar to what has been previously publsihed
 (Kozich et al., 2013) (\url{https://www.mothur.org/wiki/MiSeq_SOP}). Two
-major differences from the stated protocol were the use VSEARCH instead
-of UCHIME for chimera detection and the use of the OptiClust algorithmn
-instead of average neighbor for Operational Taxonomic Unit (OTU)
-generation (Edgar et al., 2011; Rognes et al., 2016; Westcott \&
-Schloss, 2017). Sequence error was determined using the seq.error
-command on mock samples after chimera removal and classification to the
-RDP to remove non-bacterial sequences (Schloss et al., 2009; Cole et
-al., 2013; Rognes et al., 2016).
+major differences from the stated protocol were the use of VSEARCH
+instead of UCHIME for chimera detection and the use of the OptiClust
+algorithmn instead of average neighbor for Operational Taxonomic Unit
+(OTU) generation at 97\% similarity (Edgar et al., 2011; Rognes et al.,
+2016; Westcott \& Schloss, 2017). Sequence error was determined using
+the seq.error command on mock samples after chimera removal and
+classification to the RDP to remove non-bacterial sequences (Schloss et
+al., 2009; Cole et al., 2013; Rognes et al., 2016).
 
 \textbf{\emph{Statistical Analysis:}} All analysis was done with the R
 (v 3.4.3) software package (R Core Team, 2017). Data tranformation and
-graphing was completed using the tidyverse package (v 1.1.1) and colors
-selected using the viridis package (v 0.4.0) (Garnier, 2017; Wickham,
-2017). The total number of OTUs were analyzed using an ANOVA with a
-tukey post-hoc test. For the fecal samples the data was normalized to
-each individual by cycle number to account for the biological variation
-between different people. Bray-Curtis matrices were generated using
-mothur after 100 sub-samplings at 1000, 5000, 10000, and 15000. The
-distance matrix data was analyzed using PERMANOVA with the vegan package
-(v 2.4.4) (Oksanen et al., 2017) and kruskal-wallis tests within R. For
-both error and chimera analysis, samples were tested using
+graphing was completed using the tidyverse package (v 1.2.1) and colors
+selected using the viridis package (v 0.4.1) (Garnier, 2017; Wickham,
+2017). Differences in the total number of OTUs were analyzed using an
+ANOVA with a tukey post-hoc test. For the fecal samples the data was
+normalized to each individual by cycle number, to account for the
+biological variation between different people. Bray-Curtis matrices were
+generated using mothur after 100 sub-samplings at 1000, 5000, 10000, and
+15000. The distance matrix data was analyzed using PERMANOVA with the
+vegan package (v 2.4.5) (Oksanen et al., 2017) and kruskal-wallis tests
+within R. For both error and chimera analysis, samples were tested using
 Kruskal-Wallis with a Dunns post-hoc test. Where applicable correction
 for multiple comparison utilized the Benjamini-Hochberg method
 (Benjamini \& Hochberg, 1995).
@@ -318,14 +319,15 @@ sub-sampling was analyzed for both the fecal and mock community samples.
 Cycle dependent affects on Bray-Curits indicies were next assessed for
 the fecal samples looking at both overall cycle differences and within
 individual differences for the previous cycle (e.g.~20 versus 25, 25
-versus 30, etc.). From these observations we wanted to next analyze
+versus 30, etc.). Based on these observations we wanted to next analyze
 potential reasons as to why some of these differences may have occured.
 First, analysis of general sequence error rate, number of sequences with
 an error, and base subsitution were assessed in the mock community for
-each Taq. After assessing these errors, the total number of chimeras was
-determined after sequence processing. The fecal samples were analyzed at
-4 different sub-sampling levels, 1000, 5000, 10000, and 15000 while the
-mock community samples were analysed at 3 levels, 1000, 5000, 10000.
+each DNA polymerase. After assessing these errors, the total number of
+chimeras was determined after sequence processing. For the community
+based measures, the fecal samples were analyzed at 4 different
+sub-sampling levels, 1000, 5000, 10000, and 15000 while the mock
+community samples were analysed at 3 levels, 1000, 5000, 10000.
 
 \textbf{\emph{Reproducible Methods:}} The code and analysis can be found
 here \url{https://github.com/SchlossLab/Sze_PCRSeqEffects_XXXX_2017}.
@@ -336,21 +338,22 @@ number \textbf{need to upload still}.
 
 \subsection{Results}\label{results}
 
-\textbf{\emph{The Number of OTUs is Dependent on HiFi Taq Used:}} After
-normalization by individual, for each cycle number, we observed that for
-fecal samples the number of OTUs identified was dependent upon the HiFi
-DNA polymerase used and this difference increased as the depth of
-sub-sampling increased {[}Figure 1{]}. Lower cycle numbers (15-20)
-resulted in less differences between HiFI DNA polymerase while cycle
-numbers of 25, 30, and 35 had larger clearer defined differences
-{[}Figure 1{]}. Only 35 cycles had HiFi Taq differences that were
-significantly different at all sub-sampling levels (P-value \textless{}
-0.0001) {[}Table S1{]}. At sub-sampling depth of 5000 or higher 25 and
-30 cycles had HiFi DNA polymerase differences (P-value \textless{} 0.05)
-{[}Table S1{]}. Using a Tukey post-hoc test only at 35 cycles were
-significant differences found to be mainly driven by Platinum being
-different than all other Taq across sub-sampling depth (P-value
-\textless{} 0.05) {[}Table S2{]}.
+\textbf{\emph{The Number of OTUs is Dependent on HiFi DNA Polymerase
+Used:}} After normalization by individual, for each cycle number, we
+observed that for fecal samples the number of OTUs identified was
+dependent upon the HiFi DNA polymerase used and this difference
+increased as the depth of sub-sampling increased {[}Figure 1{]}. Lower
+cycle numbers (15-20) resulted in less differences between HiFI DNA
+polymerase while cycle numbers of 25, 30, and 35 had larger clearer
+defined differences {[}Figure 1{]}. Only 35 cycles had HiFi DNA
+polymerase differences that were significantly different at all
+sub-sampling levels (P-value \textless{} 0.0001) {[}Table S1{]}. At
+sub-sampling depth of 5000 or higher 25 and 30 cycles had HiFi DNA
+polymerase differences (P-value \textless{} 0.05) {[}Table S1{]}. Using
+a Tukey post-hoc test only at 35 cycles were significant differences
+found to be mainly driven by Platinum being different than all other DNA
+polymerases across sub-sampling depth (P-value \textless{} 0.05)
+{[}Table S2{]}.
 
 This HiFi DNA polymerase dependent difference in the number of OTUs was
 also observed in the mock community samples with the same DNA
@@ -371,13 +374,13 @@ Number:}} Overall, there was very little difference between each
 respective 5-cycle increment (e.g.~15x vs 20x) for both fecal and mock
 samples and this was consistent across the different sub-samplings used
 {[}Figure 3{]}. Two exceptions to the low differences between 5-cycle
-increments can be found. The first that there seems to be large
+increments can be found. The first, that there seems to be large
 differences for fecal samples between 20x vs.~25x that is robust against
 sub-sampling depth {[}Figure 3A-B{]}. Second, for the mocks, where data
 is available, there appears to be a similar large difference detected
 between 20x and 25x {[}Figure 3D{]}. Regardless, by the time PCR cycles
 reach 25x there does not seem to be large differences in the community
-{[}Figure 3{]}.
+between the same sample {[}Figure 3{]}.
 
 Using PERMANOVA to test whether there were any differences within HiFi
 DNA polymerase groups based on cycle number, only Phusion had cycle
@@ -394,102 +397,105 @@ sub-sampling depths these differences in Bray-Curits indicies disappear
 for both differences in cycle number and within 5 cycle increments
 within an individual.
 
-\textbf{\emph{Sequence Error is Dependent on both Taq and Cycle Number
-Used:}} Differences by HiFi Taq in the median average per base error
-varied without a clear pattern across sub-sampling depth {[}Table S5{]}.
-Generally, the highest values were for the Kappa HiFI DNA polymerase
-{[}Figure 4A{]}. Sub-sampling depth seems to have little effect on this
-rate with both 5000 and 10000 sub-sampled sequences showing similar
-results {[}Figure 4B-C{]}. There were small differences between the
-various HiFi Taq at lower cycle number but larger differences at higher
-cycle number with Platinum having large differences between all other
-HiFi DNA polymerase {[}Figure 4B-C and Table S6{]}.
+\textbf{\emph{Sequence Error is Dependent on both HiFi DNA Polymerase
+and Cycle Number Used:}} Differences by HiFi DNA polymerase in the
+median average per base error varied without a clear pattern across
+sub-sampling depth {[}Table S5{]}. Generally, the highest values were
+for the Kappa HiFI DNA polymerase and the pre-cluster step and chimera
+removal by VSEARCH had little effect on this rate {[}Figure 4{]}.
+Generally, there were small differences between the various HiFi DNA
+polymerase at lower cycle numbers and larger differences at higher cycle
+number with Platinum having large differences between all other HiFi DNA
+polymerase {[}Figure 4B-C and Table S6{]}.
 
 The total seqeunces with at least one error had multiple differences at
-different cycle numbers and sub-sampling depth driven by large
-differences in Accuprime\textsuperscript{TM} and Platinum versus the
-other HiFi Taq tested {[}Figure S1 \& Table S7 \& S8{]}. Although
+different cycle numbers and was mostly alleviated by the use of the
+pre.cluster step {[}Figure S1{]}. Major differences before this
+pre.cluster step were driven by large differences in
+Accuprime\textsuperscript{TM} and Platinum versus the other HiFi DNA
+polymerase tested {[}Figure S1 \& Table S7 \& S8{]}. Although
 Accuprime\textsuperscript{TM} had the lowest per base error rate it had
-either the largest or second largest number of sequences with at least
-one error regardless of cycle number or sub-sampling depth {[}Figure
-S1{]}. Investigation of whether there were HiFi DNA polymerase dependent
-effects on base subsitution found that there was no clear bias and this
-was indpendent of sub-sampling depth {[}Figure S2-S4{]}. Further, the
-variation in subsitution error seems to reduce as the sub-sampling depth
-increases {[}Figure S2-S4{]}.
+the largest number of sequences with at least one error, regardless of
+cycle number or sub-sampling depth {[}Figure S1{]}. However, this
+increased number of sequences with an error can be drastically lowered
+with existing bioinformatic approaches {[}Figure S1{]}. Investigation of
+whether there were HiFi DNA polymerase dependent effects on base
+subsitution found that there were generally no biases in the types of
+subsitution made {[}Figure S2{]}.
 
-\textbf{\emph{Chimeric Sequences Correlate with OTUs and are HiFi Taq
-Dependent:}} After chimera removal using VSEARCH and removal of
-sequences that did not classify as bacteria we assessed the percentage
-of sequences that were still chimeric within our mock community. At all
-levels of sub-sampling and cycle number there were significant
-differences between the HiFi DNA polymerase used (P-value \textless{}
-0.05) {[}Table S9{]}. Using a Dunn's post-hoc test the vast majority of
-these differences were driven by Platinum being different then all other
-HiFi DNA polymerase across cycle number and sub-sampling depth {[}Table
-S10{]}. Generally, across sub-sampling depth and cycle number
-Accuprime\textsuperscript{TM} had the lowest chimera prevalence of all
-the HiFi DNA Polymerase regardless of whether pre.cluster or VSEARCH had
-been used {[}Figure 5{]}.
+\textbf{\emph{Chimeric Sequences Correlate with OTUs and are HiFi DNA
+Polymerase Dependent:}} After chimera removal using VSEARCH and removal
+of sequences that did not classify as bacteria we assessed the
+percentage of sequences that were still chimeric within our mock
+community. At all levels of sub-sampling and cycle number there were
+significant differences between the HiFi DNA polymerase used (P-value
+\textless{} 0.05) {[}Table S9{]}. Using a Dunn's post-hoc test the vast
+majority of these differences were driven by Platinum being different
+then all other HiFi DNA polymerase across cycle number and sub-sampling
+depth {[}Table S10{]}. Generally, across sub-sampling depth and cycle
+number Accuprime\textsuperscript{TM} had the lowest chimera prevalence
+of all the HiFi DNA Polymerase regardless of whether pre.cluster or
+VSEARCH had been used {[}Figure 5{]}.
 
-For all Taqs a positive correlation was observed between chimeric
-sequences and number of OTUs, with this correlation being strongest for
-Accuprime, Platinum and Phusion HiFi DNA Polymerase {[}Figure 6{]}. In
-general, the R\textsuperscript{2} value between the number of OTUs and
-chimeric sequences did not change from the use of pre.cluster and
-VSEARCH {[}Figure 6{]}. Taken together this data suggests that a strong
-correlation exists between the number of OTUs and the prevalence of
-chimeric sequences. Kappa had the highest per base error rate and the
-lowest correlations between the number of OTUs and chimeric sequences
-across sub-sampling depth {[}Figure 4 \& 6{]}.
+For all DNA polymerase, a positive correlation was observed between
+chimeric sequences and number of OTUs, with this correlation being
+strongest for Accuprime, Platinum and Phusion HiFi DNA Polymerase
+{[}Figure 6{]}. In general, the R\textsuperscript{2} value between the
+number of OTUs and chimeric sequences did not change from the use of
+pre.cluster and VSEARCH {[}Figure 6{]}. Taken together this data
+suggests that a strong correlation exists between the number of OTUs and
+the prevalence of chimeric sequences. Additionally, Kappa had the
+highest per base error rate and the lowest correlations between the
+number of OTUs and chimeric sequences across sub-sampling depth
+{[}Figure 4 \& 6{]}.
 
 \newpage
 
 \subsection{Discussion}\label{discussion}
 
 Our observations build upon previous studies (Gohl et al., 2016) by
-showing that even different HiFi DNA Polymerase have significant
+showing that even different HiFi DNA polymerase have significant
 differences in the number of OTUs and that the changes to total OTUs
 correlate with chimeras not removed after sequence processing {[}Figure
 1-2 \& 5{]}. This is important since many diversity metrics rely on the
 total number of OTUs as part of their calculations and changes to the
-total number of OTUs could drastically change the results as well as the
-findings. Although the attention has mostly been on standardizing and
-improving collection and extraction methods (Salter et al., 2014) our
-observations show that independent of this consideration HiFi DNA
-polymerase can have a noticeable affect on the OTUs generated that can
-be found across sub-sampling depth and PCR cycle number {[}Figure
-2-4{]}. These differences were observed in high biomass samples, where
-biases introduced by such components like kit contamination have less of
-an effect, suggesting that these differences may be exacerbated in low
-biomass samples.
+total number of OTUs could drastically change the results, as well as
+the findings. Although the attention has mostly been focused on
+standardizing and improving collection and extraction methods (Salter et
+al., 2014) our observations show that independent of this consideration
+HiFi DNA polymerase can have a noticeable affect on the OTUs generated
+that can be found across sub-sampling depth and PCR cycle number
+{[}Figure 2-4{]}. These differences were observed in high biomass
+samples, where biases introduced by such components like kit
+contamination may have less of an effect, suggesting that these
+differences may be exacerbated in low biomass samples.
 
 Although we did not observe strong differences, based on cycle number,
 using the Bray-Curtis index the data suggests that there may be
 differences between 15 cycles and higher cycle numbers, such as 30x,
-that are commonly used. What is most interesting is that there was no
-difference within individuals between corresponding 5 cycle increments
-(e.g.~15 to 20, 20 to 25, etc.). Conversely, this may be due to low
-power and on observation there does seem to be a trend that 20x and 25x
-communities are very different {[}Figure 3{]}. This finding, in
+that are commonly used. Additionally, there was no difference within
+individuals between corresponding 5 cycle increments (e.g.~15 to 20, 20
+to 25, etc.). Conversely, this may be due to low power and on
+observation there does seem to be a trend that 20x and 25x communities
+are very different from each other {[}Figure 3{]}. This finding, in
 conjunction with the PERMANOVA results, suggest that cycle number can
 change bacterial community calculations but that these differences are
-minimal once at least 25 cylces are reached. Increasing the sub-sampling
-depth, for some DNA polymerase may reduce some of these observed
-community differences at lower cycle numbers.
+minimal once 25 cylces are reached. Increasing the sub-sampling depth,
+for some DNA polymerase, may reduce some of these observed community
+differences at lower cycle numbers.
 
 Increasing the cycle number also exacerbated chimera prevalence
 differences between the different HiFi DNA polymerases {[}Figure 5{]}.
-The chimera prevalence was very strongly correlated with the number of
-OTUs and this value is relied upon heavily for many different downstream
+The chimera prevalence was strongly correlated with the number of OTUs
+and this value is relied upon heavily for many different downstream
 community metric calculations. However, Bray-Curtis analysis with
 PERMANOVA showed few differences based on DNA polymerase. Since it is
 possible that many of the increased number of OTUs, generated as cycle
-number increases, are not highly abundant that the Bray-Curtis index is
-able to successfully downweight these respective OTUs (Minchin, 1987).
-So, choice of downstream diversity metric could be an important
-consideration to mitigate these observed changes due to high chimera
-prevalence in HiFi DNA polymerase such as Platinum.
+number increases, are not highly abundant allowing the Bray-Curtis index
+to be able to successfully downweight these respective OTUs (Minchin,
+1987). So, choice of downstream diversity metric could be an important
+consideration in helping to mitigate these observed changes due to high
+chimera prevalence in HiFi DNA polymerase.
 
 Our observations suggest that there are clear HiFi dependent differences
 in both per base error rate and chimeras that cannot be removed using
