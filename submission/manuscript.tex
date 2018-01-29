@@ -456,63 +456,60 @@ the prevalence of chimeric sequences.
 \subsection{Discussion}\label{discussion}
 
 Our observations build upon previous studies (Gohl et al., 2016) by
-showing that even different HiFi DNA polymerase have significant
-differences in the number of OTUs and that the changes to total OTUs
+showing that even different HiFi DNA polymerases have significant
+differences in the number of OTUs and that changes in total OTUs
 correlate with chimeras not removed after sequence processing {[}Figure
 1-2 \& 5{]}. This is important since many diversity metrics rely on the
 total number of OTUs as part of their calculations and changes to the
 total number of OTUs could drastically change the results, as well as
-the findings. Although the attention has mostly been focused on
-standardizing and improving collection and extraction methods (Salter et
-al., 2014) our observations show that independent of this consideration
-HiFi DNA polymerase can have a noticeable affect on the OTUs generated
-that can be found across sub-sampling depth and PCR cycle number
-{[}Figure 2-4{]}. These differences were observed in high biomass
-samples, where biases introduced by such components like kit
-contamination may have less of an effect, suggesting that these
-differences may be exacerbated in low biomass samples.
+the findings. Our observations show that HiFi DNA polymerase can have a
+noticeable affect on the OTUs generated and these differences are
+consistent across sub-sampling depth and PCR cycle number {[}Figure
+2-4{]}. These differences were observed in high biomass samples, where
+biases introduced by such components like kit contamination may have
+less of an effect, suggesting that these differences may be exacerbated
+in low biomass samples.
 
-Although we did not observe strong differences, based on cycle number,
-using the Bray-Curtis index the data suggests that there may be
-differences between 15 cycles and higher cycle numbers, such as 30x,
-that are commonly used. Additionally, there was no difference within
+Although we did not observe strong differences in the Bray-Curtis index,
+based on cycle number, the data suggests that there may be differences
+between 15 and 20 cycles versus higher cycle numbers, such as 30x, that
+are commonly used. Additionally, there was no difference within
 individuals between corresponding 5 cycle increments (e.g.~15 to 20, 20
-to 25, etc.). Conversely, this may be due to low power and on
-observation there does seem to be a trend that 20x and 25x communities
-are very different from each other {[}Figure 3{]}. This finding, in
-conjunction with the PERMANOVA results, suggest that cycle number can
-change bacterial community calculations but that these differences are
-minimal once 25 cylces are reached. Increasing the sub-sampling depth,
-for some DNA polymerase, may reduce some of these observed community
-differences at lower cycle numbers.
+to 25, etc.). Conversely, we may not have enough samples to adequately
+judge the true magnitude difference between 20x and 25x communities and
+higher cycle numbers analyzed, even though there is a clear trend to
+suggest that 20x is very different then 25x {[}Figure 3{]}. This
+finding, in conjunction with the PERMANOVA results, suggest that cycle
+number can change bacterial community calculations but that these
+differences are minimal once 25 cylces are reached. Increasing the
+sub-sampling depth, for some DNA polymerase, may reduce some of these
+observed community differences at lower cycle numbers.
 
 Increasing the cycle number also exacerbated chimera prevalence
 differences between the different HiFi DNA polymerases {[}Figure 5{]}.
 The chimera prevalence was strongly correlated with the number of OTUs
-and this value is relied upon heavily for many different downstream
-community metric calculations. However, Bray-Curtis analysis with
-PERMANOVA showed few differences based on DNA polymerase. Since it is
-possible that many of the increased number of OTUs, generated as cycle
-number increases, are not highly abundant allowing the Bray-Curtis index
-to be able to successfully downweight these respective OTUs (Minchin,
-1987). So, choice of downstream diversity metric could be an important
+which is relied upon heavily for many community metric calculations.
+However, Bray-Curtis analysis with PERMANOVA showed few differences
+based on DNA polymerase. It is possible that many of the increased
+number of OTUs are not highly abundant allowing the Bray-Curtis index to
+be able to successfully downweight these respective OTUs (Minchin,
+1987). The choice of downstream diversity metric could be an important
 consideration in helping to mitigate these observed changes due to high
-chimera prevalence in HiFi DNA polymerase.
+chimera prevalence in specific HiFi DNA polymerases (e.g.~Platinum).
 
-Our observations suggest that there are clear HiFi dependent differences
-in both per base error rate and chimeras that cannot be removed using
-bioinformatic approaches {[}Figure 4 \& 5{]}. Although it may be a
-natural assumption that the variation may be due to the DNA polymerase
-family, the highest chimera rate, from Platinum, was a family A
-polymerase while the lowest, from Accuprime, was also an A polymerase
-(Ishino \& Ishino, 2014). In fact, from the material safety data sheet
-(MSDS), it is not clear what the difference between the two different
-mixes really is. Both Accuprime and Platinum contain a recombinant
+Our observations suggest that there are clear HiFi DNA polymerase
+dependent differences in both per base error rate and chimeras that
+cannot be removed using bioinformatic approaches {[}Figure 4 \& 5{]}.
+Although it may be a natural assumption that the variation may be due to
+the DNA polymerase family, the highest chimera rate, from Platinum, was
+a family A polymerase while the lowest, from Accuprime, was also an A
+polymerase (Ishino \& Ishino, 2014). In fact, from the material safety
+data sheet (MSDS), the differences between the two mixes is not
+immediately apparent. Both Accuprime and Platinum contain a recombinant
 \emph{Taq} DNA polymerase, a \emph{Pycrococcus} spp GB-D polymerase and
 a platinum \emph{Taq} antibody. It is possible that differences in how
 the recombinant \emph{Taq} was generated could be the main reason for
-the differences in chimera rate since all samples were also sequenced at
-the same time as well as amplified using the same machine.
+the differences in chimera rate.
 
 \newpage
 
