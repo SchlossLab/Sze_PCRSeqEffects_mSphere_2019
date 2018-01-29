@@ -181,27 +181,26 @@ number of OTUs that are observed.
 
 Over recent years there has been an increasing focus on standardizing
 methodological approaches in microbiota research (Kim et al., 2017;
-Hugerth \& Andersson, 2017). In particular, a lot of the attention of
-this standardization push has been invested in investigating ways that
-16S rRNA gene surveys can be made more replicatable (Lauber et al.,
-2010; Salter et al., 2014; Song et al., 2016; Gohl et al., 2016).
-Although 16S rRNA gene sequencing has been much maligned for introduced
-bias, many of these same considerations also affect metagenomic
-sequencing (Nayfach \& Pollard, 2016; Costea et al., 2017). Between the
-two approaches similar bias considerations include, but are not limited
-to, preservation media, storage conditions, DNA extraction kit, PCR, and
-sequence library preparation. Thus what is identified as a source of
-bias in 16S rRNA gene sequencing for these overlapping considerations
-will also influence metagenomic sequencing results.
+Hugerth \& Andersson, 2017). In particular, investigating ways that 16S
+rRNA gene surveys can be made more replicatable has been a predominant
+driver of this standardization push (Lauber et al., 2010; Salter et al.,
+2014; Song et al., 2016; Gohl et al., 2016). Although 16S rRNA gene
+sequencing has been much maligned for introduced bias, many of these
+same considerations also affect metagenomic sequencing (Nayfach \&
+Pollard, 2016; Costea et al., 2017). Between the two approaches similar
+bias considerations include, but are not limited to, preservation media,
+storage conditions, DNA extraction kit, PCR, and sequence library
+preparation. Thus, for these overlapping considerations biases
+identified for 16S rRNA gene sequencing will also likely influence
+metagenomic sequencing results.
 
-The most commonly studied biases are by far the skews introduced to the
-data via preservation media used, storage conditions, and DNA extraction
-kits chosen. The study of these specific biases has become so large,
-aggregating them all together has become a difficult task and some
-researchers provide resources to actively track new findings
-(e.g.~Microbiome Digest -
+Currently, preservation media used, storage conditions, and DNA
+extraction kits chosen are the most commonly studied biases. The study
+of these specific biases has become so large, aggregating them all
+together has become a difficult task and some researchers provide
+resources to actively track new findings (e.g.~Microbiome Digest -
 \url{https://microbiomedigest.com/microbiome-papers-collection/microbiome-techniques/sample-storage/}).
-Within the literature DNA extraction kits have consistently been shown
+Within the literature, DNA extraction kits have consistently been shown
 to add bias to downstream analysis (Salter et al., 2014; Costea et al.,
 2017). However, the current literature on preservation media and storage
 conditions has been more mixed, with some studies showing biases while
@@ -225,17 +224,18 @@ polymerase, it is natural to extend this line of inquiry and ask whether
 different HiFi DNA polymerase contribute different biases to downstream
 sequencing results. There is some reason to think that this may be the
 case since many of these HiFi DNA polymerase come from different
-families and may intrinsically have different error rates that cannot be
-completely removed with modifications (Ishino \& Ishino, 2014). In this
-study we critically examine if any of five different HiFi DNA polymerase
-introduce noticeable biases into 16S rRNA gene surveys, if this is a
+families (e.g. \emph{Taq} belongs to the family A polymerases) and may
+intrinsically have different error rates that cannot be completely
+removed with modifications (Ishino \& Ishino, 2014). In this study we
+critically examine if any of five different HiFi DNA polymerases
+introduce significant biases into 16S rRNA gene surveys, if this is a
 cycle dependent phenomenon, and whether they can be removed using a
 standard bioinformatic pipeline.
 
 We amplified the 16S rRNA gene in both fecal and mock community samples
 using either Accuprime, Kappa, Q5, Phusion, or Platinum HiFi DNA
 polymerase. First, we tested if we could identify differences in the
-number of OTUs between the differen HiFi DNA polymerase for both the
+number of OTUs between the different HiFi DNA polymerase for both the
 fecal and mock samples. Next, since there were differences based on HiFi
 DNA polymerase, we examined if a community measure such as the
 Bray-Curtis index would be affected. After assessing these community
