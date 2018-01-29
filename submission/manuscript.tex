@@ -340,26 +340,25 @@ number \textbf{need to upload still}.
 
 \subsection{Results}\label{results}
 
-\textbf{\emph{The Number of OTUs is Dependent on HiFi DNA Polymerase
-Used:}} After normalization by individual, for each cycle number, we
-observed that for fecal samples the number of OTUs identified was
-dependent upon the HiFi DNA polymerase used and this difference
-increased as the depth of sub-sampling increased {[}Figure 1{]}. Lower
-cycle numbers (15-20) resulted in less differences between HiFI DNA
-polymerase while cycle numbers of 25, 30, and 35 had larger clearer
-defined differences {[}Figure 1{]}. Only 35 cycles had HiFi DNA
-polymerase differences that were significantly different at all
-sub-sampling levels (P-value \textless{} 0.0001) {[}Table S1{]}. At
-sub-sampling depth of 5000 or higher 25 and 30 cycles had HiFi DNA
-polymerase differences (P-value \textless{} 0.05) {[}Table S1{]}. Using
-a Tukey post-hoc test only at 35 cycles were significant differences
-found to be mainly driven by Platinum being different than all other DNA
-polymerases across sub-sampling depth (P-value \textless{} 0.05)
-{[}Table S2{]}.
+\textbf{\emph{Number of OTUs is Dependent on the HiFi DNA Polymerase
+Used:}} In order to compare the number of OTUs across individuals a
+Z-score normalization by individual, by cycle number, was employed on
+the number of OTUs data. After normalization, we identified that there
+was a HiFi DNA polymerase dependent difference that became more apparent
+as the depth of sub-sampling increased {[}Figure 1{]}. Lower cycle
+numbers (15-20) resulted in less differences between HiFI DNA polymerase
+while cycle numbers of 25, 30, and 35 having distinct differences
+{[}Figure 1{]}. All subsampling levels were significantly different only
+at 35 cycles (P-value \textless{} 0.0001) {[}Table S1{]}. There were
+differences in HiFi DNA polymerase at 25 and 30 cycles but the
+sub-sampling depth had to be 5000 or higher (P-value \textless{} 0.05)
+{[}Table S1{]}. Platinum HiFi DNA polymerase was the main driver of the
+differences observed across all sub-sampling depths at 35 cycles, based
+on a Tukey post-hoc test (P-value \textless{} 0.05) {[}Table S2{]}.
 
 This HiFi DNA polymerase dependent difference in the number of OTUs was
 also observed in the mock community samples with the same DNA
-polymerases being high (Platinum) and low (Accuprime) respectively
+polymerases having high (Platinum) and low (Accuprime) number of OTUs
 {[}Figure 2 \& Table S3{]}. Conversely, differences between HiFi DNA
 polymerase were observed as early as 20 cycles and a sub-sampling depth
 of 1000 sequences (P-value = 0.002) {[}Table S3{]}. Using a Tukey
@@ -375,40 +374,44 @@ both fecal and mock samples {[}Figure 1 \& 2{]}.
 Number:}} Overall, there was very little difference between each
 respective 5-cycle increment (e.g.~15x vs 20x) for both fecal and mock
 samples and this was consistent across the different sub-samplings used
-{[}Figure 3{]}. Two exceptions to the low differences between 5-cycle
-increments can be found. The first, that there seems to be large
-differences for fecal samples between 20x vs.~25x that is robust against
-sub-sampling depth {[}Figure 3A-B{]}. Second, for the mocks, where data
-is available, there appears to be a similar large difference detected
-between 20x and 25x {[}Figure 3D{]}. Regardless, by the time PCR cycles
-reach 25x there does not seem to be large differences in the community
-between the same sample {[}Figure 3{]}.
+{[}Figure 3{]}. There were only two differences between 5-cycle
+increments that were identified. First, there were differences for the
+same fecal sample between 20x vs.~25x that was independent of HiFi DNA
+polymerase but dependent on sub-sampling depth (subsampled to 1000 =
+0.51 (0.4 - 0.79) (median (25\% - 75\% quantile)), subsampled to 5000 =
+0.43 (0.33 - 0.63), subsampled to 10000 = 0.4 (0.24 - 0.43)) {[}Figure
+3A-B{]}. Second, for the mocks, where data is available, there were
+larger difference between 20x and 25x (subsampled to 1000 = 0.88 (0.42 -
+0.91)) {[}Figure 3D{]}. However, these differences between the next 5
+cycle increment do not persist once 25 cylces are reached {[}Figure
+3{]}.
 
-Using PERMANOVA to test whether there were any differences within HiFi
-DNA polymerase groups based on cycle number, only Phusion had cycle
-dependent differences at 1000 and 5000 sub-sampling depth (P-value =
-0.03 and 0.01, respectively). Interestingly, Phusion was one of only two
-DNA polymerase that managed to have samples for the 1000 sub-sampling
-depth at 15 cycles. Next, we assessed whether there were any major
-differences between 5 cycle increments within each sample. We found that
-there was no detectable difference in Bray-Curits index when comparing
-to the previous 5 cycle increment (P-value \textgreater{} 0.05).
-However, Phusion at 1000 sub-sampling depth had a P-value = 0.02 before
-multiple comparison correction. It should be noted that at higher
-sub-sampling depths these differences in Bray-Curits indicies disappear
-for both differences in cycle number and within 5 cycle increments
-within an individual.
+Using PERMANOVA to test for differences within HiFi DNA polymerase
+groups based on cycle number, only Phusion had cycle dependent
+differences at 1000 and 5000 sub-sampling depth (P-value = 0.03 and
+0.01, respectively). Phusion was one of only two HiFi DNA polymerases
+that managed to have samples for the 1000 sub-sampling depth at 15
+cycles. Next, we assessed whether there were any major differences
+between 5 cycle increments within each sample. We found that there was
+no detectable difference in Bray-Curits index when comparing to the
+previous 5 cycle increment (P-value \textgreater{} 0.05). However,
+Phusion at 1000 sub-sampling depth had a P-value = 0.02 before multiple
+comparison correction. It should be noted that at higher sub-sampling
+depths these differences in Bray-Curits indicies disappear for both
+differences in cycle number and within 5 cycle increments within an
+individual.
 
 \textbf{\emph{Sequence Error is Dependent on both HiFi DNA Polymerase
-and Cycle Number Used:}} Differences by HiFi DNA polymerase in the
-median average per base error varied without a clear pattern across
-sub-sampling depth {[}Table S5{]}. Generally, the highest values were
-for the Kappa HiFI DNA polymerase and the pre-cluster step and chimera
-removal by VSEARCH had little effect on this rate {[}Figure 4{]}.
-Generally, there were small differences between the various HiFi DNA
-polymerase at lower cycle numbers and larger differences at higher cycle
-number with Platinum having large differences between all other HiFi DNA
-polymerase {[}Figure 4B-C and Table S6{]}.
+and Cycle Number:}} Differences by HiFi DNA polymerase in the median
+average per base error varied without a clear pattern across
+sub-sampling depth {[}Table S5{]}. Generally, the highest per base
+median average error rates were for the Kappa HiFI DNA polymerase
+{[}Figure 4{]}. This error rate was minimally affected by both the
+pre-cluster step and chimera removal by VSEARCH {[}Figure 4{]}. There
+were small differences in the per base error rate between the various
+HiFi DNA polymerase at lower cycle numbers and larger differences at
+higher cycle number with Platinum having the largest differences of all
+the HiFi DNA polymerase {[}Figure 4B-C and Table S6{]}.
 
 The total seqeunces with at least one error had multiple differences at
 different cycle numbers and was mostly alleviated by the use of the
@@ -431,25 +434,22 @@ of sequences that did not classify as bacteria we assessed the
 percentage of sequences that were still chimeric within our mock
 community. At all levels of sub-sampling and cycle number there were
 significant differences between the HiFi DNA polymerase used (P-value
-\textless{} 0.05) {[}Table S9{]}. Using a Dunn's post-hoc test the vast
-majority of these differences were driven by Platinum being different
-then all other HiFi DNA polymerase across cycle number and sub-sampling
-depth {[}Table S10{]}. Generally, across sub-sampling depth and cycle
-number Accuprime\textsuperscript{TM} had the lowest chimera prevalence
-of all the HiFi DNA Polymerase regardless of whether pre.cluster or
-VSEARCH had been used {[}Figure 5{]}.
+\textless{} 0.05) {[}Table S9{]}. Differences between Platinum and all
+other HiFi DNA polymerases accounted for the vast majority of these
+differences independent of cycle number and sub-sampling depth when
+using a Dunn's post-hoc test {[}Table S10{]}. Generally, across
+sub-sampling depth and cycle number Accuprime\textsuperscript{TM} had
+the lowest chimera prevalence of all the HiFi DNA Polymerases regardless
+of whether pre.cluster or VSEARCH had been used {[}Figure 5{]}.
 
 For all DNA polymerase, a positive correlation was observed between
 chimeric sequences and number of OTUs, with this correlation being
 strongest for Accuprime, Platinum and Phusion HiFi DNA Polymerase
 {[}Figure 6{]}. In general, the R\textsuperscript{2} value between the
 number of OTUs and chimeric sequences did not change from the use of
-pre.cluster and VSEARCH {[}Figure 6{]}. Taken together this data
+pre.cluster and VSEARCH {[}Figure 6{]}. Taken together, this data
 suggests that a strong correlation exists between the number of OTUs and
-the prevalence of chimeric sequences. Additionally, Kappa had the
-highest per base error rate and the lowest correlations between the
-number of OTUs and chimeric sequences across sub-sampling depth
-{[}Figure 4 \& 6{]}.
+the prevalence of chimeric sequences.
 
 \newpage
 
