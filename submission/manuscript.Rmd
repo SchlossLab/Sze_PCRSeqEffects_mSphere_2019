@@ -208,7 +208,7 @@ Our observations suggest that there are clear HiFi DNA polymerase dependent diff
 
 ## Conclusion
 
-Our findings show that measures that rely on number of OTUs will be specific for a particular study and may not be easily generalized to other studies that may be studying a similar area. Care should be taken when choosing a HiFi DNA polymerase for 16S rRNA gene surveys since intrinsic differences can change the number of OTUs observed as well as potentially influence diversity based metrics that do not down weight rare observations.
+Our findings show that measures that rely on number of OTUs will be specific for a particular study and may not be easily generalized to other studies investigating a similar area. Care should be taken when choosing a HiFi DNA polymerase for 16S rRNA gene surveys since intrinsic differences can change the number of OTUs observed as well as potentially influence diversity based metrics that do not down weight rare observations.
 
 \newpage
 
