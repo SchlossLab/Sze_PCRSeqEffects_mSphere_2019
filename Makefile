@@ -159,6 +159,33 @@ $(TABLES)/mock_chimera_overall_tukey_results.csv : $(M_ERROR_COUNT_TABLES)\
 code/run_error_analysis.R
 	R -e "source('code/run_error_analysis.R')"
 
+#Set up mock bray-curtis tables
+M_BC_PATH=$(addprefix $(PROC)/all_amp.braycurtis.0.03.lt.,$(M_SAMPLING))
+M_BC_TABLES=$(addsuffix .dist,$(M_BC_PATH))
+M_BC_5_PATH=$(addprefix $(TABLES)/mock_bray_5_cycle_dist_,$(M_SAMPLING))
+M_BC_5_TABLES=$(addsuffix _data.csv,$(M_BC_5_PATH))
+
+#Set up human bray-curtis tables
+FS_BC_PATH=$(addprefix $(PROC)/all_amp.braycurtis.0.03.lt.,$(H_SAMPLING))
+FS_BC_TABLES=$(addsuffix .dist,$(FS_PATH))
+FS_BC_5_PATH=$(addprefix $(TABLES)/bray_5_cycle_dist_,$(H_SAMPLING))
+FS_BC_5_TABLES=$(addsuffix _data.csv,$(FS_BC_5_PATH))
+
+#Generate the bray-curtis analysis for fecal samples
+$(TABLES)/bray_sim_to_prev_cycle_kruskal_results.csv\
+$(TABLES)/bray_permanova_by_taq_results.csv\
+$(FS_BC_5_TABLES) : $(TABLES)/meta_data.csv $(FS_BC_TABLES)\
+code/run_nmds_fecal_data.R
+	 R -e "source('code/run_nmds_fecal_data.R')"
+
+#Generate the bray-curtis analysis for stool samples
+$(TABLES)/mock_bray_sim_to_prev_cycle_kruskal_results.csv\
+$(TABLES)/mock_bray_permanova_by_taq_results.csv\
+$(M_BC_5_TABLES) : $(TABLES)/meta_data.csv $(M_BC_TABLES)\
+code/run_nmds_mock_data.R
+	 R -e "source('code/run_nmds_mock_data.R')"
+
+
 
 ################################################################################
 #
@@ -180,21 +207,26 @@ code/make_numOTU_graphs.R
 	R -e "source('code/make_numOTU_graphs.R')"
 
 
-# Run code to create Figure 3 - Mock Sequence Error Rate
-$(FIGS)/Figure3.pdf : $(M_ERROR_COUNT_TABLES)\
+# Run code to create Figure 3 - Bray-Curtis distance differences by 5 set cycle
+$(FIGS)/Figure3.pdf : $(M_BC_5_TABLES) $(FS_BC_5_TABLES)\
+code/make_bray_distance_graphs.R
+	R -e "source('code/make_bray_distance_graphs.R')"
+
+# Run code to create Figure 4 - Mock Sequence Error Rate
+$(FIGS)/Figure4.pdf : $(M_ERROR_COUNT_TABLES)\
 code/make_mock_error_graphs.R
 	R -e "source('code/make_mock_error_graphs.R')"
 
 
 
-# Run code to create Figure 4 - Mock Chimera Frequency
-$(FIGS)/Figure4.pdf : $(M_ERROR_COUNT_TABLES)\
+# Run code to create Figure 5 - Mock Chimera Frequency
+$(FIGS)/Figure5.pdf : $(M_ERROR_COUNT_TABLES)\
 code/make_mock_chimera_count_graphs.R
 	R -e "source('code/make_mock_chimera_count_graphs.R')"
 
 
-# Run code to create Figure 5 - Mock Chimera versus Numberof OTUs
-$(FIGS)/Figure5.pdf : $(M_ERROR_COUNT_TABLES)\
+# Run code to create Figure 6 - Mock Chimera versus Numberof OTUs
+$(FIGS)/Figure6.pdf : $(M_ERROR_COUNT_TABLES)\
 $(M_COUNT_TABLES) code/make_correlation_graphs.R
 	R -e "source('code/make_correlation_graphs.R')"
 
