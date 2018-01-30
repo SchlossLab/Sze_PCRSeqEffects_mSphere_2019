@@ -37,141 +37,35 @@ sub_sample_level <- c("1000", "5000", "10000", "15000", "20000")
 
 # Read in the count data
 numOTU_data <- sapply(sub_sample_level, 
-                      function(x) read_data("data/process/tables/", "fecal_zscore_sub_sample_", "_count_table.csv", x), 
-                      simplify = F)
-
-
-thousand_graph <- numOTU_data[["1000"]] %>% 
-  mutate(taq = factor(taq, 
-                      levels = c("ACC", "K", "PHU", "PL", "Q5"), 
-                      labels = c("Accuprime", "Kappa", "Phusion", "Platinum", "Q5")), 
-         cycle_num = factor(cycle_num, 
-                         levels = c(15, 20, 25, 30, 35), 
-                         labels = c("15x", "20x", "25x", "30x", "35x"))) %>% 
-  ggplot(aes(cycle_num, scaled_numOTU, color = taq, group = taq)) + 
-  geom_point(size = 2, alpha = 0.7, show.legend = T) + theme_bw() + 
-  geom_vline(xintercept = c(1.5, 2.5, 3.5), color = "gray") + 
-  geom_hline(yintercept = 0, linetype = "dashed") + 
-  facet_grid(. ~ sample_name) + 
-  scale_color_manual(name = "Taq Used", 
-                     values = c("#440154FF", "#3B528BFF", "#21908CFF", "#5DC863FF", "#FDE725FF")) + 
-  labs(x = "Amplification Cycles", y = "Z-Score Normalized Number of OTUs") + 
-  ggtitle("A") + coord_cartesian(ylim = c(-2.0, 2.0)) + 
-  theme(plot.title = element_text(face="bold", hjust = -0.09, size = 20), 
-        panel.grid.major = element_blank(), 
-        panel.grid.minor = element_blank(), 
-        axis.text.y = element_text(size = 10), 
-        legend.position = "bottom",  
-        legend.title = element_blank(), 
-        legend.key = element_blank(), 
-        legend.background = element_rect(color = "black"))
-
-
-five_thousand_graph <- numOTU_data[["5000"]] %>% 
+                      function(x) read_data("data/process/tables/", "fecal_zscore_sub_sample_", "_count_table.csv", x) %>% 
+                        mutate(depth_level = as.numeric(x)), 
+                      simplify = F) %>% bind_rows() %>% 
   mutate(taq = factor(taq, 
                       levels = c("ACC", "K", "PHU", "PL", "Q5"), 
                       labels = c("Accuprime", "Kappa", "Phusion", "Platinum", "Q5")), 
          cycle_num = factor(cycle_num, 
                             levels = c(15, 20, 25, 30, 35), 
-                            labels = c("15x", "20x", "25x", "30x", "35x"))) %>% 
-  ggplot(aes(cycle_num, scaled_numOTU, color = taq, group = taq)) + 
-  geom_point(size = 2, alpha = 0.7, show.legend = T) + theme_bw() + 
-  geom_vline(xintercept = c(1.5, 2.5, 3.5), color = "gray") + 
-  geom_hline(yintercept = 0, linetype = "dashed") + 
-  facet_grid(. ~ sample_name) + 
-  scale_color_manual(name = "Taq Used", 
-                     values = c("#440154FF", "#3B528BFF", "#21908CFF", "#5DC863FF", "#FDE725FF")) + 
-  labs(x = "Amplification Cycles", y = "Z-Score Normalized Number of OTUs") + 
-  ggtitle("B") + coord_cartesian(ylim = c(-2.0, 2.0)) + 
+                            labels = c("15x", "20x", "25x", "30x", "35x")))
+  
+
+summary_data <- numOTU_data %>% group_by(taq) %>% 
+  summarise(taq_median = median(scaled_numOTU, na.rm = T))
+
+fecal_samples <- numOTU_data %>% 
+  ggplot(aes(depth_level, scaled_numOTU, color = cycle_num, group = taq)) + 
+  geom_point(size = 2, alpha = 0.9, show.legend = T) + theme_bw() + 
+  geom_hline(yintercept = 0, linetype = "dashed", size = 1) + 
+  geom_hline(aes(yintercept = taq_median), summary_data, color = "red", size = 1) + 
+  facet_grid(. ~ taq) + 
+  labs(x = "Sub-sampling Depth", y = "Z-Score Normalized Number of OTUs") + 
+  scale_color_manual(name = "Cycle Number", 
+                     values = c("#006400", "#00FF7F", "#63B8FF", "#104E8B")) + 
   theme(plot.title = element_text(face="bold", hjust = -0.09, size = 20), 
         panel.grid.major = element_blank(), 
         panel.grid.minor = element_blank(), 
         axis.text.y = element_text(size = 10), 
-        legend.position = "bottom", 
-        legend.title = element_blank(), 
         legend.key = element_blank(), 
         legend.background = element_rect(color = "black"))
+  
 
-
-ten_thousand_graph <- numOTU_data[["10000"]] %>% 
-  mutate(taq = factor(taq, 
-                      levels = c("ACC", "K", "PHU", "PL", "Q5"), 
-                      labels = c("Accuprime", "Kappa", "Phusion", "Platinum", "Q5")), 
-         cycle_num = factor(cycle_num, 
-                            levels = c(15, 20, 25, 30, 35), 
-                            labels = c("15x", "20x", "25x", "30x", "35x"))) %>% 
-  ggplot(aes(cycle_num, scaled_numOTU, color = taq, group = taq)) + 
-  geom_point(size = 2, alpha = 0.7, show.legend = T) + theme_bw() + 
-  geom_vline(xintercept = c(1.5, 2.5, 3.5), color = "gray") + 
-  geom_hline(yintercept = 0, linetype = "dashed") + 
-  facet_grid(. ~ sample_name) + 
-  scale_color_manual(name = "Taq Used", 
-                     values = c("#440154FF", "#3B528BFF", "#21908CFF", "#5DC863FF", "#FDE725FF")) + 
-  labs(x = "Amplification Cycles", y = "Z-Score Normalized Number of OTUs") + 
-  ggtitle("C") + coord_cartesian(ylim = c(-2.0, 2.0)) + 
-  theme(plot.title = element_text(face="bold", hjust = -0.09, size = 20), 
-        panel.grid.major = element_blank(), 
-        panel.grid.minor = element_blank(), 
-        axis.text.y = element_text(size = 10), 
-        legend.position = "bottom", 
-        legend.title = element_blank(), 
-        legend.key = element_blank(), 
-        legend.background = element_rect(color = "black"))
-
-
-fifteen_thousand_graph <- numOTU_data[["15000"]] %>% 
-  mutate(taq = factor(taq, 
-                      levels = c("ACC", "K", "PHU", "PL", "Q5"), 
-                      labels = c("Accuprime", "Kappa", "Phusion", "Platinum", "Q5")), 
-         cycle_num = factor(cycle_num, 
-                            levels = c(15, 20, 25, 30, 35), 
-                            labels = c("15x", "20x", "25x", "30x", "35x"))) %>% 
-  ggplot(aes(cycle_num, scaled_numOTU, color = taq, group = taq)) + 
-  geom_point(size = 2, alpha = 0.7, show.legend = T) + theme_bw() + 
-  geom_vline(xintercept = c(1.5, 2.5, 3.5), color = "gray") + 
-  geom_hline(yintercept = 0, linetype = "dashed") + 
-  facet_grid(. ~ sample_name) + 
-  scale_color_manual(name = "Taq Used", 
-                     values = c("#440154FF", "#3B528BFF", "#21908CFF", "#5DC863FF", "#FDE725FF")) + 
-  labs(x = "Amplification Cycles", y = "Z-Score Normalized Number of OTUs") + 
-  ggtitle("D") + coord_cartesian(ylim = c(-2.0, 2.0)) + 
-  theme(plot.title = element_text(face="bold", hjust = -0.09, size = 20), 
-        panel.grid.major = element_blank(), 
-        panel.grid.minor = element_blank(), 
-        axis.text.y = element_text(size = 10), 
-        legend.position = "bottom", 
-        legend.title = element_blank(), 
-        legend.key = element_blank(), 
-        legend.background = element_rect(color = "black"))
-
-
-twenty_thousand_graph <- numOTU_data[["20000"]] %>% 
-  mutate(taq = factor(taq, 
-                      levels = c("ACC", "K", "PHU", "PL", "Q5"), 
-                      labels = c("Accuprime", "Kappa", "Phusion", "Platinum", "Q5")), 
-         cycle_num = factor(cycle_num, 
-                            levels = c(15, 20, 25, 30, 35), 
-                            labels = c("15x", "20x", "25x", "30x", "35x"))) %>% 
-  ggplot(aes(cycle_num, scaled_numOTU, color = taq, group = taq)) + 
-  geom_point(size = 2, alpha = 0.7, show.legend = F) + theme_bw() + 
-  geom_vline(xintercept = c(1.5, 2.5, 3.5), color = "gray") + 
-  geom_hline(yintercept = 0, linetype = "dashed") + 
-  facet_grid(. ~ sample_name) + 
-  scale_color_manual(name = "Taq Used", 
-                     values = c("#440154FF", "#3B528BFF", "#21908CFF", "#5DC863FF", "#FDE725FF")) + 
-  labs(x = "Amplification Cycles", y = expression(Log["2"]~Number~of~OTUs)) + 
-  ggtitle("B") + coord_cartesian(ylim = c(-1.5, 1.5)) + 
-  theme(plot.title = element_text(face="bold", hjust = -0.09, size = 20), 
-        panel.grid.major = element_blank(), 
-        panel.grid.minor = element_blank(), 
-        axis.text.y = element_text(size = 10), 
-        legend.position = c(0.08, 0.3), 
-        legend.title = element_blank(), 
-        legend.key = element_blank(), 
-        legend.background = element_rect(color = "black"))
-
-
-combined_graph <- grid.arrange(thousand_graph, five_thousand_graph, ten_thousand_graph, fifteen_thousand_graph, 
-                               layout_matrix = rbind(c(1, 2), c(3, 4)))
-
-ggsave("results/figures/Figure1.pdf", combined_graph, width = 11, height = 8, dpi = 300)
+ggsave("results/figures/Figure1.pdf", fecal_samples, width = 10, height = 5, dpi = 300)
