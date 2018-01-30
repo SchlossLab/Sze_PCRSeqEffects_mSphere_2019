@@ -49,23 +49,27 @@ numOTU_data <- sapply(sub_sample_level,
   
 
 summary_data <- numOTU_data %>% group_by(taq) %>% 
-  summarise(taq_median = median(scaled_numOTU, na.rm = T))
+  summarise(taq_mean = mean(scaled_numOTU, na.rm = T))
 
 fecal_samples <- numOTU_data %>% 
   ggplot(aes(depth_level, scaled_numOTU, color = cycle_num, group = taq)) + 
   geom_point(size = 2, alpha = 0.9, show.legend = T) + theme_bw() + 
   geom_hline(yintercept = 0, linetype = "dashed", size = 1) + 
-  geom_hline(aes(yintercept = taq_median), summary_data, color = "red", size = 1) + 
+  geom_hline(aes(yintercept = taq_mean), summary_data, color = "red", size = 1) + 
   facet_grid(. ~ taq) + 
   labs(x = "Sub-sampling Depth", y = "Z-Score Normalized Number of OTUs") + 
   scale_color_manual(name = "Cycle Number", 
                      values = c("#006400", "#00FF7F", "#63B8FF", "#104E8B")) + 
+  scale_x_continuous(breaks = c(1000, 5000, 10000, 15000, 20000), 
+                    labels = c("1000", "5000", "10000", "15000", "20000")) + 
   theme(plot.title = element_text(face="bold", hjust = -0.09, size = 20), 
         panel.grid.major = element_blank(), 
         panel.grid.minor = element_blank(), 
-        axis.text.y = element_text(size = 10), 
+        axis.text.y = element_text(size = 10),
+        axis.text.x = element_text(size = 8, angle = 70, hjust = 1), 
         legend.key = element_blank(), 
+        legend.position = "bottom", 
         legend.background = element_rect(color = "black"))
   
 
-ggsave("results/figures/Figure1.pdf", fecal_samples, width = 10, height = 5, dpi = 300)
+ggsave("results/figures/Figure1.pdf", fecal_samples, width = 7, height = 5, dpi = 300)
