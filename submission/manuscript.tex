@@ -150,7 +150,7 @@ Phusion, Platinum, or Q5 HiFi DNA polymerase. Mock communities
 (technical replicates n = 4) consisting of previously isolated whole
 genomes of 8 different bacteria were also amplified using the same PCR
 amplification approach. First, the number of OTUs (Operational Taxonomic
-Units) was examined for both fecal samples and mock communites. Next,
+Units) was examined for both fecal samples and mock communities. Next,
 Bray-Curtis index, the error rate, sequence error prevalence, and
 chimera prevalence were assessed based on cycle number and HiFi DNA
 polymerase. Finally, the chimera prevalence correlation with number of
@@ -179,10 +179,10 @@ are observed.
 
 \subsection{Introduction}\label{introduction}
 
-Over recent years there has been an increasing focus on standardizing
+Recently there has been an increasing focus on standardizing
 methodological approaches in microbiota research (Kim et al., 2017;
 Hugerth \& Andersson, 2017). In particular, investigating ways that 16S
-rRNA gene surveys can be made more replicatable has been a predominant
+rRNA gene surveys can be made more reproducible has been a predominant
 driver of this standardization push (Lauber et al., 2010; Salter et al.,
 2014; Song et al., 2016; Gohl et al., 2016). Although 16S rRNA gene
 sequencing has been much maligned for introduced bias, many of these
@@ -266,7 +266,7 @@ aeruginosa}, \emph{Escherichia coli}, \emph{Salmonella enterica},
 (\url{http://www.zymoresearch.com/microbiomics/microbial-standards/zymobiomics-microbial-community-standards}).
 
 \textbf{\emph{PCR Protocol:}} The five different high fidelity (HiFi)
-Taq DNA polymerase that were tested were AccuPrime\textsuperscript{TM}
+DNA polymerase that were tested were AccuPrime\textsuperscript{TM}
 (ThermoFisher, MA, USA), KAPA HIFI (Roche, IN, USA), Phusion
 (ThermoFisher, MA, USA), Platinum (ThermoFisher, MA, USA), and Q5 (New
 England Biolabs, MA, USA). The PCR cycle conditions for Platinum and
@@ -289,11 +289,11 @@ adequate 16S rRNA gene sequencing.
 
 \textbf{\emph{Sequence Processing:}} The mothur software program was
 utilized for all sequence processing steps (Schloss et al., 2009).
-Generally, the protocol followed what has been previously publsihed
+Generally, the protocol followed what has been previously published
 (Kozich et al., 2013) (\url{https://www.mothur.org/wiki/MiSeq_SOP}). Two
 major differences from the stated protocol were the use of VSEARCH
 instead of UCHIME for chimera detection and the use of the OptiClust
-algorithmn instead of average neighbor for Operational Taxonomic Unit
+algorithm instead of average neighbor for Operational Taxonomic Unit
 (OTU) generation at 97\% similarity (Edgar et al., 2011; Rognes et al.,
 2016; Westcott \& Schloss, 2017). Sequence error was determined using
 the seq.error command on mock samples after chimera removal and
@@ -301,7 +301,7 @@ classification to the RDP to remove non-bacterial sequences (Schloss et
 al., 2009; Cole et al., 2013; Rognes et al., 2016).
 
 \textbf{\emph{Statistical Analysis:}} All analysis was done with the R
-(v 3.4.3) software package (R Core Team, 2017). Data tranformation and
+(v 3.4.3) software package (R Core Team, 2017). Data transformation and
 graphing was completed using the tidyverse package (v 1.2.1) and colors
 selected using the viridis package (v 0.4.1) (Garnier, 2017; Wickham,
 2017). Differences in the total number of OTUs were analyzed using an
@@ -318,22 +318,22 @@ for multiple comparison utilized the Benjamini-Hochberg method
 
 \textbf{\emph{Analysis Workflow:}} The total number of OTUs after
 sub-sampling was analyzed for both the fecal and mock community samples.
-Cycle dependent affects on Bray-Curits indicies were next assessed for
+Cycle dependent affects on Bray-Curtis indices were next assessed for
 the fecal samples looking at both overall cycle differences and within
 individual differences for the previous cycle (e.g.~20 versus 25, 25
 versus 30, etc.). Based on these observations we wanted to next analyze
 potential reasons for these differences. First, analysis of general
 sequence error rate, number of sequences with an error, and base
-subsitution were assessed in the mock community for each DNA polymerase.
-After assessing these errors, the total number of chimeras was
-determined after sequence processing. For the community based measures,
-the fecal samples were analyzed at 4 different sub-sampling levels
-(1000, 5000, 10000, and 15000) while the mock community samples were
-analysed at 3 levels (1000, 5000, 10000).
+substitution were assessed in the mock community for each DNA
+polymerase. After assessing these errors, the total number of chimeras
+was determined after sequence processing. For the community based
+measures, the fecal samples were analyzed at 4 different sub-sampling
+levels (1000, 5000, 10000, and 15000) while the mock community samples
+were analysed at 3 levels (1000, 5000, 10000).
 
 \textbf{\emph{Reproducible Methods:}} The code and analysis can be found
 here \url{https://github.com/SchlossLab/Sze_PCRSeqEffects_XXXX_2017}.
-The raw sequences can be found in the SRA at the following accesssion
+The raw sequences can be found in the SRA at the following accession
 number \textbf{need to upload still}.
 
 \newpage
@@ -348,9 +348,9 @@ was a HiFi DNA polymerase dependent difference that was consistent
 across sub-sampling {[}Figure 1{]}. Lower cycle numbers (15-20) tended
 to result in less differences between HiFI DNA polymerase while cycle
 numbers of 25, 30, and 35 tended to have more distinct differences
-{[}Figure 1{]}. All subsampling levels were significantly different only
-at 35 cycles (P-value \textless{} 0.0001) {[}Table S1{]}. There were
-differences in HiFi DNA polymerase at 25 and 30 cycles but the
+{[}Figure 1{]}. All sub-sampling levels were significantly different
+only at 35 cycles (P-value \textless{} 0.0001) {[}Table S1{]}. There
+were differences in HiFi DNA polymerase at 25 and 30 cycles but the
 sub-sampling depth had to be 5000 or higher (P-value \textless{} 0.05)
 {[}Table S1{]}. Platinum HiFi DNA polymerase was the main driver of the
 differences observed across all sub-sampling depths at 35 cycles, based
@@ -377,13 +377,14 @@ samples and this was consistent across the different sub-samplings used
 {[}Figure 3{]}. There were only two differences between 5-cycle
 increments that were identified. First, there were differences for the
 same fecal sample between 20x vs.~25x that was independent of HiFi DNA
-polymerase but dependent on sub-sampling depth (subsampled to 1000 =
-0.51 (0.4 - 0.79) (median (25\% - 75\% quantile)), subsampled to 5000 =
-0.43 (0.33 - 0.63), subsampled to 10000 = 0.4 (0.24 - 0.43)) {[}Figure
+polymerase but dependent on sub-sampling depth (sub-sampled to 1000 =
+0.51 (0.4 - 0.79) (median (25\% - 75\% quantile)), sub-sampled to 5000 =
+0.43 (0.33 - 0.63), sub-sampled to 10000 = 0.4 (0.24 - 0.43)) {[}Figure
 3A{]}. Second, for the mocks, where data is available, there were larger
-difference between 20x and 25x (subsampled to 1000 = 0.88 (0.42 - 0.91))
-{[}Figure 3B{]}. However, these differences between the next 5 cycle
-increment do not persist once 25 cylces are reached {[}Figure 3{]}.
+difference between 20x and 25x (sub-sampled to 1000 = 0.88 (0.42 -
+0.91)) {[}Figure 3B{]}. However, these differences between the next 5
+cycle increment do not persist once 25 cycles are reached {[}Figure
+3{]}.
 
 Using PERMANOVA to test for differences within HiFi DNA polymerase
 groups based on cycle number, only Phusion had cycle dependent
@@ -392,11 +393,11 @@ differences at 1000 and 5000 sub-sampling depth (P-value = 0.03 and
 that managed to have samples for the 1000 sub-sampling depth at 15
 cycles. Next, we assessed whether there were any major differences
 between 5 cycle increments within each sample. We found that there was
-no detectable difference in Bray-Curits index when comparing to the
+no detectable difference in Bray-Curtis index when comparing to the
 previous 5 cycle increment (P-value \textgreater{} 0.05). However,
 Phusion at 1000 sub-sampling depth had a P-value = 0.02 before multiple
 comparison correction. It should be noted that at higher sub-sampling
-depths these differences in Bray-Curits indicies disappear for both
+depths these differences in Bray-Curtis indices disappear for both
 differences in cycle number and within 5 cycle increments within an
 individual.
 
@@ -412,7 +413,7 @@ HiFi DNA polymerase at lower cycle numbers and larger differences at
 higher cycle number with Platinum having the largest differences of all
 the HiFi DNA polymerase {[}Figure 4B-C and Table S6{]}.
 
-The total seqeunces with at least one error had multiple differences at
+The total sequences with at least one error had multiple differences at
 different cycle numbers and was mostly alleviated by the use of the
 pre.cluster step {[}Figure S1{]}. Major differences before this
 pre.cluster step were driven by large differences in
@@ -424,8 +425,8 @@ cycle number or sub-sampling depth {[}Figure S1{]}. However, this
 increased number of sequences with an error can be drastically lowered
 with existing bioinformatic approaches {[}Figure S1{]}. Investigation of
 whether there were HiFi DNA polymerase dependent effects on base
-subsitution found that there were generally no biases in the types of
-subsitution made {[}Figure S2{]}.
+substitution found that there were generally no biases in the types of
+substitution made {[}Figure S2{]}.
 
 \textbf{\emph{Chimeric Sequences Correlate with OTUs and are HiFi DNA
 Polymerase Dependent:}} After chimera removal using VSEARCH and removal
@@ -480,7 +481,7 @@ higher cycle numbers analyzed, even though there is a clear trend to
 suggest that 20x is very different then 25x {[}Figure 3{]}. This
 finding, in conjunction with the PERMANOVA results, suggest that cycle
 number can change bacterial community calculations but that these
-differences are minimal once 25 cylces are reached. Increasing the
+differences are minimal once 25 cycles are reached. Increasing the
 sub-sampling depth, for some DNA polymerase, may reduce some of these
 observed community differences at lower cycle numbers.
 
@@ -491,7 +492,7 @@ which is relied upon heavily for many community metric calculations.
 However, Bray-Curtis analysis with PERMANOVA showed few differences
 based on DNA polymerase. It is possible that many of the increased
 number of OTUs are not highly abundant allowing the Bray-Curtis index to
-be able to successfully downweight these respective OTUs (Minchin,
+be able to successfully down-weight these respective OTUs (Minchin,
 1987). The choice of downstream diversity metric could be an important
 consideration in helping to mitigate these observed changes due to high
 chimera prevalence in specific HiFi DNA polymerases (e.g.~Platinum).
@@ -530,7 +531,7 @@ The authors would like to thank all the study participants ERIN whose
 samples were utilized. We would also like to thank Judy Opp and April
 Cockburn for their effort in sequencing the samples as part of the
 Microbiome Core Facility at the University of Michigan. Salary support
-for Marc Sze came from the Canadian Institue of Health Research and the
+for Marc Sze came from the Canadian Institute of Health Research and the
 Michigan Institute for Clinical and Health Research Postdoctoral
 Translational Scholar Program.
 
@@ -718,7 +719,7 @@ normalized mean number of OTUs.
 \textbf{Figure 2: Mock Sample Variability in Number of OTUs based on
 HiFi DNA Polymerase.} A) Sub-sampled to 1000 reads. B) Sub-sampled to
 5000 reads. C) Sub-sampled to 10000 reads. The dotted line represents
-the number of OTUs genereated when the mock reference sequences are run
+the number of OTUs generated when the mock reference sequences are run
 through the pipeline.
 
 \textbf{Figure 3: Community Differences by Five-Cycle Intervals and
