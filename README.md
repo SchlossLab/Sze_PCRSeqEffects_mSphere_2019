@@ -1,4 +1,4 @@
-## What the Taq? The Influence of High Fidelity DNA Polymerase on 16S rRNA Gene Sequencing
+## The Influence of High Fidelity DNA Polymerase on 16S rRNA Gene Sequencing
 
 **Background.** An increasing body of research has found that various methodological
 steps can have an impact on the observed microbial community when using 16S rRNA

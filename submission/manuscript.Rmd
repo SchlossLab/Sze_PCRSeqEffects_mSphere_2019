@@ -64,7 +64,7 @@ mock_dist_data <- sapply(sub_sample_level,
 
 
 
-# What the Taq? The Influence of High Fidelity DNA Polymerase on 16S rRNA Gene Sequencing
+# The Influence of High Fidelity DNA Polymerase on 16S rRNA Gene Sequencing
 
 \begin{center}
 \vspace{25mm}
