@@ -10,3 +10,4 @@ data/raw/repeated_V2_frozens
 data/references/
 *.logfile
 *.pbs.*
+sra_submission/
