@@ -294,7 +294,7 @@ instead of UCHIME for chimera detection and the use of the OptiClust
 algorithm instead of average neighbor for Operational Taxonomic Unit
 (OTU) generation at 97\% similarity (Edgar et al., 2011; Rognes et al.,
 2016; Westcott \& Schloss, 2017). Sequence error was determined using
-the seq.error command on mock samples after chimera removal and
+the `seq.error' command on mock samples after chimera removal and
 classification to the RDP to remove non-bacterial sequences (Schloss et
 al., 2009; Cole et al., 2013; Rognes et al., 2016).
 
@@ -306,13 +306,13 @@ selected using the viridis package (v 0.4.1) (Garnier, 2017; Wickham,
 ANOVA with a tukey post-hoc test. For the fecal samples the data was
 normalized to each individual by cycle number to account for the
 biological variation between people. Bray-Curtis matrices were generated
-using mothur after 100 sub-samplings at 1000, 5000, 10000, and 15000.
-The distance matrix data was analyzed using PERMANOVA with the vegan
-package (v 2.4.5) (Oksanen et al., 2017) and kruskal-wallis tests within
-R. For both error and chimera analysis, samples were tested using
-Kruskal-Wallis with a Dunns post-hoc test. Where applicable correction
-for multiple comparison utilized the Benjamini-Hochberg method
-(Benjamini \& Hochberg, 1995).
+using mothur after 100 sub-samplings at 1000, 5000, 10000, and 15000
+sequence depth. The distance matrix data was analyzed using PERMANOVA
+with the vegan package (v 2.4.5) (Oksanen et al., 2017) and
+Kruskal-Wallis tests within R. For both error and chimera analysis,
+samples were tested using Kruskal-Wallis with a Dunns post-hoc test.
+Where applicable correction for multiple comparison utilized the
+Benjamini-Hochberg method (Benjamini \& Hochberg, 1995).
 
 \textbf{\emph{Analysis Workflow:}} The total number of OTUs after
 sub-sampling was analyzed for both the fecal and mock community samples.
@@ -326,8 +326,8 @@ substitution were assessed in the mock community for each DNA
 polymerase. After assessing these errors, the total number of chimeras
 was determined after sequence processing. For the community based
 measures, the fecal samples were analyzed at 4 different sub-sampling
-levels (1000, 5000, 10000, and 15000) while the mock community samples
-were analysed at 3 levels (1000, 5000, 10000).
+sequence depths (1000, 5000, 10000, and 15000) while the mock community
+samples were analysed at 3 levels (1000, 5000, 10000).
 
 \textbf{\emph{Reproducible Methods:}} The code and analysis can be found
 here \url{https://github.com/SchlossLab/Sze_PCRSeqEffects_XXXX_2017}.
