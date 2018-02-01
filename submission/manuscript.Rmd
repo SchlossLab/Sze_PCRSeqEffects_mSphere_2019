@@ -208,7 +208,7 @@ Our observations suggest that there are clear HiFi DNA polymerase dependent diff
 
 ## Conclusion
 
-Our findings show that measures that rely on number of OTUs will be specific for a particular study and may not be easily generalized to other studies investigating a similar area. Care should be taken when choosing a HiFi DNA polymerase for 16S rRNA gene surveys since intrinsic differences can change the number of OTUs observed as well as potentially influence diversity based metrics that do not down weight rare observations.
+Our findings show that measures that rely on the number of OTUs will be specific for a particular study due to both HiFi DNA polymerase and cycle number chosen. Due in part to these consderations findings may not be easily generalized to other studies investigating a similar area. Care should be taken when choosing a HiFi DNA polymerase for 16S rRNA gene surveys since intrinsic differences can change the number of OTUs observed as well as potentially influence diversity based metrics that do not down-weight rare observations.
 
 \newpage
 
@@ -216,7 +216,7 @@ Our findings show that measures that rely on number of OTUs will be specific for
 
 ## Acknowledgements
 
-The authors would like to thank all the study participants ERIN whose samples were utilized. We would also like to thank Judy Opp and April Cockburn for their effort in sequencing the samples as part of the Microbiome Core Facility at the University of Michigan. Salary support for Marc Sze came from the Canadian Institute of Health Research and the Michigan Institute for Clinical and Health Research Postdoctoral Translational Scholar Program.
+The authors would like to thank all the study participants in ERIN whose samples were utilized. We would also like to thank Judy Opp and April Cockburn for their effort in sequencing the samples as part of the Microbiome Core Facility at the University of Michigan. Salary support for Marc Sze came from the Canadian Institute of Health Research and the Michigan Institute for Clinical and Health Research Postdoctoral Translational Scholar Program.
 
 \newpage
 
