@@ -10,3 +10,5 @@ data/raw/repeated_V2_frozens
 data/references/
 *.logfile
 *.pbs.*
+data/process/test.fasta
+data/process/q5_data_only.fasta
