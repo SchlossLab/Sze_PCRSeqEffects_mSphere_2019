@@ -11,7 +11,7 @@ geometry: margin=1.0in
 bibliography: null
 ---
 
-# The Influence of Different Hi-Fidelity Taq Polymerase on 16S rRNA Sequencing
+# The Influence of Different High Fidelity DNA Polymerase on 16S rRNA Sequencing
 
 \vspace{10mm}
 
