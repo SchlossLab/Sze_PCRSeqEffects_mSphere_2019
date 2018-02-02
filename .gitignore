@@ -12,3 +12,6 @@ data/references/
 *.pbs.*
 data/process/test.fasta
 data/process/q5_data_only.fasta
+
+sra_submission/
+
