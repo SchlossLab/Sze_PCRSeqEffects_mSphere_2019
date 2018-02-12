@@ -142,7 +142,7 @@ being considered. Here we critically examine both cycle number and HiFi
 DNA polymerase for biases that may influence downstream diversity
 measures of 16S rRNA gene surveys.
 
-\textbf{Methods.} DNA from Fecal samples (n = 4) were extracted using a
+\textbf{Methods.} DNA from fecal samples (n = 4) were extracted using a
 single PowerMag DNA extraction kit with a 10 minute bead beating step
 and amplified at 15, 20, 25, 30, and 35 cycles using Accuprime, Kappa,
 Phusion, Platinum, or Q5 HiFi DNA polymerase. Mock communities
@@ -189,7 +189,7 @@ same considerations also affect metagenomic sequencing (Nayfach \&
 Pollard, 2016; Costea et al., 2017). Between the two approaches similar
 bias considerations include preservation media, storage conditions, DNA
 extraction kit, PCR, and sequence library preparation. Thus, for these
-overlapping considerations biases identified for 16S rRNA gene
+overlapping considerations, biases identified for 16S rRNA gene
 sequencing will also likely influence metagenomic sequencing results.
 This current study specifically addresses the PCR contribution of bias
 to this overall workflow.
@@ -208,29 +208,29 @@ others do not (Lauber et al., 2010; Dominianni et al., 2014; Sinha et
 al., 2015; Song et al., 2016; Luo et al., 2016; Bassis et al., 2017).
 Although these are important sources of bias they are not the only
 sources that should be critically examined. The type of DNA polymerase
-chosen could have a wide ranging affect on downstream results due to
-error rates and chimeras that may not be easily resolved using
+chosen could also have a wide ranging affect on downstream results due
+to error rates and chimeras that may not be easily resolved using
 bioinformatic approaches.
 
 A recent study in \emph{Nature Biotechnology} showed that there were
 clear differences between normal and high fidelity (HiFi) DNA polymerase
 and that you could reduce error and chimera generation by optimizing the
 PCR protocol (Gohl et al., 2016). Another important component of this
-study was that the number of OTUs generated were not easily removed
-using the authors chosen bioinformatic pipeline regardless of DNA
-polymerase used (Gohl et al., 2016). Although it is probably not
-surprising that normal DNA polymerase performed worse than HiFi DNA
-polymerase, it is natural to extend this line of inquiry and ask whether
-different HiFi DNA polymerase contribute different biases to downstream
-sequencing results. There is some reason to think that this may be the
-case since many of these HiFi DNA polymerase come from different
-families (e.g. \emph{Taq} belongs to the family A polymerases) and may
-intrinsically have different error rates that cannot be completely
-removed with modifications (Ishino \& Ishino, 2014). In this study we
-critically examine if any of five different HiFi DNA polymerases
-introduce significant biases into 16S rRNA gene surveys, if this is a
-cycle dependent phenomenon, and whether they can be removed using a
-standard bioinformatic pipeline.
+study was that the number of Operational Taxonomic Units (OTUs)
+generated were not easily removed using the authors chosen bioinformatic
+pipeline, regardless of DNA polymerase used (Gohl et al., 2016).
+Although it is probably not surprising that normal DNA polymerase
+performed worse than HiFi DNA polymerase, it is natural to extend this
+line of inquiry and ask whether different HiFi DNA polymerase contribute
+different biases to downstream sequencing results. There is some reason
+to think that this may be the case since many of these HiFi DNA
+polymerase come from different families (e.g. \emph{Taq} belongs to the
+family A polymerases) and may intrinsically have different error rates
+that cannot be completely removed with modifications (Ishino \& Ishino,
+2014). In this study we critically examine if any of five different HiFi
+DNA polymerases introduce significant biases into 16S rRNA gene surveys,
+if this is a cycle dependent phenomenon, and whether they can be removed
+using a standard bioinformatic pipeline.
 
 We amplified the V4 region of the 16S rRNA gene in both fecal and mock
 community samples using either Accuprime, Kappa, Q5, Phusion, or
@@ -253,20 +253,22 @@ total number of observed OTUs.
 \textbf{\emph{Human and Mock Samples:}} A single fecal sample was
 obtained from 4 individuals who were part of the Enterics Research
 Investigational Network (ERIN). The processing and storage of these
-samples have been published previously (Seekatz et al., 2016). Clinical
-data and other types of meta data were not utilized or accessed for this
-study. All samples were extracted using the MOBIO\textsuperscript{TM}
-PowerMag Microbiome RNA/DNA extraction kit (now Qiagen, MD, USA). The
-ZymoBIOMICS\textsuperscript{TM} Microbial Community DNA Standard (Zymo,
-CA, USA) was used in this study and is made up of \emph{Pseudomonas
-aeruginosa}, \emph{Escherichia coli}, \emph{Salmonella enterica},
-\emph{Lactobacillus fermentum}, \emph{Enterococcus faecalis},
-\emph{Staphylococcus aureus}, \emph{Listeria monocytogenes}, and
-\emph{Bacillus subtilis} at equal genomic DNA abundance
+samples have been published previously (Seekatz et al., 2016). Other
+than confirmation that none of these individuals had a \emph{Clostridium
+difficle} infection clinical data and other types of meta data were not
+utilized or accessed for this study. All samples were extracted using
+the MOBIO\textsuperscript{TM} PowerMag Microbiome RNA/DNA extraction kit
+(now Qiagen, MD, USA). The ZymoBIOMICS\textsuperscript{TM} Microbial
+Community DNA Standard (Zymo, CA, USA) was used in this study and is
+made up of \emph{Pseudomonas aeruginosa}, \emph{Escherichia coli},
+\emph{Salmonella enterica}, \emph{Lactobacillus fermentum},
+\emph{Enterococcus faecalis}, \emph{Staphylococcus aureus},
+\emph{Listeria monocytogenes}, and \emph{Bacillus subtilis} at equal
+genomic DNA abundance
 (\url{http://www.zymoresearch.com/microbiomics/microbial-standards/zymobiomics-microbial-community-standards}).
 
 \textbf{\emph{PCR Protocol:}} The five different high fidelity (HiFi)
-DNA polymerase that were tested were AccuPrime\textsuperscript{TM}
+DNA polymerases that were tested included AccuPrime\textsuperscript{TM}
 (ThermoFisher, MA, USA), KAPA HIFI (Roche, IN, USA), Phusion
 (ThermoFisher, MA, USA), Platinum (ThermoFisher, MA, USA), and Q5 (New
 England Biolabs, MA, USA). The PCR cycle conditions for Platinum and
@@ -281,8 +283,8 @@ extension time, where the Accuprime and Platinum settings were used.
 Both fecal and mock samples cycle conditions started at 15 and increased
 by 5 up to 35 cycles with amplicons used at each 5-step increase for
 sequencing. The fecal PCR consisted of all 4 samples at 15, 20, 25, 30,
-and 35 cycles for each Taq (total samples = 100). Although, the mock
-communities also had 4 replicates for 15, 20, 25, and 35 cycles and 10
+and 35 cycles for each HiFi DNA polymerase (total samples = 100). The
+mock communities had 4 replicates at 15, 20, 25, and 35 cycles and 10
 replicates for 30 cycles for all HiFi DNA polymerase (total samples =
 130). No mock community sample had enough PCR product at 15 cycles for
 adequate 16S rRNA gene sequencing.
@@ -307,10 +309,10 @@ selected using the viridis package (v 0.4.1) (Garnier, 2017; Wickham,
 2017). Differences in the total number of OTUs were analyzed using an
 ANOVA with a tukey post-hoc test. For the fecal samples the data was
 normalized to each individual by cycle number to account for the
-biological variation between people. Bray-Curtis matrices were generated
-using mothur after 100 sub-samplings at 1000, 5000, 10000, and 15000
-sequence depth. The distance matrix data was analyzed using PERMANOVA
-with the vegan package (v 2.4.5) (Oksanen et al., 2017) and
+biological variation between people. Bray-Curtis distance matrices were
+generated using mothur after 100 sub-samplings at 1000, 5000, 10000, and
+15000 sequence depth. The distance matrix data was analyzed using
+PERMANOVA with the vegan package (v 2.4.5) (Oksanen et al., 2017) and
 Kruskal-Wallis tests within R. For both error and chimera analysis,
 samples were tested using Kruskal-Wallis with a Dunns post-hoc test.
 Where applicable correction for multiple comparison utilized the
@@ -321,15 +323,15 @@ sub-sampling was analyzed for both the fecal and mock community samples.
 Cycle dependent affects on Bray-Curtis indices were next assessed for
 the fecal samples looking at both overall cycle differences and within
 individual differences for the previous cycle (e.g.~20 versus 25, 25
-versus 30, etc.). Based on these observations we wanted to next analyze
-potential reasons for these differences. First, analysis of general
-sequence error rate, number of sequences with an error, and base
+versus 30, etc.). For these community based measures, the fecal samples
+were analyzed at 4 different sub-sampling sequence depths (1000, 5000,
+10000, and 15000) while the mock community samples were analysed at 3
+levels (1000, 5000, 10000). Next, based on these observations we wanted
+to analyze potential reasons for these differences. First, analysis of
+general sequence error rate, number of sequences with an error, and base
 substitution were assessed in the mock community for each DNA
 polymerase. After assessing these errors, the total number of chimeras
-was determined after sequence processing. For the community based
-measures, the fecal samples were analyzed at 4 different sub-sampling
-sequence depths (1000, 5000, 10000, and 15000) while the mock community
-samples were analysed at 3 levels (1000, 5000, 10000).
+was determined after sequence processing.
 
 \textbf{\emph{Reproducible Methods:}} The code and analysis can be found
 here \url{https://github.com/SchlossLab/Sze_PCRSeqEffects_XXXX_2017}.
