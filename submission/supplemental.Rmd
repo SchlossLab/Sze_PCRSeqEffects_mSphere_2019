@@ -35,7 +35,7 @@ loadLibs(c("tidyverse", "scales", "knitr", "rmarkdown"))
 ```
 
 
-**Table S1: ANOVA Results of Number of OTUs Differences between HiFi Taq in Fecal Samples**
+**Table S1: ANOVA Results of Differences in Number of OTUs between HiFi DNA Polymerases in Fecal Samples**
 
 ```{r supplemental_table1, echo=FALSE, message=FALSE, warning=FALSE}
 
@@ -52,7 +52,7 @@ kable(fs_anova, format = "markdown", align = 'c', padding = 2)
 \newpage
 
 
-**Table S2: Tukey Post-Hoc Results of Number of OTUs Differences between HiFi Taq in Fecal Samples**
+**Table S2: Tukey Post-Hoc Results of Differences in Number of OTUs between HiFi DNA Polymerases in Fecal Samples**
 
 ```{r supplemental_table2, echo=FALSE, message=FALSE, warning=FALSE}
 
@@ -73,7 +73,7 @@ kable(fs_tukey, format = "markdown", align = 'c', padding = 2)
 \newpage
 
 
-**Table S3: ANOVA Results of Number of OTUs Differences between HiFi Taq in Mock Samples**
+**Table S3: ANOVA Results of Differences in Number of OTUs between HiFi DNA Polymerases in Mock Samples**
 
 ```{r supplemental_table3, echo=FALSE, message=FALSE, warning=FALSE}
 
@@ -91,7 +91,7 @@ kable(mock_anova, format = "markdown", align = 'c', padding = 2)
 \newpage
 
 
-**Table S4: Tukey Post-Hoc Results of Number of OTUs Differences between HiFi Taq in Mock Samples**
+**Table S4: Tukey Post-Hoc Results of Differences in Number of OTUs between HiFi DNA Polymerases in Mock Samples**
 
 ```{r supplemental_table4, echo=FALSE, message=FALSE, warning=FALSE}
 
@@ -112,7 +112,7 @@ kable(mock_tukey, format = "markdown", align = 'c', padding = 2)
 
 \newpage
 
-**Table S5: Kruskal-Wallis Results of Per Base Error Rate Differences between HiFi Taq in Mock Samples**
+**Table S5: Kruskal-Wallis Results of Differences in Per Base Error Rate between HiFi DNA Polymerases in Mock Samples**
 
 ```{r supplemental_table5, echo=FALSE, message=FALSE, warning=FALSE}
 
@@ -131,7 +131,7 @@ kable(mock_error_rate_kruskal, format = "markdown", align = 'c', padding = 2)
 \newpage
 
 
-**Table S6: Dunn's Post-Hoc Results of Per Base Error Rate between HiFi Taq in Mock Samples**
+**Table S6: Dunn's Post-Hoc Results of Differences in Per Base Error Rate between HiFi DNA Polymerases in Mock Samples**
 
 ```{r supplemental_table6, echo=FALSE, message=FALSE, warning=FALSE}
 
@@ -150,7 +150,7 @@ kable(mock_error_rate_dunn, format = "markdown", align = 'c', padding = 2)
 
 \newpage
 
-**Table S7: Kruskal-Wallis Results of Sequences with Error Differences between HiFi Taq in Mock Samples**
+**Table S7: Kruskal-Wallis Results of Differences in Sequences with Error between HiFi DNA Polymerases in Mock Samples**
 
 ```{r supplemental_table7, echo=FALSE, message=FALSE, warning=FALSE}
 
@@ -171,7 +171,7 @@ kable(mock_error_count_kruskal, format = "markdown", align = 'c', padding = 2)
 
 \newpage
 
-**Table S8: Dunn's Post-Hoc Results of Sequences with Error Differences between HiFi Taq in Mock Samples**
+**Table S8: Dunn's Post-Hoc Results of Differences in Sequences with Error between HiFi DNA Polymerases in Mock Samples**
 
 ```{r supplemental_table8, echo=FALSE, message=FALSE, warning=FALSE}
 
@@ -193,7 +193,7 @@ kable(mock_error_count_dunn, format = "markdown", align = 'c', padding = 2)
 
 \newpage
 
-**Table S9: Kruskal-Wallis Results of Chimera Differences between HiFi Taq in Mock Samples**
+**Table S9: Kruskal-Wallis Results of Differences in Chimera Prevalence between HiFi DNA Polymerases in Mock Samples**
 
 ```{r supplemental_table9, echo=FALSE, message=FALSE, warning=FALSE}
 
@@ -214,7 +214,7 @@ kable(mock_chimera_kruskal, format = "markdown", align = 'c', padding = 2)
 
 \newpage
 
-**Table S10: Dunn's Post-Hoc Results of Chimera Differences between HiFi Taq in Mock Samples**
+**Table S10: Dunn's Post-Hoc Results of Differences in Chimera Prevalence between HiFi DNA Polymerase in Mock Samples**
 
 ```{r supplemental_table10, echo=FALSE, message=FALSE, warning=FALSE}
 
