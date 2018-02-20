@@ -1,15 +1,15 @@
 ## The Influence of High Fidelity DNA Polymerase on 16S rRNA Gene Sequencing
 
-**Background.** An increasing body of research has found that various methodological steps along the 16S rRNA gene survey pipeline can change the observed microbial community. The most common studied methodological components include preservation media, extraction kit, bead beating time, and primers. Although cycle number and high fidelity (HiFi) DNA polymerase are studied less often, they are still important sources of bias. Here, we critically examine both cycle number and HiFi DNA polymerase for biases that may influence downstream diversity measures of 16S rRNA gene surveys.  
+**Background.** Research has identified various methodological steps along the 16S rRNA gene survey pipeline that can change microbial community results. Although cycle number and high fidelity (HiFi) DNA polymerase are studied less often, they are still important sources of bias. Here, we critically examine both cycle number and HiFi DNA polymerase for biases that may influence downstream bacterial community results.  
 
 
-**Methods.** DNA from fecal samples (n = 4) were extracted using a PowerMag DNA extraction kit with a 10 minute bead beating step and amplified at 15, 20, 25, 30, and 35 cycles using Accuprime, Kappa, Phusion, Platinum, or Q5 HiFi DNA polymerase. Mock communities (technical replicates n = 4) consisting of previously isolated whole genomes of 8 different bacteria were also amplified using the same PCR approach. First, the number of OTUs (Operational Taxonomic Units) were examined for both fecal samples and mock communities. Next, Bray-Curtis index, the error rate, sequence error prevalence, and chimera prevalence were investigated. Finally, the chimera prevalence correlation with number of OTUs was assessed.
+**Methods.** DNA from fecal samples (n = 4) were extracted using a PowerMag DNA extraction kit with a 10 minute bead beating step and amplified at 15, 20, 25, 30, and 35 cycles using Accuprime, Kappa, Phusion, Platinum, or Q5 HiFi DNA polymerase. Mock communities (technical replicates n = 4) consisting of previously isolated whole genomes of 8 different bacteria were also amplified using the same approach. First, the number of OTUs (Operational Taxonomic Units) were examined for both fecal samples and mock communities. Next, Bray-Curtis index, the error rate, sequence error prevalence, and chimera prevalence were investigated. Finally, the chimera prevalence correlation with number of OTUs was assessed.
 
 
 **Results.** At 35 cycles there were significant differences between HiFi DNA polymerase for fecal samples (P-value < 0.0001). These HiFi dependent differences in the number of OTUs could be identified as early as 20 cycles in the mock communities (P-value = 0.002). Chimera prevalence varied by HiFi DNA polymerase and these differences were still observed after chimera removal using VSEARCH. Additionally, the chimera prevalence had a strong positive correlation with the number of OTUs and this association was not changed by chimera removal with VSEARCH.
 
 
-**Conclusions.** Due to HiFi DNA polymerase dependent differences in the number of OTUs and chimera prevalence, common diversity metrics could have artificially inflated values that are not comparable across studies. 
+**Conclusions.** Due to HiFi DNA polymerase dependent differences in the number of OTUs and chimera prevalence, common diversity metrics could have values that are not comparable across studies. 
 
 
 
