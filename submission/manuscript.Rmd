@@ -208,7 +208,7 @@ Our observations suggest that there are clear HiFi DNA polymerase dependent diff
 
 ## Conclusion
 
-Our findings show that measures that rely on the number of OTUs will be dependent on both HiFi DNA polymerase and cycle number chosen. Due in part to these consderations, studies investigating similar areas may not be easily generalized with each other. Care should be taken when choosing a HiFi DNA polymerase for 16S rRNA gene surveys since intrinsic differences can change the number of OTUs observed and influence diversity based metrics that do not down-weight rare observations.
+Our findings show that the number of OTUs will be dependent on both HiFi DNA polymerase and cycle number chosen. Care should be taken when choosing a HiFi DNA polymerase for 16S rRNA gene surveys since intrinsic differences can change the number of OTUs observed and influence diversity based metrics that do not down-weight rare observations.
 
 \newpage
 
