@@ -64,7 +64,7 @@ mock_dist_data <- sapply(sub_sample_level,
 
 
 
-# The Influence of High Fidelity DNA Polymerase on 16S rRNA Gene Sequencing
+# High Fidelity DNA Polymerase can Introduce Bias into 16S rRNA Gene Sequencing Results
 
 \begin{center}
 \vspace{25mm}
@@ -93,7 +93,7 @@ Co-author e-mails:
 
 ## Abstract
 
-**Background.** Research has identified various methodological steps along the 16S rRNA gene survey pipeline that can change microbial community results. Although cycle number and high fidelity (HiFi) DNA polymerase are studied less often, they are still important sources of bias. Here, we critically examine both cycle number and HiFi DNA polymerase for biases that may influence downstream bacterial community results.  
+**Background.** Many of the different steps used during 16S rRNA gene sequencing can introduce bias and by extension change the observed microbial community results. Although cycle number and high fidelity (HiFi) DNA polymerase are studied less often, they are still important sources of bias in this workflow. Here, we critically examine both cycle number and HiFi DNA polymerase for biases that may influence downstream bacterial community results.  
 
 **Methods.** DNA from fecal samples (n = 4) were extracted using a PowerMag DNA extraction kit with a 10 minute bead beating step and amplified at 15, 20, 25, 30, and 35 cycles using Accuprime, Kappa, Phusion, Platinum, or Q5 HiFi DNA polymerase. Mock communities (technical replicates n = 4) consisting of previously isolated whole genomes of 8 different bacteria were also amplified using the same approach. First, the number of OTUs (Operational Taxonomic Units) were examined for both fecal samples and mock communities. Next, Bray-Curtis index, the error rate, sequence error prevalence, and chimera prevalence were investigated. Finally, the chimera prevalence correlation with number of OTUs was assessed. 
 
@@ -107,13 +107,36 @@ Co-author e-mails:
 
 ## Introduction
 
-Recently, there has been an increasing focus on standardizing methodological approaches in microbiota research [@review_Kim_2017; @review_Hugerth_2017]. Investigating ways that 16S rRNA gene surveys can be made more reproducible has been a predominant focal point of this push towards standardization [@contamination_Salter2014; @taq_Gohl_2016; @storage_Lauber_2010; @preservation_Song_2016]. Due to this focus, 16S rRNA gene sequencing has been much maligned for introduced biases. Yet, many of these same considerations also affect metagenomic sequencing [@metagenomcis_bias_Nayfach_2016; @metagenomcis_bias_Costea_2017]. Between the two approaches similar bias considerations include preservation media, storage conditions, DNA extraction kit, PCR, and sequence library preparation. For these overlapping considerations, biases identified for 16S rRNA gene sequencing will also likely influence metagenomic sequencing results. 
+It is important to differentiate between bias, reproducibility, and standardization since often time these three can be confused and used interchangeably with each other.
+
+
+
+
+Need to talk about sources of bias (each of these could be a small paragraph)
+
+  preservation kits (overgrowth, selective killing, DNA/RNA degradation at RT, freeze thaw)
+
+  Within kits (e.g. contamination)
+
+  PCR (16S hypervariable region primer specificity, amplification bias, error, polymerase dependent differences)
+
+  Sequencing machines themselves (non-random indels, etc.)
+
+Many of these sources of bias are common to both 16S rRNA gene and metagenomic sequencing approaches [@metagenomcis_bias_Nayfach_2016; @metagenomcis_bias_Costea_2017]. However, here we focused primarily on cycle number and high fidelity (HiFi) DNA polymerase, two areas where introduced bias might have a larger influence on 16S rRNA gene sequencing than metagenomics. 
+
+*Talk about previous research on PCR bias* 
+
+A recent study found clear differences between normal and high fidelity (HiFi) DNA polymerase and that you could reduce error and chimera generation by optimizing the PCR protocol [@taq_Gohl_2016]. This study also found that, regardless of DNA polymerase, the number of Operational Taxonomic Units (OTUs) generated were not easily removed using the authors chosen bioinformatic pipeline  [@taq_Gohl_2016]. It is natural to extend this line of inquiry and ask whether different HiFi DNA polymerase contribute different biases to downstream sequencing results. There is some reason to think that this may be the case since many of these HiFi DNA polymerase come from different families (e.g. *Taq* belongs to the family A polymerases) and may intrinsically have different error rates that cannot be completely removed with modifications [@polymerase_Ishino_2014]. In this study we critically examine if any of five different HiFi DNA polymerases introduce significant biases into 16S rRNA gene surveys, if this is a cycle dependent phenomenon, and whether they can be removed using a standard bioinformatic pipeline.  
+
+
+
+
 
 
 The most commonly studied biases are preservation media, storage conditions, and DNA extraction kits. Although DNA extraction kits have consistently been shown to add bias to downstream analysis the current literature on preservation media and storage conditions has been mixed, with some studies showing biases while others do not [@contamination_Salter2014; @metagenomcis_bias_Costea_2017; @preservation_Song_2016; @preservation_Luo_2016; @preservation_Dominianni_2014; @storage_Lauber_2010; @storage_Bassis_2017; @preservation_Sinha_2015]. The study of these specific biases has become so large, aggregating them all together has become a difficult task with some researchers providing resources to actively track new findings (e.g. Microbiome Digest - https://microbiomedigest.com/microbiome-papers-collection/microbiome-techniques/sample-storage/). It is evident that these three sources of bias have been extensively covered within the literature but they are not the only sources that should be critically examined. The type of DNA polymerase chosen could also have a wide ranging affect on downstream results due to error rates and chimeras that may not be easily resolved using bioinformatic approaches. 
 
 
-A recent study in *Nature Biotechnology* found clear differences between normal and high fidelity (HiFi) DNA polymerase and that you could reduce error and chimera generation by optimizing the PCR protocol [@taq_Gohl_2016]. This study also found that, regardless of DNA polymerase, the number of Operational Taxonomic Units (OTUs) generated were not easily removed using the authors chosen bioinformatic pipeline  [@taq_Gohl_2016]. It is natural to extend this line of inquiry and ask whether different HiFi DNA polymerase contribute different biases to downstream sequencing results. There is some reason to think that this may be the case since many of these HiFi DNA polymerase come from different families (e.g. *Taq* belongs to the family A polymerases) and may intrinsically have different error rates that cannot be completely removed with modifications [@polymerase_Ishino_2014]. In this study we critically examine if any of five different HiFi DNA polymerases introduce significant biases into 16S rRNA gene surveys, if this is a cycle dependent phenomenon, and whether they can be removed using a standard bioinformatic pipeline.      
+    
 
 
 \newpage
