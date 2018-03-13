@@ -64,7 +64,7 @@ mock_dist_data <- sapply(sub_sample_level,
 
 
 
-# High Fidelity DNA Polymerase can Introduce Bias into 16S rRNA Gene Sequencing Results
+# High Fidelity DNA Polymerase Introduces Bias into 16S rRNA Gene Sequencing Results
 
 \begin{center}
 \vspace{25mm}
