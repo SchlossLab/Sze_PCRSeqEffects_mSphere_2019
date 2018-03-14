@@ -99,8 +99,9 @@
 
 \begin{document}
 
-\section{The Influence of High Fidelity DNA Polymerase on 16S rRNA Gene
-Sequencing}\label{the-influence-of-high-fidelity-dna-polymerase-on-16s-rrna-gene-sequencing}
+\section{High Fidelity DNA Polymerase Introduces Bias into 16S rRNA Gene
+Sequencing
+Results}\label{high-fidelity-dna-polymerase-introduces-bias-into-16s-rrna-gene-sequencing-results}
 
 \begin{center}
 \vspace{25mm}
@@ -132,13 +133,13 @@ Co-author e-mails:
 
 \subsection{Abstract}\label{abstract}
 
-\textbf{Background.} Research has identified various methodological
-steps along the 16S rRNA gene survey pipeline that can change microbial
-community results. Although cycle number and high fidelity (HiFi) DNA
-polymerase are studied less often, they are still important sources of
-bias. Here, we critically examine both cycle number and HiFi DNA
-polymerase for biases that may influence downstream bacterial community
-results.
+\textbf{Background.} Many of the different steps used during 16S rRNA
+gene sequencing can introduce bias and by extension change the observed
+microbial community results. Although cycle number and high fidelity
+(HiFi) DNA polymerase are studied less often, they are still important
+sources of bias in this workflow. Here, we critically examine both cycle
+number and HiFi DNA polymerase for biases that may influence downstream
+bacterial community results.
 
 \textbf{Methods.} DNA from fecal samples (n = 4) were extracted using a
 PowerMag DNA extraction kit with a 10 minute bead beating step and
@@ -170,57 +171,78 @@ could have values that are not comparable across studies.
 
 \subsection{Introduction}\label{introduction}
 
-Recently, there has been an increasing focus on standardizing
-methodological approaches in microbiota research (Kim et al., 2017;
-Hugerth \& Andersson, 2017). Investigating ways that 16S rRNA gene
-surveys can be made more reproducible has been a predominant focal point
-of this push towards standardization (Lauber et al., 2010; Salter et
-al., 2014; Song et al., 2016; Gohl et al., 2016). Due to this focus, 16S
-rRNA gene sequencing has been much maligned for introduced biases. Yet,
-many of these same considerations also affect metagenomic sequencing
-(Nayfach \& Pollard, 2016; Costea et al., 2017). Between the two
-approaches similar bias considerations include preservation media,
-storage conditions, DNA extraction kit, PCR, and sequence library
-preparation. For these overlapping considerations, biases identified for
-16S rRNA gene sequencing will also likely influence metagenomic
-sequencing results.
+It is important to differentiate between bias, reproducibility, and
+standardization since often times these three can be confused and used
+interchangeably with each other. Bias can change the observed results in
+a way that is reproducible and standardized. For example, DNA extraction
+kits used for 16S rRNA gene sequencing biases your findings versus
+another group not using the same brand kit but both groups have
+reproducible results. Therefore, standardization of 16S rRNA gene
+sequencing methods to increase reproducibility can still be problematic
+due to bias. Determining how different aspects of a 16S rRNA gene
+sequencing workflow could bias the observed results is critical for the
+interpretation of specific studies within the context of the overall
+field.
 
-The most commonly studied biases are preservation media, storage
-conditions, and DNA extraction kits. Although DNA extraction kits have
-consistently been shown to add bias to downstream analysis the current
-literature on preservation media and storage conditions has been mixed,
-with some studies showing biases while others do not (Lauber et al.,
-2010; Dominianni et al., 2014; Salter et al., 2014; Sinha et al., 2015;
-Song et al., 2016; Luo et al., 2016; Bassis et al., 2017; Costea et al.,
-2017). The study of these specific biases has become so large,
-aggregating them all together has become a difficult task with some
-researchers providing resources to actively track new findings
-(e.g.~Microbiome Digest -
-\url{https://microbiomedigest.com/microbiome-papers-collection/microbiome-techniques/sample-storage/}).
-It is evident that these three sources of bias have been extensively
-covered within the literature but they are not the only sources that
-should be critically examined. The type of DNA polymerase chosen could
-also have a wide ranging affect on downstream results due to error rates
-and chimeras that may not be easily resolved using bioinformatic
-approaches.
+A typical 16S rRNA gene sequencing workflow can be divided into
+preservation, extraction, PCR, and sequencing steps. Generally, not
+using a preservation media and leaving samples at room temperature has
+been shown to cause overgrowth of low abundance members of the fecal
+bacterial community {[}ref{]}. Similarily, this overgrowth could still
+occur if the preservation media does not adequately inhibit growth
+{[}ref{]}. Reports have also shown that changes in specific community
+members might occur due to differing susceptibility to freeze thaw
+cycles amongst microbes {[}ref{]}. Additionally, reagent contamination
+has been shown to add community members and the contribution of these
+contaminant members grows larger with lower biomass samples (Salter et
+al., 2014). Recent studies have shown that the majority of these biases
+due to either preservation or extraction tend to be smaller than the
+overall biological signal being measured {[}refs{]}. However, the
+contribution of PCR bias to this overall workflow is not well
+characterized since these studies use the same PCR approach while
+varying preservation or extraction method used.
 
-A recent study in \emph{Nature Biotechnology} found clear differences
-between normal and high fidelity (HiFi) DNA polymerase and that you
-could reduce error and chimera generation by optimizing the PCR protocol
-(Gohl et al., 2016). This study also found that, regardless of DNA
-polymerase, the number of Operational Taxonomic Units (OTUs) generated
-were not easily removed using the authors chosen bioinformatic pipeline
-(Gohl et al., 2016). It is natural to extend this line of inquiry and
-ask whether different HiFi DNA polymerase contribute different biases to
-downstream sequencing results. There is some reason to think that this
-may be the case since many of these HiFi DNA polymerase come from
-different families (e.g. \emph{Taq} belongs to the family A polymerases)
-and may intrinsically have different error rates that cannot be
-completely removed with modifications (Ishino \& Ishino, 2014). In this
-study we critically examine if any of five different HiFi DNA
-polymerases introduce significant biases into 16S rRNA gene surveys, if
-this is a cycle dependent phenomenon, and whether they can be removed
-using a standard bioinformatic pipeline.
+Identifying the biases in the PCR stage of 16S rRNA gene sequencing is
+important because a large body of literature shows that primers used,
+cycle number, selective amplification, amplification error, non-specific
+amplification, chimeras, and polymerase dependent differences can all
+change the observed results {[}refs{]}. Many of these sources of biases
+are made worse as cycle number increases. The selective amplification of
+the dominant sequence can increase the difference between the most and
+next abundant sequence, over-emphasizing the actual difference
+{[}ref{]}. Both amplification error and non-specific amplification
+(e.g.~incorrect amplicon size products) also increases as cycle number
+increases {[}refs{]}. Further, chimeras can form from an aborted
+extension followed by subsequent priming error and secondary extension
+(Haas et al., 2011). Even if it has not been explicitly shown to
+increase with cycle number it is easy to postulate that this does
+happen. There are also intrinsic properties to primers and DNA
+polymerases chosen that can introduce bias. With respect to primers,
+there are different binding affinities for different bacteria that are
+variable region dependent {[}refs{]}. Additionally, there are multiple
+families of DNA polymerases that have their own error rate and proof
+reading capcity (Ishino \& Ishino, 2014). Interestingly, the influence
+these different DNA polymerases can have on the observed results have
+not been well studied like the previously mentioned sources of PCR-based
+bias.
+
+A recent study found clear differences between normal and high fidelity
+(HiFi) DNA polymerase and that you could reduce error and chimera
+generation by optimizing the PCR protocol (Gohl et al., 2016). This
+study also found that, regardless of DNA polymerase, the number of
+Operational Taxonomic Units (OTUs) or taxa generated were not easily
+reduced using the authors chosen bioinformatic pipeline (Gohl et al.,
+2016). It is natural to extend this line of inquiry and ask if biases in
+the number of OTUs and chimeras are also dependent on HiFi DNA
+polymerases. There is some reason to think that this may be the case
+since many of these HiFi DNA polymerase come from different families
+(e.g. \emph{Taq} belongs to the family A polymerases) and may
+intrinsically have different error rates that cannot be completely
+removed with modifications (Ishino \& Ishino, 2014). In this study we
+critically examine if any of five different HiFi DNA polymerases
+introduce significant biases into 16S rRNA gene surveys, if this is a
+cycle dependent phenomenon, and whether they can be removed using a
+standard bioinformatic pipeline.
 
 \newpage
 
@@ -502,13 +524,6 @@ Translational Scholar Program.
 \subsection{References}\label{references}
 
 \hypertarget{refs}{}
-\hypertarget{ref-storage_Bassis_2017}{}
-Bassis CM., Nicholas M. Moore., Lolans K., Seekatz AM., Weinstein RA.,
-Young VB., Hayden MK. 2017. Comparison of stool versus rectal swab
-samples and storage conditions on bacterial community profiles.
-\emph{BMC Microbiology} 17. DOI:
-\href{https://doi.org/10.1186/s12866-017-0983-9}{10.1186/s12866-017-0983-9}.
-
 \hypertarget{ref-benjamini_controlling_1995}{}
 Benjamini Y., Hochberg Y. 1995. Controlling the false discovery rate: A
 practical and powerful approach to multiple testing. \emph{Journal of
@@ -520,27 +535,6 @@ Porras-Alfaro A., Kuske CR., Tiedje JM. 2013. Ribosomal database
 project: Data and tools for high throughput rRNA analysis. \emph{Nucleic
 Acids Research} 42:D633--D642. DOI:
 \href{https://doi.org/10.1093/nar/gkt1244}{10.1093/nar/gkt1244}.
-
-\hypertarget{ref-metagenomcis_bias_Costea_2017}{}
-Costea PI., Zeller G., Sunagawa S., Pelletier E., Alberti A., Levenez
-F., Tramontano M., Driessen M., Hercog R., Jung F-E., Kultima JR.,
-Hayward MR., Coelho LP., Allen-Vercoe E., Bertrand L., Blaut M., Brown
-JRM., Carton T., Cools-Portier S., Daigneault M., Derrien M., Druesne
-A., Vos WM de., Finlay BB., Flint HJ., Guarner F., Hattori M., Heilig
-H., Luna RA., Hylckama Vlieg J van., Junick J., Klymiuk I., Langella P.,
-Chatelier EL., Mai V., Manichanh C., Martin JC., Mery C., Morita H.,
-O'Toole PW., Orvain C., Patil KR., Penders J., Persson S., Pons N.,
-Popova M., Salonen A., Saulnier D., Scott KP., Singh B., Slezak K.,
-Veiga P., Versalovic J., Zhao L., Zoetendal EG., Ehrlich SD., Dore J.,
-Bork P. 2017. Towards standards for human fecal sample processing in
-metagenomic studies. \emph{Nature Biotechnology}. DOI:
-\href{https://doi.org/10.1038/nbt.3960}{10.1038/nbt.3960}.
-
-\hypertarget{ref-preservation_Dominianni_2014}{}
-Dominianni C., Wu J., Hayes RB., Ahn J. 2014. Comparison of methods for
-fecal microbiome biospecimen collection. \emph{BMC Microbiology} 14:103.
-DOI:
-\href{https://doi.org/10.1186/1471-2180-14-103}{10.1186/1471-2180-14-103}.
 
 \hypertarget{ref-uchime_Edgar_2011}{}
 Edgar RC., Haas BJ., Clemente JC., Quince C., Knight R. 2011. UCHIME
@@ -558,24 +552,19 @@ Systematic improvement of amplicon marker gene methods for increased
 accuracy in microbiome studies. \emph{Nature Biotechnology} 34:942--949.
 DOI: \href{https://doi.org/10.1038/nbt.3601}{10.1038/nbt.3601}.
 
-\hypertarget{ref-review_Hugerth_2017}{}
-Hugerth LW., Andersson AF. 2017. Analysing microbial community
-composition through amplicon sequencing: From sampling to hypothesis
-testing. \emph{Frontiers in Microbiology} 8. DOI:
-\href{https://doi.org/10.3389/fmicb.2017.01561}{10.3389/fmicb.2017.01561}.
+\hypertarget{ref-Haas2011}{}
+Haas BJ., Gevers D., Earl AM., Feldgarden M., Ward DV., Giannoukos G.,
+Ciulla D., Tabbaa D., Highlander SK., Sodergren E., Methe B., DeSantis
+TZ., Petrosino JF., Knight R., and BWB. 2011. Chimeric 16S rRNA sequence
+formation and detection in sanger and 454-pyrosequenced PCR amplicons.
+\emph{Genome Research} 21:494--504. DOI:
+\href{https://doi.org/10.1101/gr.112730.110}{10.1101/gr.112730.110}.
 
 \hypertarget{ref-polymerase_Ishino_2014}{}
 Ishino S., Ishino Y. 2014. DNA polymerases as useful reagents for
 biotechnology â the history of developmental research in the field.
 \emph{Frontiers in Microbiology} 5. DOI:
 \href{https://doi.org/10.3389/fmicb.2014.00465}{10.3389/fmicb.2014.00465}.
-
-\hypertarget{ref-review_Kim_2017}{}
-Kim D., Hofstaedter CE., Zhao C., Mattei L., Tanes C., Clarke E., Lauder
-A., Sherrill-Mix S., Chehoud C., Kelsen J., Conrad M., Collman RG.,
-Baldassano R., Bushman FD., Bittinger K. 2017. Optimizing methods and
-dodging pitfalls in microbiome research. \emph{Microbiome} 5. DOI:
-\href{https://doi.org/10.1186/s40168-017-0267-5}{10.1186/s40168-017-0267-5}.
 
 \hypertarget{ref-protocol_Kozich_2013}{}
 Kozich JJ., Westcott SL., Baxter NT., Highlander SK., Schloss PD. 2013.
@@ -584,30 +573,10 @@ for analyzing amplicon sequence data on the MiSeq illumina sequencing
 platform. \emph{Applied and Environmental Microbiology} 79:5112--5120.
 DOI: \href{https://doi.org/10.1128/aem.01043-13}{10.1128/aem.01043-13}.
 
-\hypertarget{ref-storage_Lauber_2010}{}
-Lauber CL., Zhou N., Gordon JI., Knight R., Fierer N. 2010. Effect of
-storage conditions on the assessment of bacterial community structure in
-soil and human-associated samples. \emph{FEMS Microbiology Letters}
-307:80--86. DOI:
-\href{https://doi.org/10.1111/j.1574-6968.2010.01965.x}{10.1111/j.1574-6968.2010.01965.x}.
-
-\hypertarget{ref-preservation_Luo_2016}{}
-Luo T., Srinivasan U., Ramadugu K., Shedden KA., Neiswanger K., Trumble
-E., Li JJ., McNeil DW., Crout RJ., Weyant RJ., Marazita ML., Foxman B.
-2016. Effects of specimen collection methodologies and storage
-conditions on the short-term stability of oral microbiome taxonomy.
-\emph{Applied and Environmental Microbiology} 82:5519--5529. DOI:
-\href{https://doi.org/10.1128/aem.01132-16}{10.1128/aem.01132-16}.
-
 \hypertarget{ref-bc_index_Minchin1987}{}
 Minchin PR. 1987. An evaluation of the relative robustness of techniques
 for ecological ordination. \emph{Vegetatio} 69:89--107. DOI:
 \href{https://doi.org/10.1007/bf00038690}{10.1007/bf00038690}.
-
-\hypertarget{ref-metagenomcis_bias_Nayfach_2016}{}
-Nayfach S., Pollard KS. 2016. Toward accurate and quantitative
-comparative metagenomics. \emph{Cell} 166:1103--1116. DOI:
-\href{https://doi.org/10.1016/j.cell.2016.08.007}{10.1016/j.cell.2016.08.007}.
 
 \hypertarget{ref-vegan_citation}{}
 Oksanen J., Blanchet FG., Friendly M., Kindt R., Legendre P., McGlinn
@@ -644,20 +613,6 @@ Seekatz AM., Rao K., Santhosh K., Young VB. 2016. Dynamics of the fecal
 microbiome in patients with recurrent and nonrecurrent clostridium
 difficile infection. \emph{Genome Medicine} 8. DOI:
 \href{https://doi.org/10.1186/s13073-016-0298-8}{10.1186/s13073-016-0298-8}.
-
-\hypertarget{ref-preservation_Sinha_2015}{}
-Sinha R., Chen J., Amir A., Vogtmann E., Shi J., Inman KS., Flores R.,
-Sampson J., Knight R., Chia N. 2015. Collecting fecal samples for
-microbiome analyses in epidemiology studies. \emph{Cancer Epidemiology
-Biomarkers \& Prevention} 25:407--416. DOI:
-\href{https://doi.org/10.1158/1055-9965.epi-15-0951}{10.1158/1055-9965.epi-15-0951}.
-
-\hypertarget{ref-preservation_Song_2016}{}
-Song SJ., Amir A., Metcalf JL., Amato KR., Xu ZZ., Humphrey G., Knight
-R. 2016. Preservation methods differ in fecal microbiome stability,
-affecting suitability for field studies. \emph{mSystems} 1:e00021--16.
-DOI:
-\href{https://doi.org/10.1128/msystems.00021-16}{10.1128/msystems.00021-16}.
 
 \hypertarget{ref-opticlust_Westcott_2017}{}
 Westcott SL., Schloss PD. 2017. OptiClust, an improved method for
