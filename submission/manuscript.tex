@@ -171,18 +171,21 @@ could have values that are not comparable across studies.
 
 \subsection{Introduction}\label{introduction}
 
-It is important to differentiate between bias, reproducibility, and
-standardization since often times these three can be confused and used
-interchangeably with each other. Bias can change the observed results in
-a way that is reproducible and standardized. For example, DNA extraction
-kits used for 16S rRNA gene sequencing biases your findings versus
-another group not using the same brand kit but both groups have
-reproducible results. Therefore, standardization of 16S rRNA gene
-sequencing methods to increase reproducibility can still be problematic
-due to bias. Determining how different aspects of a 16S rRNA gene
-sequencing workflow could bias the observed results is critical for the
-interpretation of specific studies within the context of the overall
-field.
+This study will specifically address how cycle number and high fidelity
+(HiFi) DNA polymerases can bias observed bacterial community results
+derived from 16S rRNA gene sequencing. It is important to differentiate
+between bias, reproducibility, and standardization since often times
+these three can be confused and used interchangeably with each other.
+Bias can change the observed results in a way that is reproducible and
+standardized. For example, if one group uses one brand of DNA extraction
+kit for their 16S rRNA gene sequencing, their results may be biased
+versus another group not using the same brand kit but within their group
+they can still have reproducible results. Therefore, standardization of
+16S rRNA gene sequencing methods to increase reproducibility can still
+be problematic due to bias. Determining how different aspects of a 16S
+rRNA gene sequencing workflow could bias the observed results is
+critical for the interpretation of specific studies within the context
+of the overall field.
 
 A typical 16S rRNA gene sequencing workflow can be divided into
 preservation, extraction, PCR, and sequencing steps. Generally, not
@@ -200,49 +203,49 @@ due to either preservation or extraction tend to be smaller than the
 overall biological signal being measured {[}refs{]}. However, the
 contribution of PCR bias to this overall workflow is not well
 characterized since these studies use the same PCR approach while
-varying preservation or extraction method used.
+varying preservation or extraction method.
 
 Identifying the biases in the PCR stage of 16S rRNA gene sequencing is
 important because a large body of literature shows that primers used,
 cycle number, selective amplification, amplification error, non-specific
 amplification, chimeras, and polymerase dependent differences can all
 change the observed results {[}refs{]}. Many of these sources of biases
-are made worse as cycle number increases. The selective amplification of
-the dominant sequence can increase the difference between the most and
-next abundant sequence, over-emphasizing the actual difference
-{[}ref{]}. Both amplification error and non-specific amplification
-(e.g.~incorrect amplicon size products) also increases as cycle number
-increases {[}refs{]}. Further, chimeras can form from an aborted
-extension followed by subsequent priming error and secondary extension
-(Haas et al., 2011). Even if it has not been explicitly shown to
-increase with cycle number it is easy to postulate that this does
-happen. There are also intrinsic properties to primers and DNA
-polymerases chosen that can introduce bias. With respect to primers,
-there are different binding affinities for different bacteria that are
-variable region dependent {[}refs{]}. Additionally, there are multiple
-families of DNA polymerases that have their own error rate and proof
-reading capcity (Ishino \& Ishino, 2014). Interestingly, the influence
-these different DNA polymerases can have on the observed results have
-not been well studied like the previously mentioned sources of PCR-based
-bias.
+are made worse as cycle number increases {[}ref{]}. For example, the
+selective amplification of the dominant sequence can increase the
+difference between the most and next abundant sequence, over-emphasizing
+the actual difference {[}ref{]}. Both amplification error and
+non-specific amplification (e.g.~incorrect amplicon size products) can
+also increase as cycle number increases {[}refs{]}. Additionally,
+chimeras can form from an aborted extension followed by subsequent
+priming error and secondary extension and even if it has not been
+explicitly shown to increase with cycle number it is easy to postulate
+that this does happen (Haas et al., 2011). There are also intrinsic
+properties to primers and DNA polymerases chosen that can introduce
+bias. With respect to primers, there are different binding affinities
+for different bacteria that are dependent on variable region {[}refs{]}.
+Additionally, there are multiple families of DNA polymerases that have
+their own error rate and proof reading capcity (Ishino \& Ishino, 2014).
+Interestingly, the influence that these different DNA polymerases can
+have on the observed results have not been well studied like some of the
+other previously mentioned sources of PCR-based bias.
 
 A recent study found clear differences between normal and high fidelity
-(HiFi) DNA polymerase and that you could reduce error and chimera
-generation by optimizing the PCR protocol (Gohl et al., 2016). This
-study also found that, regardless of DNA polymerase, the number of
-Operational Taxonomic Units (OTUs) or taxa generated were not easily
-reduced using the authors chosen bioinformatic pipeline (Gohl et al.,
-2016). It is natural to extend this line of inquiry and ask if biases in
-the number of OTUs and chimeras are also dependent on HiFi DNA
-polymerases. There is some reason to think that this may be the case
-since many of these HiFi DNA polymerase come from different families
-(e.g. \emph{Taq} belongs to the family A polymerases) and may
-intrinsically have different error rates that cannot be completely
-removed with modifications (Ishino \& Ishino, 2014). In this study we
-critically examine if any of five different HiFi DNA polymerases
-introduce significant biases into 16S rRNA gene surveys, if this is a
-cycle dependent phenomenon, and whether they can be removed using a
-standard bioinformatic pipeline.
+(HiFi) DNA polymerase and that optimization of the PCR protocol could
+reduce error and chimera generation (Gohl et al., 2016). This study also
+found that, regardless of DNA polymerase, the number of Operational
+Taxonomic Units (OTUs) or taxa generated were not easily reduced using
+the authors chosen bioinformatic pipeline (Gohl et al., 2016). It is
+natural to extend this line of inquiry and ask if biases in the number
+of OTUs and chimeras are also dependent on HiFi DNA polymerases. There
+is some reason to think that this may be the case since many of these
+HiFi DNA polymerase come from different families (e.g. \emph{Taq}
+belongs to the family A polymerases) and may intrinsically have
+different error rates that cannot be completely removed with
+modifications (Ishino \& Ishino, 2014). In this study we critically
+examine if any of five different HiFi DNA polymerases introduce
+significant biases into 16S rRNA gene surveys, if this is a cycle
+dependent phenomenon, and whether they can be removed using a standard
+bioinformatic pipeline.
 
 \newpage
 
