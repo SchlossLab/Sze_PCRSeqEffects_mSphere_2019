@@ -191,34 +191,37 @@ A typical 16S rRNA gene sequencing workflow can be divided into
 preservation, extraction, PCR, and sequencing steps. Generally, not
 using a preservation media and leaving samples at room temperature has
 been shown to cause overgrowth of low abundance members of the fecal
-bacterial community {[}ref{]}. Similarily, this overgrowth could still
-occur if the preservation media does not adequately inhibit growth
-{[}ref{]}. Reports have also shown that changes in specific community
-members might occur due to differing susceptibility to freeze thaw
-cycles amongst microbes {[}ref{]}. Additionally, reagent contamination
-has been shown to add community members and the contribution of these
-contaminant members grows larger with lower biomass samples (Salter et
-al., 2014). Recent studies have shown that the majority of these biases
-due to either preservation or extraction tend to be smaller than the
-overall biological signal being measured {[}refs{]}. However, the
-contribution of PCR bias to this overall workflow is not well
-characterized since these studies use the same PCR approach while
-varying preservation or extraction method.
+bacterial community (Amir et al., 2017). Similarily, this overgrowth
+could still occur if the preservation media does not adequately inhibit
+growth (Song et al., 2016; Luo et al., 2016). Reports have also shown
+that changes in specific community members might occur due to differing
+susceptibility to freeze thaw cycles amongst microbes (Gorzelak et al.,
+2015). Additionally, reagent contamination has been shown to add
+community members and the contribution of these contaminant members
+grows larger with lower biomass samples (Salter et al., 2014). Recent
+studies have shown that the majority of these biases due to either
+preservation or extraction tend to be smaller than the overall
+biological signal being measured (Song et al., 2016; Bassis et al.,
+2017). However, the contribution of PCR bias to this overall workflow is
+not well characterized since these studies use the same PCR approach
+while varying preservation or extraction method.
 
 Identifying the biases in the PCR stage of 16S rRNA gene sequencing is
 important because a large body of literature shows that there are a
-variety of steps during PCR that can change the observed results
-{[}refs{]}. Many of these sources of biases are made worse as cycle
-number increases {[}ref{]}. For example, the selective amplification of
-the dominant sequence can increase the difference between the most and
-next abundant sequence, over-emphasizing the actual difference
-{[}ref{]}. Both amplification error and non-specific amplification
-(e.g.~incorrect amplicon size products) can also increase as cycle
-number increases which can drastically change commonly used diversity
-measures {[}refs{]}. Additionally, chimeras can form from an aborted
-extension followed by subsequent priming error and secondary extension
-and even if it has not been explicitly shown to increase with cycle
-number it is easy to postulate that this does happen and will also
+variety of steps during PCR that can change the observed results (Eckert
+\& Kunkel, 1991; Burkardt, 2000). Many of these sources of biases are
+made worse as cycle number increases (Wang \& Wang, 1996; Haas et al.,
+2011; Kebschull \& Zador, 2015). For example, the selective
+amplification of AT-rich over GC-rich sequences can increase the
+difference between these types of 16S rRNA genes and over-emphasizing
+the actual difference (Polz \& Cavanaugh, 1998). Both amplification
+error and non-specific amplification (e.g.~incorrect amplicon size
+products) can also increase as cycle number increases which can
+drastically change commonly used diversity measures (Acinas et al.,
+2005; Santos et al., 2016). Additionally, chimeras can form from an
+aborted extension followed by subsequent priming error and secondary
+extension and even if it has not been explicitly shown to increase with
+cycle number it is easy to postulate that this does happen and will also
 artificially increase community diversity (Haas et al., 2011).
 
 There are also intrinsic properties to primers and DNA polymerases
@@ -226,12 +229,12 @@ chosen that can introduce bias. Primers have variable region dependent
 binding affinities for different bacteria and depending on the primer
 pair do not detect specific bacteria (e.g.~V1-V3 does not detect
 \emph{Haemophilus influenzae} and V3-V5 does not detect
-\emph{Propionibacterium acnes}) {[}refs{]}. Additionally, there are
-multiple families of DNA polymerases that have their own error rate and
-proof reading capcity (Ishino \& Ishino, 2014). Interestingly, the
-influence that these different DNA polymerases can have on the observed
-results have not been well studied like some of the other previously
-mentioned sources of PCR-based bias.
+\emph{Propionibacterium acnes}) (Sze et al., 2015 (Table S4); Meisel et
+al., 2016). Additionally, there are multiple families of DNA polymerases
+that have their own error rate and proof reading capcity (Ishino \&
+Ishino, 2014). Interestingly, the influence that these different DNA
+polymerases can have on the observed results have not been well studied
+like some of the other previously mentioned sources of PCR-based bias.
 
 A recent study found clear differences between normal and high fidelity
 (HiFi) DNA polymerase and that optimization of the PCR protocol could
@@ -531,10 +534,36 @@ Translational Scholar Program.
 \subsection{References}\label{references}
 
 \hypertarget{refs}{}
+\hypertarget{ref-Acinas2005}{}
+Acinas SG., Sarma-Rupavtarm R., Klepac-Ceraj V., Polz MF. 2005.
+PCR-induced sequence artifacts and bias: Insights from comparison of two
+16S rRNA clone libraries constructed from the same sample. \emph{Applied
+and Environmental Microbiology} 71:8966--8969. DOI:
+\href{https://doi.org/10.1128/aem.71.12.8966-8969.2005}{10.1128/aem.71.12.8966-8969.2005}.
+
+\hypertarget{ref-Amir2017}{}
+Amir A., McDonald D., Navas-Molina JA., Debelius J., Morton JT., Hyde
+E., Robbins-Pianka A., Knight R. 2017. Correcting for microbial blooms
+in fecal samples during room-temperature shipping. \emph{mSystems}
+2:e00199--16. DOI:
+\href{https://doi.org/10.1128/msystems.00199-16}{10.1128/msystems.00199-16}.
+
+\hypertarget{ref-storage_Bassis_2017}{}
+Bassis CM., Nicholas M. Moore., Lolans K., Seekatz AM., Weinstein RA.,
+Young VB., Hayden MK. 2017. Comparison of stool versus rectal swab
+samples and storage conditions on bacterial community profiles.
+\emph{BMC Microbiology} 17. DOI:
+\href{https://doi.org/10.1186/s12866-017-0983-9}{10.1186/s12866-017-0983-9}.
+
 \hypertarget{ref-benjamini_controlling_1995}{}
 Benjamini Y., Hochberg Y. 1995. Controlling the false discovery rate: A
 practical and powerful approach to multiple testing. \emph{Journal of
 the Royal Statistical Society. Series B (Methodological)} 57:289--300.
+
+\hypertarget{ref-Burkardt2000}{}
+Burkardt H-J. 2000. Standardization and quality control of PCR analyses.
+\emph{Clinical Chemistry and Laboratory Medicine} 38. DOI:
+\href{https://doi.org/10.1515/cclm.2000.014}{10.1515/cclm.2000.014}.
 
 \hypertarget{ref-rdp_Cole_2013}{}
 Cole JR., Wang Q., Fish JA., Chai B., McGarrell DM., Sun Y., Brown CT.,
@@ -542,6 +571,11 @@ Porras-Alfaro A., Kuske CR., Tiedje JM. 2013. Ribosomal database
 project: Data and tools for high throughput rRNA analysis. \emph{Nucleic
 Acids Research} 42:D633--D642. DOI:
 \href{https://doi.org/10.1093/nar/gkt1244}{10.1093/nar/gkt1244}.
+
+\hypertarget{ref-Eckert1991}{}
+Eckert KA., Kunkel TA. 1991. DNA polymerase fidelity and the polymerase
+chain reaction. \emph{Genome Research} 1:17--24. DOI:
+\href{https://doi.org/10.1101/gr.1.1.17}{10.1101/gr.1.1.17}.
 
 \hypertarget{ref-uchime_Edgar_2011}{}
 Edgar RC., Haas BJ., Clemente JC., Quince C., Knight R. 2011. UCHIME
@@ -559,6 +593,13 @@ Systematic improvement of amplicon marker gene methods for increased
 accuracy in microbiome studies. \emph{Nature Biotechnology} 34:942--949.
 DOI: \href{https://doi.org/10.1038/nbt.3601}{10.1038/nbt.3601}.
 
+\hypertarget{ref-Gorzelak2015}{}
+Gorzelak MA., Gill SK., Tasnim N., Ahmadi-Vand Z., Jay M., Gibson DL.
+2015. Methods for improving human gut microbiome data by reducing
+variability through sample processing and storage of stool. \emph{PLOS
+ONE} 10:e0134802. DOI:
+\href{https://doi.org/10.1371/journal.pone.0134802}{10.1371/journal.pone.0134802}.
+
 \hypertarget{ref-Haas2011}{}
 Haas BJ., Gevers D., Earl AM., Feldgarden M., Ward DV., Giannoukos G.,
 Ciulla D., Tabbaa D., Highlander SK., Sodergren E., Methe B., DeSantis
@@ -573,12 +614,33 @@ biotechnology â the history of developmental research in the field.
 \emph{Frontiers in Microbiology} 5. DOI:
 \href{https://doi.org/10.3389/fmicb.2014.00465}{10.3389/fmicb.2014.00465}.
 
+\hypertarget{ref-Kebschull2015}{}
+Kebschull JM., Zador AM. 2015. Sources of PCR-induced distortions in
+high-throughput sequencing data sets. \emph{Nucleic Acids
+Research}:gkv717. DOI:
+\href{https://doi.org/10.1093/nar/gkv717}{10.1093/nar/gkv717}.
+
 \hypertarget{ref-protocol_Kozich_2013}{}
 Kozich JJ., Westcott SL., Baxter NT., Highlander SK., Schloss PD. 2013.
 Development of a dual-index sequencing strategy and curation pipeline
 for analyzing amplicon sequence data on the MiSeq illumina sequencing
 platform. \emph{Applied and Environmental Microbiology} 79:5112--5120.
 DOI: \href{https://doi.org/10.1128/aem.01043-13}{10.1128/aem.01043-13}.
+
+\hypertarget{ref-preservation_Luo_2016}{}
+Luo T., Srinivasan U., Ramadugu K., Shedden KA., Neiswanger K., Trumble
+E., Li JJ., McNeil DW., Crout RJ., Weyant RJ., Marazita ML., Foxman B.
+2016. Effects of specimen collection methodologies and storage
+conditions on the short-term stability of oral microbiome taxonomy.
+\emph{Applied and Environmental Microbiology} 82:5519--5529. DOI:
+\href{https://doi.org/10.1128/aem.01132-16}{10.1128/aem.01132-16}.
+
+\hypertarget{ref-Meisel2016}{}
+Meisel JS., Hannigan GD., Tyldsley AS., SanMiguel AJ., Hodkinson BP.,
+Zheng Q., Grice EA. 2016. Skin microbiome surveys are strongly
+influenced by experimental design. \emph{Journal of Investigative
+Dermatology} 136:947--956. DOI:
+\href{https://doi.org/10.1016/j.jid.2016.01.016}{10.1016/j.jid.2016.01.016}.
 
 \hypertarget{ref-bc_index_Minchin1987}{}
 Minchin PR. 1987. An evaluation of the relative robustness of techniques
@@ -589,6 +651,11 @@ for ecological ordination. \emph{Vegetatio} 69:89--107. DOI:
 Oksanen J., Blanchet FG., Friendly M., Kindt R., Legendre P., McGlinn
 D., Minchin PR., O'Hara RB., Simpson GL., Solymos P., Stevens MHH.,
 Szoecs E., Wagner H. 2017. \emph{Vegan: Community ecology package}.
+
+\hypertarget{ref-polz_bias_1998}{}
+Polz MF., Cavanaugh CM. 1998. Bias in template-to-product ratios in
+multitemplate PCR. \emph{Applied and Environmental Microbiology}
+64:3724--3730.
 
 \hypertarget{ref-r_citation_2017}{}
 R Core Team. 2017. \emph{R: A language and environment for statistical
@@ -606,6 +673,13 @@ laboratory contamination can critically impact sequence-based microbiome
 analyses. \emph{BMC Biology} 12. DOI:
 \href{https://doi.org/10.1186/s12915-014-0087-z}{10.1186/s12915-014-0087-z}.
 
+\hypertarget{ref-BautistadelosSantos2016}{}
+Santos QMB-d los., Schroeder JL., Blakemore O., Moses J., Haffey M.,
+Sloan W., Pinto AJ. 2016. The impact of sampling, PCR, and sequencing
+replication on discerning changes in drinking water bacterial community
+over diurnal time-scales. \emph{Water Research} 90:216--224. DOI:
+\href{https://doi.org/10.1016/j.watres.2015.12.010}{10.1016/j.watres.2015.12.010}.
+
 \hypertarget{ref-mothur_schloss_2009}{}
 Schloss PD., Westcott SL., Ryabin T., Hall JR., Hartmann M., Hollister
 EB., Lesniewski RA., Oakley BB., Parks DH., Robinson CJ., Sahl JW.,
@@ -620,6 +694,28 @@ Seekatz AM., Rao K., Santhosh K., Young VB. 2016. Dynamics of the fecal
 microbiome in patients with recurrent and nonrecurrent clostridium
 difficile infection. \emph{Genome Medicine} 8. DOI:
 \href{https://doi.org/10.1186/s13073-016-0298-8}{10.1186/s13073-016-0298-8}.
+
+\hypertarget{ref-preservation_Song_2016}{}
+Song SJ., Amir A., Metcalf JL., Amato KR., Xu ZZ., Humphrey G., Knight
+R. 2016. Preservation methods differ in fecal microbiome stability,
+affecting suitability for field studies. \emph{mSystems} 1:e00021--16.
+DOI:
+\href{https://doi.org/10.1128/msystems.00021-16}{10.1128/msystems.00021-16}.
+
+\hypertarget{ref-Sze2015}{}
+Sze MA., Dimitriu PA., Suzuki M., McDonough JE., Campbell JD., Brothers
+JF., Erb-Downward JR., Huffnagle GB., Hayashi S., Elliott WM., Cooper
+J., Sin DD., Lenburg ME., Spira A., Mohn WW., Hogg JC. 2015. Host
+response to the lung microbiome in chronic obstructive pulmonary
+disease. \emph{American Journal of Respiratory and Critical Care
+Medicine} 192:438--445. DOI:
+\href{https://doi.org/10.1164/rccm.201502-0223oc}{10.1164/rccm.201502-0223oc}.
+
+\hypertarget{ref-Wang1996}{}
+Wang GCY., Wang Y. 1996. The frequency of chimeric molecules as a
+consequence of PCR co-amplification of 16S rRNA genes from different
+bacterial species. \emph{Microbiology} 142:1107--1114. DOI:
+\href{https://doi.org/10.1099/13500872-142-5-1107}{10.1099/13500872-142-5-1107}.
 
 \hypertarget{ref-opticlust_Westcott_2017}{}
 Westcott SL., Schloss PD. 2017. OptiClust, an improved method for
