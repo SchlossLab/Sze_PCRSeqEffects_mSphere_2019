@@ -176,7 +176,13 @@ There were few differences in bacterial community composition based on HiFi DNA 
 
 Although the variation in error rate and chimera prevalence may be due to the DNA polymerase family, the highest and lowest chimera rates both belonged to a family A polymerase (Platinum and Accuprime^TM^ respectively) [@polymerase_Ishino_2014]. Additionally, based on the material safety data sheet (MSDS) the differences between the two HiFi DNA polymerases are not immediately apparent. Both HiFi DNA polymerases contain a recombinant *Taq* DNA polymerase, a *Pyrococcus* spp GB-D polymerase and a platinum *Taq* antibody. With everything else being equal, it is possible that differences in how the recombinant *Taq* was generated could be a contributing factor for the differences observed between the HiFi DNA polymerases.
 
+- Add section on how this relates to the other components involved with 16S rRNA gene sequencing
 
+- Add section on how this relates to previous PCR bias findings
+
+- Bring everything back to the first paragraph that talks about bias, reproducibility and standardization
+
+- End on a positive that these differences are probably masked by large biological variation and so have minimal impact on findings within a study (can be part of the previous bullet point).
 
 ```{r, echo=FALSE, message=FALSE, warning=FALSE}
 #Results have an impact on downstream diversity measurements due to effects on total OTUs
