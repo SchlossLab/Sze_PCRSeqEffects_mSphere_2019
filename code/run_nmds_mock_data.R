@@ -219,6 +219,69 @@ get_permanova <- function(depth, metaList, dataList){
 }
 
 
+# Create a function to compare within HiFi composition to between Hifi composition
+compare_hifi <- function(called_hifi, cycle_number, cycle_compare, sub_sampling, 
+                         ind_samples, metaList, distList){
+  
+  overall_metadata <- metaList[[as.character(sub_sampling)]]
+  test <- distList[[as.character(sub_sampling)]]
+  
+  test_meta <- as.data.frame(overall_metadata %>% filter(cycles == cycle_number))
+
+
+  temp_within_hifi <- test[filter(test_meta, taq == called_hifi)[, "full_name"],
+                           as.data.frame(filter(overall_metadata,
+                                                cycles %in% cycle_compare,
+                                                taq == called_hifi))[, "full_name"]]
+  
+  if(called_hifi == "ACC"){
+    
+    temp_within_hifi <- as.data.frame(temp_within_hifi) %>% 
+      rename('30x_ACC_Mock_DNA1' = Zmock_A_111716, 
+             '30x_ACC_Mock_DNA2' = Zmock_B_111716, 
+             '30x_ACC_Mock_DNA3' = Zmock_C_111716, 
+             '30x_ACC_Mock_DNA4' = Zmock_D_111716)
+  }
+
+  cycle_within_hifi <- sapply(cycle_compare,
+                              function(x)
+                                sapply(ind_samples,
+                                       function(y)
+                                         as.numeric(
+                                           temp_within_hifi[paste(cycle_number, "_", called_hifi,
+                                                                  "_Mock_", y, sep = ""),
+                                                            paste(x, "_", called_hifi,
+                                                                  "_Mock_", y, sep = "")])))
+
+
+  temp_other_hifi <- test[filter(test_meta, taq == called_hifi)[, "full_name"],
+                          filter(test_meta, taq != called_hifi, taq != "K")[, "full_name"]]
+
+  hifi_compare <- unique(overall_metadata$taq)[!unique(overall_metadata$taq) %in% c("K",called_hifi)]
+
+  other_hifi <- sapply(hifi_compare,
+                       function(x) sapply(ind_samples,
+                                          function(y)
+                                            as.numeric(temp_other_hifi[paste(cycle_number, "_", called_hifi,
+                                                                             "_Mock_", y, sep = ""),
+                                                                       paste(cycle_number, "_", x,
+                                                                             "_Mock_", y, sep = "")])))
+
+   t.test(c(cycle_within_hifi[, 1], cycle_within_hifi[, 2]),
+          c(other_hifi[, 1], other_hifi[, 2], other_hifi[, 3]))$p.value
+   
+}
+
+
+compare_hifi("ACC", "25x", c("30x", "35x"), "1000", 
+             c("DNA1", "DNA2", "DNA3", "DNA4"), 
+             meta_list, braycurtis_dist)
+
+temp2 <- sapply(unique(metadata$taq)[!unique(metadata$taq) %in% "K"], 
+                function(x) try(compare_hifi(x, "25x", c("30x", "35x"), 10000, 
+                                             c("DNA1", "DNA2", "DNA3", "DNA4"), 
+                                             meta_list, braycurtis_dist)))
+
 ###########################################################################################################################
 ############################### Run actual analysis programs  #############################################################
 ###########################################################################################################################
