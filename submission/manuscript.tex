@@ -456,27 +456,16 @@ prevalence of these chimeric sequences.
 In this study we show that the number of OTUs, error rate, and chimera
 prevalence are HiFi DNA polymerase dependent {[}Figure 1-2 \& 4-5{]}.
 These differences are important because many diversity metrics rely on
-this measure as part of their calculations (e.g.~richness).
-Additionally, the earlier detection of differences in total number of
-OTUs between HiFi DNA polymerases in the mock versus fecal samples might
-indicate that high biomass samples may underestimate the biases present
-within low biomass samples. Importantly, many of these differences are
-due to undetected chimeras that cannot be fully removed using standard
-bioinformatic approaches. This suggests that some of the diversity
-differences between studies can be attributed to differences in HiFi DNA
-polyermase used.
-
-There were few differences in bacterial community composition based on
-HiFi DNA polymerase. Additionally, the data suggests that there are no
-differences in the overall bacterial community composition for
-sub-sampling depth or cycle number used. One possible reason for this
-outcome is that our study did not have enough power to detect
-differences due to low sample number in each group. Another reason is
-that many of the OTUs are likely not highly abundant, allowing the
-Bray-Curtis index to be able to successfully down-weight chimeric OTUs
-(Minchin, 1987). The choice of downstream diversity metric could be an
-important consideration in helping to mitigate these observed HiFi DNA
-polymerase dependent differences in chimera prevalence.
+the number of OTUs or other measures dependent on error rate and chimera
+prevalence as part of their metric calculations (e.g.~richness).
+Importantly, many of these differences are due to undetected chimeras
+that cannot be fully removed using standard bioinformatic approaches.
+This suggests that some of the diversity differences between studies can
+be attributed to differences in HiFi DNA polyermase used. Interestingly,
+the earlier detection of differences in total number of OTUs between
+HiFi DNA polymerases in the mock versus fecal samples might indicate
+that high biomass samples may underestimate the biases present within
+low biomass samples.
 
 Although the variation in error rate and chimera prevalence may be due
 to the DNA polymerase family, the highest and lowest chimera rates both
@@ -491,7 +480,25 @@ that differences in how the recombinant \emph{Taq} was generated could
 be a contributing factor for the differences observed between the HiFi
 DNA polymerases.
 
-Similar to using different perservation methods or different DNA
+There were few differences in bacterial community composition based on
+HiFi DNA polymerase. The data also suggests that there were no
+differences in the overall bacterial community composition for
+sub-sampling depth or cycle number used. One possible reason for this
+outcome was that our study did not have enough power to detect
+differences due to low sample number in each group. Another reason was
+that many of the OTUs are likely not highly abundant, allowing the
+Bray-Curtis index to be able to successfully down-weight chimeric OTUs
+(Minchin, 1987). The choice of downstream diversity metric could be an
+important consideration in helping to mitigate these observed HiFi DNA
+polymerase dependent differences in chimera prevalence. Metrics that
+simply look at presence/absence of OTUs (e.g.~Jaccard (Real \& Vargas,
+1996)) may be less robust to chimera prevalence and by extension total
+number of OTU differences in HiFi DNA Polymerases. When choosing a
+distance metric careful consideration of the biases introduced from the
+PCR step of the 16S rRNA gene sequencing workflow need to be taken into
+account.
+
+Similar to using different preservation methods or different DNA
 extraction kits, the type of HiFi DNA polymerase can add bias to the
 observed bacterial community. The sequence error introduced by the HiFi
 DNA polymerase is small and likely to be smaller than the biological
@@ -507,15 +514,16 @@ method used.
 
 Heavy standardization has been commonly suggested as a reasonable answer
 to finding the most reproducible approach. However, bias can be easily
-reproducible and can be found in every step of the 16S rRNA gene
-sequencing workflow. This study shows that the observed microbial
-community consistently varies based on HiFi DNA polymerase.
-Standardizing multiple workflows to one specific HiFi DNA polymerase
-could be detrimental since the PCR step not only misses entire species
-based on primer chosen () but also can artifically increase the number
-of OTUs observed. Arguably, standardizing workflow needs to be
-approached on a study by study basis and not every project needs to use
-the exact same approach. All aspects of the 16S rRNA gene sequencing
+reproduced and can be found in every step of the 16S rRNA gene
+sequencing workflow. This study shows that specific diversity metrics
+used to measure the microbial community consistently vary based on HiFi
+DNA polymerase. Standardizing multiple workflows to one specific HiFi
+DNA polymerase could be detrimental since the PCR step not only misses
+entire species based on primer chosen (Meisel et al., 2016) but also can
+artifically increase the number of OTUs observed. Arguably, the degree
+of workflow standardization across studies and research group needs to
+be approached on a study by study basis and not every project needs to
+use the exact same approach. All aspects of the 16S rRNA gene sequencing
 workflow need to be customized for the specific microbial community that
 will be sampled. Although a diversity of approaches may make
 reproducibility more difficult it will help to avoid systematic biases
@@ -527,9 +535,9 @@ from occuring due to widespread standardization of approaches.
 
 The number of OTUs are dependent on both HiFi DNA polymerase and cycle
 number chosen. Care should be taken when choosing a HiFi DNA polymerase
-for 16S rRNA gene surveys because intrinsic differences in HiFi DNA
-polymerases can change the number of OTUs observed and influence
-diversity based metrics that do not down-weight rare observations.
+for 16S rRNA gene surveys because their intrinsic differences can change
+the number of OTUs observed and influence diversity based metrics that
+do not down-weight rare observations.
 
 \newpage
 
@@ -674,6 +682,11 @@ multitemplate PCR. \emph{Applied and Environmental Microbiology}
 \hypertarget{ref-r_citation_2017}{}
 R Core Team. 2017. \emph{R: A language and environment for statistical
 computing}. Vienna, Austria: R Foundation for Statistical Computing.
+
+\hypertarget{ref-Real1996}{}
+Real R., Vargas JM. 1996. The probabilistic basis of jaccards index of
+similarity. \emph{Systematic Biology} 45:380--385. DOI:
+\href{https://doi.org/10.1093/sysbio/45.3.380}{10.1093/sysbio/45.3.380}.
 
 \hypertarget{ref-vsearch_Rognes_2016}{}
 Rognes T., Flouri T., Nichols B., Quince C., Mahé F. 2016. VSEARCH: A
