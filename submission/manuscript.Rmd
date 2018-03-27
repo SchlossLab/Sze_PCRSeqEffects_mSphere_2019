@@ -207,7 +207,7 @@ Methods can be standardized but they commonly contain bias that is reproducible 
 
 ## Conclusion
 
-The number of OTUs are dependent on both HiFi DNA polymerase and cycle number chosen. Care should be taken when choosing a HiFi DNA polymerase for 16S rRNA gene surveys because their intrinsic differences can change the number of OTUs observed and influence diversity based metrics that do not down-weight rare observations.
+Our observations fill a gap in knowledge on the bias introduced to 16S rRNA gene sequencing results due to differences in HiFi DNA polymerases. We found that the number of OTUs and the chimera prevalence is dependent on both HiFi DNA polymerase and cycle number chosen. Care should be taken when choosing a HiFi DNA polymerase for 16S rRNA gene surveys because their intrinsic differences can change the number of OTUs observed and influence diversity based metrics that do not down-weight rare observations. Knowing the inherent bias associated with different HiFi DNA polymerases allows for better interpretation of the relationsip between an individual study to their respective field of research.
 
 \newpage
 
