@@ -133,13 +133,13 @@ Co-author e-mails:
 
 \subsection{Abstract}\label{abstract}
 
-\textbf{Background.} Using different reagents and kits at different
-steps of the 16S rRNA gene sequencing workflow can introduce bias by
-changing the observed microbial community. Although cycle number and
-high fidelity (HiFi) DNA polymerase are studied less often, they are
-still important sources of bias in this workflow. Here, we examine how
-both cycle number and HiFi DNA polymerase can change the bacterial
-community and introduce bias to the final obtained results.
+\textbf{Background.} Bias is introduced at different stages of the 16S
+rRNA gene sequencing workflow. Commonly studied sources of bias include
+preservation and DNA extraction methods. Although cycle number and high
+fidelity (HiFi) DNA polymerase are studied less often, they are still
+important sources of bias in this workflow. Here, we examine how both
+cycle number and HiFi DNA polymerase can change the bacterial community
+and introduce bias to the final obtained results.
 
 \textbf{Methods.} We extracted DNA from fecal samples (n=4) using a
 PowerMag DNA extraction kit with a 10 minute bead beating step and
@@ -150,9 +150,9 @@ whole genomes of 8 different bacteria used the same approach. The
 analysis initially examined the number of Operational Taxonomic Units
 (OTUs) for both fecal samples and mock communities. It also assessed
 HiFi DNA polymerase dependent differences in the Bray-Curtis index,
-error rate, sequence error prevalence, and chimera prevalence. Finally,
-our analysis also examined chimera prevalence correlation with the
-number of OTUs.
+error rate, sequence error prevalence, and chimera prevalence. Our
+analysis also examined chimera prevalence correlation with the number of
+OTUs.
 
 \textbf{Results.} When analyzing fecal samples we observed a different
 number of OTUs between HiFi DNA polymerases at 35 cycles (P-value
@@ -221,7 +221,7 @@ amplification (e.g.~incorrect amplicon size products) can also increase
 as cycle number increases which can drastically change commonly used
 diversity measures (Acinas et al., 2005; Santos et al., 2016).
 Additionally, chimeras can form from an aborted extension step followed
-by a subsequent priming error and secondary extension and will also
+by a subsequent priming error and secondary extension and will
 artificially increase community diversity (Haas et al., 2011). Although
 these differences are not necessarily dependent on primer and DNA
 polymerase used, there are also biases that are.
@@ -495,7 +495,7 @@ mitigate these observed HiFi DNA polymerase dependent differences in
 chimera prevalence. Metrics that solely use presence/absence of OTUs
 (e.g.~Jaccard (Real \& Vargas, 1996)) may be less robust to chimera
 prevalence and by extension total number of OTU differences in HiFi DNA
-Polymerases. When choosing a distance metric careful consideration of
+Polymerases. When choosing a distance metric, careful consideration of
 the biases introduced from the PCR step of the 16S rRNA gene sequencing
 workflow need to be taken into account. With differences in the number
 of OTUs and chimera prevalence depending on HiFi DNA polymerase used, it
@@ -547,8 +547,9 @@ be approached on a study by study basis and not every project needs to
 use the exact same approach. All aspects of the 16S rRNA gene sequencing
 workflow need to be customized for the specific microbial community that
 will be sampled. Although a diversity of approaches may make
-reproducibility more difficult it will help to avoid systematic biases
-from occuring due to widespread standardization of approaches.
+reproducibility and replicability more difficult it will help to avoid
+systematic biases from occuring due to widespread standardization of
+approaches.
 
 \newpage
 
