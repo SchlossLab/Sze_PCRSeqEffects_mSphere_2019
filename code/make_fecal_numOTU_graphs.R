@@ -37,7 +37,7 @@ sub_sample_level <- c("1000", "5000", "10000", "15000", "20000")
 
 # Read in the count data
 numOTU_data <- sapply(sub_sample_level, 
-                      function(x) read_data("data/process/tables/", "fecal_zscore_sub_sample_", "_count_table.csv", x) %>% 
+                      function(x) read_data("data/process/tables/", "fecal_sub_sample_", "_count_table.csv", x) %>% 
                         mutate(depth_level = as.numeric(x)), 
                       simplify = F) %>% bind_rows() %>% 
   mutate(taq = factor(taq, 
@@ -48,20 +48,24 @@ numOTU_data <- sapply(sub_sample_level,
                             labels = c("15x", "20x", "25x", "30x", "35x")))
   
 
-summary_data <- numOTU_data %>% group_by(taq) %>% 
-  summarise(taq_mean = mean(scaled_numOTU, na.rm = T))
+summary_data <- numOTU_data %>% group_by(depth_level, taq, cycle_num) %>% 
+  summarise(taq_mean = mean(numOTUs, na.rm = T), 
+            taq_min = min(numOTUs, na.rm = T), 
+            taq_max = max(numOTUs, na.rm = T))
 
-fecal_samples <- numOTU_data %>% 
-  ggplot(aes(depth_level, scaled_numOTU, color = cycle_num, group = taq)) + 
-  geom_point(size = 2, alpha = 0.9, show.legend = T) + theme_bw() + 
-  geom_hline(yintercept = 0, linetype = "dashed", size = 1) + 
-  geom_hline(aes(yintercept = taq_mean), summary_data, color = "red", size = 1) + 
-  facet_grid(. ~ taq) + 
-  labs(x = "Sub-sampling Depth", y = "Z-Score Normalized Number of OTUs") + 
+overall_taq_mean_data <- numOTU_data %>% group_by(taq) %>% 
+  summarise(overall_mean = mean(numOTUs, na.rm = T))
+
+fecal_samples <- summary_data %>% 
+  ggplot(aes(factor(depth_level), taq_mean, color = cycle_num, group = cycle_num)) + 
+  geom_hline(aes(yintercept = overall_mean), overall_taq_mean_data, color = "red", size = 1, linetype = "dashed") + 
+  geom_pointrange(aes(ymin = taq_min, ymax = taq_max), size = 0.4, alpha = 0.9, show.legend = T, position = position_dodge(width = 0.8)) + 
+  geom_vline(xintercept=seq(1.5, length(unique(summary_data$depth_level))-0.5, 1), 
+             lwd=1, colour="gray") + 
+  facet_grid(. ~ taq) + theme_bw() + 
   scale_color_manual(name = "Cycle Number", 
-                     values = c("#006400", "#00FF7F", "#63B8FF", "#104E8B")) + 
-  scale_x_continuous(breaks = c(1000, 5000, 10000, 15000, 20000), 
-                    labels = c("1000", "5000", "10000", "15000", "20000")) + 
+                     values = c("#590059", "#006400", "#00FF7F", "#63B8FF", "#104E8B")) + 
+  labs(x = "Rarefied Depth", y = "Number of OTUs") + 
   theme(plot.title = element_text(face="bold", hjust = -0.09, size = 20), 
         panel.grid.major = element_blank(), 
         panel.grid.minor = element_blank(), 
@@ -71,5 +75,6 @@ fecal_samples <- numOTU_data %>%
         legend.position = "bottom", 
         legend.background = element_rect(color = "black"))
   
+  
 
-ggsave("results/figures/Figure1.pdf", fecal_samples, width = 7, height = 5, dpi = 300)
+ggsave("results/figures/Figure1.pdf", fecal_samples, width = 11, height = 5, dpi = 300)
