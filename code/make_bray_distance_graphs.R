@@ -9,6 +9,8 @@ loadLibs(c("tidyverse", "stringr", "viridis", "gridExtra"))
 
 ### Had to remove Kappa since it was missing 30x so could not do the same 5 increment comparison ###
 
+#Figure 3. the x-axis should be the number of cycles and the y-axis should be the BC distance between the current and previous number of cycles. 
+# Again, present the median and IQR or range
 
 ###########################################################################################################################
 ############################### List of functions to make analysis work ###################################################
@@ -47,7 +49,11 @@ dist_data <- sapply(sub_sample_level,
          cycle_compare = factor(cycle_compare, 
                                 levels = c("15to20", "20to25", "25to30", "30to35"), 
                                 labels = c("15x vs 20x", "20x vs 25x", 
-                                           "25x vs 30x", "30x vs 35x")))
+                                           "25x vs 30x", "30x vs 35x"))) %>% 
+  group_by(taq, depth_level, cycle_compare) %>% 
+  summarise(mean_dist = mean(distance, na.rm = T), 
+            max_dist = max(distance, na.rm = T), 
+            min_dist = min(distance, na.rm = T))
   
 
 mock_dist_data <- sapply(sub_sample_level, 
@@ -61,7 +67,11 @@ mock_dist_data <- sapply(sub_sample_level,
          cycle_compare = factor(cycle_compare, 
                                 levels = c("15to20", "20to25", "25to30", "30to35"), 
                                 labels = c("15x vs 20x", "20x vs 25x", 
-                                           "25x vs 30x", "30x vs 35x")))
+                                           "25x vs 30x", "30x vs 35x"))) %>% 
+  group_by(taq, depth_level, cycle_compare) %>% 
+  summarise(mean_dist = mean(distance, na.rm = T), 
+            max_dist = max(distance, na.rm = T), 
+            min_dist = min(distance, na.rm = T))
 
 ann_text <- data.frame(cycle_compare = 2.2, distance = 0.95, lab = "Sub-Sampled", 
                        taq = factor("ACC", levels = c("ACC", "PHU", "PL", "Q5"), 
@@ -70,13 +80,13 @@ ann_text <- data.frame(cycle_compare = 2.2, distance = 0.95, lab = "Sub-Sampled"
 
 
 fecal_graph <- dist_data %>% filter(!is.na(cycle_compare)) %>% 
-  ggplot(aes(depth_level, distance, color = cycle_compare, group = taq)) + 
-  geom_point(size = 2) + 
+  ggplot(aes(factor(depth_level), mean_dist, color = cycle_compare, group = cycle_compare)) + 
+  geom_pointrange(aes(ymin = min_dist, ymax = max_dist), size = 0.4, alpha = 0.9, show.legend = T, position = position_dodge(width = 0.8)) + 
+  geom_vline(xintercept=seq(1.5, length(unique(dist_data$depth_level))-0.5, 1), 
+             lwd=1, colour="gray") + 
   facet_grid(~taq) + 
   scale_color_manual(name = "Cycle Comparison", 
                      values = c("#FF00FF", "#0000FF", "#8B1A1A", "#EE9A00")) + 
-  scale_x_continuous(breaks = c(1000, 5000, 10000), 
-                     labels = c("1000", "5000", "10000")) + 
   theme_bw() +  coord_cartesian(ylim = c(0, 1)) + ggtitle("A") + 
   labs(x = "Sub-sampling Depth", y = "Bray Curtis Index") + 
   theme(plot.title = element_text(face="bold", hjust = -0.07, size = 20), 
@@ -92,14 +102,14 @@ fecal_graph <- dist_data %>% filter(!is.na(cycle_compare)) %>%
 
 
 mock_graph <- mock_dist_data %>% filter(!is.na(cycle_compare)) %>% 
-  ggplot(aes(depth_level, distance, color = cycle_compare, group = taq)) + 
-  geom_point(size = 2) + 
+  ggplot(aes(factor(depth_level), mean_dist, color = cycle_compare, group = cycle_compare)) + 
+  geom_pointrange(aes(ymin = min_dist, ymax = max_dist), size = 0.4, alpha = 0.9, show.legend = T, position = position_dodge(width = 0.8)) + 
+  geom_vline(xintercept=seq(1.5, length(unique(mock_dist_data$depth_level))-0.5, 1), 
+             lwd=1, colour="gray") + 
   facet_grid(~taq) + 
   scale_color_manual(name = "Cycle Comparison", 
                      values = c("#FF00FF", "#0000FF", "#8B1A1A", "#EE9A00"), 
                      limits = c("15x vs 20x", "20x vs 25x", "25x vs 30x", "30x vs 35x")) + 
-  scale_x_continuous(breaks = c(1000, 5000, 10000), 
-                     labels = c("1000", "5000", "10000")) +
   theme_bw() +  coord_cartesian(ylim = c(0, 1)) + ggtitle("B") + 
   labs(x = "Sub-sampling Depth", y = "Bray Curtis Index") + 
   theme(plot.title = element_text(face="bold", hjust = -0.07, size = 20), 
@@ -114,6 +124,6 @@ mock_graph <- mock_dist_data %>% filter(!is.na(cycle_compare)) %>%
         legend.background = element_rect(color = "black"))
 
 
-combined_graph <- grid.arrange(fecal_graph, mock_graph, ncol = 2, nrow = 1)
+combined_graph <- grid.arrange(fecal_graph, mock_graph, ncol = 1, nrow = 2)
 
-ggsave("results/figures/Figure3.pdf", combined_graph, width = 8, height = 4, dpi = 300)
+ggsave("results/figures/Figure3.pdf", combined_graph, width = 8, height = 8, dpi = 300)
