@@ -39,36 +39,36 @@ error_data <- sapply(error_files, function(x) read_csv(paste("data/process/table
 
 
 # Generate graph of Mock DNA samples 
-before_precluster <- error_data[["mock_precluster_error"]]  %>% 
-  filter(total_seqs >= 1000) %>% 
-  mutate(taq = factor(taq, 
-                      levels = c("ACC", "K", "PHU", "PL", "Q5"), 
-                      labels = c("Accuprime", "Kappa", "Phusion", "Platinum", "Q5"))) %>% 
-  group_by(taq, cycles) %>% 
-  summarise(group_chimera = median(chimera_prevalence), group_iqr25 = quantile(chimera_prevalence)["25%"], 
-            group_iqr75 = quantile(chimera_prevalence)["75%"]) %>% 
-  ggplot(aes(cycles, group_chimera, color = taq, group = taq)) + 
-  geom_line(show.legend = F) + 
-  geom_errorbar(aes(ymin=group_iqr25, 
-                    ymax=group_iqr75), show.legend = F,  
-                width = 0.1, size = 0.5, alpha = 0.4) + 
-  geom_point(size = 2, alpha = 0.7, show.legend = F) + 
-  theme_bw() + 
-  scale_color_manual(name = "Taq Used", 
-                     values = c("#440154FF", "#3B528BFF", "#21908CFF", "#5DC863FF", "#FDE725FF")) + 
-  labs(x = "Amplification Cycles", y = "Chimeric Sequences") + 
-  coord_cartesian(ylim = c(0, 0.30)) + 
-  scale_y_continuous(labels = scales::percent) + 
-  ggtitle("A") + 
-  annotate("text", label = paste("Before Pre-Cluster Step"), x = 2.5, y = 0.3, size = 3.5) + 
-  theme(plot.title = element_text(face="bold", hjust = -0.07, size = 20), 
-        panel.grid.major = element_blank(), 
-        panel.grid.minor = element_blank(), 
-        axis.text.y = element_text(size = 10), 
-        legend.position = c(0.25, 0.83), 
-        legend.title = element_blank(), 
-        legend.key = element_blank(), 
-        legend.background = element_rect(color = "black"))
+# before_precluster <- error_data[["mock_precluster_error"]]  %>% 
+#   filter(total_seqs >= 1000) %>% 
+#   mutate(taq = factor(taq, 
+#                       levels = c("ACC", "K", "PHU", "PL", "Q5"), 
+#                       labels = c("Accuprime", "Kappa", "Phusion", "Platinum", "Q5"))) %>% 
+#   group_by(taq, cycles) %>% 
+#   summarise(group_chimera = median(chimera_prevalence), group_iqr25 = quantile(chimera_prevalence)["25%"], 
+#             group_iqr75 = quantile(chimera_prevalence)["75%"]) %>% 
+#   ggplot(aes(cycles, group_chimera, color = taq, group = taq)) + 
+#   geom_line(show.legend = F) + 
+#   geom_errorbar(aes(ymin=group_iqr25, 
+#                     ymax=group_iqr75), show.legend = F,  
+#                 width = 0.1, size = 0.5, alpha = 0.4) + 
+#   geom_point(size = 2, alpha = 0.7, show.legend = F) + 
+#   theme_bw() + 
+#   scale_color_manual(name = "Taq Used", 
+#                      values = c("#440154FF", "#3B528BFF", "#21908CFF", "#5DC863FF", "#FDE725FF")) + 
+#   labs(x = "Amplification Cycles", y = "Chimeric Sequences") + 
+#   coord_cartesian(ylim = c(0, 0.30)) + 
+#   scale_y_continuous(labels = scales::percent) + 
+#   ggtitle("A") + 
+#   annotate("text", label = paste("Before Pre-Cluster Step"), x = 2.5, y = 0.3, size = 3.5) + 
+#   theme(plot.title = element_text(face="bold", hjust = -0.07, size = 20), 
+#         panel.grid.major = element_blank(), 
+#         panel.grid.minor = element_blank(), 
+#         axis.text.y = element_text(size = 10), 
+#         legend.position = c(0.25, 0.83), 
+#         legend.title = element_blank(), 
+#         legend.key = element_blank(), 
+#         legend.background = element_rect(color = "black"))
 
 
 before_chimera_vsearch <- error_data[["mock_chimera_error"]]  %>% 
@@ -91,8 +91,8 @@ before_chimera_vsearch <- error_data[["mock_chimera_error"]]  %>%
   labs(x = "Amplification Cycles", y = "Chimeric Sequences") + 
   coord_cartesian(ylim = c(0, 0.30)) + 
   scale_y_continuous(labels = scales::percent) + 
-  ggtitle("B") + 
-  annotate("text", label = paste("Before Chimera VSEARCH Step"), x = 2.5, y = 0.3, size = 3.5) + 
+  ggtitle("A") + 
+  annotate("text", label = paste("Mock Data\nWithout VSEARCH"), x = 2.5, y = 0.3, size = 3.5) + 
   theme(plot.title = element_text(face="bold", hjust = -0.07, size = 20), 
         panel.grid.major = element_blank(), 
         panel.grid.minor = element_blank(), 
@@ -112,19 +112,19 @@ full_pipeline <- error_data[["mock_error"]]  %>%
   summarise(group_chimera = median(chimera_prevalence), group_iqr25 = quantile(chimera_prevalence)["25%"], 
             group_iqr75 = quantile(chimera_prevalence)["75%"]) %>% 
   ggplot(aes(cycles, group_chimera, color = taq, group = taq)) + 
-  geom_line(show.legend = T) + 
+  geom_line(show.legend = F) + 
   geom_errorbar(aes(ymin=group_iqr25, 
-                    ymax=group_iqr75), show.legend = T, 
+                    ymax=group_iqr75), show.legend = F, 
                 width = 0.1, size = 0.5, alpha = 0.4) + 
-  geom_point(size = 2, alpha = 0.7, show.legend = T) + 
+  geom_point(size = 2, alpha = 0.7, show.legend = F) + 
   theme_bw() + 
   scale_color_manual(name = "Taq Used", 
                      values = c("#440154FF", "#3B528BFF", "#21908CFF", "#5DC863FF", "#FDE725FF")) + 
   labs(x = "Amplification Cycles", y = "Chimeric Sequences") + 
   coord_cartesian(ylim = c(0, 0.30)) + 
   scale_y_continuous(labels = scales::percent) + 
-  ggtitle("C") + 
-  annotate("text", label = paste("Full Pipeline"), x = 2.5, y = 0.3, size = 3.5) + 
+  ggtitle("B") + 
+  annotate("text", label = paste("Mock Data\nWith VSEARCH"), x = 2.5, y = 0.3, size = 3.5) + 
   theme(plot.title = element_text(face="bold", hjust = -0.07, size = 20), 
         panel.grid.major = element_blank(), 
         panel.grid.minor = element_blank(), 
@@ -135,7 +135,49 @@ full_pipeline <- error_data[["mock_error"]]  %>%
         legend.background = element_rect(color = "black"))
 
 
-combined_graph <- grid.arrange(before_precluster, before_chimera_vsearch, full_pipeline, ncol = 3)
+before_chimera <- pull(error_data[["mock_chimera_error"]], chimera_prevalence) * 
+  pull(error_data[["mock_chimera_error"]], total_seqs)
+
+after_chimera <- pull(error_data[["mock_error"]], chimera_prevalence) * 
+  pull(error_data[["mock_error"]], total_seqs)
+
+change_data <- error_data[["mock_error"]] %>% 
+  select(taq, cycles, sample_name, full_name, total_seqs) %>% 
+  mutate(percent_drop = (before_chimera - after_chimera) / before_chimera)
+
+removal_rate <- change_data %>% 
+  filter(total_seqs >= 1000) %>% 
+  mutate(taq = factor(taq, 
+                      levels = c("ACC", "K", "PHU", "PL", "Q5"), 
+                      labels = c("Accuprime", "Kappa", "Phusion", "Platinum", "Q5"))) %>% 
+  group_by(taq, cycles) %>% 
+  summarise(group_chimera = median(percent_drop), group_iqr25 = quantile(percent_drop)["25%"], 
+            group_iqr75 = quantile(percent_drop)["75%"]) %>% 
+  ggplot(aes(cycles, group_chimera, color = taq, group = taq)) + 
+  geom_line(show.legend = T) + 
+  geom_errorbar(aes(ymin=group_iqr25, 
+                    ymax=group_iqr75), show.legend = T, 
+                width = 0.1, size = 0.5, alpha = 0.4) + 
+  geom_point(size = 2, alpha = 0.7, show.legend = T) + 
+  theme_bw() + 
+  scale_color_manual(name = "Taq Used", 
+                     values = c("#440154FF", "#3B528BFF", "#21908CFF", "#5DC863FF", "#FDE725FF")) + 
+  labs(x = "Amplification Cycles", y = "Percent Chimeras Removed") + 
+  coord_cartesian(ylim = c(0, 1)) + 
+  scale_y_continuous(labels = scales::percent) + 
+  ggtitle("C") + 
+  theme(plot.title = element_text(face="bold", hjust = -0.07, size = 20), 
+        panel.grid.major = element_blank(), 
+        panel.grid.minor = element_blank(), 
+        axis.text.y = element_text(size = 10), 
+        legend.position = c(0.8, 0.15), 
+        legend.title = element_blank(), 
+        legend.key = element_blank(), 
+        legend.background = element_rect(color = "black"))
+
+
+
+combined_graph <- grid.arrange(before_chimera_vsearch, full_pipeline, removal_rate, ncol = 3)
 
 ggsave("results/figures/Figure5.pdf", combined_graph, width = 11, height = 7, dpi = 300)
 
