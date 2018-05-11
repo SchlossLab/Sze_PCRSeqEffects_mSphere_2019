@@ -53,21 +53,29 @@ nucleotide_data <- read_csv("data/process/tables/full_nucleotide_error_summary.c
   mutate(prev_subtype = str_replace(prev_subtype, "_seq_prev", ""))
 
 
-full_graph <- nucleotide_data %>% 
+summary_data <- nucleotide_data %>% 
+  group_by(sub_type, taq, cycles) %>% 
+  summarise(medain_sub_rate = median(rate, na.rm = T), 
+            max_sub_rate = max(rate, na.rm = T), 
+            min_sub_rate = min(rate, na.rm = T)) %>% 
+  ungroup()
+
+
+full_graph <- summary_data %>% 
      mutate(sub_type = factor(sub_type, 
                           levels = c("ac", "ag", "at", "ca", "cg", "ct", "ga", "gc", "gt", "ta", "tc", "tg"), 
                           labels = c("A => C", "A => G", "A => T", "C => A", "C => G", "C => T", "G => A", "G => C", 
                                      "G => T", "T => A", "T => C", "T => G"))) %>% 
-     ggplot(aes(sub_type, log10(rate + 0.000001), color = taq, group = taq)) + 
-     geom_point(size = 2, alpha = 0.2, position = position_dodge(width = 0.7), show.legend = F, color = "gray") + 
-     theme_bw() + 
-     stat_summary(aes(color = taq), fun.y = median, fun.ymin = median, fun.ymax = median, 
-                  position = position_dodge(width = 0.7), geom = "crossbar", size = 0.5, width = 0.7) + 
-     facet_grid(cycles~.) + 
-     scale_color_manual(name = "Taq Used", 
-                      values = c("#440154FF", "#3B528BFF", "#21908CFF", "#5DC863FF", "#FDE725FF")) + 
+  ggplot(aes(cycles, log10(medain_sub_rate + 0.00000001), color = sub_type, group = sub_type)) + 
+  geom_pointrange(aes(ymin = min_sub_rate, ymax = max_sub_rate), size = 0.4, 
+                  alpha = 0.9, show.legend = T, position = position_dodge(width = 0.8)) + 
+  facet_grid(taq~.) + theme_bw() + 
+  geom_vline(xintercept=seq(1.5, length(unique(summary_data$cycles))-0.5, 1), 
+             lwd=1, colour="gray") + 
+     # scale_color_manual(name = "Taq Used", 
+     #                  values = c("#440154FF", "#3B528BFF", "#21908CFF", "#5DC863FF", "#FDE725FF")) + 
    labs(x = "", y = expression(Log["10"]~Substitution~Rate)) + 
-   coord_cartesian(ylim = c(0, -6)) + 
+  coord_cartesian(ylim = c(0, -6)) + 
    theme(plot.title = element_text(face="bold", hjust = -0.07, size = 10), 
          panel.grid.major = element_blank(), 
          panel.grid.minor = element_blank(), 
@@ -78,101 +86,7 @@ full_graph <- nucleotide_data %>%
          legend.background = element_rect(color = "black"))
 
 
-# # Vector of sub samples used
-# sub_sample_level <- c("50", "100", "500", "1000", "5000", "10000")
-# 
-# # Read in the count data
-# nucleotide_data <- sapply(sub_sample_level, 
-#                      function(x) read_data("data/process/tables/nucleotide_error_", "", "_summary.csv", x), 
-#                      simplify = F)
-# 
-# # Transform data for better graphing
-# nucleotide_data <- sapply(sub_sample_level, 
-#                function(x) run_data_gather(x, nucleotide_data), simplify = F)
-# 
-# 
-# 
-# # Generate graph of Mock DNA samples 
-# thousand <- nucleotide_data[["1000"]] %>% 
-#   mutate(sub_type = factor(sub_type, 
-#                        levels = c("ac", "ag", "at", "ca", "cg", "ct", "ga", "gc", "gt", "ta", "tc", "tg"), 
-#                        labels = c("A => C", "A => G", "A => T", "C => A", "C => G", "C => T", "G => A", "G => C", 
-#                                   "G => T", "T => A", "T => C", "T => G"))) %>% 
-#   ggplot(aes(sub_type, log10(rate + 0.000001), color = taq, group = taq)) + 
-#   geom_point(size = 2, alpha = 0.2, position = position_dodge(width = 0.7), show.legend = F, color = "gray") + 
-#   theme_bw() + 
-#   stat_summary(aes(color = taq), fun.y = median, fun.ymin = median, fun.ymax = median, 
-#                position = position_dodge(width = 0.7), geom = "crossbar", size = 0.5, width = 0.7) + 
-#   facet_grid(cycles~.) + 
-#   scale_color_manual(name = "Taq Used", 
-#                      values = c("#440154FF", "#3B528BFF", "#21908CFF", "#5DC863FF", "#FDE725FF")) + 
-#   labs(x = "", y = expression(Log["10"]~Substitution~Rate)) + 
-#   coord_cartesian(ylim = c(0, -6)) + 
-#   ggtitle("Sub-Sampled to 1000 Sequences") +  
-#   theme(plot.title = element_text(face="bold", hjust = -0.07, size = 10), 
-#         panel.grid.major = element_blank(), 
-#         panel.grid.minor = element_blank(), 
-#         axis.text.y = element_text(size = 10), 
-#         legend.position = "bottom", 
-#         legend.title = element_blank(), 
-#         legend.key = element_blank(), 
-#         legend.background = element_rect(color = "black"))
-#   
-#   
-#   
-# five_thousand <- nucleotide_data[["5000"]] %>% 
-#   mutate(sub_type = factor(sub_type, 
-#                            levels = c("ac", "ag", "at", "ca", "cg", "ct", "ga", "gc", "gt", "ta", "tc", "tg"), 
-#                            labels = c("A => C", "A => G", "A => T", "C => A", "C => G", "C => T", "G => A", "G => C", 
-#                                       "G => T", "T => A", "T => C", "T => G"))) %>% 
-#   ggplot(aes(sub_type, log10(rate + 0.000001), color = taq, group = taq)) + 
-#   geom_point(size = 2, alpha = 0.2, position = position_dodge(width = 0.7), show.legend = F, color = "gray") + 
-#   theme_bw() + 
-#   stat_summary(aes(color = taq), fun.y = median, fun.ymin = median, fun.ymax = median, 
-#                position = position_dodge(width = 0.7), geom = "crossbar", size = 0.5, width = 0.7) + 
-#   facet_grid(cycles~.) + 
-#   scale_color_manual(name = "Taq Used", 
-#                      values = c("#440154FF", "#21908CFF", "#5DC863FF", "#FDE725FF")) + 
-#   labs(x = "", y = expression(Log["10"]~Substitution~Rate)) + 
-#   coord_cartesian(ylim = c(0, -6)) + 
-#   ggtitle("Sub-Sampled to 5000 Sequences") + 
-#   theme(plot.title = element_text(face="bold", hjust = -0.07, size = 10), 
-#         panel.grid.major = element_blank(), 
-#         panel.grid.minor = element_blank(), 
-#         axis.text.y = element_text(size = 10), 
-#         legend.position = "bottom", 
-#         legend.title = element_blank(), 
-#         legend.key = element_blank(), 
-#         legend.background = element_rect(color = "black"))
-# 
-# 
-# ten_thousand <- nucleotide_data[["10000"]] %>% 
-#   mutate(sub_type = factor(sub_type, 
-#                            levels = c("ac", "ag", "at", "ca", "cg", "ct", "ga", "gc", "gt", "ta", "tc", "tg"), 
-#                            labels = c("A => C", "A => G", "A => T", "C => A", "C => G", "C => T", "G => A", "G => C", 
-#                                       "G => T", "T => A", "T => C", "T => G"))) %>% 
-#   ggplot(aes(sub_type, log10(rate + 0.000001), color = taq, group = taq)) + 
-#   geom_point(size = 2, alpha = 0.2, position = position_dodge(width = 0.7), show.legend = F, color = "gray") + 
-#   theme_bw() + 
-#   stat_summary(aes(color = taq), fun.y = median, fun.ymin = median, fun.ymax = median, 
-#                position = position_dodge(width = 0.7), geom = "crossbar", size = 0.5, width = 0.7) + 
-#   facet_grid(cycles~.) + 
-#   scale_color_manual(name = "Taq Used", 
-#                      values = c("#440154FF", "#21908CFF", "#5DC863FF", "#FDE725FF")) + 
-#   labs(x = "", y = expression(Log["10"]~Substitution~Rate)) + 
-#   coord_cartesian(ylim = c(0, -6)) + 
-#   ggtitle("Sub-Sampled to 10000 Sequences") + 
-#   theme(plot.title = element_text(face="bold", hjust = -0.07, size = 10), 
-#         panel.grid.major = element_blank(), 
-#         panel.grid.minor = element_blank(), 
-#         axis.text.y = element_text(size = 10), 
-#         legend.position = "bottom", 
-#         legend.title = element_blank(), 
-#         legend.key = element_blank(), 
-#         legend.background = element_rect(color = "black"))
-
-
-ggsave("results/figures/FigureS2.pdf", full_graph, width = 8, height = 7, dpi = 300)
+ggsave("results/figures/FigureS1.pdf", full_graph, width = 8, height = 7, dpi = 300)
 
 
 
