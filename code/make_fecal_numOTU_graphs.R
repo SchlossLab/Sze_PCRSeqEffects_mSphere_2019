@@ -49,7 +49,7 @@ numOTU_data <- sapply(sub_sample_level,
   
 
 summary_data <- numOTU_data %>% group_by(depth_level, taq, cycle_num) %>% 
-  summarise(taq_mean = mean(numOTUs, na.rm = T), 
+  summarise(taq_mean = median(numOTUs, na.rm = T), 
             taq_min = min(numOTUs, na.rm = T), 
             taq_max = max(numOTUs, na.rm = T))
 

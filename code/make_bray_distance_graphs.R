@@ -51,7 +51,7 @@ dist_data <- sapply(sub_sample_level,
                                 labels = c("15x vs 20x", "20x vs 25x", 
                                            "25x vs 30x", "30x vs 35x"))) %>% 
   group_by(taq, depth_level, cycle_compare) %>% 
-  summarise(mean_dist = mean(distance, na.rm = T), 
+  summarise(mean_dist = median(distance, na.rm = T), 
             max_dist = max(distance, na.rm = T), 
             min_dist = min(distance, na.rm = T))
   
@@ -69,7 +69,7 @@ mock_dist_data <- sapply(sub_sample_level,
                                 labels = c("15x vs 20x", "20x vs 25x", 
                                            "25x vs 30x", "30x vs 35x"))) %>% 
   group_by(taq, depth_level, cycle_compare) %>% 
-  summarise(mean_dist = mean(distance, na.rm = T), 
+  summarise(mean_dist = median(distance, na.rm = T), 
             max_dist = max(distance, na.rm = T), 
             min_dist = min(distance, na.rm = T))
 
