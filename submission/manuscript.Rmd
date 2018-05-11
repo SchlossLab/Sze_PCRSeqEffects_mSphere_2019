@@ -242,8 +242,6 @@ The authors would like to thank all the study participants in ERIN whose samples
 \newpage
 
 
-**Figure S1: HiFi DNA Polymerase Sequence Error Prevalence in Mock Samples.** A) Sequence error prevalence before the merger of sequences with pre.cluster and the removal of chimeras with VSEARCH. B) Sequence error prevalence before the removal of chimeras with VSEARCH. C) Full pipeline. The error bars represent the 75% interquartile range of the median. 
-
-**Figure S2: HiFi DNA Polymerase Nucleotide Subsitutions in Mock Samples.**  
+**Figure S1: HiFi DNA Polymerase Nucleotide Subsitutions in Mock Samples.**  
 
 
