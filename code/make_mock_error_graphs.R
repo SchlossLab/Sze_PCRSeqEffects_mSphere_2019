@@ -117,9 +117,9 @@ full_pipeline <- error_data[["mock_error"]] %>%
   theme_bw() + 
   scale_color_manual(name = "Taq Used", 
                      values = c("#440154FF", "#3B528BFF", "#21908CFF", "#5DC863FF", "#FDE725FF")) + 
-  labs(x = "Amplification Cycles", y = "Median Average Error Rate Per Base") + 
-  ggtitle("C") + coord_cartesian(ylim = c(0, 0.015)) + 
-  annotate("text", label = paste("Full Pipeline"), x = 2.5, y = 0.015, size = 3.5) + 
+  labs(x = "Amplification Cycles", y = "Median Error Rate") + 
+  coord_cartesian(ylim = c(0, 0.015)) + 
+  annotate("text", label = paste("Mock Data"), x = 2.5, y = 0.015, size = 3.5) + 
   theme(plot.title = element_text(face="bold", hjust = -0.07, size = 20), 
         panel.grid.major = element_blank(), 
         panel.grid.minor = element_blank(), 
@@ -132,6 +132,6 @@ full_pipeline <- error_data[["mock_error"]] %>%
 
  
  
- combined_graph <- grid.arrange(before_precluster, before_chimera_vsearch, full_pipeline, ncol = 3)
+#combined_graph <- grid.arrange(before_precluster, before_chimera_vsearch, full_pipeline, ncol = 3)
 
-ggsave("results/figures/Figure4.pdf", combined_graph, width = 11, height = 7, dpi = 300)
+ggsave("results/figures/Figure4.pdf", full_pipeline, width = 4, height = 6, dpi = 300)
