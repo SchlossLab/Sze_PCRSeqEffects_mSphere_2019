@@ -108,57 +108,57 @@ combined_list <- sapply(error_files,
   select(-taq.x, -taq.y)
   
 
-
-eqns_m_pc_error <- filter(combined_list, pipeline == "mock_precluster_error") %>% by(.$taq, lm_eqn)
-df_m_pc_error<- data.frame(eq = unclass(eqns_m_pc_error), taq = rownames(eqns_m_pc_error))
-
-
-mock_pc <- combined_list %>% filter(pipeline == "mock_precluster_error") %>% 
-  ggplot(aes(chimera_prevalence*100, total_otus, color = cycles.x, group = taq)) + 
-  geom_smooth(size = 1, method = "lm", se = FALSE, color = "black", show.legend = F) + 
-  geom_point(size = 2, alpha = 0.7, show.legend = F) + theme_bw() + 
-  facet_grid(taq ~.) + 
-  scale_color_manual(name = "Cycle Number", 
-                     values = c("#0000FF", "#00C957", "#CD8500", "#FF1493")) + 
-  labs(x = "Chimera Sequence Prevalence (%)", y = "Number of OTUs") + 
-  geom_text(data = df_m_pc_error, aes(x = 2.5, y = 380, label = eq), 
-            color = 'black', size = 3.5, parse = TRUE) + 
-  ggtitle("A") + coord_cartesian(ylim = c(0, 500)) + scale_x_continuous(limits = c(0, 30)) + 
-  annotate("text", label = paste("Before Precluster Step"), x = 3, y = 450, size = 2.5) + 
-  theme(plot.title = element_text(face="bold", hjust = -0.07, size = 20), 
-        panel.grid.major = element_blank(), 
-        panel.grid.minor = element_blank(), 
-        axis.text.y = element_text(size = 10), 
-        legend.position = "bottom", 
-        legend.title = element_blank(), 
-        legend.key = element_blank(), 
-        legend.background = element_rect(color = "black"))
-
-
-
-eqns_m_ch_error <- filter(combined_list, pipeline == "mock_chimera_error") %>% by(.$taq, lm_eqn)
-df_m_ch_error <- data.frame(eq = unclass(eqns_m_ch_error), taq = rownames(eqns_m_ch_error))
-
-mock_ch <- combined_list %>% filter(pipeline == "mock_chimera_error") %>% 
-  ggplot(aes(chimera_prevalence*100, total_otus, color = cycles.x, group = taq)) + 
-  geom_smooth(size = 1, method = "lm", se = FALSE, color = "black", show.legend = F) + 
-  geom_point(size = 2, alpha = 0.7, show.legend = F) + theme_bw() + 
-  facet_grid(taq ~.) + 
-  scale_color_manual(name = "Cycle Number", 
-                     values = c("#0000FF", "#00C957", "#CD8500", "#FF1493")) + 
-  labs(x = "Chimera Sequence Prevalence (%)", y = "Number of OTUs") + 
-  geom_text(data = df_m_ch_error, aes(x = 3, y = 380, label = eq), 
-            color = 'black', size = 3.5, parse = TRUE) + 
-  ggtitle("B") + coord_cartesian(ylim = c(0, 500)) + scale_x_continuous(limits = c(0, 30)) + 
-  annotate("text", label = paste("Before Chimera Removal Step"), x = 4, y = 450, size = 2.5) + 
-  theme(plot.title = element_text(face="bold", hjust = -0.07, size = 20), 
-        panel.grid.major = element_blank(), 
-        panel.grid.minor = element_blank(), 
-        axis.text.y = element_text(size = 10), 
-        legend.position = "bottom", 
-        legend.title = element_blank(), 
-        legend.key = element_blank(), 
-        legend.background = element_rect(color = "black"))
+# 
+# eqns_m_pc_error <- filter(combined_list, pipeline == "mock_precluster_error") %>% by(.$taq, lm_eqn)
+# df_m_pc_error<- data.frame(eq = unclass(eqns_m_pc_error), taq = rownames(eqns_m_pc_error))
+# 
+# 
+# mock_pc <- combined_list %>% filter(pipeline == "mock_precluster_error") %>% 
+#   ggplot(aes(chimera_prevalence*100, total_otus, color = cycles.x, group = taq)) + 
+#   geom_smooth(size = 1, method = "lm", se = FALSE, color = "black", show.legend = F) + 
+#   geom_point(size = 2, alpha = 0.7, show.legend = F) + theme_bw() + 
+#   facet_grid(taq ~.) + 
+#   scale_color_manual(name = "Cycle Number", 
+#                      values = c("#0000FF", "#00C957", "#CD8500", "#FF1493")) + 
+#   labs(x = "Chimera Sequence Prevalence (%)", y = "Number of OTUs") + 
+#   geom_text(data = df_m_pc_error, aes(x = 2.5, y = 380, label = eq), 
+#             color = 'black', size = 3.5, parse = TRUE) + 
+#   ggtitle("A") + coord_cartesian(ylim = c(0, 500)) + scale_x_continuous(limits = c(0, 30)) + 
+#   annotate("text", label = paste("Before Precluster Step"), x = 3, y = 450, size = 2.5) + 
+#   theme(plot.title = element_text(face="bold", hjust = -0.07, size = 20), 
+#         panel.grid.major = element_blank(), 
+#         panel.grid.minor = element_blank(), 
+#         axis.text.y = element_text(size = 10), 
+#         legend.position = "bottom", 
+#         legend.title = element_blank(), 
+#         legend.key = element_blank(), 
+#         legend.background = element_rect(color = "black"))
+# 
+# 
+# 
+ eqns_m_ch_error <- filter(combined_list, pipeline == "mock_chimera_error") %>% by(.$taq, lm_eqn)
+# df_m_ch_error <- data.frame(eq = unclass(eqns_m_ch_error), taq = rownames(eqns_m_ch_error))
+# 
+# mock_ch <- combined_list %>% filter(pipeline == "mock_chimera_error") %>% 
+#   ggplot(aes(chimera_prevalence*100, total_otus, color = cycles.x, group = taq)) + 
+#   geom_smooth(size = 1, method = "lm", se = FALSE, color = "black", show.legend = F) + 
+#   geom_point(size = 2, alpha = 0.7, show.legend = F) + theme_bw() + 
+#   facet_grid(taq ~.) + 
+#   scale_color_manual(name = "Cycle Number", 
+#                      values = c("#0000FF", "#00C957", "#CD8500", "#FF1493")) + 
+#   labs(x = "Chimera Sequence Prevalence (%)", y = "Number of OTUs") + 
+#   geom_text(data = df_m_ch_error, aes(x = 3, y = 380, label = eq), 
+#             color = 'black', size = 3.5, parse = TRUE) + 
+#   ggtitle("B") + coord_cartesian(ylim = c(0, 500)) + scale_x_continuous(limits = c(0, 30)) + 
+#   annotate("text", label = paste("Before Chimera Removal Step"), x = 4, y = 450, size = 2.5) + 
+#   theme(plot.title = element_text(face="bold", hjust = -0.07, size = 20), 
+#         panel.grid.major = element_blank(), 
+#         panel.grid.minor = element_blank(), 
+#         axis.text.y = element_text(size = 10), 
+#         legend.position = "bottom", 
+#         legend.title = element_blank(), 
+#         legend.key = element_blank(), 
+#         legend.background = element_rect(color = "black"))
 
 
 eqns_m_error <- filter(combined_list, pipeline == "mock_error") %>% by(.$taq, lm_eqn)
@@ -172,16 +172,15 @@ mock_error <- combined_list %>% filter(pipeline == "mock_error") %>%
   scale_color_manual(name = "Cycle Number", 
                      values = c("#0000FF", "#00C957", "#CD8500", "#FF1493"), 
                      guide = guide_legend(ncol = 2, nrow = 2)) + 
-  labs(x = "Chimera Sequence Prevalence (%)", y = "Number of OTUs") + 
-  geom_text(data = df_m_error, aes(x = 0.5, y = 380, label = eq), 
+  labs(x = "Mock Community Chimera Sequence Prevalence (%)", y = "Mock Community Number of OTUs") + 
+  geom_text(data = df_m_error, aes(x = 0.5, y = 450, label = eq), 
             color = 'black',  parse = TRUE) + 
-  ggtitle("C") +coord_cartesian(ylim = c(0, 500)) + scale_x_continuous(limits = c(0, 10)) + 
-  annotate("text", label = paste("Full Pipeline"), x = 0.5, y = 450, size = 2.5) + 
+  coord_cartesian(ylim = c(0, 500)) + scale_x_continuous(limits = c(0, 10)) + 
   theme(plot.title = element_text(face="bold", hjust = -0.07, size = 20), 
         panel.grid.major = element_blank(), 
         panel.grid.minor = element_blank(), 
         axis.text.y = element_text(size = 10), 
-        legend.position = c(0.8, 0.9), 
+        legend.position = c(0.8, 0.1), 
         legend.key = element_blank(), 
         legend.background = element_rect(color = "black"))
 
@@ -189,9 +188,9 @@ mock_error <- combined_list %>% filter(pipeline == "mock_error") %>%
 ############################### Run actual analysis programs  #############################################################
 ###########################################################################################################################
 
-combined_graph <- grid.arrange(mock_pc, mock_ch, mock_error, ncol = 3)
 
-ggsave("results/figures/Figure6.pdf", combined_graph, width = 15, height = 8, dpi = 300)
+
+ggsave("results/figures/Figure6.pdf", mock_error, width = 8, height = 8, dpi = 300)
 
 
 
