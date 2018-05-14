@@ -68,7 +68,7 @@ fecal_samples <- summary_data %>%
              lwd=1, colour="gray") + 
   theme_bw() + coord_cartesian(ylim = c(0, 150)) + 
   scale_color_manual(name = "HiFi DNA Polymerase", 
-                     values = c("#590059", "#006400", "#00FF7F", "#63B8FF", "#104E8B")) + 
+                     values = c("#440154FF", "#3B528BFF", "#21908CFF", "#5DC863FF", "#FDE725FF")) + 
   labs(x = "Number of Cycles", y = "Number of OTUs") + 
   theme(plot.title = element_text(face="bold", hjust = -0.09, size = 20), 
         panel.grid.major = element_blank(), 
