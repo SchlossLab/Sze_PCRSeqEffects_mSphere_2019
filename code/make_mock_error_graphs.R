@@ -40,66 +40,6 @@ error_data <- sapply(error_files, function(x) read_csv(paste("data/process/table
 
 
 # Generate graph of Mock DNA samples 
-before_precluster <- error_data[["mock_precluster_error"]] %>% 
-  filter(total_seqs >= 1000) %>% 
-  mutate(taq = factor(taq, 
-                      levels = c("ACC", "K", "PHU", "PL", "Q5"), 
-                      labels = c("Accuprime", "Kappa", "Phusion", "Platinum", "Q5"))) %>% 
-  group_by(taq, cycles) %>% 
-  summarise(group_median = median(mean_error), group_iqr25 = quantile(mean_error)["25%"], 
-            group_iqr75 = quantile(mean_error)["75%"]) %>% 
-  ggplot(aes(cycles, group_median, color = taq, group = taq)) + 
-  geom_line(show.legend = F) + 
-  geom_errorbar(aes(ymin=group_iqr25, 
-                    ymax=group_iqr75), show.legend = F,  
-                width = 0.1, size = 0.5, alpha = 0.4) + 
-  geom_point(size = 2, alpha = 0.7, show.legend = F) + 
-  theme_bw() + 
-  scale_color_manual(name = "Taq Used", 
-                     values = c("#440154FF", "#3B528BFF", "#21908CFF", "#5DC863FF", "#FDE725FF")) + 
-  labs(x = "Amplification Cycles", y = "Median Average Error Rate Per Base") + 
-  ggtitle("A") + coord_cartesian(ylim = c(0,0.015)) + 
-  annotate("text", label = paste("Before Pre-Cluster Step"), x = 2.5, y = 0.015, size = 3.5) + 
-  theme(plot.title = element_text(face="bold", hjust = -0.07, size = 20), 
-        panel.grid.major = element_blank(), 
-        panel.grid.minor = element_blank(), 
-        axis.text.y = element_text(size = 10), 
-        legend.position = c(0.20, 0.80), 
-        legend.title = element_blank(), 
-        legend.key = element_blank(), 
-        legend.background = element_rect(color = "black"))
-
-
-before_chimera_vsearch <- error_data[["mock_chimera_error"]] %>% 
-  filter(total_seqs >= 1000) %>% 
-  mutate(taq = factor(taq, 
-                      levels = c("ACC", "K", "PHU", "PL", "Q5"), 
-                      labels = c("Accuprime", "Kappa", "Phusion", "Platinum", "Q5"))) %>% 
-  group_by(taq, cycles) %>% 
-  summarise(group_median = median(mean_error), group_iqr25 = quantile(mean_error)["25%"], 
-            group_iqr75 = quantile(mean_error)["75%"]) %>% 
-  ggplot(aes(cycles, group_median, color = taq, group = taq)) + 
-  geom_line(show.legend = F) + 
-  geom_errorbar(aes(ymin=group_iqr25, 
-                    ymax=group_iqr75), show.legend = F,  
-                width = 0.1, size = 0.5, alpha = 0.4) + 
-  geom_point(size = 2, alpha = 0.7, show.legend = F) + 
-  theme_bw() + 
-  scale_color_manual(name = "Taq Used", 
-                     values = c("#440154FF", "#3B528BFF", "#21908CFF", "#5DC863FF", "#FDE725FF")) + 
-  labs(x = "Amplification Cycles", y = "Median Average Error Rate Per Base") + 
-  ggtitle("B") + coord_cartesian(ylim = c(0, 0.015)) + 
-  annotate("text", label = paste("Before Chimera VSEARCH Step"), x = 2.5, y = 0.015, size = 3.5) + 
-  theme(plot.title = element_text(face="bold", hjust = -0.07, size = 20), 
-        panel.grid.major = element_blank(), 
-        panel.grid.minor = element_blank(), 
-        axis.text.y = element_text(size = 10), 
-        legend.position = c(0.3, 0.73), 
-        legend.title = element_blank(), 
-        legend.key = element_blank(), 
-        legend.background = element_rect(color = "black"))
-
-
 full_pipeline <- error_data[["mock_error"]] %>% 
   filter(total_seqs >= 1000) %>% 
   mutate(taq = factor(taq, 
@@ -117,7 +57,7 @@ full_pipeline <- error_data[["mock_error"]] %>%
   theme_bw() + 
   scale_color_manual(name = "Taq Used", 
                      values = c("#440154FF", "#3B528BFF", "#21908CFF", "#5DC863FF", "#FDE725FF")) + 
-  labs(x = "Amplification Cycles", y = "Median Error Rate") + 
+  labs(x = "Number of Cycles", y = "Median Error Rate") + 
   coord_cartesian(ylim = c(0, 0.015)) + 
   annotate("text", label = paste("Mock Data"), x = 2.5, y = 0.015, size = 3.5) + 
   theme(plot.title = element_text(face="bold", hjust = -0.07, size = 20), 

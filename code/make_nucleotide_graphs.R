@@ -74,7 +74,7 @@ full_graph <- summary_data %>%
              lwd=1, colour="gray") + 
      # scale_color_manual(name = "Taq Used", 
      #                  values = c("#440154FF", "#3B528BFF", "#21908CFF", "#5DC863FF", "#FDE725FF")) + 
-   labs(x = "", y = expression(Log["10"]~Substitution~Rate)) + 
+   labs(x = "Number of Cycles", y = expression(Log["10"]~Substitution~Rate)) + 
   coord_cartesian(ylim = c(0, -6)) + 
    theme(plot.title = element_text(face="bold", hjust = -0.07, size = 10), 
          panel.grid.major = element_blank(), 
