@@ -54,7 +54,8 @@ dist_data <- sapply(sub_sample_level,
   summarise(mean_dist = median(distance, na.rm = T), 
             max_dist = max(distance, na.rm = T), 
             min_dist = min(distance, na.rm = T))
-  
+
+
 
 mock_dist_data <- sapply(sub_sample_level, 
                     function(x) read_csv(paste("data/process/tables/mock_bray_5_cycle_dist_", 
@@ -79,21 +80,22 @@ ann_text <- data.frame(cycle_compare = 2.2, distance = 0.95, lab = "Sub-Sampled"
 
 
 
-fecal_graph <- dist_data %>% filter(!is.na(cycle_compare)) %>% 
-  ggplot(aes(factor(depth_level), mean_dist, color = cycle_compare, group = cycle_compare)) + 
-  geom_pointrange(aes(ymin = min_dist, ymax = max_dist), size = 0.4, alpha = 0.9, show.legend = T, position = position_dodge(width = 0.8)) + 
-  geom_vline(xintercept=seq(1.5, length(unique(dist_data$depth_level))-0.5, 1), 
+fecal_graph <- dist_data %>% 
+  filter(!is.na(cycle_compare), depth_level == 1000) %>% 
+  ggplot(aes(cycle_compare, mean_dist, color = taq, group = taq)) + 
+  geom_pointrange(aes(ymin = min_dist, ymax = max_dist), size = 0.4, show.legend = T, position = position_dodge(width = 0.8)) + 
+  geom_vline(xintercept=seq(1.5, length(unique(dist_data$taq))-0.5, 1), 
              lwd=1, colour="gray") + 
-  facet_grid(~taq) + 
-  scale_color_manual(name = "Cycle Comparison", 
-                     values = c("#FF00FF", "#0000FF", "#8B1A1A", "#EE9A00")) + 
+  scale_color_manual(name = "HiFi DNA Polymerase", 
+                     values = c("#440154FF", "#21908CFF", "#5DC863FF", "#FDE725FF")) + 
   theme_bw() +  coord_cartesian(ylim = c(0, 1)) + ggtitle("A") + 
-  labs(x = "Sub-sampling Depth", y = "Bray Curtis Index") + 
+  labs(x = "Cycle Comparison", y = "Bray Curtis Index") + 
+  annotate("text", label = paste("Fecal Data"), x = 4.3, y = 1.0, size = 3.5) + 
   theme(plot.title = element_text(face="bold", hjust = -0.07, size = 20), 
         panel.grid.major = element_blank(), 
         panel.grid.minor = element_blank(), 
         axis.text.y = element_text(size = 10),
-        axis.text.x = element_text(size = 8, angle = 70, hjust = 1), 
+        axis.text.x = element_text(size = 10), 
         legend.position = "bottom", 
         legend.title = element_blank(), 
         legend.text = element_text(size = 7), 
@@ -101,29 +103,28 @@ fecal_graph <- dist_data %>% filter(!is.na(cycle_compare)) %>%
         legend.background = element_rect(color = "black"))
 
 
-mock_graph <- mock_dist_data %>% filter(!is.na(cycle_compare)) %>% 
-  ggplot(aes(factor(depth_level), mean_dist, color = cycle_compare, group = cycle_compare)) + 
-  geom_pointrange(aes(ymin = min_dist, ymax = max_dist), size = 0.4, alpha = 0.9, show.legend = T, position = position_dodge(width = 0.8)) + 
+mock_graph <- mock_dist_data %>% 
+  filter(!is.na(cycle_compare), depth_level == 1000) %>% 
+  ggplot(aes(cycle_compare, mean_dist, color = taq, group = taq)) + 
+  geom_pointrange(aes(ymin = min_dist, ymax = max_dist), size = 0.4, show.legend = T, position = position_dodge(width = 0.8)) + 
   geom_vline(xintercept=seq(1.5, length(unique(mock_dist_data$depth_level))-0.5, 1), 
              lwd=1, colour="gray") + 
-  facet_grid(~taq) + 
-  scale_color_manual(name = "Cycle Comparison", 
-                     values = c("#FF00FF", "#0000FF", "#8B1A1A", "#EE9A00"), 
-                     limits = c("15x vs 20x", "20x vs 25x", "25x vs 30x", "30x vs 35x")) + 
+  scale_color_manual(name = "HiFi DNA Polymerase", 
+                     values = c("#440154FF", "#21908CFF", "#5DC863FF", "#FDE725FF")) + 
   theme_bw() +  coord_cartesian(ylim = c(0, 1)) + ggtitle("B") + 
-  labs(x = "Sub-sampling Depth", y = "Bray Curtis Index") + 
+  labs(x = "Cycle Comparison", y = "Bray Curtis Index") + 
+  annotate("text", label = paste("Mock Data"), x = 3.35, y = 1.0, size = 3.5) + 
   theme(plot.title = element_text(face="bold", hjust = -0.07, size = 20), 
         panel.grid.major = element_blank(), 
         panel.grid.minor = element_blank(), 
         axis.text.y = element_text(size = 10),
-        axis.text.x = element_text(size = 8, angle = 70, hjust = 1), 
+        axis.text.x = element_text(size = 10), 
         legend.position = "bottom", 
         legend.title = element_blank(),
         legend.text = element_text(size = 7), 
         legend.key = element_blank(), 
         legend.background = element_rect(color = "black"))
 
-
 combined_graph <- grid.arrange(fecal_graph, mock_graph, ncol = 1, nrow = 2)
 
-ggsave("results/figures/Figure3.pdf", combined_graph, width = 8, height = 8, dpi = 300)
+ggsave("results/figures/Figure3.pdf", combined_graph, width = 6, height = 6.5, dpi = 300)
