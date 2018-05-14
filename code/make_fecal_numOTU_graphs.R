@@ -76,6 +76,7 @@ fecal_samples <- summary_data %>%
         axis.text.y = element_text(size = 10),
         axis.text.x = element_text(size = 10), 
         legend.key = element_blank(), 
+        legend.title = element_blank(), 
         legend.position = "bottom", 
         legend.background = element_rect(color = "black"))
   
