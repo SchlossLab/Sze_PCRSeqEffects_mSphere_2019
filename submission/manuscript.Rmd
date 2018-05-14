@@ -226,17 +226,17 @@ The authors would like to thank all the study participants in ERIN whose samples
 \newpage
 
 
-**Figure 1: Normalized Fecal Number of OTUs.** The x-axis represents the different sub-sampling depths used and the y-axis is the normalized within individual number of OTUs. The red line represents the overall mean Z-score normalized number of OTUs for each respective HiFi DNA polymerase. The dashed black line represents the overall Z-score normalized mean number of OTUs. 
+**Figure 1: Total Number of OTUs in Fecal Samples by Number of Cycles.** The x-axis represents the different number of cycles used and the y-axis is the number of OTUs. The legend represents the color code for the 5 different HiFi DNA polymerases used. The range in the number of OTUs detected in the different fecal samples increased as cycle number increased. This range was also larger for specific HiFi DNA polymerases. 
 
-**Figure 2:  Mock Sample Variability in Number of OTUs based on HiFi DNA Polymerase.** A) Sub-sampled to 1000 reads. B) Sub-sampled to 5000 reads. C) Sub-sampled to 10000 reads. The dotted line represents the number of OTUs generated when the mock reference sequences are run through the pipeline. 
+**Figure 2:  Total Number of OTUs in Mock Samples by Number of Cycles.** The x-axis represents the different number of cycles used and the y-axis is the number of OTUs. The legend represents the color code for the 5 different HiFi DNA polymerases used. The dotted black line represents the number of OTUs detected when only the references sequences are clustered. The range in the number of OTUs detected in the Mock samples increased as cycle number increased. This range was also larger for specific HiFi DNA polymerases.
 
-**Figure 3: Community Differences by Five-Cycle Intervals and Sub-sampling Depth.** A) Fecal samples within person difference based on the next 5-cycle PCR interval. B) Mock samples within replicate difference based on the next 5-cycle PCR interval.
+**Figure 3: Bray-Curtis Community Differences by Five-Cycle Intervals.** A) within person differences based on the next 5-cycle PCR interval in fecal samples. B) Within replicate difference based on the next 5-cycle PCR interval in Mock samples.
 
-**Figure 4: HiFi DNA Polymerase Per Base Error Rate in Mock Samples.** A) Error rate before the merger of sequences with pre.cluster and the removal of chimeras with VSEARCH. B) Error rate before the removal of chimeras with VSEARCH. C) Full pipeline. The error bars represent the 75% interquartile range of the median.  
+**Figure 4: HiFi DNA Polymerase Error Rate in Mock Samples.** The error bars represent the 75% interquartile range of the median error rate.  
 
-**Figure 5: HiFi DNA Polymerase Chimera Prevalence in Mock Samples.** A) Chimera sequence percentage before the merger of sequences with pre.cluster and the removal of chimeras with VSEARCH. B) Chimera sequence percentage before the removal of chimeras with VSEARCH. C) Full pipeline. The error bars represent the 75% interquartile range of the median. 
+**Figure 5: HiFi DNA Polymerase Chimera Prevalence in Mock Samples.** A) Precentage of chimeric sequences without the removal of chimeras with VSEARCH. C) Percentage of chimeric sequences with the removal of chimeras with VSEARCH. C) The total percent of chimeric sequences removed with VSEARCH by cycle number. The error bars represent the 75% interquartile range of the median. 
 
-**Figure 6: The Correlation between Number of OTUs and Chimeras.** A) Correlation before the merger of sequences with pre.cluster and the removal of chimeras with VSEARCH. B) Correlation before the removal of chimeras with VSEARCH. C) Correlation with full pipeline.  
+**Figure 6: The Correlation between Number of OTUs and Chimeras in Mock Samples.**   
 
 
 \newpage
