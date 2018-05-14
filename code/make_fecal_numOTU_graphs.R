@@ -53,28 +53,32 @@ summary_data <- numOTU_data %>% group_by(depth_level, taq, cycle_num) %>%
             taq_min = min(numOTUs, na.rm = T), 
             taq_max = max(numOTUs, na.rm = T))
 
-overall_taq_mean_data <- numOTU_data %>% group_by(taq) %>% 
-  summarise(overall_mean = mean(numOTUs, na.rm = T))
+overall_taq_mean_data <- numOTU_data %>% 
+  filter(depth_level == 1000) %>% 
+  group_by(taq) %>% 
+  summarise(overall_mean = median(numOTUs, na.rm = T))
 
 fecal_samples <- summary_data %>% 
-  ggplot(aes(factor(depth_level), taq_mean, color = cycle_num, group = cycle_num)) + 
-  geom_hline(aes(yintercept = overall_mean), overall_taq_mean_data, color = "red", size = 1, linetype = "dashed") + 
+  filter(depth_level == 1000) %>% 
+  ggplot(aes(cycle_num, taq_mean, color = taq, group = taq)) + 
+#  geom_hline(aes(yintercept = overall_mean, color = taq), overall_taq_mean_data, size = 1, 
+#             alpha = 0.5, linetype = "dashed", show.legend = F) + 
   geom_pointrange(aes(ymin = taq_min, ymax = taq_max), size = 0.4, alpha = 0.9, show.legend = T, position = position_dodge(width = 0.8)) + 
   geom_vline(xintercept=seq(1.5, length(unique(summary_data$depth_level))-0.5, 1), 
              lwd=1, colour="gray") + 
-  facet_grid(. ~ taq) + theme_bw() + 
-  scale_color_manual(name = "Cycle Number", 
+  theme_bw() + coord_cartesian(ylim = c(0, 150)) + 
+  scale_color_manual(name = "HiFi DNA Polymerase", 
                      values = c("#590059", "#006400", "#00FF7F", "#63B8FF", "#104E8B")) + 
-  labs(x = "Rarefied Depth", y = "Number of OTUs") + 
+  labs(x = "Number of Cycles", y = "Number of OTUs") + 
   theme(plot.title = element_text(face="bold", hjust = -0.09, size = 20), 
         panel.grid.major = element_blank(), 
         panel.grid.minor = element_blank(), 
         axis.text.y = element_text(size = 10),
-        axis.text.x = element_text(size = 8, angle = 70, hjust = 1), 
+        axis.text.x = element_text(size = 10), 
         legend.key = element_blank(), 
         legend.position = "bottom", 
         legend.background = element_rect(color = "black"))
   
   
 
-ggsave("results/figures/Figure1.pdf", fecal_samples, width = 11, height = 5, dpi = 300)
+ggsave("results/figures/Figure1.pdf", fecal_samples, width = 6, height = 5, dpi = 300)
