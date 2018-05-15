@@ -315,26 +315,20 @@ from the published protocol were the use of VSEARCH instead of UCHIME
 for chimera detection and the use of the OptiClust algorithm instead of
 average neighbor for OTU generation at 97\% similarity (Edgar et al.,
 2011; Rognes et al., 2016; Westcott \& Schloss, 2017). Sequence error
-was determined using the `seq.error' command on mock samples before the
-`pre.cluster' command, before chimera removal, and after chimera removal
-(Schloss et al., 2009; Cole et al., 2013; Rognes et al., 2016).
+was determined using the `seq.error' command on mock samples (Schloss et
+al., 2009; Cole et al., 2013; Rognes et al., 2016).
 
-\textbf{\emph{Analysis Workflow:}} The total number of OTUs was analyzed
-after sub-sampling for both the fecal and mock community samples. For
-fecal samples, cycle dependent affects on Bray-Curtis indices were
-assessed for cycle group and within individual differences from the
-previous cycle (e.g.~20 versus 25, 25 versus 30, etc.). These community
-based measures for fecal samples were analyzed at 4 different
-sub-sampling sequence depths (1000, 5000, 10000, and 15000) while the
-mock community samples were analysed at 3 levels (1000, 5000, 10000).
-Based on these observations we analyzed potential reasons for these
-differences. Analysis of the mock community of each HiFi DNA polymerase
-for general sequence error rate, number of sequences with an error, base
-substitution, and numbers of chimeras were assessed before the
-`pre.cluster' command, before chimera removal, and after chimera
-removal. Additionally, the correlation between the number of chimeras
-and the number of OTUs was also assessed before the `pre.cluster'
-command, before chimera removal, and after chimera removal.
+\textbf{\emph{Analysis Workflow:}} All samples were rarefied to 1000
+sequence. The total number of OTUs was analyzed for both the fecal and
+mock community samples. For fecal samples, cycle dependent affects on
+Bray-Curtis indices were assessed for cycle group and within individual
+differences from the previous cycle (e.g.~20 versus 25, 25 versus 30,
+etc.). Based on these observations we analyzed potential reasons for
+these differences. Analysis of the mock community of each HiFi DNA
+polymerase for general sequence error rate, number of sequences with an
+error, base substitution, and numbers of chimeras were assessed before
+and after chimera removal. Additionally, the correlation between the
+number of chimeras and the number of OTUs was also assessed.
 
 \textbf{\emph{Statistical Analysis:}} All analysis was done with the R
 (v 3.4.4) software package (R Core Team, 2017). Data transformation and
@@ -362,37 +356,29 @@ number SRP132931.
 \subsection{Results}\label{results}
 
 \textbf{\emph{The Number of OTUs are Dependent on HiFi DNA Polymerase:}}
-A consistent difference in the number of OTUs, that was dependent on the
-HiFi DNA polymerase used was observed regardless of sub-sampling depth
-for fecal samples {[}Figure 1{]}. Additionally, there was a trend for
-lower cycle numbers (15-20) to result in less differences in the number
-of OTUs versus higher cycle numbers (25, 30, and 35) between HiFi DNA
-polymerases {[}Figure 1{]}. For fecal samples, all sub-sampling levels
-had significant differences between HiFi DNA polymerases at 35 cycles
-(F-stat \textgreater{} 16.35, P-value \textless{} 0.0001) {[}Table
-S1{]}. Most of the differences observed at 35 cycles were between
-Platinum and other HiFi DNA polymerases, based on a Tukey post-hoc test
-(P-value \textless{} 0.05) {[}Table S2{]}. Differences in the number of
-OTUs between HiFi DNA polymerases were identifiable at earlier cycles
-(25 and 30) but the sub-sampling depth had to be 5000 sequences or
-higher (F-stat \textgreater{} 4.98, P-value \textless{} 0.05) {[}Table
-S1{]}.
-
-This HiFi DNA polymerase dependent difference in the number of OTUs was
-also observed in the mock community samples {[}Figure 2{]}. Regardless
-if fecal or mock communities were used, the same HiFi DNA polymerases
-had high (Platinum) and low (Accuprime) number of OTUs and this was
-consistent across cycle number and sub-sampling depth {[}Figure 1-2 \&
-Table S1-S4{]}. In contrast to the results obtained with fecal samples,
-differences between HiFi DNA polymerases were observed as early as 20
-cycles and at as low of a sub-sampling depth as 1000 sequences in the
-mock community samples (F-stat = 15.82, P-value = 0.002) {[}Table S3{]}.
-For both cycle numbers and sub-sampling depths, the majority of
-differences in the number of OTUs were between Platinum and the other
-HiFi DNA polymerases {[}Table S4{]}. Based on these observations in
-fecal and mock communities, it is clear that different HiFi DNA
-polymerases result in a different total number of OTUs observed within a
-sample.
+A consistent difference in the range of number of OTUs, that was
+dependent on the HiFi DNA polymerase used was observed for fecal samples
+{[}Figure 1{]}. Additionally, there was a trend for lower cycle numbers
+(15-20) to result in a reduced range in the number of OTUs versus higher
+cycle numbers (25, 30, and 35) between HiFi DNA polymerases {[}Figure
+1{]}. For fecal samples, there was a significant difference between HiFi
+DNA polymerases at 35 cycles (F-stat \textgreater{} 16.35, P-value =
+9.7e-05) {[}Table S1{]}. No differences between the specific groups was
+found based on a Tukey post-hoc test (P-value \textgreater{} 0.05)
+{[}Table S2{]}. This HiFi DNA polymerase dependent difference in the
+range of number of OTUs also was observed in the mock community samples
+{[}Figure 2{]}. Regardless if fecal or mock communities were used, the
+same HiFi DNA polymerases had high (Platinum) and low (Accuprime) number
+of OTUs and this was consistent across cycle number and sub-sampling
+depth {[}Figure 1-2 \& Table S1-S4{]}. In contrast to the results
+obtained with fecal samples, differences between HiFi DNA polymerases
+were observed as early as 20 cycles in the mock community samples
+(F-stat = 15.82, P-value = 0.002) {[}Table S3{]}. For the mock
+community, the majority of differences in the number of OTUs were
+between Kappa and Platinum and the other HiFi DNA polymerases across
+different number of cycles {[}Table S4{]}. Based on these observations
+in fecal and mock communities, it is clear that different HiFi DNA
+polymerases result in a different total number of OTUs within a sample.
 
 \textbf{\emph{Minimal Bray-Curtis Differences are Detected and are
 Dependent on both Cycle Number and Sub-Sampling Depth:}} A few small
