@@ -210,9 +210,9 @@ mock_chimera_kruskal <- as.data.frame(
   read_csv("../data/process/tables/mock_chimera_overall_kruskal_results.csv")) %>% 
   mutate_at(vars(statistic), funs(round(., digits = 2))) %>% 
   mutate_at(vars(pvalue:bh), funs(format(., scientific = TRUE, digits = 2, nsmall = 2))) %>% 
-  filter(sub_sample_level > 500)
+  select(-sub_sample_level)
 
-colnames(mock_chimera_kruskal) <- c("Rank Sum Statistic", "DF", "P-value", "BH", "Cycle", "Sub-Sample Depth")
+colnames(mock_chimera_kruskal) <- c("Rank Sum Statistic", "DF", "P-value", "BH", "Cycle")
 
 kable(mock_chimera_kruskal, format = "markdown", align = 'c', padding = 2)
 
@@ -229,13 +229,14 @@ kable(mock_chimera_kruskal, format = "markdown", align = 'c', padding = 2)
 
 mock_chimera_dunn <- as.data.frame(read_csv("../data/process/tables/mock_chimera_overall_dunn_results.csv")) %>% 
   mutate_at(vars(chi2:Z), funs(round(., digits = 2))) %>% 
-  filter(sub_sample_level > 500, pvalue < 0.05) %>% 
+  filter(pvalue < 0.05) %>% 
   arrange(pvalue) %>% 
   mutate_at(vars(pvalue:bh), funs(format(., scientific = TRUE, digits = 2, nsmall = 2))) %>% 
-  select(-bh)
+  select(-bh, -sub_sample_level) %>% 
+  arrange(cycle)
   
 
-colnames(mock_chimera_dunn) <- c("Chi Squared", "Z Statistic", "P Adjusted", "Comparison", "Cycle", "Sub-Sample Depth")
+colnames(mock_chimera_dunn) <- c("Chi Squared", "Z Statistic", "P Adjusted", "Comparison", "Cycle")
 
 kable(mock_chimera_dunn, format = "markdown", align = 'c', padding = 2)
 
