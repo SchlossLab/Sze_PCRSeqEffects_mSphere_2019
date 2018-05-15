@@ -185,13 +185,13 @@ Difference & Lower & Upper & P Adjusted & Comparison &
 Cycle\tabularnewline
 \midrule
 \endhead
+-13.50 & -20.36 & -6.64 & 1.3e-03 & PL-PHU & 20x\tabularnewline
 -38.50 & -46.60 & -30.40 & 5.1e-09 & Q5-K & 25x\tabularnewline
 -37.50 & -45.60 & -29.40 & 7.3e-09 & PHU-K & 25x\tabularnewline
 36.50 & 28.40 & 44.60 & 1.1e-08 & K-ACC & 25x\tabularnewline
 -35.50 & -43.60 & -27.40 & 1.5e-08 & PL-K & 25x\tabularnewline
 22.03 & 9.31 & 34.74 & 1.8e-04 & K-ACC & 30x\tabularnewline
 -15.48 & -25.20 & -5.75 & 5.7e-04 & Q5-K & 30x\tabularnewline
--13.50 & -20.36 & -6.64 & 1.3e-03 & PL-PHU & 20x\tabularnewline
 -18.78 & -31.49 & -6.06 & 1.5e-03 & PHU-K & 30x\tabularnewline
 15.55 & 3.03 & 28.07 & 9.0e-03 & PL-ACC & 30x\tabularnewline
 \bottomrule
@@ -202,16 +202,15 @@ Cycle\tabularnewline
 \textbf{Table S5: Kruskal-Wallis Results of Differences in Per Base
 Error Rate between HiFi DNA Polymerases in Mock Samples}
 
-\begin{longtable}[]{@{}cccccc@{}}
+\begin{longtable}[]{@{}ccccc@{}}
 \toprule
-Rank Sum Statistic & DF & P-value & BH & Cycle & Sub-Sample
-Depth\tabularnewline
+Rank Sum Statistic & DF & P-value & BH & Cycle\tabularnewline
 \midrule
 \endhead
-7.85 & 2 & 2.0e-02 & 2.0e-02 & 20x & full\_data\tabularnewline
-12.95 & 4 & 1.2e-02 & 1.5e-02 & 25x & full\_data\tabularnewline
-28.31 & 4 & 1.1e-05 & 4.3e-05 & 30x & full\_data\tabularnewline
-15.00 & 4 & 4.7e-03 & 9.4e-03 & 35x & full\_data\tabularnewline
+7.85 & 2 & 2.0e-02 & 2.0e-02 & 20x\tabularnewline
+12.95 & 4 & 1.2e-02 & 1.5e-02 & 25x\tabularnewline
+28.31 & 4 & 1.1e-05 & 4.3e-05 & 30x\tabularnewline
+15.00 & 4 & 4.7e-03 & 9.4e-03 & 35x\tabularnewline
 \bottomrule
 \end{longtable}
 
@@ -220,30 +219,30 @@ Depth\tabularnewline
 \textbf{Table S6: Dunn's Post-Hoc Results of Differences in Per Base
 Error Rate between HiFi DNA Polymerases in Mock Samples}
 
-\begin{longtable}[]{@{}cccccc@{}}
+\begin{longtable}[]{@{}ccccc@{}}
 \toprule
-Chi Squared & Z Statistic & P Adjusted & Comparison & Cycle & Sub-Sample
-Depth\tabularnewline
+Chi Squared & Z Statistic & P Adjusted & Comparison &
+Cycle\tabularnewline
 \midrule
 \endhead
-28.31 & -4.46 & 4.1e-06 & ACC - K & 30x & full\_data\tabularnewline
-28.31 & 4.32 & 7.7e-06 & K - PL & 30x & full\_data\tabularnewline
-12.95 & 3.26 & 5.6e-04 & K - Q5 & 25x & full\_data\tabularnewline
-15.00 & 3.14 & 8.6e-04 & K - PHU & 35x & full\_data\tabularnewline
-15.00 & -3.05 & 1.2e-03 & PHU - PL & 35x & full\_data\tabularnewline
-7.85 & 2.77 & 2.8e-03 & PHU - PL & 20x & full\_data\tabularnewline
-28.31 & -2.69 & 3.6e-03 & ACC - Q5 & 30x & full\_data\tabularnewline
-12.95 & 2.68 & 3.7e-03 & K - PHU & 25x & full\_data\tabularnewline
-28.31 & 2.65 & 4.0e-03 & K - PHU & 30x & full\_data\tabularnewline
-28.31 & 2.37 & 8.8e-03 & K - Q5 & 30x & full\_data\tabularnewline
-15.00 & -2.33 & 1.0e-02 & ACC - K & 35x & full\_data\tabularnewline
-15.00 & -2.05 & 2.0e-02 & ACC - PL & 35x & full\_data\tabularnewline
-12.95 & 2.01 & 2.2e-02 & ACC - Q5 & 25x & full\_data\tabularnewline
-28.31 & -2.00 & 2.3e-02 & PL - Q5 & 30x & full\_data\tabularnewline
-12.95 & 1.88 & 3.0e-02 & PL - Q5 & 25x & full\_data\tabularnewline
-15.00 & -1.79 & 3.7e-02 & PHU - Q5 & 35x & full\_data\tabularnewline
-15.00 & 1.68 & 4.7e-02 & K - Q5 & 35x & full\_data\tabularnewline
-7.85 & -1.64 & 5.0e-02 & PL - Q5 & 20x & full\_data\tabularnewline
+7.85 & 2.77 & 2.8e-03 & PHU - PL & 20x\tabularnewline
+7.85 & -1.64 & 5.0e-02 & PL - Q5 & 20x\tabularnewline
+12.95 & 3.26 & 5.6e-04 & K - Q5 & 25x\tabularnewline
+12.95 & 2.68 & 3.7e-03 & K - PHU & 25x\tabularnewline
+12.95 & 2.01 & 2.2e-02 & ACC - Q5 & 25x\tabularnewline
+12.95 & 1.88 & 3.0e-02 & PL - Q5 & 25x\tabularnewline
+28.31 & -4.46 & 4.1e-06 & ACC - K & 30x\tabularnewline
+28.31 & 4.32 & 7.7e-06 & K - PL & 30x\tabularnewline
+28.31 & -2.69 & 3.6e-03 & ACC - Q5 & 30x\tabularnewline
+28.31 & 2.65 & 4.0e-03 & K - PHU & 30x\tabularnewline
+28.31 & 2.37 & 8.8e-03 & K - Q5 & 30x\tabularnewline
+28.31 & -2.00 & 2.3e-02 & PL - Q5 & 30x\tabularnewline
+15.00 & 3.14 & 8.6e-04 & K - PHU & 35x\tabularnewline
+15.00 & -3.05 & 1.2e-03 & PHU - PL & 35x\tabularnewline
+15.00 & -2.33 & 1.0e-02 & ACC - K & 35x\tabularnewline
+15.00 & -2.05 & 2.0e-02 & ACC - PL & 35x\tabularnewline
+15.00 & -1.79 & 3.7e-02 & PHU - Q5 & 35x\tabularnewline
+15.00 & 1.68 & 4.7e-02 & K - Q5 & 35x\tabularnewline
 \bottomrule
 \end{longtable}
 
@@ -252,16 +251,15 @@ Depth\tabularnewline
 \textbf{Table S7: Kruskal-Wallis Results of Differences in Sequences
 with Error between HiFi DNA Polymerases in Mock Samples}
 
-\begin{longtable}[]{@{}cccccc@{}}
+\begin{longtable}[]{@{}ccccc@{}}
 \toprule
-Rank Sum Statistic & DF & P-value & BH & Cycle & Sub-Sample
-Depth\tabularnewline
+Rank Sum Statistic & DF & P-value & BH & Cycle\tabularnewline
 \midrule
 \endhead
-7.85 & 2 & 2.0e-02 & 2.0e-02 & 20x & full\_data\tabularnewline
-15.98 & 4 & 3.0e-03 & 5.2e-03 & 25x & full\_data\tabularnewline
-29.22 & 4 & 7.0e-06 & 2.8e-05 & 30x & full\_data\tabularnewline
-15.44 & 4 & 3.9e-03 & 5.2e-03 & 35x & full\_data\tabularnewline
+7.85 & 2 & 2.0e-02 & 2.0e-02 & 20x\tabularnewline
+15.98 & 4 & 3.0e-03 & 5.2e-03 & 25x\tabularnewline
+29.22 & 4 & 7.0e-06 & 2.8e-05 & 30x\tabularnewline
+15.44 & 4 & 3.9e-03 & 5.2e-03 & 35x\tabularnewline
 \bottomrule
 \end{longtable}
 
@@ -270,30 +268,30 @@ Depth\tabularnewline
 \textbf{Table S8: Dunn's Post-Hoc Results of Differences in Sequences
 with Error between HiFi DNA Polymerases in Mock Samples}
 
-\begin{longtable}[]{@{}cccccc@{}}
+\begin{longtable}[]{@{}ccccc@{}}
 \toprule
-Chi Squared & Z Statistic & P Adjusted & Comparison & Cycle & Sub-Sample
-Depth\tabularnewline
+Chi Squared & Z Statistic & P Adjusted & Comparison &
+Cycle\tabularnewline
 \midrule
 \endhead
-29.22 & 4.17 & 1.5e-05 & K - Q5 & 30x & full\_data\tabularnewline
-29.22 & 3.89 & 5.0e-05 & K - PHU & 30x & full\_data\tabularnewline
-15.44 & -3.71 & 1.0e-04 & PHU - PL & 35x & full\_data\tabularnewline
-29.22 & 3.57 & 1.8e-04 & PL - Q5 & 30x & full\_data\tabularnewline
-29.22 & -3.41 & 3.2e-04 & PHU - PL & 30x & full\_data\tabularnewline
-15.98 & 3.37 & 3.7e-04 & K - Q5 & 25x & full\_data\tabularnewline
-15.98 & 2.79 & 2.6e-03 & K - PHU & 25x & full\_data\tabularnewline
-7.85 & 2.77 & 2.8e-03 & PHU - PL & 20x & full\_data\tabularnewline
-15.98 & 2.76 & 2.9e-03 & ACC - Q5 & 25x & full\_data\tabularnewline
-15.44 & 2.38 & 8.6e-03 & PL - Q5 & 35x & full\_data\tabularnewline
-15.44 & 2.38 & 8.7e-03 & K - PHU & 35x & full\_data\tabularnewline
-15.98 & 2.14 & 1.6e-02 & ACC - PHU & 25x & full\_data\tabularnewline
-15.98 & 1.86 & 3.1e-02 & K - PL & 25x & full\_data\tabularnewline
-15.44 & 1.85 & 3.2e-02 & ACC - PHU & 35x & full\_data\tabularnewline
-15.44 & -1.85 & 3.2e-02 & ACC - PL & 35x & full\_data\tabularnewline
-29.22 & -1.81 & 3.5e-02 & ACC - K & 30x & full\_data\tabularnewline
-29.22 & 1.76 & 3.9e-02 & ACC - PHU & 30x & full\_data\tabularnewline
-7.85 & -1.64 & 5.0e-02 & PL - Q5 & 20x & full\_data\tabularnewline
+7.85 & 2.77 & 2.8e-03 & PHU - PL & 20x\tabularnewline
+7.85 & -1.64 & 5.0e-02 & PL - Q5 & 20x\tabularnewline
+15.98 & 3.37 & 3.7e-04 & K - Q5 & 25x\tabularnewline
+15.98 & 2.79 & 2.6e-03 & K - PHU & 25x\tabularnewline
+15.98 & 2.76 & 2.9e-03 & ACC - Q5 & 25x\tabularnewline
+15.98 & 2.14 & 1.6e-02 & ACC - PHU & 25x\tabularnewline
+15.98 & 1.86 & 3.1e-02 & K - PL & 25x\tabularnewline
+29.22 & 4.17 & 1.5e-05 & K - Q5 & 30x\tabularnewline
+29.22 & 3.89 & 5.0e-05 & K - PHU & 30x\tabularnewline
+29.22 & 3.57 & 1.8e-04 & PL - Q5 & 30x\tabularnewline
+29.22 & -3.41 & 3.2e-04 & PHU - PL & 30x\tabularnewline
+29.22 & -1.81 & 3.5e-02 & ACC - K & 30x\tabularnewline
+29.22 & 1.76 & 3.9e-02 & ACC - PHU & 30x\tabularnewline
+15.44 & -3.71 & 1.0e-04 & PHU - PL & 35x\tabularnewline
+15.44 & 2.38 & 8.6e-03 & PL - Q5 & 35x\tabularnewline
+15.44 & 2.38 & 8.7e-03 & K - PHU & 35x\tabularnewline
+15.44 & 1.85 & 3.2e-02 & ACC - PHU & 35x\tabularnewline
+15.44 & -1.85 & 3.2e-02 & ACC - PL & 35x\tabularnewline
 \bottomrule
 \end{longtable}
 
