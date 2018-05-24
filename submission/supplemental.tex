@@ -1,4 +1,4 @@
-\documentclass[12pt,]{article}
+\documentclass[11pt,]{article}
 \usepackage{lmodern}
 \usepackage{amssymb,amsmath}
 \usepackage{ifxetex,ifluatex}
@@ -117,230 +117,214 @@ Supplemental
 \newpage
 
 \textbf{Table S1: ANOVA Results of Differences in Number of OTUs between
-HiFi DNA Polymerases in Fecal Samples}
+HiFi DNA Polymerases in Fecal and Mock Samples}
 
-\begin{longtable}[]{@{}ccccccc@{}}
+\begin{longtable}[]{@{}cccccccc@{}}
 \toprule
-DF & Sum Squares & Mean Squares & F value & P-value & BH &
-Cycle\tabularnewline
+DF & Sum Squares & Mean Squares & F value & P-value & BH & Cycle &
+Sample Type\tabularnewline
 \midrule
 \endhead
-4 & 3.66 & 0.91 & 1.25 & 3.5e-01 & 3.5e-01 & 20x\tabularnewline
-4 & 6.90 & 1.73 & 2.84 & 6.1e-02 & 1.2e-01 & 25x\tabularnewline
-3 & 4.67 & 1.56 & 2.55 & 1.0e-01 & 1.4e-01 & 30x\tabularnewline
-4 & 13.01 & 3.25 & 16.35 & 2.4e-05 & 9.7e-05 & 35x\tabularnewline
+4 & 3.66 & 0.91 & 1.25 & 3.5e-01 & 3.5e-01 & 20x & Fecal
+Sample\tabularnewline
+4 & 6.90 & 1.73 & 2.84 & 6.1e-02 & 1.2e-01 & 25x & Fecal
+Sample\tabularnewline
+3 & 4.67 & 1.56 & 2.55 & 1.0e-01 & 1.4e-01 & 30x & Fecal
+Sample\tabularnewline
+4 & 13.01 & 3.25 & 16.35 & 2.4e-05 & 9.7e-05 & 35x & Fecal
+Sample\tabularnewline
+2 & 364.56 & 182.28 & 15.82 & 1.7e-03 & 2.2e-03 & 20x & Mock
+Sample\tabularnewline
+4 & 3478.53 & 869.63 & 75.15 & 2.7e-09 & 1.1e-08 & 25x & Mock
+Sample\tabularnewline
+4 & 2206.58 & 551.64 & 10.28 & 1.8e-05 & 3.6e-05 & 30x & Mock
+Sample\tabularnewline
+4 & 1971.92 & 492.98 & 2.31 & 1.0e-01 & 1.0e-01 & 35x & Mock
+Sample\tabularnewline
 \bottomrule
 \end{longtable}
 
 \newpage
 
 \textbf{Table S2: Tukey Post-Hoc Results of Differences in Number of
-OTUs between HiFi DNA Polymerases in Fecal Samples}
-
-\begin{longtable}[]{@{}cccccc@{}}
-\toprule
-Difference & Lower & Upper & P Adjusted & Comparison &
-Cycle\tabularnewline
-\midrule
-\endhead
-25.00 & -17.32 & 67.32 & 0.40 & PL-ACC & 35x\tabularnewline
-24.25 & -18.07 & 66.57 & 0.43 & PL-K & 35x\tabularnewline
-20.50 & -21.82 & 62.82 & 0.58 & Q5-ACC & 35x\tabularnewline
-19.75 & -22.57 & 62.07 & 0.61 & Q5-K & 35x\tabularnewline
-13.50 & -28.82 & 55.82 & 0.86 & PHU-ACC & 35x\tabularnewline
-12.75 & -29.57 & 55.07 & 0.88 & PHU-K & 35x\tabularnewline
-11.50 & -30.82 & 53.82 & 0.91 & PL-PHU & 35x\tabularnewline
-7.00 & -35.32 & 49.32 & 0.98 & Q5-PHU & 35x\tabularnewline
--4.50 & -46.82 & 37.82 & 1.00 & Q5-PL & 35x\tabularnewline
-0.75 & -41.57 & 43.07 & 1.00 & K-ACC & 35x\tabularnewline
-\bottomrule
-\end{longtable}
-
-\newpage
-
-\textbf{Table S3: ANOVA Results of Differences in Number of OTUs between
-HiFi DNA Polymerases in Mock Samples}
+OTUs between HiFi DNA Polymerases in Fecal and Mock Samples}
 
 \begin{longtable}[]{@{}ccccccc@{}}
 \toprule
-DF & Sum Squares & Mean Squares & F value & P-value & BH &
-Cycle\tabularnewline
+Difference & Lower & Upper & P Adjusted & Comparison & Cycle & Sample
+Type\tabularnewline
 \midrule
 \endhead
-2 & 364.56 & 182.28 & 15.82 & 1.7e-03 & 2.2e-03 & 20x\tabularnewline
-4 & 3478.53 & 869.63 & 75.15 & 2.7e-09 & 1.1e-08 & 25x\tabularnewline
-4 & 2206.58 & 551.64 & 10.28 & 1.8e-05 & 3.6e-05 & 30x\tabularnewline
-4 & 1971.92 & 492.98 & 2.31 & 1.0e-01 & 1.0e-01 & 35x\tabularnewline
+25.00 & -17.32 & 67.32 & 0.40 & PL-ACC & 35x & Fecal
+Sample\tabularnewline
+24.25 & -18.07 & 66.57 & 0.43 & PL-K & 35x & Fecal Sample\tabularnewline
+20.50 & -21.82 & 62.82 & 0.58 & Q5-ACC & 35x & Fecal
+Sample\tabularnewline
+19.75 & -22.57 & 62.07 & 0.61 & Q5-K & 35x & Fecal Sample\tabularnewline
+13.50 & -28.82 & 55.82 & 0.86 & PHU-ACC & 35x & Fecal
+Sample\tabularnewline
+12.75 & -29.57 & 55.07 & 0.88 & PHU-K & 35x & Fecal
+Sample\tabularnewline
+11.50 & -30.82 & 53.82 & 0.91 & PL-PHU & 35x & Fecal
+Sample\tabularnewline
+7.00 & -35.32 & 49.32 & 0.98 & Q5-PHU & 35x & Fecal
+Sample\tabularnewline
+-4.50 & -46.82 & 37.82 & 1.00 & Q5-PL & 35x & Fecal
+Sample\tabularnewline
+0.75 & -41.57 & 43.07 & 1.00 & K-ACC & 35x & Fecal Sample\tabularnewline
+-13.50 & -20.36 & -6.64 & 1.3e-03 & PL-PHU & 20x & Mock
+Sample\tabularnewline
+-38.50 & -46.60 & -30.40 & 5.1e-09 & Q5-K & 25x & Mock
+Sample\tabularnewline
+-37.50 & -45.60 & -29.40 & 7.3e-09 & PHU-K & 25x & Mock
+Sample\tabularnewline
+36.50 & 28.40 & 44.60 & 1.1e-08 & K-ACC & 25x & Mock
+Sample\tabularnewline
+-35.50 & -43.60 & -27.40 & 1.5e-08 & PL-K & 25x & Mock
+Sample\tabularnewline
+22.03 & 9.31 & 34.74 & 1.8e-04 & K-ACC & 30x & Mock
+Sample\tabularnewline
+-15.48 & -25.20 & -5.75 & 5.7e-04 & Q5-K & 30x & Mock
+Sample\tabularnewline
+-18.78 & -31.49 & -6.06 & 1.5e-03 & PHU-K & 30x & Mock
+Sample\tabularnewline
+15.55 & 3.03 & 28.07 & 9.0e-03 & PL-ACC & 30x & Mock
+Sample\tabularnewline
 \bottomrule
 \end{longtable}
 
 \newpage
 
-\textbf{Table S4: Tukey Post-Hoc Results of Differences in Number of
-OTUs between HiFi DNA Polymerases in Mock Samples}
+\textbf{Table S3: Kruskal-Wallis Results of Differences in Error Rate,
+Sequences with an Error, and Chimera Prevalence between HiFi DNA
+Polymerases in Mock Samples}
 
 \begin{longtable}[]{@{}cccccc@{}}
 \toprule
-Difference & Lower & Upper & P Adjusted & Comparison &
-Cycle\tabularnewline
+Rank Sum Statistic & DF & P-value & BH & Cycle & Test
+Type\tabularnewline
 \midrule
 \endhead
--13.50 & -20.36 & -6.64 & 1.3e-03 & PL-PHU & 20x\tabularnewline
--38.50 & -46.60 & -30.40 & 5.1e-09 & Q5-K & 25x\tabularnewline
--37.50 & -45.60 & -29.40 & 7.3e-09 & PHU-K & 25x\tabularnewline
-36.50 & 28.40 & 44.60 & 1.1e-08 & K-ACC & 25x\tabularnewline
--35.50 & -43.60 & -27.40 & 1.5e-08 & PL-K & 25x\tabularnewline
-22.03 & 9.31 & 34.74 & 1.8e-04 & K-ACC & 30x\tabularnewline
--15.48 & -25.20 & -5.75 & 5.7e-04 & Q5-K & 30x\tabularnewline
--18.78 & -31.49 & -6.06 & 1.5e-03 & PHU-K & 30x\tabularnewline
-15.55 & 3.03 & 28.07 & 9.0e-03 & PL-ACC & 30x\tabularnewline
+7.85 & 2 & 2.0e-02 & 2.0e-02 & 20x & Error Rate\tabularnewline
+12.95 & 4 & 1.2e-02 & 1.5e-02 & 25x & Error Rate\tabularnewline
+28.31 & 4 & 1.1e-05 & 4.3e-05 & 30x & Error Rate\tabularnewline
+15.00 & 4 & 4.7e-03 & 9.4e-03 & 35x & Error Rate\tabularnewline
+7.85 & 2 & 2.0e-02 & 2.0e-02 & 20x & Sequences with Error\tabularnewline
+15.98 & 4 & 3.0e-03 & 5.2e-03 & 25x & Sequences with
+Error\tabularnewline
+29.22 & 4 & 7.0e-06 & 2.8e-05 & 30x & Sequences with
+Error\tabularnewline
+15.44 & 4 & 3.9e-03 & 5.2e-03 & 35x & Sequences with
+Error\tabularnewline
+8.91 & 2 & 1.2e-02 & 1.2e-02 & 20x & Chimera Prevalence\tabularnewline
+15.54 & 4 & 3.7e-03 & 4.9e-03 & 25x & Chimera Prevalence\tabularnewline
+21.41 & 4 & 2.6e-04 & 1.1e-03 & 30x & Chimera Prevalence\tabularnewline
+16.28 & 4 & 2.7e-03 & 4.9e-03 & 35x & Chimera Prevalence\tabularnewline
 \bottomrule
 \end{longtable}
 
 \newpage
 
-\textbf{Table S5: Kruskal-Wallis Results of Differences in Per Base
-Error Rate between HiFi DNA Polymerases in Mock Samples}
+\textbf{Table S4: Dunn's Post-Hoc Results of Differences in Error Rate,
+Sequences with an Error, and Chimera Prevalence between HiFi DNA
+Polymerases in Mock Samples}
 
-\begin{longtable}[]{@{}ccccc@{}}
+\begin{longtable}[]{@{}cccccc@{}}
 \toprule
-Rank Sum Statistic & DF & P-value & BH & Cycle\tabularnewline
+Chi Squared & Z Statistic & P Adjusted & Comparison & Cycle & Test
+Type\tabularnewline
 \midrule
 \endhead
-7.85 & 2 & 2.0e-02 & 2.0e-02 & 20x\tabularnewline
-12.95 & 4 & 1.2e-02 & 1.5e-02 & 25x\tabularnewline
-28.31 & 4 & 1.1e-05 & 4.3e-05 & 30x\tabularnewline
-15.00 & 4 & 4.7e-03 & 9.4e-03 & 35x\tabularnewline
+7.85 & 2.77 & 2.8e-03 & PHU - PL & 20x & Error Rate\tabularnewline
+7.85 & -1.64 & 5.0e-02 & PL - Q5 & 20x & Error Rate\tabularnewline
+12.95 & 3.26 & 5.6e-04 & K - Q5 & 25x & Error Rate\tabularnewline
+12.95 & 2.68 & 3.7e-03 & K - PHU & 25x & Error Rate\tabularnewline
+12.95 & 2.01 & 2.2e-02 & ACC - Q5 & 25x & Error Rate\tabularnewline
+12.95 & 1.88 & 3.0e-02 & PL - Q5 & 25x & Error Rate\tabularnewline
+28.31 & -4.46 & 4.1e-06 & ACC - K & 30x & Error Rate\tabularnewline
+28.31 & 4.32 & 7.7e-06 & K - PL & 30x & Error Rate\tabularnewline
+28.31 & -2.69 & 3.6e-03 & ACC - Q5 & 30x & Error Rate\tabularnewline
+28.31 & 2.65 & 4.0e-03 & K - PHU & 30x & Error Rate\tabularnewline
+28.31 & 2.37 & 8.8e-03 & K - Q5 & 30x & Error Rate\tabularnewline
+28.31 & -2.00 & 2.3e-02 & PL - Q5 & 30x & Error Rate\tabularnewline
+15.00 & 3.14 & 8.6e-04 & K - PHU & 35x & Error Rate\tabularnewline
+15.00 & -3.05 & 1.2e-03 & PHU - PL & 35x & Error Rate\tabularnewline
+15.00 & -2.33 & 1.0e-02 & ACC - K & 35x & Error Rate\tabularnewline
+15.00 & -2.05 & 2.0e-02 & ACC - PL & 35x & Error Rate\tabularnewline
+15.00 & -1.79 & 3.7e-02 & PHU - Q5 & 35x & Error Rate\tabularnewline
+15.00 & 1.68 & 4.7e-02 & K - Q5 & 35x & Error Rate\tabularnewline
+7.85 & 2.77 & 2.8e-03 & PHU - PL & 20x & Sequences with
+Error\tabularnewline
+7.85 & -1.64 & 5.0e-02 & PL - Q5 & 20x & Sequences with
+Error\tabularnewline
+15.98 & 3.37 & 3.7e-04 & K - Q5 & 25x & Sequences with
+Error\tabularnewline
+15.98 & 2.79 & 2.6e-03 & K - PHU & 25x & Sequences with
+Error\tabularnewline
+15.98 & 2.76 & 2.9e-03 & ACC - Q5 & 25x & Sequences with
+Error\tabularnewline
+15.98 & 2.14 & 1.6e-02 & ACC - PHU & 25x & Sequences with
+Error\tabularnewline
+15.98 & 1.86 & 3.1e-02 & K - PL & 25x & Sequences with
+Error\tabularnewline
+29.22 & 4.17 & 1.5e-05 & K - Q5 & 30x & Sequences with
+Error\tabularnewline
+29.22 & 3.89 & 5.0e-05 & K - PHU & 30x & Sequences with
+Error\tabularnewline
+29.22 & 3.57 & 1.8e-04 & PL - Q5 & 30x & Sequences with
+Error\tabularnewline
+29.22 & -3.41 & 3.2e-04 & PHU - PL & 30x & Sequences with
+Error\tabularnewline
+29.22 & -1.81 & 3.5e-02 & ACC - K & 30x & Sequences with
+Error\tabularnewline
+29.22 & 1.76 & 3.9e-02 & ACC - PHU & 30x & Sequences with
+Error\tabularnewline
+15.44 & -3.71 & 1.0e-04 & PHU - PL & 35x & Sequences with
+Error\tabularnewline
+15.44 & 2.38 & 8.6e-03 & PL - Q5 & 35x & Sequences with
+Error\tabularnewline
+15.44 & 2.38 & 8.7e-03 & K - PHU & 35x & Sequences with
+Error\tabularnewline
+15.44 & 1.85 & 3.2e-02 & ACC - PHU & 35x & Sequences with
+Error\tabularnewline
+15.44 & -1.85 & 3.2e-02 & ACC - PL & 35x & Sequences with
+Error\tabularnewline
+8.91 & 2.98 & 1.4e-03 & PHU - PL & 20x & Chimera
+Prevalence\tabularnewline
+15.54 & 3.37 & 3.7e-04 & K - PHU & 25x & Chimera
+Prevalence\tabularnewline
+15.54 & -2.76 & 2.9e-03 & PHU - PL & 25x & Chimera
+Prevalence\tabularnewline
+15.54 & -2.68 & 3.7e-03 & ACC - K & 25x & Chimera
+Prevalence\tabularnewline
+15.54 & -2.01 & 2.2e-02 & ACC - PL & 25x & Chimera
+Prevalence\tabularnewline
+15.54 & 1.98 & 2.4e-02 & K - Q5 & 25x & Chimera
+Prevalence\tabularnewline
+21.41 & -4.23 & 1.2e-05 & ACC - PL & 30x & Chimera
+Prevalence\tabularnewline
+21.41 & 2.89 & 1.9e-03 & PL - Q5 & 30x & Chimera
+Prevalence\tabularnewline
+21.41 & -2.84 & 2.2e-03 & ACC - K & 30x & Chimera
+Prevalence\tabularnewline
+21.41 & -2.59 & 4.8e-03 & PHU - PL & 30x & Chimera
+Prevalence\tabularnewline
+21.41 & -2.05 & 2.0e-02 & ACC - Q5 & 30x & Chimera
+Prevalence\tabularnewline
+21.41 & -1.73 & 4.2e-02 & K - PL & 30x & Chimera
+Prevalence\tabularnewline
+16.28 & -3.71 & 1.0e-04 & ACC - PL & 35x & Chimera
+Prevalence\tabularnewline
+16.28 & -2.65 & 4.0e-03 & PHU - PL & 35x & Chimera
+Prevalence\tabularnewline
+16.28 & -2.38 & 8.7e-03 & ACC - K & 35x & Chimera
+Prevalence\tabularnewline
+16.28 & -2.12 & 1.7e-02 & ACC - Q5 & 35x & Chimera
+Prevalence\tabularnewline
 \bottomrule
 \end{longtable}
 
 \newpage
-
-\textbf{Table S6: Dunn's Post-Hoc Results of Differences in Per Base
-Error Rate between HiFi DNA Polymerases in Mock Samples}
-
-\begin{longtable}[]{@{}ccccc@{}}
-\toprule
-Chi Squared & Z Statistic & P Adjusted & Comparison &
-Cycle\tabularnewline
-\midrule
-\endhead
-7.85 & 2.77 & 2.8e-03 & PHU - PL & 20x\tabularnewline
-7.85 & -1.64 & 5.0e-02 & PL - Q5 & 20x\tabularnewline
-12.95 & 3.26 & 5.6e-04 & K - Q5 & 25x\tabularnewline
-12.95 & 2.68 & 3.7e-03 & K - PHU & 25x\tabularnewline
-12.95 & 2.01 & 2.2e-02 & ACC - Q5 & 25x\tabularnewline
-12.95 & 1.88 & 3.0e-02 & PL - Q5 & 25x\tabularnewline
-28.31 & -4.46 & 4.1e-06 & ACC - K & 30x\tabularnewline
-28.31 & 4.32 & 7.7e-06 & K - PL & 30x\tabularnewline
-28.31 & -2.69 & 3.6e-03 & ACC - Q5 & 30x\tabularnewline
-28.31 & 2.65 & 4.0e-03 & K - PHU & 30x\tabularnewline
-28.31 & 2.37 & 8.8e-03 & K - Q5 & 30x\tabularnewline
-28.31 & -2.00 & 2.3e-02 & PL - Q5 & 30x\tabularnewline
-15.00 & 3.14 & 8.6e-04 & K - PHU & 35x\tabularnewline
-15.00 & -3.05 & 1.2e-03 & PHU - PL & 35x\tabularnewline
-15.00 & -2.33 & 1.0e-02 & ACC - K & 35x\tabularnewline
-15.00 & -2.05 & 2.0e-02 & ACC - PL & 35x\tabularnewline
-15.00 & -1.79 & 3.7e-02 & PHU - Q5 & 35x\tabularnewline
-15.00 & 1.68 & 4.7e-02 & K - Q5 & 35x\tabularnewline
-\bottomrule
-\end{longtable}
-
-\newpage
-
-\textbf{Table S7: Kruskal-Wallis Results of Differences in Sequences
-with Error between HiFi DNA Polymerases in Mock Samples}
-
-\begin{longtable}[]{@{}ccccc@{}}
-\toprule
-Rank Sum Statistic & DF & P-value & BH & Cycle\tabularnewline
-\midrule
-\endhead
-7.85 & 2 & 2.0e-02 & 2.0e-02 & 20x\tabularnewline
-15.98 & 4 & 3.0e-03 & 5.2e-03 & 25x\tabularnewline
-29.22 & 4 & 7.0e-06 & 2.8e-05 & 30x\tabularnewline
-15.44 & 4 & 3.9e-03 & 5.2e-03 & 35x\tabularnewline
-\bottomrule
-\end{longtable}
-
-\newpage
-
-\textbf{Table S8: Dunn's Post-Hoc Results of Differences in Sequences
-with Error between HiFi DNA Polymerases in Mock Samples}
-
-\begin{longtable}[]{@{}ccccc@{}}
-\toprule
-Chi Squared & Z Statistic & P Adjusted & Comparison &
-Cycle\tabularnewline
-\midrule
-\endhead
-7.85 & 2.77 & 2.8e-03 & PHU - PL & 20x\tabularnewline
-7.85 & -1.64 & 5.0e-02 & PL - Q5 & 20x\tabularnewline
-15.98 & 3.37 & 3.7e-04 & K - Q5 & 25x\tabularnewline
-15.98 & 2.79 & 2.6e-03 & K - PHU & 25x\tabularnewline
-15.98 & 2.76 & 2.9e-03 & ACC - Q5 & 25x\tabularnewline
-15.98 & 2.14 & 1.6e-02 & ACC - PHU & 25x\tabularnewline
-15.98 & 1.86 & 3.1e-02 & K - PL & 25x\tabularnewline
-29.22 & 4.17 & 1.5e-05 & K - Q5 & 30x\tabularnewline
-29.22 & 3.89 & 5.0e-05 & K - PHU & 30x\tabularnewline
-29.22 & 3.57 & 1.8e-04 & PL - Q5 & 30x\tabularnewline
-29.22 & -3.41 & 3.2e-04 & PHU - PL & 30x\tabularnewline
-29.22 & -1.81 & 3.5e-02 & ACC - K & 30x\tabularnewline
-29.22 & 1.76 & 3.9e-02 & ACC - PHU & 30x\tabularnewline
-15.44 & -3.71 & 1.0e-04 & PHU - PL & 35x\tabularnewline
-15.44 & 2.38 & 8.6e-03 & PL - Q5 & 35x\tabularnewline
-15.44 & 2.38 & 8.7e-03 & K - PHU & 35x\tabularnewline
-15.44 & 1.85 & 3.2e-02 & ACC - PHU & 35x\tabularnewline
-15.44 & -1.85 & 3.2e-02 & ACC - PL & 35x\tabularnewline
-\bottomrule
-\end{longtable}
-
-\newpage
-
-\textbf{Table S9: Kruskal-Wallis Results of Differences in Chimera
-Prevalence between HiFi DNA Polymerases in Mock Samples}
-
-\begin{longtable}[]{@{}ccccc@{}}
-\toprule
-Rank Sum Statistic & DF & P-value & BH & Cycle\tabularnewline
-\midrule
-\endhead
-8.91 & 2 & 1.2e-02 & 1.2e-02 & 20x\tabularnewline
-15.54 & 4 & 3.7e-03 & 4.9e-03 & 25x\tabularnewline
-21.41 & 4 & 2.6e-04 & 1.1e-03 & 30x\tabularnewline
-16.28 & 4 & 2.7e-03 & 4.9e-03 & 35x\tabularnewline
-\bottomrule
-\end{longtable}
-
-\newpage
-
-\textbf{Table S10: Dunn's Post-Hoc Results of Differences in Chimera
-Prevalence between HiFi DNA Polymerase in Mock Samples}
-
-\begin{longtable}[]{@{}ccccc@{}}
-\toprule
-Chi Squared & Z Statistic & P Adjusted & Comparison &
-Cycle\tabularnewline
-\midrule
-\endhead
-8.91 & 2.98 & 1.4e-03 & PHU - PL & 20x\tabularnewline
-15.54 & 3.37 & 3.7e-04 & K - PHU & 25x\tabularnewline
-15.54 & -2.76 & 2.9e-03 & PHU - PL & 25x\tabularnewline
-15.54 & -2.68 & 3.7e-03 & ACC - K & 25x\tabularnewline
-15.54 & -2.01 & 2.2e-02 & ACC - PL & 25x\tabularnewline
-15.54 & 1.98 & 2.4e-02 & K - Q5 & 25x\tabularnewline
-21.41 & -4.23 & 1.2e-05 & ACC - PL & 30x\tabularnewline
-21.41 & 2.89 & 1.9e-03 & PL - Q5 & 30x\tabularnewline
-21.41 & -2.84 & 2.2e-03 & ACC - K & 30x\tabularnewline
-21.41 & -2.59 & 4.8e-03 & PHU - PL & 30x\tabularnewline
-21.41 & -2.05 & 2.0e-02 & ACC - Q5 & 30x\tabularnewline
-21.41 & -1.73 & 4.2e-02 & K - PL & 30x\tabularnewline
-16.28 & -3.71 & 1.0e-04 & ACC - PL & 35x\tabularnewline
-16.28 & -2.65 & 4.0e-03 & PHU - PL & 35x\tabularnewline
-16.28 & -2.38 & 8.7e-03 & ACC - K & 35x\tabularnewline
-16.28 & -2.12 & 1.7e-02 & ACC - Q5 & 35x\tabularnewline
-\bottomrule
-\end{longtable}
 
 
 \end{document}

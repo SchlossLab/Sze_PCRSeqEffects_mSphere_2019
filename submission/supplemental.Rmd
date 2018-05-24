@@ -1,7 +1,7 @@
 ---
 title: ''
 csl: peerj.csl
-fontsize: 12pt
+fontsize: 11pt
 output:
   pdf_document:
     includes:
@@ -35,7 +35,7 @@ loadLibs(c("tidyverse", "scales", "knitr", "rmarkdown"))
 ```
 
 
-**Table S1: ANOVA Results of Differences in Number of OTUs between HiFi DNA Polymerases in Fecal Samples**
+**Table S1: ANOVA Results of Differences in Number of OTUs between HiFi DNA Polymerases in Fecal and Mock Samples**
 
 ```{r supplemental_table1, echo=FALSE, message=FALSE, warning=FALSE}
 
@@ -43,9 +43,17 @@ fs_anova <- as.data.frame(read_csv("../data/process/tables/fecal_overall_anova_r
   filter(sub_sample_level == 1000) %>% 
   select(-sub_sample_level) %>% 
   mutate_at(vars(Sum.Sq:F.value), funs(round(., digits = 2))) %>% 
-  mutate_at(vars(pvalue:bh), funs(format(., scientific = TRUE, digits = 2, nsmall = 2)))
-
-colnames(fs_anova) <- c("DF", "Sum Squares", "Mean Squares", "F value", "P-value", "BH", "Cycle")
+  mutate_at(vars(pvalue:bh), funs(format(., scientific = TRUE, digits = 2, nsmall = 2))) %>% 
+  mutate(sample_type = "Fecal Sample") %>% 
+  bind_rows(
+    as.data.frame(read_csv("../data/process/tables/mock_overall_anova_results.csv")) %>% 
+    mutate_at(vars(Sum.Sq:F.value), funs(round(., digits = 2))) %>% 
+    mutate_at(vars(pvalue:bh), funs(format(., scientific = TRUE, digits = 2, nsmall = 2))) %>% 
+    filter(sub_sample_level == 1000) %>% 
+    select(-sub_sample_level) %>% 
+    mutate(sample_type = "Mock Sample"))
+  
+colnames(fs_anova) <- c("DF", "Sum Squares", "Mean Squares", "F value", "P-value", "BH", "Cycle", "Sample Type")
 
 kable(fs_anova, format = "markdown", align = 'c', padding = 2)
 ```
@@ -54,7 +62,7 @@ kable(fs_anova, format = "markdown", align = 'c', padding = 2)
 \newpage
 
 
-**Table S2: Tukey Post-Hoc Results of Differences in Number of OTUs between HiFi DNA Polymerases in Fecal Samples**
+**Table S2: Tukey Post-Hoc Results of Differences in Number of OTUs between HiFi DNA Polymerases in Fecal and Mock Samples**
 
 ```{r supplemental_table2, echo=FALSE, message=FALSE, warning=FALSE}
 
@@ -64,9 +72,22 @@ fs_tukey <- as.data.frame(read_csv("../data/process/tables/fecal_overall_tukey_r
   select(-sub_sample_level) %>% 
   rename(padj = `p adj`) %>% 
   mutate(padj = as.numeric(padj)) %>% 
-  mutate_at(vars(padj), funs(format(., digits = 2, nsmall = 2)))
+  mutate_at(vars(padj), funs(format(., digits = 2, nsmall = 2))) %>% 
+  mutate(sample_type = "Fecal Sample") %>% 
+  bind_rows(
+    as.data.frame(read_csv("../data/process/tables/mock_overall_tukey_results.csv")) %>% 
+    mutate_at(vars(diff:upr), funs(round(., digits = 2))) %>% 
+    filter(sub_sample_level == 1000) %>% 
+    select(-sub_sample_level) %>% 
+    rename(padj = `p adj`) %>% 
+    mutate(padj = as.numeric(padj)) %>% 
+    filter(padj < 0.05) %>% 
+    arrange(padj) %>% 
+    mutate_at(vars(padj), funs(format(., scientific = TRUE, digits = 2, nsmall = 2))) %>% 
+    arrange(cycle) %>% 
+    mutate(sample_type = "Mock Sample"))
 
-colnames(fs_tukey) <- c("Difference", "Lower", "Upper", "P Adjusted", "Comparison", "Cycle")
+colnames(fs_tukey) <- c("Difference", "Lower", "Upper", "P Adjusted", "Comparison", "Cycle", "Sample Type")
 
 kable(fs_tukey, format = "markdown", align = 'c', padding = 2)
 
@@ -76,59 +97,31 @@ kable(fs_tukey, format = "markdown", align = 'c', padding = 2)
 \newpage
 
 
-**Table S3: ANOVA Results of Differences in Number of OTUs between HiFi DNA Polymerases in Mock Samples**
-
-```{r supplemental_table3, echo=FALSE, message=FALSE, warning=FALSE}
-
-mock_anova <- as.data.frame(read_csv("../data/process/tables/mock_overall_anova_results.csv")) %>% 
-  mutate_at(vars(Sum.Sq:F.value), funs(round(., digits = 2))) %>% 
-  mutate_at(vars(pvalue:bh), funs(format(., scientific = TRUE, digits = 2, nsmall = 2))) %>% 
-  filter(sub_sample_level == 1000) %>% 
-  select(-sub_sample_level)
-
-colnames(mock_anova) <- c("DF", "Sum Squares", "Mean Squares", "F value", "P-value", "BH", "Cycle")
-
-kable(mock_anova, format = "markdown", align = 'c', padding = 2)
-```
-
-
-\newpage
-
-
-**Table S4: Tukey Post-Hoc Results of Differences in Number of OTUs between HiFi DNA Polymerases in Mock Samples**
-
-```{r supplemental_table4, echo=FALSE, message=FALSE, warning=FALSE}
-
-mock_tukey <- as.data.frame(read_csv("../data/process/tables/mock_overall_tukey_results.csv")) %>% 
-  mutate_at(vars(diff:upr), funs(round(., digits = 2))) %>% 
-  filter(sub_sample_level == 1000) %>% 
-  select(-sub_sample_level) %>% 
-  rename(padj = `p adj`) %>% 
-  mutate(padj = as.numeric(padj)) %>% 
-  filter(padj < 0.05) %>% 
-  arrange(padj) %>% 
-  mutate_at(vars(padj), funs(format(., scientific = TRUE, digits = 2, nsmall = 2))) %>% 
-  arrange(cycle)
-
-colnames(mock_tukey) <- c("Difference", "Lower", "Upper", "P Adjusted", "Comparison", "Cycle")
-
-kable(mock_tukey, format = "markdown", align = 'c', padding = 2)
-
-```
-
-
-\newpage
-
-**Table S5: Kruskal-Wallis Results of Differences in Per Base Error Rate between HiFi DNA Polymerases in Mock Samples**
+**Table S3: Kruskal-Wallis Results of Differences in Error Rate, Sequences with an Error, and Chimera Prevalence between HiFi DNA Polymerases in Mock Samples**
 
 ```{r supplemental_table5, echo=FALSE, message=FALSE, warning=FALSE}
 
 mock_error_rate_kruskal <- as.data.frame(read_csv("../data/process/tables/mock_error_overall_kruskal_results.csv")) %>% 
   mutate_at(vars(statistic), funs(round(., digits = 2))) %>% 
   mutate_at(vars(pvalue:bh), funs(format(., scientific = TRUE, digits = 2, nsmall = 2))) %>% 
-  select(-sub_sample_level)
+  select(-sub_sample_level) %>% 
+  mutate(test_type = "Error Rate") %>% 
+  bind_rows(
+    as.data.frame(
+    read_csv("../data/process/tables/mock_error_count_overall_kruskal_results.csv")) %>% 
+    mutate_at(vars(statistic), funs(round(., digits = 2))) %>% 
+    mutate_at(vars(pvalue:bh), funs(format(., scientific = TRUE, digits = 2, nsmall = 2))) %>% 
+    select(-sub_sample_level) %>% 
+    mutate(test_type = "Sequences with Error")) %>% 
+  bind_rows(
+    as.data.frame(
+    read_csv("../data/process/tables/mock_chimera_overall_kruskal_results.csv")) %>% 
+    mutate_at(vars(statistic), funs(round(., digits = 2))) %>% 
+    mutate_at(vars(pvalue:bh), funs(format(., scientific = TRUE, digits = 2, nsmall = 2))) %>% 
+    select(-sub_sample_level) %>% 
+    mutate(test_type = "Chimera Prevalence"))
 
-colnames(mock_error_rate_kruskal) <- c("Rank Sum Statistic", "DF", "P-value", "BH", "Cycle")
+colnames(mock_error_rate_kruskal) <- c("Rank Sum Statistic", "DF", "P-value", "BH", "Cycle", "Test Type")
 
 kable(mock_error_rate_kruskal, format = "markdown", align = 'c', padding = 2)
 ```
@@ -138,7 +131,7 @@ kable(mock_error_rate_kruskal, format = "markdown", align = 'c', padding = 2)
 \newpage
 
 
-**Table S6: Dunn's Post-Hoc Results of Differences in Per Base Error Rate between HiFi DNA Polymerases in Mock Samples**
+**Table S4: Dunn's Post-Hoc Results of Differences in Error Rate, Sequences with an Error, and Chimera Prevalence between HiFi DNA Polymerases in Mock Samples**
 
 ```{r supplemental_table6, echo=FALSE, message=FALSE, warning=FALSE}
 
@@ -148,100 +141,34 @@ mock_error_rate_dunn <- as.data.frame(read_csv("../data/process/tables/mock_erro
   arrange(pvalue) %>% 
   mutate_at(vars(pvalue:bh), funs(format(., scientific = TRUE, digits = 2, nsmall = 2))) %>% 
   select(-bh, -sub_sample_level) %>% 
-  arrange(cycle)
+  arrange(cycle) %>% 
+  mutate(test_type = "Error Rate") %>% 
+  bind_rows(
+    as.data.frame(read_csv("../data/process/tables/mock_error_count_overall_dunn_results.csv")) %>% 
+    mutate_at(vars(chi2:Z), funs(round(., digits = 2))) %>% 
+    filter(pvalue < 0.05) %>% 
+    arrange(pvalue) %>% 
+    mutate_at(vars(pvalue:bh), funs(format(., scientific = TRUE, digits = 2, nsmall = 2))) %>% 
+    select(-bh, -sub_sample_level) %>% 
+    arrange(cycle) %>% 
+    mutate(test_type = "Sequences with Error")) %>% 
+  bind_rows(
+    as.data.frame(read_csv("../data/process/tables/mock_chimera_overall_dunn_results.csv")) %>% 
+    mutate_at(vars(chi2:Z), funs(round(., digits = 2))) %>% 
+    filter(pvalue < 0.05) %>% 
+    arrange(pvalue) %>% 
+    mutate_at(vars(pvalue:bh), funs(format(., scientific = TRUE, digits = 2, nsmall = 2))) %>% 
+    select(-bh, -sub_sample_level) %>% 
+    arrange(cycle) %>% 
+    mutate(test_type = "Chimera Prevalence"))
   
 
-colnames(mock_error_rate_dunn) <- c("Chi Squared", "Z Statistic", "P Adjusted", "Comparison", "Cycle")
+colnames(mock_error_rate_dunn) <- c("Chi Squared", "Z Statistic", "P Adjusted", "Comparison", "Cycle", "Test Type")
 
 kable(mock_error_rate_dunn, format = "markdown", align = 'c', padding = 2)
 ```
 
 \newpage
-
-**Table S7: Kruskal-Wallis Results of Differences in Sequences with Error between HiFi DNA Polymerases in Mock Samples**
-
-```{r supplemental_table7, echo=FALSE, message=FALSE, warning=FALSE}
-
-mock_error_count_kruskal <- as.data.frame(
-  read_csv("../data/process/tables/mock_error_count_overall_kruskal_results.csv")) %>% 
-  mutate_at(vars(statistic), funs(round(., digits = 2))) %>% 
-  mutate_at(vars(pvalue:bh), funs(format(., scientific = TRUE, digits = 2, nsmall = 2))) %>% 
-  select(-sub_sample_level)
-
-colnames(mock_error_count_kruskal) <- c("Rank Sum Statistic", "DF", "P-value", "BH", "Cycle")
-
-kable(mock_error_count_kruskal, format = "markdown", align = 'c', padding = 2)
-
-
-```
-
-
-
-\newpage
-
-**Table S8: Dunn's Post-Hoc Results of Differences in Sequences with Error between HiFi DNA Polymerases in Mock Samples**
-
-```{r supplemental_table8, echo=FALSE, message=FALSE, warning=FALSE}
-
-mock_error_count_dunn <- as.data.frame(read_csv("../data/process/tables/mock_error_count_overall_dunn_results.csv")) %>% 
-  mutate_at(vars(chi2:Z), funs(round(., digits = 2))) %>% 
-  filter(pvalue < 0.05) %>% 
-  arrange(pvalue) %>% 
-  mutate_at(vars(pvalue:bh), funs(format(., scientific = TRUE, digits = 2, nsmall = 2))) %>% 
-  select(-bh, -sub_sample_level) %>% 
-  arrange(cycle)
-  
-
-colnames(mock_error_count_dunn) <- c("Chi Squared", "Z Statistic", "P Adjusted", "Comparison", "Cycle")
-
-kable(mock_error_count_dunn, format = "markdown", align = 'c', padding = 2)
-
-
-```
-
-
-\newpage
-
-**Table S9: Kruskal-Wallis Results of Differences in Chimera Prevalence between HiFi DNA Polymerases in Mock Samples**
-
-```{r supplemental_table9, echo=FALSE, message=FALSE, warning=FALSE}
-
-mock_chimera_kruskal <- as.data.frame(
-  read_csv("../data/process/tables/mock_chimera_overall_kruskal_results.csv")) %>% 
-  mutate_at(vars(statistic), funs(round(., digits = 2))) %>% 
-  mutate_at(vars(pvalue:bh), funs(format(., scientific = TRUE, digits = 2, nsmall = 2))) %>% 
-  select(-sub_sample_level)
-
-colnames(mock_chimera_kruskal) <- c("Rank Sum Statistic", "DF", "P-value", "BH", "Cycle")
-
-kable(mock_chimera_kruskal, format = "markdown", align = 'c', padding = 2)
-
-
-```
-
-
-
-\newpage
-
-**Table S10: Dunn's Post-Hoc Results of Differences in Chimera Prevalence between HiFi DNA Polymerase in Mock Samples**
-
-```{r supplemental_table10, echo=FALSE, message=FALSE, warning=FALSE}
-
-mock_chimera_dunn <- as.data.frame(read_csv("../data/process/tables/mock_chimera_overall_dunn_results.csv")) %>% 
-  mutate_at(vars(chi2:Z), funs(round(., digits = 2))) %>% 
-  filter(pvalue < 0.05) %>% 
-  arrange(pvalue) %>% 
-  mutate_at(vars(pvalue:bh), funs(format(., scientific = TRUE, digits = 2, nsmall = 2))) %>% 
-  select(-bh, -sub_sample_level) %>% 
-  arrange(cycle)
-  
-
-colnames(mock_chimera_dunn) <- c("Chi Squared", "Z Statistic", "P Adjusted", "Comparison", "Cycle")
-
-kable(mock_chimera_dunn, format = "markdown", align = 'c', padding = 2)
-
-
-```
 
 
 
