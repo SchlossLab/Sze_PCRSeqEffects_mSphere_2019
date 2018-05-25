@@ -25,10 +25,40 @@ loadLibs(c("tidyverse", "scales", "knitr", "rmarkdown", "stringr"))
 #Read in the meta data file
 metadata <- read_csv("../data/process/tables/meta_data.csv")
 
+# Read in fecal count data
+fecal_numOTU_data <- read_csv("../data/process/tables/fecal_sub_sample_1000_count_table.csv") %>% 
+  mutate(taq = factor(taq, 
+                      levels = c("ACC", "K", "PHU", "PL", "Q5"), 
+                      labels = c("Accuprime", "Kappa", "Phusion", "Platinum", "Q5")), 
+         cycles = factor(cycles, 
+                            levels = c("15x", "20x", "25x", "30x", "35x"), 
+                            labels = c("15x", "20x", "25x", "30x", "35x"))) %>% 
+  group_by(taq, cycles) %>% 
+  summarise(taq_median = median(numOTUs, na.rm = T), 
+            taq_min = min(numOTUs, na.rm = T), 
+            taq_max = max(numOTUs, na.rm = T)) %>% 
+  mutate(range_diff = taq_max - taq_min)
+  
 # Read in fecal sample number of OTU results
 fs_anova_summary <- as.data.frame(read_csv("../data/process/tables/fecal_overall_anova_results.csv"))
 fs_tukey_summary <- as.data.frame(read_csv("../data/process/tables/fecal_overall_tukey_results.csv")) %>% 
   rename(padj = `p adj`)
+
+
+# Read in the Mock count data
+mock_num_otu_data <- read_csv("../data/process/tables/mock_sub_sample_1000_count_table.csv") %>% 
+  mutate(taq = factor(taq, 
+                      levels = c("ACC", "K", "PHU", "PL", "Q5"), 
+                      labels = c("Accuprime", "Kappa", "Phusion", "Platinum", "Q5"))) %>% 
+  group_by(taq, cycles) %>% 
+  summarise(taq_median = median(numOTUs, na.rm = T), 
+            taq_min = min(numOTUs, na.rm = T), 
+            taq_max = max(numOTUs, na.rm = T)) %>% 
+  mutate(range_diff = taq_max - taq_min)
+
+ref_mock_otu_num <- read_tsv("../data/process/zymo_mock_only.shared") %>% 
+  select(numOtus)
+
 
 # Read in mock sample number of OTU results
 mock_anova_summary <- as.data.frame(read_csv("../data/process/tables/mock_overall_anova_results.csv"))
@@ -50,6 +80,16 @@ dunn_chimera_prev <- read_csv("../data/process/tables/mock_chimera_overall_dunn_
 bray_sim_to_prev_cycle_kruskal_results <- as.data.frame(read_csv("../data/process/tables/bray_sim_to_prev_cycle_kruskal_results.csv"))
 bray_permanova_by_taq_results <- as.data.frame(read_csv("../data/process/tables/bray_permanova_by_taq_results.csv"))
 
+# Read in actual error data
+error_data <- read_csv("../data/process/tables/mock_chimera_error_summary.csv") %>% 
+                       filter(total_seqs >= 1000)
+
+error_summary <- error_data %>% 
+  group_by(taq, cycles) %>% 
+  summarise_at(vars(mean_error, chimera_prevalence, seq_error_prevalence), funs(median, min, max)) %>% 
+  select(taq, cycles, contains("chimera"), contains("mean_error"), contains("seq_error"))
+  
+
 # Vector of sub samples used
 sub_sample_level <- c("1000", "5000", "10000")
 
@@ -60,11 +100,14 @@ mock_dist_data <- sapply(sub_sample_level,
                     function(x) as.data.frame(read_csv(paste("../data/process/tables/mock_bray_5_cycle_dist_", 
                                                x, "_data.csv", sep = ""))), simplify = F)
 
+# Read in the regression data
+r2_table <- read_csv("../data/process/tables/r2_otu_vs_chimera_summary.csv")
+
 ```
 
 
 
-# High Fidelity DNA Polymerase Introduces Bias into 16S rRNA Gene Sequencing Results
+# Error Introduced into 16S rRNA Gene Sequencing Results Varies by High Fidelity DNA Polymerase Used
 
 \begin{center}
 \vspace{25mm}
@@ -97,9 +140,9 @@ Co-author e-mails:
 
 **Methods.** We extracted DNA from fecal samples (n=4) using a PowerMag DNA extraction kit with a 10 minute bead beating step and amplified at 15, 20, 25, 30, and 35 cycles using Accuprime, Kappa, Phusion, Platinum, or Q5 HiFi DNA polymerase. Amplification of mock communities (technical replicates n=4) consisting of previously isolated whole genomes of 8 different bacteria used the same approach. The analysis initially examined the number of Operational Taxonomic Units (OTUs) for fecal samples and mock communities. It also assessed polymerase dependent differences in the Bray-Curtis index, error rate, sequence error prevalence, chimera prevalence, and chimera prevalence correlation with the number of OTUs. 
 
-**Results.** When analyzing fecal samples we observed a different number of OTUs between HiFi DNA polymerases at 35 cycles (P-value `r ifelse(max(filter(fs_anova_summary, cycle == "35x")[, "bh"]) < 0.0001, invisible("<"), invisible("check data"))` 0.0001). Our analysis identified these polymerase dependent differences in the number of OTUs as early as 20 cycles in mock communities (P-value = `r format(filter(mock_anova_summary, sub_sample_level == 1000, cycle == "20x")[, "bh"], digits = 1, nsmall = 1)`). Chimera prevalence varied by  polymerase and this variation persisted after chimera removal using VSEARCH. We also observed positive correlations between chimera prevalence and the number of OTUs.   
+**Results.** When analyzing fecal samples we observed that the range in the number of OTUs detected was not consistent between HiFi DNA polymerases at 35 cycles (Accuprime = `r filter(fecal_numOTU_data, cycles == "35x", taq == "Accuprime") %>% pull(taq_min)` - `r filter(fecal_numOTU_data, cycles == "35x", taq == "Accuprime") %>% pull(taq_max)` (min - max) versus Phusion = `r filter(fecal_numOTU_data, cycles == "35x", taq == "Phusion") %>% pull(taq_min)` - `r filter(fecal_numOTU_data, cycles == "35x", taq == "Phusion") %>% pull(taq_max)`). Additionally, the median number of OTUs vaired by HiFi DNA polymerase used (P-value `r ifelse(max(filter(fs_anova_summary, cycle == "35x")[, "bh"]) < 0.0001, invisible("<"), invisible("check data"))` 0.0001). Variations in the number of OTUs detected by DNA polymerase was observable as early as 20 cycles in mock communities (P-value = `r format(filter(mock_anova_summary, sub_sample_level == 1000, cycle == "20x")[, "bh"], digits = 1, nsmall = 1)`). There also was a large range in the number of OTUs by HiFi DNA polymerase at 35 cycles (Accuprime = `r filter(mock_num_otu_data, cycles == "35x", taq == "Accuprime") %>% pull(taq_min)` - `r filter(mock_num_otu_data, cycles == "35x", taq == "Accuprime") %>% pull(taq_max)` versus Phusion = `r filter(mock_num_otu_data, cycles == "35x", taq == "Phusion") %>% pull(taq_min)` - `r filter(mock_num_otu_data, cycles == "35x", taq == "Phusion") %>% pull(taq_max)`). Chimera prevalence in mock communities varied by polymerase with differences being most notable at 35 cycles (Kappa = `r round((filter(error_summary, cycles == "35x", taq == "K") %>% pull(chimera_prevalence_median))*100, digits = 2)`% (median) versus Platinum = `r round((filter(error_summary, cycles == "35x", taq == "PL") %>% pull(chimera_prevalence_median))*100, digits = 2)`%) and this variation persisted after chimera removal using VSEARCH. We also observed positive correlations between chimera prevalence and the number of OTUs with Platinum having the highest (R^2 = `r max(pull(r2_table, r2))`) and Kappa having the worse (R^2 = `r min(pull(r2_table, r2))`).   
 
-**Conclusions.** HiFi DNA polymerase dependent differences in the number of OTUs and chimera prevalence makes comparison across studies difficult. Care should be exercised when choosing the polymerase and number of cycles to be used in 16S rRNA gene sequencing studies. 
+**Conclusions.** Although the variation in the number of OTUs observed in fecal samples could be due to certain polymerases capturing the biological variability better than others, this is unlikely to be the main reason for this difference. In mock community samples, the divergence in the number of OTUs between the polymerases which can be explained by chimera prevalence suggests that this is the main reason for differences between the polymerases. Ultimately, this variation makes comparison across studies difficult and care should be exercised when choosing the polymerase and number of cycles to be used in 16S rRNA gene sequencing studies. 
 
 
 \newpage

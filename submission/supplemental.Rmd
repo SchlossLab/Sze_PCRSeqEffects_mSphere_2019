@@ -11,7 +11,7 @@ geometry: margin=1.0in
 bibliography: null
 ---
 
-# The Influence of Different High Fidelity DNA Polymerase on 16S rRNA Sequencing
+# Error Introduced into 16S rRNA Gene Sequencing Results Varies by High Fidelity DNA Polymerase Used
 
 \vspace{10mm}
 
