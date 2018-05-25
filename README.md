@@ -1,4 +1,4 @@
-## The Influence of High Fidelity DNA Polymerase on 16S rRNA Gene Sequencing
+## Error Introduced into 16S rRNA Gene Sequencing Results Varies by High Fidelity DNA Polymerase Used
 
 **Background.** Bias is introduced at different stages of the 16S rRNA gene sequencing workflow. Although the number of cycles and high fidelity (HiFi) DNA polymerase are studied less often, they are still important sources of bias in this workflow. Here, we examine how both cycle number and polymerase can change the bacterial community and introduce both error and bias to the final obtained results.
 
