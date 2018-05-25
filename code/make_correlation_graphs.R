@@ -189,8 +189,23 @@ mock_error <- combined_list %>% filter(pipeline == "mock_error") %>%
 ###########################################################################################################################
 
 
-
+# Write out figure
 ggsave("results/figures/Figure6.pdf", mock_error, width = 8, height = 8, dpi = 300)
+
+# Write out regression data
+regression_table <- df_m_error %>% separate(eq, c("eq", "r2", "x1", "x2", "x3")) %>% 
+  select(taq, x3) %>% 
+  rename(r2 = x3) %>% 
+  mutate(r2 = as.numeric(r2), 
+         r2 = case_when(r2 < 100 ~ r2*10, 
+                        TRUE ~ r2), 
+         r2 = r2/1000, 
+         taq = as.character(taq))
+
+write_csv(regression_table, "data/process/tables/r2_otu_vs_chimera_summary.csv")
+
+
+
 
 
 
