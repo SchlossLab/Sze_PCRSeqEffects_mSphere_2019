@@ -36,60 +36,44 @@ read_data <- function(pathing, start_name, end_name, differentiator){
 ###########################################################################################################################
 
 # Vector of sub samples used
-sub_sample_level <- c("1000", "5000", "10000")
-
-dist_data <- sapply(sub_sample_level, 
-                    function(x) read_csv(paste("data/process/tables/bray_5_cycle_dist_", 
-                                               x, "_data.csv", sep = "")) %>% 
-                      mutate(depth_level = as.numeric(x)), simplify = F) %>% bind_rows() %>% 
-  filter(taq != "K") %>% 
+dist_data <- read_csv("data/process/tables/bray_5_cycle_dist_1000_data.csv") %>% 
+  filter(cycle_compare != "25to35") %>% 
   mutate(taq = factor(taq, 
-                      levels = c("ACC", "PHU", "PL", "Q5"), 
-                      labels = c("Accuprime", "Phusion", "Platinum", "Q5")), 
+                      levels = c("ACC", "K", "PHU", "PL", "Q5"), 
+                      labels = c("Accuprime", "Kappa", "Phusion", "Platinum", "Q5")),
          cycle_compare = factor(cycle_compare, 
                                 levels = c("15to20", "20to25", "25to30", "30to35"), 
                                 labels = c("15x vs 20x", "20x vs 25x", 
                                            "25x vs 30x", "30x vs 35x"))) %>% 
-  group_by(taq, depth_level, cycle_compare) %>% 
+  group_by(taq, cycle_compare) %>% 
   summarise(mean_dist = median(distance, na.rm = T), 
             max_dist = max(distance, na.rm = T), 
             min_dist = min(distance, na.rm = T))
 
 
-
-mock_dist_data <- sapply(sub_sample_level, 
-                    function(x) read_csv(paste("data/process/tables/mock_bray_5_cycle_dist_", 
-                                               x, "_data.csv", sep = "")) %>% 
-                      mutate(depth_level = as.numeric(x)), simplify = F) %>% bind_rows() %>% 
-  filter(taq != "K") %>% 
+mock_dist_data <- read_csv("data/process/tables/mock_bray_5_cycle_dist_1000_data.csv") %>%  
+  filter(!is.na(distance), cycle_compare != "25to35") %>% 
   mutate(taq = factor(taq, 
-                      levels = c("ACC", "PHU", "PL", "Q5"), 
-                      labels = c("Accuprime", "Phusion", "Platinum", "Q5")), 
+                      levels = c("ACC", "K", "PHU", "PL", "Q5"), 
+                      labels = c("Accuprime", "Kappa", "Phusion", "Platinum", "Q5")), 
          cycle_compare = factor(cycle_compare, 
                                 levels = c("15to20", "20to25", "25to30", "30to35"), 
                                 labels = c("15x vs 20x", "20x vs 25x", 
                                            "25x vs 30x", "30x vs 35x"))) %>% 
-  group_by(taq, depth_level, cycle_compare) %>% 
+  group_by(taq, cycle_compare) %>% 
   summarise(mean_dist = median(distance, na.rm = T), 
             max_dist = max(distance, na.rm = T), 
             min_dist = min(distance, na.rm = T))
-
-ann_text <- data.frame(cycle_compare = 2.2, distance = 0.95, lab = "Sub-Sampled", 
-                       taq = factor("ACC", levels = c("ACC", "PHU", "PL", "Q5"), 
-                                    labels = c("Accuprime", "Phusion", "Platinum", "Q5")))
-
-
 
 fecal_graph <- dist_data %>% 
-  filter(!is.na(cycle_compare), depth_level == 1000) %>% 
   ggplot(aes(cycle_compare, mean_dist, color = taq, group = taq)) + 
   geom_pointrange(aes(ymin = min_dist, ymax = max_dist), size = 0.4, show.legend = T, position = position_dodge(width = 0.8)) + 
-  geom_vline(xintercept=seq(1.5, length(unique(dist_data$taq))-0.5, 1), 
+  geom_vline(xintercept=seq(1.5, length(unique(dist_data$taq))-1.5, 1), 
              lwd=1, colour="gray") + 
   scale_color_manual(name = "HiFi DNA Polymerase", 
-                     values = c("#440154FF", "#21908CFF", "#5DC863FF", "#FDE725FF")) + 
+                     values = c("#440154FF", "#3B528BFF", "#21908CFF", "#5DC863FF", "#FDE725FF")) + 
   theme_bw() +  coord_cartesian(ylim = c(0, 1)) + ggtitle("A") + 
-  labs(x = "Cycle Comparison", y = "Bray Curtis Index") + 
+  labs(x = "Cycle Comparison", y = "Bray-Curtis Index") + 
   annotate("text", label = paste("Fecal Data"), x = 4.3, y = 1.0, size = 3.5) + 
   theme(plot.title = element_text(face="bold", hjust = -0.07, size = 20), 
         panel.grid.major = element_blank(), 
@@ -104,15 +88,14 @@ fecal_graph <- dist_data %>%
 
 
 mock_graph <- mock_dist_data %>% 
-  filter(!is.na(cycle_compare), depth_level == 1000) %>% 
   ggplot(aes(cycle_compare, mean_dist, color = taq, group = taq)) + 
   geom_pointrange(aes(ymin = min_dist, ymax = max_dist), size = 0.4, show.legend = T, position = position_dodge(width = 0.8)) + 
-  geom_vline(xintercept=seq(1.5, length(unique(mock_dist_data$depth_level))-0.5, 1), 
+  geom_vline(xintercept=seq(1.5, length(unique(mock_dist_data$taq))-2.5, 1), 
              lwd=1, colour="gray") + 
   scale_color_manual(name = "HiFi DNA Polymerase", 
-                     values = c("#440154FF", "#21908CFF", "#5DC863FF", "#FDE725FF")) + 
+                     values = c("#440154FF", "#3B528BFF", "#21908CFF", "#5DC863FF", "#FDE725FF")) + 
   theme_bw() +  coord_cartesian(ylim = c(0, 1)) + ggtitle("B") + 
-  labs(x = "Cycle Comparison", y = "Bray Curtis Index") + 
+  labs(x = "Cycle Comparison", y = "Bray-Curtis Index") + 
   annotate("text", label = paste("Mock Data"), x = 3.35, y = 1.0, size = 3.5) + 
   theme(plot.title = element_text(face="bold", hjust = -0.07, size = 20), 
         panel.grid.major = element_blank(), 
