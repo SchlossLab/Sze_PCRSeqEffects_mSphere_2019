@@ -211,12 +211,11 @@ studies use the same PCR approach while varying preservation or
 extraction method, the contribution of PCR bias to this overall workflow
 is not well characterized.
 
-There is a large body of literature that shows there are different
-biases within each of the steps in the PCR stage of 16S rRNA gene
-sequencing. One source of error is from primers chosen for the 16S rRNA
-gene sequencing. There are variable region dependent binding affinities
-for different bacteria, and depending on the primer pair used they do
-not detect specific bacteria (e.g.~V1-V3 does not detect
+There is a large body of literature that shows there are biases due to
+primer and number of cycles chosen for the PCR stage of 16S rRNA gene
+sequencing (Eckert \& Kunkel, 1991; Burkardt, 2000). Primers have
+variable region dependent binding affinities which causes an inability
+to detect specific bacteria (e.g.~V1-V3 does not detect
 \emph{Haemophilus influenzae} and V3-V5 does not detect
 \emph{Propionibacterium acnes}) (Sze et al., 2015 (Table S4); Meisel et
 al., 2016). Another source of error is the selective amplification of
@@ -260,14 +259,14 @@ fidelity DNA polymerases
 
 \subsection{Materials \& Methods}\label{materials-methods}
 
-\textbf{\emph{Human and Mock Samples:}} A single fecal sample was
-obtained from 4 individuals who were part of the Enterics Research
-Investigational Network (ERIN). The processing and storage of these
-samples were previously published (Seekatz et al., 2016). Other than
-confirmation that none of these individuals had a \emph{Clostridium
-difficle} infection, clinical data and other types of meta data were not
-utilized or accessed for this study. All samples were extracted using
-the MOBIO\textsuperscript{TM} PowerMag Microbiome RNA/DNA extraction kit
+\textbf{\emph{Human and Mock Samples:}} Fecal samples were obtained from
+4 individuals who were part of the Enterics Research Investigational
+Network (ERIN). The processing and storage of these samples were
+previously published (Seekatz et al., 2016). Other than confirmation
+that none of these individuals had a \emph{Clostridium difficle}
+infection, clinical data and other types of meta data were not utilized
+or accessed for this study. All samples were extracted using the
+MOBIO\textsuperscript{TM} PowerMag Microbiome RNA/DNA extraction kit
 (now Qiagen, MD, USA). The ZymoBIOMICS\textsuperscript{TM} Microbial
 Community DNA Standard (Zymo, CA, USA) was used for mock communities and
 was made up of \emph{Pseudomonas aeruginosa}, \emph{Escherichia coli},
@@ -281,18 +280,19 @@ genomic DNA abundance
 polymerases (hereto referred to as polymerases) that were tested
 included AccuPrime\textsuperscript{TM} (ThermoFisher, MA, USA), KAPA
 HIFI (Roche, IN, USA), Phusion (ThermoFisher, MA, USA), Platinum
-(ThermoFisher, MA, USA), and Q5 (New England Biolabs, MA, USA). The PCR
-cycle conditions for Platinum and Accuprime followed a previously
-published protocol (Kozich et al., 2013)
+(ThermoFisher, MA, USA), and Q5 (New England Biolabs, MA, USA). The
+polymerases activation time was 2 minutes, unless a different activation
+was specified by the manufacturer. The annealing and extension time for
+Platinum and Accuprime followed a previously published protocol (Kozich
+et al., 2013)
 (\url{https://github.com/SchlossLab/MiSeq_WetLab_SOP/blob/master/MiSeq_WetLab_SOP_v4.md}).
-The polymerases activation time was 2 minutes, unless a different
-activation was specified. For Kappa and Q5, a previously published
-protocol was used (Gohl et al., 2016). For Phusion, the company defined
-conditions were used except for extension time, where the Accuprime and
-Platinum settings were used.
+For Kappa and Q5, the annealing and extension time were from a
+previously published protocol (Gohl et al., 2016). For Phusion, the
+company defined activation and annealing times were used while the
+extension time followed the Accuprime and Platinum settings.
 
-The cycle conditions for both fecal and mock samples started at 15 and
-increased by 5 up to 35 cycles with amplicons used at each 5-step
+The number of cycles in the PCR for fecal and mock samples started at 15
+and increased by 5 up to 35 cycles, with amplicons used at each 5-step
 increase for sequencing. The PCR of fecal DNA samples consisted of all 4
 samples at 15, 20, 25, 30, and 35 cycles for each polymerase (total
 sample n=100). The mock communities had 4 replicates at 15, 20, 25, and
@@ -308,20 +308,22 @@ from the published protocol were the use of VSEARCH instead of UCHIME
 for chimera detection and the use of the OptiClust algorithm instead of
 average neighbor for OTU generation at 97\% similarity (Edgar et al.,
 2011; Rognes et al., 2016; Westcott \& Schloss, 2017). Sequence error
-was determined using the `seq.error' command on mock samples (Schloss et
-al., 2009; Cole et al., 2013; Rognes et al., 2016).
+was determined using the `seq.error' command on mock samples to compare
+back to the reference 16S sequences (Schloss et al., 2009; Cole et al.,
+2013; Rognes et al., 2016).
 
-\textbf{\emph{Analysis Workflow:}} All samples were rarefied to 1000
-sequence. The total number of OTUs was analyzed for both the fecal and
-mock community samples. For fecal samples, cycle dependent affects on
-Bray-Curtis indices were assessed for cycle group and within individual
-differences from the previous cycle (e.g.~20 versus 25, 25 versus 30).
-Based on these observations we analyzed potential reasons for these
-differences. Analysis of the mock community of each polymerase for
-sequence error rate, number of sequences with an error, base
-substitution, and numbers of chimeras before and after chimera removal
-with VSEARCH was assessed. Additionally, the correlation between the
-number of chimeras and the number of OTUs was also assessed.
+\textbf{\emph{Analysis Workflow:}} To adjust for unequal sequencing, all
+samples were rarefied to 1000 sequences for downstream analysis. The
+total number of OTUs was analyzed for both the fecal and mock community
+samples. For fecal samples, cycle dependent affects on Bray-Curtis
+indices were assessed for cycle group and within individual differences
+from the previous cycle (e.g.~20 versus 25, 25 versus 30). Based on
+these observations we analyzed potential reasons for these differences.
+Analysis of the mock community of each polymerase for sequence error
+rate, number of sequences with an error, base substitution, and numbers
+of chimeras before and after chimera removal with VSEARCH was assessed.
+Additionally, the correlation between the number of chimeras and the
+number of OTUs was also assessed.
 
 \textbf{\emph{Statistical Analysis:}} All analysis was done with the R
 (v 3.4.4) software package (R Core Team, 2017). Data transformation and
@@ -587,12 +589,22 @@ influencing neuronal proteolysis and gut hormones plasma levels.
 \emph{Scientific Reports} 7. DOI:
 \href{https://doi.org/10.1038/s41598-017-02587-2}{10.1038/s41598-017-02587-2}.
 
+\hypertarget{ref-Burkardt2000}{}
+Burkardt H-J. 2000. Standardization and quality control of PCR analyses.
+\emph{Clinical Chemistry and Laboratory Medicine} 38. DOI:
+\href{https://doi.org/10.1515/cclm.2000.014}{10.1515/cclm.2000.014}.
+
 \hypertarget{ref-rdp_Cole_2013}{}
 Cole JR., Wang Q., Fish JA., Chai B., McGarrell DM., Sun Y., Brown CT.,
 Porras-Alfaro A., Kuske CR., Tiedje JM. 2013. Ribosomal database
 project: Data and tools for high throughput rRNA analysis. \emph{Nucleic
 Acids Research} 42:D633--D642. DOI:
 \href{https://doi.org/10.1093/nar/gkt1244}{10.1093/nar/gkt1244}.
+
+\hypertarget{ref-Eckert1991}{}
+Eckert KA., Kunkel TA. 1991. DNA polymerase fidelity and the polymerase
+chain reaction. \emph{Genome Research} 1:17--24. DOI:
+\href{https://doi.org/10.1101/gr.1.1.17}{10.1101/gr.1.1.17}.
 
 \hypertarget{ref-uchime_Edgar_2011}{}
 Edgar RC., Haas BJ., Clemente JC., Quince C., Knight R. 2011. UCHIME
