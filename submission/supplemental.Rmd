@@ -35,7 +35,7 @@ loadLibs(c("tidyverse", "scales", "knitr", "rmarkdown"))
 ```
 
 
-**Table S1: ANOVA Results of Differences in Number of OTUs between HiFi DNA Polymerases in Fecal and Mock Samples**
+**Table S1: ANOVA results of differences in number of OTUs between polymerases in fecal and mock samples**
 
 ```{r supplemental_table1, echo=FALSE, message=FALSE, warning=FALSE}
 
@@ -62,7 +62,7 @@ kable(fs_anova, format = "markdown", align = 'c', padding = 2)
 \newpage
 
 
-**Table S2: Tukey Post-Hoc Results of Differences in Number of OTUs between HiFi DNA Polymerases in Fecal and Mock Samples**
+**Table S2: Tukey post-hoc results of differences in number of OTUs between polymerases in fecal and mock samples**
 
 ```{r supplemental_table2, echo=FALSE, message=FALSE, warning=FALSE}
 
@@ -97,7 +97,7 @@ kable(fs_tukey, format = "markdown", align = 'c', padding = 2)
 \newpage
 
 
-**Table S3: Kruskal-Wallis Results of Differences in Error Rate, Sequences with an Error, and Chimera Prevalence between HiFi DNA Polymerases in Mock Samples**
+**Table S3: Kruskal-Wallis results of differences in error rate, sequences with an error, and chimera prevalence between polymerases in mock samples**
 
 ```{r supplemental_table5, echo=FALSE, message=FALSE, warning=FALSE}
 
@@ -131,7 +131,7 @@ kable(mock_error_rate_kruskal, format = "markdown", align = 'c', padding = 2)
 \newpage
 
 
-**Table S4: Dunn's Post-Hoc Results of Differences in Error Rate, Sequences with an Error, and Chimera Prevalence between HiFi DNA Polymerases in Mock Samples**
+**Table S4: Dunn's Post-Hoc results of differences in error rate, sequences with an error, and chimera prevalence between polymerases in mock samples**
 
 ```{r supplemental_table6, echo=FALSE, message=FALSE, warning=FALSE}
 
