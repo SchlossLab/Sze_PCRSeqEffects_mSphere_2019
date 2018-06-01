@@ -1,25 +1,18 @@
-## Error Introduced into 16S rRNA Gene Sequencing Results Varies by High Fidelity DNA Polymerase Used
+## Error Introduced into 16S rRNA Gene Sequencing Varies by High Fidelity DNA Polymerase Used
 
 **Background.** It is challenging to compare 16S rRNA gene sequencing data across studies and
 one of the reasons for this is due to error. There are many different places throughout the workflow where error can be introduced into the pipeline. Here, we focus on studying how the number of cycles and high fidelity (HiFi) DNA polymerase introduce error by varying cycle number and polymerase used to amplify 16S rRNA genes in human fecal and mock community samples.
 
 
 
-**Methods.** We extracted DNA from fecal samples (n=4) using a PowerMag DNA extraction kit with a 10 minute bead beating step and amplified at 15, 20, 25, 30, and 35 cycles using Accuprime, Kappa, Phusion, Platinum, or Q5 HiFi DNA polymerase. Amplification of mock communities (technical replicates n=4) consisting of previously isolated whole genomes of 8 different bacteria used the same approach. The analysis initially examined the number of Operational Taxonomic Units (OTUs) for fecal samples and mock communities. It also assessed polymerase dependent differences in the Bray-Curtis index, error rate, sequence error prevalence, chimera prevalence, and the correlation between chimera prevalence and number of OTUs.
+**Methods.** We extracted DNA from fecal samples (n=4) using a PowerMag DNA extraction kit with a 10 minute bead beating step and amplified at 15, 20, 25, 30, and 35 cycles using Accuprime, Kappa, Phusion, Platinum, or Q5 HiFi DNA polymerase. Amplification of mock communities (technical replicates n=4) consisting of previously isolated whole genomes of 8 different bacteria used the same approach. The analysis initially examined the number of Operational Taxonomic Units (OTUs) for fecal samples and mock communities. It also assessed polymerase and number of cylce dependent differences in the Bray-Curtis index, error rate, sequence error prevalence, chimera prevalence, and the correlation between chimera prevalence and number of OTUs.
 
 
 
 **Results.** When analyzing fecal samples we observed that the range in the number of OTUs
-detected was not consistent between HiFi DNA polymerases at 35 cycles (Accuprime = 84 - 106
+detected was not consistent between HiFi DNA polymerases (eg. at 35 cycles Accuprime = 84 - 106
 (min - max) versus Phusion = 84 - 136). Additionally, the median number of OTUs varied by HiFi
-DNA polymerase used (P-value < 0.0001). When analyzing mock community samples the variation
-in the number of OTUs detected by the polymerases was observable as early as 20 cycles (P-value
-= 0.002). There also was a large range in the number of OTUs amplified by the polymerases at 35
-cycles (Accuprime = 15 - 20 versus Phusion = 14 - 73). Chimera prevalence in mock communities
-varied by polymerase with differences being most notable at 35 cycles (Kappa = 5.71% (median)
-versus Platinum = 26.62%) and this variation persisted after chimera removal using VSEARCH.
-We also observed positive correlations between chimera prevalence and the number of OTUs with
-Platinum having the highest (R<sup>2</sup> = 0.974) and Kappa having the worst (R<sup>2</sup> = 0.478).
+DNA polymerase used 35 cycles (P-value < 0.0001). When analyzing mock community samples the variation in the number of OTUs detected by the polymerases was observable as early as 20 cycles (P-value = 0.002). There also was a large range in the number of OTUs amplified by the polymerases at 35 cycles (Accuprime = 15 - 20 versus Phusion = 14 - 73). Chimera prevalence in mock communities varied by polymerase with differences being most notable at 35 cycles (Kappa = 5.71% (median) versus Platinum = 26.62%) and this variation persisted after chimera removal using VSEARCH. We also observed positive correlations between chimera prevalence and the number of OTUs with Platinum having the highest (R<sup>2</sup> = 0.974) and Kappa having the worst (R<sup>2</sup> = 0.478).
 
 
 
