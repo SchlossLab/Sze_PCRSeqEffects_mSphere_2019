@@ -64,7 +64,9 @@ otu_test_data <- combined_shared %>%
   select(cycles, otu, genus, statistic, p.value, bh)
 
   
-
+sig_only <- otu_test_data %>% 
+  filter(bh < 0.05) %>% 
+  arrange(cycles)
 
 
 
