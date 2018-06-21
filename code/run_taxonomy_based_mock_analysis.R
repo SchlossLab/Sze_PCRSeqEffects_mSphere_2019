@@ -5,7 +5,7 @@
 # Load in needed functions and libraries
 source('code/functions.R')
 
-loadLibs(c("tidyverse", "stringr", "viridis", "gridExtra", "caret"))
+loadLibs(c("tidyverse", "stringr", "viridis", "gridExtra", "caret", "dunn.test"))
 
 
 shared <- read_tsv("data/process/all_amp.0.03.subsample.1000.shared")
@@ -66,7 +66,30 @@ otu_test_data <- combined_shared %>%
   
 sig_only <- otu_test_data %>% 
   filter(bh < 0.05) %>% 
-  arrange(cycles)
+  arrange(cycles) %>% 
+  unite(extra_name, cycles, otu, sep = "_")
+
+
+post_hoc_otu_data <- combined_shared %>% 
+  unite(extra_name, cycles, otu, sep = "_") %>% 
+  filter(extra_name %in% pull(sig_only, extra_name)) %>% 
+  group_by(extra_name) %>% 
+  nest() %>% 
+  mutate(dunn_analysis = map(data, ~with(data = .x, expr = as.data.frame.list(dunn.test(abund, factor(taq), method = "bh")))), 
+         summary_data = map(dunn_analysis, broom::tidy)) %>% 
+  select(extra_name, summary_data) %>% 
+  unnest(summary_data)
+  
+
+
+post_hoc_outcome <- as.data.frame.list(dunn.test(tempValues, tempLabels, method = "bh")) %>% 
+  mutate(cycle = cycle_num, sub_sample_level = subsample) %>% 
+  rename(pvalue = P, bh = P.adjusted)
+
+
+
+
+
 
 
 
