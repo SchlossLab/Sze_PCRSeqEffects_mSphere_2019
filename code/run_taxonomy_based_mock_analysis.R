@@ -75,18 +75,26 @@ post_hoc_otu_data <- combined_shared %>%
   filter(extra_name %in% pull(sig_only, extra_name)) %>% 
   group_by(extra_name) %>% 
   nest() %>% 
-  mutate(dunn_analysis = map(data, ~with(data = .x, expr = as.data.frame.list(dunn.test(abund, factor(taq), method = "bh")))), 
-         summary_data = map(dunn_analysis, broom::tidy)) %>% 
+  mutate(dunn_analysis = map(data, ~with(data = .x, expr = t(as.data.frame.list(dunn.test(abund, factor(taq), method = "bh"))))), 
+         summary_data = map(dunn_analysis, broom::tidy)) %>%  
   select(extra_name, summary_data) %>% 
-  unnest(summary_data)
-  
+  unnest(summary_data) %>% 
+  rename(row_names = ".rownames")
 
 
-post_hoc_outcome <- as.data.frame.list(dunn.test(tempValues, tempLabels, method = "bh")) %>% 
-  mutate(cycle = cycle_num, sub_sample_level = subsample) %>% 
-  rename(pvalue = P, bh = P.adjusted)
+test <- post_hoc_otu_data %>% 
+  gather(group, measure_result, X1:X10) %>% 
+  select(-group)
 
+test_ids <- test %>% pull(extra_name)
 
+summary_test_data <- data_frame(
+  chi2 = filter(test, row_names == "chi2") %>% pull(measure_result), 
+  Z = filter(test, row_names == "Z") %>% pull(measure_result), 
+  pvalue = filter(test, row_names == "P") %>% pull(measure_result),
+  bh = filter(test, row_names == "P.adjusted") %>% pull(measure_result), 
+  comparison = filter(test, row_names == "comparisons") %>% pull(measure_result), 
+  extra_name = test_ids[seq(1, length(test_ids), 5)])
 
 
 
