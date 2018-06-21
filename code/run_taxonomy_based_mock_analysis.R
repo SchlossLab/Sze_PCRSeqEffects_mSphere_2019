@@ -49,7 +49,7 @@ combined_shared <- metadata %>%
   inner_join(test_shared, by = c("sample_id" = "Group")) %>% 
   gather(otu, abund, contains("Otu"))
 
-
+# Run the kruskal wallis test for every OTU and cycle number 
 otu_test_data <- combined_shared %>% 
   group_by(cycles, otu) %>% 
   nest() %>% 
@@ -63,13 +63,13 @@ otu_test_data <- combined_shared %>%
   left_join(select(taxonomy, OTU, genus), by = c("otu" = "OTU")) %>% 
   select(cycles, otu, genus, statistic, p.value, bh)
 
-  
+# Pull out only the significant kruskal wallis measures
 sig_only <- otu_test_data %>% 
   filter(bh < 0.05) %>% 
   arrange(cycles) %>% 
   unite(extra_name, cycles, otu, sep = "_")
 
-
+# Use a Dunn's post hoc test to find out which polymerase were different
 post_hoc_otu_data <- combined_shared %>% 
   unite(extra_name, cycles, otu, sep = "_") %>% 
   filter(extra_name %in% pull(sig_only, extra_name)) %>% 
@@ -81,13 +81,14 @@ post_hoc_otu_data <- combined_shared %>%
   unnest(summary_data) %>% 
   rename(row_names = ".rownames")
 
-
+# tidy up the results for easier summary table generation
 test <- post_hoc_otu_data %>% 
   gather(group, measure_result, X1:X10) %>% 
   select(-group)
 
 test_ids <- test %>% pull(extra_name)
 
+# Create an intermediate final summary data table
 summary_test_data <- data_frame(
   chi2 = filter(test, row_names == "chi2") %>% pull(measure_result), 
   Z = filter(test, row_names == "Z") %>% pull(measure_result), 
