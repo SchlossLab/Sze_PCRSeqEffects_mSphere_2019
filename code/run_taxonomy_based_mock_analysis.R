@@ -88,17 +88,31 @@ test <- post_hoc_otu_data %>%
 
 test_ids <- test %>% pull(extra_name)
 
-# Create an intermediate final summary data table
+# Create a final summary data table with only significant differences
 summary_test_data <- data_frame(
   chi2 = filter(test, row_names == "chi2") %>% pull(measure_result), 
   Z = filter(test, row_names == "Z") %>% pull(measure_result), 
   pvalue = filter(test, row_names == "P") %>% pull(measure_result),
   bh = filter(test, row_names == "P.adjusted") %>% pull(measure_result), 
   comparison = filter(test, row_names == "comparisons") %>% pull(measure_result), 
-  extra_name = test_ids[seq(1, length(test_ids), 5)])
+  extra_name = test_ids[seq(1, length(test_ids), 5)]) %>% 
+  filter(bh < 0.05) %>% 
+  separate(extra_name, c("cycles", "otu"), sep = "_") %>% 
+  left_join(select(taxonomy, OTU, genus), by = c("otu" = "OTU")) %>% 
+  mutate(present_in_standard = case_when(
+    genus %in% c("Pseudomonas", "Escherichia/Shigella", "Salmonella", "Lactobacillus", 
+                 "Enterococcus", "Staphylococcus", "Listeria", "Bacillus") ~ "yes", 
+    TRUE ~ "no"))
 
+# Create a file with only the OTUs that are supposed to be in the mock
+mock_members_summary <- summary_test_data %>% 
+  filter(present_in_standard == "yes") %>% 
+  arrange(cycles, otu)
 
+# Write out specific tables
+write_csv(otu_test_data, "data/process/tables/kruskal_otu_polymerase_mock_diffs_summary.csv")
 
+write_csv(mock_members_summary, "data/process/tables/dunns_sig_otu_polymerase_mock_diffs_summary.csv")
 
 
 
