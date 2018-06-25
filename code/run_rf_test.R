@@ -137,6 +137,8 @@ sg_run_summary <- sample_groups$model_results
 
 # Write out the results
 write_csv(sg_imp_vars_summary, "data/process/tables/sample_group_rf_imp_vars_summary.csv")
+write_csv(pg_imp_vars_summary, "data/process/tables/polymerase_group_top10_rf_imp_vars_summary.csv")
+write_csv(cg_imp_vars_summary, "data/process/tables/cycle_group_top10_rf_imp_vars_summary.csv")
 
 write_csv(pg_run_summary, "data/process/tables/polymerase_group_rf_model_summary.csv")
 write_csv(cg_run_summary, "data/process/tables/cycles_group_rf_model_summary.csv")
