@@ -327,6 +327,14 @@ nucleotide_summary_data <- sapply(error_files, function(x) get_nucleotide_summar
   rename(sample_name = sample_name.y) %>% 
   filter(!is.na(sample_name)), simplify = F)
 
+non_summarised_nucleotide_summary_data <- sapply(error_files, 
+                                                 function(x) get_nucleotide_summary_data(full_Recombine[[x]], "full_data") %>% 
+                                    mutate(sample_name.y = ifelse(grepl("Zmock_A_111716", full_name) == T, invisible("A"), 
+                                                                  ifelse(grepl("Zmock_B_", full_name) == T, invisible("B"), 
+                                                                         ifelse(grepl("Zmock_C_", full_name) == T, invisible("C"), 
+                                                                                ifelse(grepl("Zmock_D_", full_name) == T, 
+                                                                                       invisible("D"), invisible(sample_name.y)))))), 
+                                    simplify = F)
 
 #nucleotide_summary_data <- sapply(sub_sample_level, 
 #                            function(x) get_nucleotide_summary_data(full_Recombine, x), simplify = F)
@@ -342,5 +350,6 @@ sapply(c(1:length(nucleotide_summary_data)),
                                    "_summary.csv", sep = "")))
 
 
-
+write_csv(non_summarised_nucleotide_summary_data[["mock_error"]], 
+                             "data/process/tables/non_summarised_nucleotide_mock_error_summary.csv")
 
