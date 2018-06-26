@@ -112,6 +112,6 @@ imp_taxa_graph <- rf_data %>%
 
 test <- grid.arrange(model_graph, imp_taxa_graph, layout_matrix = rbind(c(1, 1, 2, 2, 2)))
 
-ggsave("results/figures/test.pdf", test, width = 11, height = 5, dpi = 300)
+ggsave("results/figures/model_imp_vars_and_class_success.pdf", test, width = 11, height = 5, dpi = 300)
 
              
