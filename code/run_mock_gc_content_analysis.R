@@ -64,7 +64,14 @@ test <- seq_counts_table %>%
 # Write out the table 
 write_csv(test, "data/process/tables/gc_content_amp_summary.csv")
 
-
+# Staph aureus GC content 32.70% (PMID 22815443)
+# Listeria monocytogenes GC content 38.04% (PMID 22689239)
+# Escherichia coli GC content 
+# Salmonella enterica GC content 52.1% (PMID 22461552)
+# Pseudomonas aeruginosa GC content 66.6% (PMID 17038190)
+# Enterococcus faecalis GC content 38% (PMID 22366422)
+# Lactobacillus fermentum GC content 49.7% (PMID 24072868)
+# Bacillus subtilis GC content 43.61% (PMID 23105055)
 
 
 
