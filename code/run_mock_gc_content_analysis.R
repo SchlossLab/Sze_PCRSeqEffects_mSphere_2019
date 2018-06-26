@@ -14,6 +14,7 @@ loadLibs(c("tidyverse", "stringr", "viridis", "gridExtra", "caret", "dunn.test")
 error_summary <- read_tsv("data/process/mock_error.summary")
 
 error_table <- read_tsv("data/process/mock_error.count_table") %>% 
+  select(-contains("30x_ACC_Mock")) %>% 
   gather(sample_id, abund, -Representative_Sequence, -total) %>% 
   separate(sample_id, c("x1", "x2", "x3", "x4", "x5")) %>% 
   filter(is.na(x5) | x3 == "Water") %>% 
