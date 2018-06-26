@@ -45,8 +45,11 @@ error_table <- read_tsv("data/process/mock_error.count_table") %>%
     TRUE ~ "uh oh"))
 
 
-# Reduce down the number of columns
+# Reduce down the number of columns and take only the most abundant from each taxa
 summarized_table <- error_summary %>% 
+  group_by(reference) %>% 
+  filter(weight == max(weight)) %>% 
+  ungroup() %>% 
   select(query, reference, AA, TT, CC, GG, total) %>% 
   mutate(at_percent = (AA + TT)/total * 100, 
          gc_percent = (CC + GG)/total * 100, 
@@ -67,14 +70,16 @@ seq_counts_table <- error_table %>%
             max_abund = max(abund))
   
 test <- seq_counts_table %>% 
-  left_join(select(summarized_table, query, reference, higher_gc), by = c("Representative_Sequence" = "query")) %>% 
+  inner_join(select(summarized_table, query, reference, higher_gc), by = c("Representative_Sequence" = "query")) %>% 
   group_by(higher_gc, cycles, taq) %>% 
   summarise(median_of_median_abund = median(median_abund), 
             iqr25 = quantile(median_abund)["25%"],
             iqr75 = quantile(median_abund)["75%"],
             min_abund = min(median_abund),
             max_abund = max(median_abund))
-  
+
+# Write out the table 
+write_csv(test, "data/process/tables/gc_content_amp_summary.csv")
 
 
 
