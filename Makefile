@@ -195,54 +195,42 @@ code/run_nmds_mock_data.R
 #
 ################################################################################
 
-# Run code to create Figure 1 - Fecal number of OTUs
-$(FIGS)/Figure1.pdf : $(FS_ZSCORE_TABLES)\
-code/make_fecal_numOTU_graphs.R
-	R -e "source('code/make_fecal_numOTU_graphs.R')"
+# GC content figure
+$(FIGS)/Figure1.pdf : $(PROC)/gc_content_amp_summary.csv\
+code/make_gc_content_graph.R
+	R -e "source('code/make_gc_content_graph.R')"
 
+# Run code to create Figure S2, 3, and 4 - Mock Sequences substitution frequency
+$(FIGS)/FigureS1.pdf : $(PROC)/tables/full_nucleotide_error_summary.csv\
+code/make_nucleotide_graphs.R
+	R -e "source('code/make_nucleotide_graphs.R')"
 
-# Run code to create Figure 2 - Mock number of OTUs
-$(FIGS)/Figure2.pdf : $(M_COUNT_TABLES)\
-code/make_numOTU_graphs.R
-	R -e "source('code/make_numOTU_graphs.R')"
+# General Error graph
+$(FIGS)/Figure2.pdf : $(M_ERROR_COUNT_TABLES) $(M_ERROR_COUNT_TABLES)\
+$(M_ERROR_COUNT_TABLES) $(M_COUNT_TABLES) code/make_mock_chimera_count_graphs.R\
+code/make_correlation_graphs.R
+	R -e "source('code/make_mock_chimera_count_graphs.R')"
+
+# Number of OTU graph
+$(FIGS)/Figure3.pdf : $(FS_ZSCORE_TABLES) $(M_COUNT_TABLES)\
+code/make_fecal_numOTU_graphs.R code/make_numOTU_graphs.R
+	R -e "('code/make_numOTU_graphs.R')"
 
 
 # Run code to create Figure 3 - Bray-Curtis distance differences by 5 set cycle
-$(FIGS)/Figure3.pdf : $(M_BC_5_TABLES) $(FS_BC_5_TABLES)\
+$(FIGS)/Figure4.pdf : $(M_BC_5_TABLES) $(FS_BC_5_TABLES)\
 code/make_bray_distance_graphs.R
 	R -e "source('code/make_bray_distance_graphs.R')"
 
-# Run code to create Figure 4 - Mock Sequence Error Rate
-$(FIGS)/Figure4.pdf : $(M_ERROR_COUNT_TABLES)\
-code/make_mock_error_graphs.R
-	R -e "source('code/make_mock_error_graphs.R')"
+# RF model classification for samples, cycles, and polymerase
+$(FIGS)/Figure5.pdf : $(PROC)/tables/sample_group_rf_imp_vars_summary.csv\
+$(PROC)/tables/polymerase_group_top10_rf_imp_vars_summary.csv\
+$(PROC)/tables/cycle_group_top10_rf_imp_vars_summary.csv\
+$(PROC)/sample_group_rf_model_summary.csv $(PROC)/polymerase_group_rf_model_summary.csv\
+$(PROC)/cycles_group_rf_model_summary.csv $(PROC)/polymerase_group_mock_rf_model_summary.csv\
+$(PROC)/cycles_group_mock_rf_model_summary.csv
+	R -e "source('code/make_rf_fecal_imp_vars.graph.R')"
 
-
-
-# Run code to create Figure 5 - Mock Chimera Frequency
-$(FIGS)/Figure5.pdf : $(M_ERROR_COUNT_TABLES)\
-code/make_mock_chimera_count_graphs.R
-	R -e "source('code/make_mock_chimera_count_graphs.R')"
-
-
-# Run code to create Figure 6 - Mock Chimera versus Numberof OTUs
-$(FIGS)/Figure6.pdf : $(M_ERROR_COUNT_TABLES)\
-$(M_COUNT_TABLES) code/make_correlation_graphs.R
-	R -e "source('code/make_correlation_graphs.R')"
-
-
-# Run code to create Figure S1 - Mock Sequences with Error
-$(FIGS)/FigureS1.pdf : $(M_ERROR_COUNT_TABLES)\
-code/make_mock_seq_error_count_graphs.R
-	R -e "source('code/make_mock_seq_error_count_graphs.R')"
-
-
-# Run code to create Figure S2, 3, and 4 - Mock Sequences substitution frequency
-$(FIGS)/FigureS2.pdf\
-$(FIGS)/FigureS3.pdf\
-$(FIGS)/FigureS4.pdf : $(M_NUC_TABLES)\
-code/make_nucleotide_graphs.R
-	R -e "source('code/make_nucleotide_graphs.R')"
 
 
 ################################################################################
