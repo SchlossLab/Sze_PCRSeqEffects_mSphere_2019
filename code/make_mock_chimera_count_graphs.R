@@ -4,6 +4,7 @@
 
 # Load in needed functions and libraries
 source('code/functions.R')
+source('code/make_correlation_graphs.R')
 
 loadLibs(c("tidyverse", "stringr", "viridis", "gridExtra"))
 
@@ -39,6 +40,40 @@ error_data <- sapply(error_files, function(x) read_csv(paste("data/process/table
 
 
 # Generate graph of Mock DNA samples 
+error_full_pipeline <- error_data[["mock_error"]] %>% 
+  filter(total_seqs >= 1000) %>% 
+  mutate(taq = factor(taq, 
+                      levels = c("ACC", "K", "PHU", "PL", "Q5"), 
+                      labels = c("Accuprime", "Kappa", "Phusion", "Platinum", "Q5"))) %>% 
+  group_by(taq, cycles) %>% 
+  summarise(group_median = median(mean_error), group_iqr25 = quantile(mean_error)["25%"], 
+            group_iqr75 = quantile(mean_error)["75%"]) %>% 
+  ggplot(aes(cycles, group_median, color = taq, group = taq)) + 
+  geom_line(show.legend = F) + 
+  geom_errorbar(aes(ymin=group_iqr25, 
+                    ymax=group_iqr75), show.legend = F, 
+                width = 0.1, size = 0.5, alpha = 0.4) + 
+  geom_point(size = 2, alpha = 0.7, show.legend = F) + 
+  theme_bw() + 
+  scale_color_manual(name = "Taq Used", 
+                     values = c("#440154FF", "#3B528BFF", "#21908CFF", "#5DC863FF", "#FDE725FF")) + 
+  labs(x = "Number of Cycles", y = "Median Error Rate") + 
+  coord_cartesian(ylim = c(0, 0.015)) + 
+  ggtitle("A") + 
+  annotate("text", label = paste("Mock Data"), x = 2.5, y = 0.015, size = 3.5) + 
+  theme(plot.title = element_text(face="bold", hjust = -0.07, size = 20), 
+        panel.grid.major = element_blank(), 
+        panel.grid.minor = element_blank(), 
+        axis.text.y = element_text(size = 10), 
+        legend.position = c(0.8, 0.8), 
+        legend.title = element_blank(), 
+        legend.key = element_blank(), 
+        legend.background = element_rect(color = "black"))
+
+
+
+
+# Generate graph of Mock DNA samples 
 before_chimera_vsearch <- error_data[["mock_chimera_error"]]  %>% 
   filter(total_seqs >= 1000) %>% 
   mutate(taq = factor(taq, 
@@ -59,8 +94,8 @@ before_chimera_vsearch <- error_data[["mock_chimera_error"]]  %>%
   labs(x = "Number of Cycles", y = "Chimeric Sequences") + 
   coord_cartesian(ylim = c(0, 0.30)) + 
   scale_y_continuous(labels = scales::percent) + 
-  ggtitle("A") + 
-  annotate("text", label = paste("Mock Data\nWithout VSEARCH"), x = 2.5, y = 0.3, size = 3.5) + 
+  ggtitle("B") + 
+  annotate("text", label = paste("Mock Data\nWithout VSEARCH"), x = 2.5, y = 0.29, size = 3.5) + 
   theme(plot.title = element_text(face="bold", hjust = -0.07, size = 20), 
         panel.grid.major = element_blank(), 
         panel.grid.minor = element_blank(), 
@@ -91,8 +126,8 @@ full_pipeline <- error_data[["mock_error"]]  %>%
   labs(x = "Number of Cycles", y = "Chimeric Sequences") + 
   coord_cartesian(ylim = c(0, 0.30)) + 
   scale_y_continuous(labels = scales::percent) + 
-  ggtitle("B") + 
-  annotate("text", label = paste("Mock Data\nWith VSEARCH"), x = 2.5, y = 0.3, size = 3.5) + 
+  ggtitle("C") + 
+  annotate("text", label = paste("Mock Data\nWith VSEARCH"), x = 2.5, y = 0.29, size = 3.5) + 
   theme(plot.title = element_text(face="bold", hjust = -0.07, size = 20), 
         panel.grid.major = element_blank(), 
         panel.grid.minor = element_blank(), 
@@ -129,23 +164,28 @@ removal_rate <- change_data %>%
   geom_point(size = 2, alpha = 0.7, show.legend = T) + 
   theme_bw() + 
   scale_color_manual(name = "Taq Used", 
-                     values = c("#440154FF", "#3B528BFF", "#21908CFF", "#5DC863FF", "#FDE725FF")) + 
+                     values = c("#440154FF", "#3B528BFF", "#21908CFF", "#5DC863FF", "#FDE725FF"),  
+                     guide = guide_legend(nrow = 2)) + 
   labs(x = "Number of Cycles", y = "Percent Chimeras Removed") + 
   coord_cartesian(ylim = c(0, 1)) + 
   scale_y_continuous(labels = scales::percent) + 
-  ggtitle("C") + 
+  ggtitle("D") + 
+  annotate("text", label = paste("Mock Data"), x = 2.5, y = 1.0, size = 3.5) + 
   theme(plot.title = element_text(face="bold", hjust = -0.07, size = 20), 
         panel.grid.major = element_blank(), 
         panel.grid.minor = element_blank(), 
         axis.text.y = element_text(size = 10), 
-        legend.position = c(0.8, 0.15), 
+        legend.position = c(0.60, 0.10), 
         legend.title = element_blank(), 
         legend.key = element_blank(), 
-        legend.background = element_rect(color = "black"))
+        legend.background = element_rect(color = "black"), 
+        legend.text = element_text(size = 6.5), 
+        legend.key.size =  unit(0.10, "in"))
 
 
 
-combined_graph <- grid.arrange(before_chimera_vsearch, full_pipeline, removal_rate, ncol = 3)
+combined_graph <- grid.arrange(error_full_pipeline, before_chimera_vsearch, full_pipeline, removal_rate,  
+                               mock_error, layout_matrix = rbind(c(1, 2, 3, 4), c(5, 5, 5, 5)))
 
-ggsave("results/figures/Figure5.pdf", combined_graph, width = 11, height = 7, dpi = 300)
+ggsave("results/figures/Figure2.pdf", combined_graph, width = 11, height = 8.5, dpi = 300)
 

@@ -33,7 +33,7 @@ gc_graph <- summary_data %>%
         panel.grid.major = element_blank(), 
         panel.grid.minor = element_blank())
 
-ggsave("results/figures/gc_content_graph.pdf", gc_graph, width = 6, height = 4.5, dpi = 300)
+ggsave("results/figures/Figure1.pdf", gc_graph, width = 6, height = 4.5, dpi = 300)
 
 
 

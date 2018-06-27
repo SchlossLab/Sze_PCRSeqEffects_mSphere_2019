@@ -5,6 +5,8 @@
 # Load in needed functions and libraries
 source('code/functions.R')
 
+source('code/make_fecal_numOTU_graphs.R')
+
 loadLibs(c("tidyverse", "stringr", "viridis", "gridExtra"))
 
 
@@ -61,7 +63,7 @@ ref_otu_num <- read_tsv("data/process/zymo_mock_only.shared") %>%
 thousand_graph <- summary_data %>% filter(depth_level == 1000) %>% 
   ggplot(aes(cycles, taq_mean, color = taq, group = taq)) + 
   geom_pointrange(aes(ymin = taq_min, ymax = taq_max), size = 0.4, alpha = 0.9, show.legend = T, position = position_dodge(width = 0.8)) +
-  geom_vline(xintercept=seq(1.5, length(unique(summary_data$depth_level))-0.5, 1), 
+  geom_vline(xintercept=seq(1.5, length(unique(summary_data$depth_level))-2.5, 1), 
              lwd=1, colour="gray") + 
   geom_hline(yintercept = log2(ref_otu_num$numOtus), linetype = "dashed", size = 1) + 
   theme_bw() + 
@@ -69,6 +71,7 @@ thousand_graph <- summary_data %>% filter(depth_level == 1000) %>%
                      values = c("#440154FF", "#3B528BFF", "#21908CFF", "#5DC863FF", "#FDE725FF")) + 
   labs(x = "Number of Cycles", y = "Number of OTUs") + 
   coord_cartesian(ylim = c(0, 70)) + 
+  ggtitle("A") + 
   annotate("text", label = paste("Mock Data"), x = 0.8, y = 70, size = 3.5) + 
   theme(plot.title = element_text(face="bold", hjust = -0.07, size = 20), 
         panel.grid.major = element_blank(), 
@@ -80,7 +83,9 @@ thousand_graph <- summary_data %>% filter(depth_level == 1000) %>%
         legend.background = element_rect(color = "black"))
 
 
-ggsave("results/figures/Figure2.pdf", thousand_graph, width = 6, height = 5, dpi = 300)
+combined_graph <- grid.arrange(thousand_graph, fecal_samples, layout_matrix = cbind(c(1), c(2)))
+
+ggsave("results/figures/Figure3.pdf", combined_graph, width = 11, height = 5, dpi = 300)
 
 
 

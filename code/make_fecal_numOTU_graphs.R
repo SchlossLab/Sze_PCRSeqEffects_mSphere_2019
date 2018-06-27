@@ -66,7 +66,7 @@ fecal_samples <- summary_data %>%
   geom_pointrange(aes(ymin = taq_min, ymax = taq_max), size = 0.4, alpha = 0.9, show.legend = T, position = position_dodge(width = 0.8)) + 
   geom_vline(xintercept=seq(1.5, length(unique(summary_data$depth_level))-0.5, 1), 
              lwd=1, colour="gray") + 
-  theme_bw() + coord_cartesian(ylim = c(0, 150)) + 
+  theme_bw() + coord_cartesian(ylim = c(0, 150)) + ggtitle("B") + 
   scale_color_manual(name = "HiFi DNA Polymerase", 
                      values = c("#440154FF", "#3B528BFF", "#21908CFF", "#5DC863FF", "#FDE725FF")) + 
   labs(x = "Number of Cycles", y = "Number of OTUs") + 
@@ -83,4 +83,4 @@ fecal_samples <- summary_data %>%
   
   
 
-ggsave("results/figures/Figure1.pdf", fecal_samples, width = 6, height = 5, dpi = 300)
+#ggsave("results/figures/Figure1.pdf", fecal_samples, width = 6, height = 5, dpi = 300)

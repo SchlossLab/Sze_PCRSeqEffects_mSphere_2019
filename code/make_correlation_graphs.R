@@ -168,19 +168,19 @@ mock_error <- combined_list %>% filter(pipeline == "mock_error") %>%
   ggplot(aes(chimera_prevalence*100, total_otus, color = cycles.x, group = taq)) + 
   geom_smooth(size = 1, method = "lm", se = FALSE, color = "black") + 
   geom_point(size = 2, alpha = 0.7) + theme_bw() + 
-  facet_grid(taq ~.) + 
+  facet_grid(~taq) + ggtitle("E") + 
   scale_color_manual(name = "Cycle Number", 
                      values = c("#0000FF", "#00C957", "#CD8500", "#FF1493"), 
                      guide = guide_legend(ncol = 2, nrow = 2)) + 
   labs(x = "Mock Community Chimera Sequence Prevalence (%)", y = "Mock Community Number of OTUs") + 
-  geom_text(data = df_m_error, aes(x = 0.5, y = 450, label = eq), 
+  geom_text(data = df_m_error, aes(x = 1.5, y = 450, label = eq), 
             color = 'black',  parse = TRUE) + 
   coord_cartesian(ylim = c(0, 500)) + scale_x_continuous(limits = c(0, 10)) + 
-  theme(plot.title = element_text(face="bold", hjust = -0.07, size = 20), 
+  theme(plot.title = element_text(face="bold", hjust = -0.04, size = 20), 
         panel.grid.major = element_blank(), 
         panel.grid.minor = element_blank(), 
         axis.text.y = element_text(size = 10), 
-        legend.position = c(0.8, 0.1), 
+        legend.position = c(0.94, 0.2), 
         legend.key = element_blank(), 
         legend.background = element_rect(color = "black"))
 
@@ -190,7 +190,7 @@ mock_error <- combined_list %>% filter(pipeline == "mock_error") %>%
 
 
 # Write out figure
-ggsave("results/figures/Figure6.pdf", mock_error, width = 8, height = 8, dpi = 300)
+#ggsave("results/figures/Figure6.pdf", mock_error, width = 8, height = 8, dpi = 300)
 
 # Write out regression data
 regression_table <- df_m_error %>% separate(eq, c("eq", "r2", "x1", "x2", "x3")) %>% 

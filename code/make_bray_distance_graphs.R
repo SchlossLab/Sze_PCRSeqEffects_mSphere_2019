@@ -110,4 +110,4 @@ mock_graph <- mock_dist_data %>%
 
 combined_graph <- grid.arrange(fecal_graph, mock_graph, ncol = 1, nrow = 2)
 
-ggsave("results/figures/Figure3.pdf", combined_graph, width = 6, height = 6.5, dpi = 300)
+ggsave("results/figures/Figure4.pdf", combined_graph, width = 6, height = 6.5, dpi = 300)
