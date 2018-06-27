@@ -186,6 +186,33 @@ code/run_nmds_mock_data.R
 	 R -e "source('code/run_nmds_mock_data.R')"
 
 
+# Run the RF models for polymerase, cycles, and sample groups
+$(PROC)/tables/sample_group_rf_imp_vars_summary.csv\
+$(PROC)/tables/polymerase_group_top10_rf_imp_vars_summary.csv\
+$(PROC)/tables/cycle_group_top10_rf_imp_vars_summary.csv\
+$(PROC)/tables/polymerase_group_rf_model_summary.csv\
+$(PROC)/tables/cycles_group_rf_model_summary.csv\
+$(PROC)/tables/sample_group_rf_model_summary.csv\
+$(PROC)/tables/polymerase_group_mock_rf_model_summary.csv\
+$(PROC)/tables/cycles_group_mock_rf_model_summary.csv : code/run_rf_mock_test.R\
+code/run_rf_test.R $(PROC)/all_amp.0.03.subsample.1000.shared $(PROC)/all_amp.taxonomy
+	R -e "source('code/run_rf_mock_test.R')"
+	R -e "source('code/run_rf_test.R')"
+
+
+# Run the model testing
+$(PROC)/tables/kruskal_rf_model_test.csv\
+$(PROC)/tables/dunn_rf_model_test_summary.csv : $(PROC)/tables/sample_group_rf_model_summary.csv\
+$(PROC)/tables/polymerase_group_rf_model_summary.csv\
+$(PROC)/tables/cycles_group_rf_model_summary.csv\
+$(PROC)/tables/polymerase_group_mock_rf_model_summary.csv\
+$(PROC)/tables/cycles_group_mock_rf_model_summary.csv code/run_rf_model_probs_test.R
+	R -e "source('code/run_rf_model_probs_test.R')"
+
+
+
+
+
 
 ################################################################################
 #
