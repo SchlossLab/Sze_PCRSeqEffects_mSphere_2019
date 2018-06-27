@@ -209,8 +209,25 @@ $(PROC)/tables/polymerase_group_mock_rf_model_summary.csv\
 $(PROC)/tables/cycles_group_mock_rf_model_summary.csv code/run_rf_model_probs_test.R
 	R -e "source('code/run_rf_model_probs_test.R')"
 
+# Run the GC content analysis
+$(PROC)/tables/gc_content_amp_summary.csv\
+$(PROC)/tables/gc_content_whole_genome_amp_summary.csv\
+$(PROC)/tables/v4_gc_wilcox_test_summary.csv\
+$(PROC)/tables/whole_genome_gc_wilcox_test_summary.csv : $(PROC)/mock_error.summary\
+$(PROC)/tables/non-summarised_nucleotide_mock_error_summary.csv.gz\
+code/run_mock_gc_content_analysis.R
+	gunzip $(PROC)/tables/summarised_nucleotide_mock_error_summary.csv.gz
+	R -e "source('code/run_mock_gc_content_analysis.R')"
+	gzip $(PROC)/tables/summarised_nucleotide_mock_error_summary.csv
 
-
+# Run the taxonomy analysis of mock and fecal samples
+$(PROC)/tables/kruskal_otu_polymerase_mock_diffs_summary.csv\
+$(PROC)/tables/dunns_sig_otu_polymerase_mock_diffs_summary.csv\
+$(PROC)/tables/kruskal_otu_polymerase_fecal_sample_diffs_summary.csv : $(PROC)/all_amp.0.03.subsample.1000.shared\
+$(PROC)/all_amp.taxonomy code/run_taxonomy_based_mock_analysis.R\
+code/run_taxonomy_based_fecal_samples_analysis.R
+	R -e "source('code/run_taxonomy_based_mock_analysis.R')"
+	R -e "source('code/run_taxonomy_based_fecal_samples_analysis.R')"
 
 
 
