@@ -96,6 +96,30 @@ write_csv(test, "data/process/tables/gc_content_amp_summary.csv")
 write_csv(whole_test, "data/process/tables/gc_content_whole_genome_amp_summary.csv")
 
 
+# Run statistical tests on both sets of data
+v4_gc_test <- seq_counts_table %>% 
+  inner_join(select(summarized_table, query, reference, higher_gc), by = "query") %>% 
+  group_by(cycles, taq) %>% 
+  nest() %>% 
+  mutate(test = map(data, ~wilcox.test(median_abund ~ higher_gc, data = .x)), 
+         summary_data = map(test, broom::tidy)) %>% 
+  select(cycles, taq, summary_data) %>% 
+  unnest(summary_data)
+
+wg_gc_test <- seq_counts_table %>% 
+  inner_join(select(summarized_table, query, reference, whole_genome_higher_gc), by = "query") %>% 
+  group_by(cycles, taq) %>% 
+  nest() %>% 
+  mutate(test = map(data, ~wilcox.test(median_abund ~ whole_genome_higher_gc, data = .x)), 
+         summary_data = map(test, broom::tidy)) %>% 
+  select(cycles, taq, summary_data) %>% 
+  unnest(summary_data) %>% 
+  mutate(bh = p.adjust(p.value, method = "BH"))
+
+# Write out the test results
+write_csv(v4_gc_test, "data/process/tables/v4_gc_wilcox_test_summary.csv")
+write_csv(wg_gc_test, "data/process/tables/whole_genome_gc_wilcox_test_summary.csv")
+
 
 
 
