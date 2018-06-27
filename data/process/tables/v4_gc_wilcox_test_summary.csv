@@ -1,0 +1,26 @@
+cycles,taq,statistic,p.value,method,alternative
+fifteen,ACC,7.5,1,Wilcoxon rank sum test with continuity correction,two.sided
+thirty,ACC,10,0.6857142857142857,Wilcoxon rank sum test,two.sided
+thirty_five,ACC,5,0.4857142857142857,Wilcoxon rank sum test,two.sided
+twenty,ACC,6,0.6631172453203823,Wilcoxon rank sum test with continuity correction,two.sided
+twenty_five,ACC,5,0.4857142857142857,Wilcoxon rank sum test,two.sided
+fifteen,K,4,0.3094240603646589,Wilcoxon rank sum test with continuity correction,two.sided
+thirty,K,4,0.34285714285714286,Wilcoxon rank sum test,two.sided
+thirty_five,K,6,0.6857142857142857,Wilcoxon rank sum test,two.sided
+twenty,K,6,0.6857142857142857,Wilcoxon rank sum test,two.sided
+twenty_five,K,5.5,0.5613632102341237,Wilcoxon rank sum test with continuity correction,two.sided
+fifteen,PHU,12.5,0.23377879418404784,Wilcoxon rank sum test with continuity correction,two.sided
+thirty,PHU,5,0.4857142857142857,Wilcoxon rank sum test,two.sided
+thirty_five,PHU,5,0.4857142857142857,Wilcoxon rank sum test,two.sided
+twenty,PHU,4,0.34285714285714286,Wilcoxon rank sum test,two.sided
+twenty_five,PHU,4,0.34285714285714286,Wilcoxon rank sum test,two.sided
+fifteen,PL,4,0.34285714285714286,Wilcoxon rank sum test,two.sided
+thirty,PL,4,0.34285714285714286,Wilcoxon rank sum test,two.sided
+thirty_five,PL,4,0.34285714285714286,Wilcoxon rank sum test,two.sided
+twenty,PL,5,0.4857142857142857,Wilcoxon rank sum test,two.sided
+twenty_five,PL,4,0.34285714285714286,Wilcoxon rank sum test,two.sided
+fifteen,Q5,7,0.8857142857142857,Wilcoxon rank sum test,two.sided
+thirty,Q5,5,0.4857142857142857,Wilcoxon rank sum test,two.sided
+thirty_five,Q5,6,0.6857142857142857,Wilcoxon rank sum test,two.sided
+twenty,Q5,6,0.6857142857142857,Wilcoxon rank sum test,two.sided
+twenty_five,Q5,6,0.6857142857142857,Wilcoxon rank sum test,two.sided

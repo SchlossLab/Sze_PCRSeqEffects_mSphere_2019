@@ -1,0 +1,26 @@
+cycles,taq,statistic,p.value,method,alternative,bh
+fifteen,ACC,12,0.3094240603646589,Wilcoxon rank sum test with continuity correction,two.sided,0.4511278195488722
+thirty,ACC,13,0.2,Wilcoxon rank sum test,two.sided,0.3125
+thirty_five,ACC,10,0.6857142857142857,Wilcoxon rank sum test,two.sided,0.7453416149068323
+twenty,ACC,13.5,0.14648918393520854,Wilcoxon rank sum test with continuity correction,two.sided,0.3051857998650178
+twenty_five,ACC,14,0.11428571428571428,Wilcoxon rank sum test,two.sided,0.2857142857142857
+fifteen,K,7.5,1,Wilcoxon rank sum test with continuity correction,two.sided,1
+thirty,K,12,0.34285714285714286,Wilcoxon rank sum test,two.sided,0.4511278195488722
+thirty_five,K,14,0.11428571428571428,Wilcoxon rank sum test,two.sided,0.2857142857142857
+twenty,K,13,0.2,Wilcoxon rank sum test,two.sided,0.3125
+twenty_five,K,13.5,0.14648918393520854,Wilcoxon rank sum test with continuity correction,two.sided,0.3051857998650178
+fifteen,PHU,8.5,1,Wilcoxon rank sum test with continuity correction,two.sided,1
+thirty,PHU,13,0.2,Wilcoxon rank sum test,two.sided,0.3125
+thirty_five,PHU,12,0.34285714285714286,Wilcoxon rank sum test,two.sided,0.4511278195488722
+twenty,PHU,14,0.11428571428571428,Wilcoxon rank sum test,two.sided,0.2857142857142857
+twenty_five,PHU,15,0.05714285714285714,Wilcoxon rank sum test,two.sided,0.2857142857142857
+fifteen,PL,15,0.05714285714285714,Wilcoxon rank sum test,two.sided,0.2857142857142857
+thirty,PL,10,0.6857142857142857,Wilcoxon rank sum test,two.sided,0.7453416149068323
+thirty_five,PL,6,0.6857142857142857,Wilcoxon rank sum test,two.sided,0.7453416149068323
+twenty,PL,16,0.02857142857142857,Wilcoxon rank sum test,two.sided,0.2857142857142857
+twenty_five,PL,15,0.05714285714285714,Wilcoxon rank sum test,two.sided,0.2857142857142857
+fifteen,Q5,14,0.11428571428571428,Wilcoxon rank sum test,two.sided,0.2857142857142857
+thirty,Q5,13,0.2,Wilcoxon rank sum test,two.sided,0.3125
+thirty_five,Q5,11,0.4857142857142857,Wilcoxon rank sum test,two.sided,0.6071428571428571
+twenty,Q5,15,0.05714285714285714,Wilcoxon rank sum test,two.sided,0.2857142857142857
+twenty_five,Q5,14,0.11428571428571428,Wilcoxon rank sum test,two.sided,0.2857142857142857
