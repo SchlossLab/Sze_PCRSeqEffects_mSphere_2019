@@ -1,0 +1,11 @@
+chi2,Z,pvalue,bh,var1,var2
+478.994,  4.894088,4.938136e-07,5.486818e-07,fecal_cycles , fecal_polymerase
+478.994,-14.682264,4.187372e-49,2.093686e-48,fecal_cycles , fecal_sample_group
+478.994,-19.576351,1.230122e-85,1.230122e-84,fecal_polymerase , fecal_sample_group
+478.994, -9.785729,6.482899e-23,1.080483e-22,fecal_cycles , mock_cycles
+478.994,-14.679816,4.341256e-49,1.447085e-48,fecal_polymerase , mock_cycles
+478.994,  4.896535,4.877067e-07,6.096334e-07,fecal_sample_group , mock_cycles
+478.994, -4.896535,4.877067e-07,6.967238e-07,fecal_cycles , mock_polymerase
+478.994, -9.790623,6.176635e-23,1.544159e-22,fecal_polymerase , mock_polymerase
+478.994,  9.785729,6.482899e-23,1.296580e-22,fecal_sample_group , mock_polymerase
+478.994,  4.889194,5.062490e-07,5.062490e-07,mock_cycles , mock_polymerase
