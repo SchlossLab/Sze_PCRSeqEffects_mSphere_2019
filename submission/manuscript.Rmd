@@ -142,7 +142,7 @@ r2_table <- read_csv("../data/process/tables/r2_otu_vs_chimera_summary.csv")
 
 
 
-# Error Introduced into 16S rRNA Gene Sequencing Varies by High Fidelity DNA Polymerase Used
+# Assessing Differences in High Fidelity DNA Polymerase for 16S rRNA Gene Sequencing
 
 \begin{center}
 \vspace{25mm}

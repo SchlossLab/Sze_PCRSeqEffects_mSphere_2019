@@ -1,4 +1,4 @@
-## Error Introduced into 16S rRNA Gene Sequencing Varies by High Fidelity DNA Polymerase Used
+## Assessing differences in high fidelity DNA polymerase for 16S rRNA gene sequencing
 
 **Background.** It is challenging to compare 16S rRNA gene sequencing data across studies and
 one of the reasons for this is due to error. There are many different places throughout the workflow where error can be introduced into the pipeline. Here, we focus on studying how the number of cycles and high fidelity (HiFi) DNA polymerase introduce error by varying cycle number and polymerase used to amplify 16S rRNA genes in human fecal and mock community samples.
