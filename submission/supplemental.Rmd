@@ -11,7 +11,7 @@ geometry: margin=1.0in
 bibliography: null
 ---
 
-# Assessing Differences in High Fidelity DNA Polymerase for 16S rRNA Gene Sequencing
+# Assessing the Differences in 16S rRNA Gene Sequencing Due to High Fidelity DNA Polymerase
 
 \vspace{10mm}
 

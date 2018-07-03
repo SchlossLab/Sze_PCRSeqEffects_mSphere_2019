@@ -148,7 +148,7 @@ dunn_rf_data <- read_csv("../data/process/tables/dunn_rf_model_test_summary.csv"
 
 
 
-# Assessing Differences in High Fidelity DNA Polymerase for 16S rRNA Gene Sequencing
+# Assessing the Differences in 16S rRNA Gene Sequencing Due to High Fidelity DNA Polymerase 
 
 \begin{center}
 \vspace{25mm}
