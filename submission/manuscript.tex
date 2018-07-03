@@ -99,9 +99,9 @@
 
 \begin{document}
 
-\section{Error Introduced into 16S rRNA Gene Sequencing Varies by High
-Fidelity DNA Polymerase
-Used}\label{error-introduced-into-16s-rrna-gene-sequencing-varies-by-high-fidelity-dna-polymerase-used}
+\section{Assessing Differences in High Fidelity DNA Polymerase for 16S
+rRNA Gene
+Sequencing}\label{assessing-differences-in-high-fidelity-dna-polymerase-for-16s-rrna-gene-sequencing}
 
 \begin{center}
 \vspace{25mm}
@@ -133,52 +133,66 @@ Co-author e-mails:
 
 \subsection{Abstract}\label{abstract}
 
-\textbf{Background.} It is challenging to compare 16S rRNA gene
-sequencing data across studies and one of the reasons for this is due to
-error. There are many different places throughout the workflow where
-error can be introduced into the pipeline. Here, we focus on studying
-how the number of cycles and high fidelity (HiFi) DNA polymerase
-introduce error by varying cycle number and polymerase used to amplify
-16S rRNA genes in human fecal and mock community samples.
+\textbf{Background.} A typical 16S rRNA gene sequencing workflow can be
+divided into preservation, extraction, amplification, and sequencing
+steps. At each of these stages error can be introduced that will change
+the underlying bacterial community composition results. In this study we
+focus on the amplification step's contribution to this overall error. To
+accomplish this we assessed 16S rRNA gene sequencing results in human
+fecal and mock community samples after using different high fidelity
+(HiFi) DNA polymerases and number of amplification cycles.
 
 \textbf{Methods.} We extracted DNA from fecal samples (n=4) using a
 PowerMag DNA extraction kit with a 10 minute bead beating step and
 amplified at 15, 20, 25, 30, and 35 cycles using Accuprime, Kappa,
 Phusion, Platinum, or Q5 HiFi DNA polymerase. Amplification of mock
 communities (technical replicates n=4) consisting of previously isolated
-whole genomes of 8 different bacteria used the same approach. The
-analysis initially examined the number of Operational Taxonomic Units
-(OTUs) for fecal samples and mock communities. It also assessed
-polymerase and number of cycle dependent differences in the Bray-Curtis
-index, error rate, sequence error prevalence, chimera prevalence, and
-the correlation between chimera prevalence and number of OTUs.
+whole genomes of 8 different bacteria used the same approach. We first
+assessed GC dependent differences, error rate, sequence error
+prevalence, chimera prevalence, and correlation between chimera
+prevalence and number of Operational Taxonomic Units (OTUs) by
+polymerase and number of cycles. Next, differences in the number of OTUs
+and taxa was examined based on the polymerase and number of cycles used.
+Additionally, differences in the bacterial community composition by the
+Bray-Curtis index also was assessed based on polymerase and number of
+cycles. Finally, Random Forest models were created to test whether the
+bacterial community was better at classifying polymerases, number of
+cycles, or individual donor. We also assessed whether the most important
+taxa in the polymerase and number of cycle Random Forest models also
+were the most important in the model for individual donors.
 
-\textbf{Results.} When analyzing fecal samples we observed that the
-range in the number of OTUs detected was not consistent between HiFi DNA
-polymerases (eg. at 35 cycles Accuprime = 84 - 106 (min - max) versus
-Phusion = 84 - 136). Additionally, the median number of OTUs varied by
-HiFi DNA polymerase used at 35 cycles (P-value \textless{} 0.0001). When
+\textbf{Results.} Although the total counts for specific taxa varied by
+polymerase, we found no noticeable differences in total counts based on
+high and low GC content (P-value \(\geqslant\) 0.23). Chimera prevalence
+in mock communities varied by polymerase with differences being most
+notable at 35 cycles (Kappa = 5.71\% (median) versus Platinum = 26.62\%)
+and this variation persisted after chimera removal using VSEARCH. We
+also observed positive correlations between chimera prevalence and the
+number of OTUs with Platinum having the highest (R\textsuperscript{2} =
+0.974) and Kappa having the worst (R\textsuperscript{2} = 0.478). When
 analyzing mock community samples the variation in the number of OTUs
 detected by the polymerases was observable as early as 20 cycles
 (P-value = 0.002). There also was a large range in the number of OTUs
 amplified by the polymerases at 35 cycles (Accuprime = 15 - 20 versus
-Phusion = 14 - 73). Chimera prevalence in mock communities varied by
-polymerase with differences being most notable at 35 cycles (Kappa =
-5.71\% (median) versus Platinum = 26.62\%) and this variation persisted
-after chimera removal using VSEARCH. We also observed positive
-correlations between chimera prevalence and the number of OTUs with
-Platinum having the highest (R\textsuperscript{2} = 0.974) and Kappa
-having the worst (R\textsuperscript{2} = 0.478).
+Phusion = 14 - 73). When analyzing fecal samples we observed that the
+range in the number of OTUs detected was not consistent between HiFi DNA
+polymerases (eg. at 35 cycles Accuprime = 84 - 106 (min - max) versus
+Phusion = 84 - 136). Additionally, the median number of OTUs varied by
+HiFi DNA polymerase used at 35 cycles (P-value \textless{} 0.0001).
+Random Forest models were most successful at classifying individual
+donor samples rather than polymerase or number of cycles used (P-value
+\(\leqslant\) 5.49e-07). Additionally, the most important OTUs in the
+polymerase and number of cycle models were not the most important in the
+individual donor sample model.
 
-\textbf{Conclusions.} Although the variation in the number of OTUs in
-fecal samples could be due to certain polymerases capturing the
-biological variability better than others, this is unlikely to be the
-main reason for our observed differences. In mock community samples, the
-strong correlation between chimera prevalence and the number of OTUs
-suggests that this is the main reason for differences between the
-polymerases. Ultimately, this variation makes comparison across studies
-difficult and care should be exercised when choosing the polymerase and
-number of cycles in 16S rRNA gene sequencing studies.
+\textbf{Conclusions.} Although there are 16S rRNA gene sequencing
+differences based on polymerase and number of cycles used, they are
+small with respect to the biological differences between indivdiuals.
+Additionally, our observations were not able to identify GC-based
+differences in amplification based on the number of cycles used.
+Collectively, these results provide evidence that a real biological
+difference between groups, based on 16S rRNA gene sequencing, should be
+detectable regardless of polymerase and number of cycles used.
 
 \newpage
 
