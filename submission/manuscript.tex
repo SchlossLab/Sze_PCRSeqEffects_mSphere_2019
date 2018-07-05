@@ -330,31 +330,38 @@ coli}, \emph{S. enterica}, \emph{L. fermentum}, \emph{E. faecalis},
 (Schloss et al., 2009; Cole et al., 2013; Rognes et al., 2016).
 
 \textbf{\emph{Analysis workflow:}} To adjust for unequal sequencing, all
-samples were rarefied to 1000 sequences for downstream analysis. The
-total number of OTUs was analyzed for both the fecal and mock community
-samples. For fecal samples, cycle dependent affects on Bray-Curtis
-indices were assessed for cycle group and within individual differences
-from the previous cycle (e.g.~20 versus 25, 25 versus 30). Based on
-these observations we analyzed potential reasons for these differences
-using the mock community samples. Analysis of the mock community of each
-polymerase for sequence error rate, number of sequences with an error,
-base substitution, and numbers of chimeras before and after chimera
-removal with VSEARCH was assessed. Additionally, the correlation between
-the number of chimeras and the number of OTUs was also assessed.
+samples were rarefied to 1000 sequences for downstream analysis.
+Analysis of the mock community of each polymerase for GC-based
+amplification differences, sequence error rate, number of sequences with
+an error, base substitution, and numbers of chimeras before and after
+chimera removal with VSEARCH was assessed. Additionally, the correlation
+between the number of chimeras and the number of OTUs was also assessed.
+The total number of OTUs, taxa differences, and Bray-Curtis indices were
+analyzed for both the fecal and mock community samples. Finally, Random
+Forest models were created to assess whether classification of
+polymerase, cycles, or individual could be performed best using 16S rRNA
+gene sequencing data. Additionally, overlap between the most important
+OTUs to the three models was assessed using mean decrease in accuracy
+(MDA).
 
 \textbf{\emph{Statistical analysis:}} All analysis was done with the R
 (v 3.4.4) software package (R Core Team, 2017). Data transformation and
 graphing was completed using the tidyverse package (v 1.2.1) and colors
 selected using the viridis package (v 0.4.1) (Garnier, 2017; Wickham,
 2017). Differences in the total number of OTUs were analyzed using an
-ANOVA with a tukey post-hoc test. For the comparison in fecal samples
-the data was normalized to each individual by cycle number to account
-for the biological variation between people. Bray-Curtis distance
-matrices were generated using mothur. The distance matrix data was
-analyzed using PERMANOVA with the vegan package (v 2.4.5) (Oksanen et
-al., 2017) and Kruskal-Wallis tests within R. For both error and chimera
-analysis, samples were tested using Kruskal-Wallis with a Dunns post-hoc
-test. Where applicable, correction for multiple comparison utilized the
+ANOVA with a tukey post-hoc test. For the comparison of the number of
+OTUS in fecal samples the data was normalized to each individual by
+cycle number to account for the biological variation. Bray-Curtis
+distance matrices were generated using mothur. The distance matrix data
+was analyzed using PERMANOVA with the vegan package (v 2.4.5) (Oksanen
+et al., 2017) and Kruskal-Wallis tests within R. The Random Forest
+models were run using the caret package (v 6.0.78) (Jed Wing et al.,
+2017). A total of 100 10-fold CV runs on different 80/20 splits of the
+data was run to generate a range of the Logloss value. The probability
+of a correct call was obtained from this Logloss value by taking the
+negative natural logrithim. For both error and chimera analysis, samples
+were tested using Kruskal-Wallis with a Dunns post-hoc test. Where
+applicable, correction for multiple comparison utilized the
 Benjamini-Hochberg method (Benjamini \& Hochberg, 1995).
 
 \textbf{\emph{Reproducible methods:}} The code and analysis can be found
@@ -638,6 +645,12 @@ Ishino S., Ishino Y. 2014. DNA polymerases as useful reagents for
 biotechnology â the history of developmental research in the field.
 \emph{Frontiers in Microbiology} 5. DOI:
 \href{https://doi.org/10.3389/fmicb.2014.00465}{10.3389/fmicb.2014.00465}.
+
+\hypertarget{ref-caret_citation}{}
+Jed Wing MKC from., Weston S., Williams A., Keefer C., Engelhardt A.,
+Cooper T., Mayer Z., Kenkel B., R Core Team., Benesty M., Lescarbeau R.,
+Ziem A., Scrucca L., Tang Y., Candan C., Hunt. T. 2017. \emph{Caret:
+Classification and regression training}.
 
 \hypertarget{ref-Kebschull2015}{}
 Kebschull JM., Zador AM. 2015. Sources of PCR-induced distortions in
