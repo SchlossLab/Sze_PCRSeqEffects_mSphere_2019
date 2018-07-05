@@ -46,7 +46,7 @@ summarized_table <- error_summary %>%
   group_by(reference) %>% 
   filter(weight == max(weight)) %>% 
   ungroup() %>% 
-  select(query, reference, AA, TT, CC, GG, total) %>% 
+  select(query, reference, weight, AA, TT, CC, GG, total) %>% 
   mutate(
     whole_genome_gc_percent = c(32.7, 38.04, 50.6, 52.1, 66.6, 38, 49.7, 43.61), 
     at_percent = (AA + TT)/total * 100, 
@@ -61,8 +61,82 @@ summarized_table <- error_summary %>%
            whole_genome_gc_percent <= wg_median_cutoff ~ "no", 
            TRUE ~ "uh oh"))
 
-write_csv(summarized_table, "data/process/tables/gc_summary_table.csv")
 
+seq_compare <- error_table %>% 
+  filter(cycles != "fifteen") %>% 
+  left_join(select(error_summary, query, reference), by = "query") %>% 
+  group_by(taq, cycles, sample_name.y, reference) %>% 
+  summarise(new_total = sum(total_seqs)) %>% 
+  ungroup() %>% 
+  group_by(taq, cycles, sample_name.y) %>% 
+  mutate(group_total = sum(new_total)) %>% 
+  ungroup() %>% 
+  group_by(taq, cycles, reference) %>% 
+  summarise(median_abund = median(new_total/group_total), 
+            iqr25 = quantile(new_total/group_total)["25%"],
+            iqr75 = quantile(new_total/group_total)["75%"],
+            min_abund = min(new_total/group_total),
+            max_abund = max(new_total/group_total))
+
+write_csv(seq_compare, "data/process/tables/gc_summary_table.csv")
+
+
+# Test based on taxa generally
+taxa_gc_test <- error_table %>% 
+  filter(cycles != "fifteen") %>% 
+  left_join(select(error_summary, query, reference), by = "query") %>% 
+  group_by(taq, cycles, sample_name.y, reference) %>% 
+  summarise(new_total = sum(total_seqs)) %>% 
+  mutate(group_total = sum(new_total), 
+         corrected_values = new_total/group_total) %>% 
+  ungroup() %>% 
+  group_by(taq, cycles) %>% 
+  nest() %>% 
+  mutate(test = map(data, ~kruskal.test(corrected_values ~ factor(reference), data = .x)), 
+         summary_data = map(test, broom::tidy)) %>% 
+  select(cycles, taq, summary_data) %>% 
+  unnest(summary_data)
+
+write_csv(taxa_gc_test, "data/process/tables/gc_taxa_kruskal_summary.csv")
+
+# Perform post-hoc test on taxa
+dunn_taxa_gc_test <- error_table %>% 
+  filter(cycles != "fifteen") %>% 
+  left_join(select(error_summary, query, reference), by = "query") %>% 
+  group_by(taq, cycles, sample_name.y, reference) %>% 
+  summarise(new_total = sum(total_seqs)) %>% 
+  mutate(group_total = sum(new_total), 
+         corrected_values = new_total/group_total) %>% 
+  ungroup() %>% 
+  group_by(taq, cycles) %>% 
+  nest() %>% 
+  mutate(dunn_analysis = map(data, 
+            ~with(data = .x, expr = t(as.data.frame.list(dunn.test(corrected_values, factor(reference), method = "bh"))))), 
+         summary_data = map(dunn_analysis, broom::tidy)) %>%  
+  select(cycles, taq, summary_data) %>% 
+  unnest(summary_data) %>% 
+  rename(row_names = ".rownames")
+
+# tidy up the results for easier summary table generation
+dunn_temp <- dunn_taxa_gc_test %>% 
+  gather(group, measure_result, X1:X28)
+
+taq_ids <- dunn_temp %>% pull(taq)
+cycle_ids <- dunn_temp %>% pull(cycles)
+
+# Create a final summary data table with only significant differences
+summary_test_data <- data_frame(
+  chi2 = filter(dunn_temp, row_names == "chi2") %>% pull(measure_result), 
+  Z = filter(dunn_temp, row_names == "Z") %>% pull(measure_result), 
+  pvalue = filter(dunn_temp, row_names == "P") %>% pull(measure_result),
+  bh = filter(dunn_temp, row_names == "P.adjusted") %>% pull(measure_result), 
+  comparison = filter(dunn_temp, row_names == "comparisons") %>% pull(measure_result), 
+  taq = taq_ids[seq(1, length(taq_ids), 5)], 
+  cycle = cycle_ids[seq(1, length(cycle_ids), 5)]) %>% 
+  filter(bh < 0.05) %>% 
+  separate(comparison, c("bac1", "bac2"), sep = "-")
+
+write_csv(summary_test_data, "data/process/tables/gc_taxa_dunn_summary.csv")
 
 # Summarise the counts from each sequence by polymerase and cycle
 seq_counts_table <- error_table %>% 
