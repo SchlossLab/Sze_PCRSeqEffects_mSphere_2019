@@ -240,7 +240,7 @@ The code and analysis can be found here https://github.com/SchlossLab/Sze_PCRSeq
 
 ## Results
 
-***16S rRNA gene sequencing counts do not differ by GC content:*** Although the 16S rRNA gene sequencing counts varied by polymerase used, there was no difference between V4 16S rRNA genes with high and low GC content at every amplification cycle [Figure 1 & Table S1]. Additionally, there was also no difference in 16S rRNA gene sequencing counts between high and low GC content genomes [Table S2].
+***16S rRNA gene sequencing counts differ by GC content:*** There was a significant difference in relative abundance between high/low GC content based on either the V4 16S rRNA gene region or the whole genome [Figure 1, Table S1 & S2]. 
 
 
 

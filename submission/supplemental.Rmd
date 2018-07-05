@@ -35,9 +35,46 @@ loadLibs(c("tidyverse", "scales", "knitr", "rmarkdown"))
 ```
 
 
-**Table S1: ANOVA results of differences in number of OTUs between polymerases in fecal and mock samples**
+
+**Table S1: Wilcoxson Rank Sum Results of High versus Low GC groups based on the median percent of the V4 hypervariable region or the whole genome**
 
 ```{r supplemental_table1, echo=FALSE, message=FALSE, warning=FALSE}
+
+mock_gc_wlcox <- as.data.frame(read_csv("../data/process/tables/v4_gc_wilcox_test_summary.csv")) %>% 
+  arrange(p.value) %>% 
+  mutate_at(vars(statistic), funs(round(., digits = 2))) %>% 
+  mutate_at(vars(p.value:bh), funs(format(., scientific = TRUE, digits = 2, nsmall = 2))) %>% 
+  mutate(test_type = "V4 Region") %>% 
+  bind_rows(
+    as.data.frame(
+    read_csv("../data/process/tables/whole_genome_gc_wilcox_test_summary.csv")) %>% 
+    arrange(p.value) %>% 
+    mutate_at(vars(statistic), funs(round(., digits = 2))) %>% 
+    mutate_at(vars(p.value:bh), funs(format(., scientific = TRUE, digits = 2, nsmall = 2))) %>% 
+    mutate(test_type = "Whole Genome")) %>% 
+  select(cycles, taq, statistic, p.value, bh, test_type) %>% 
+  filter(cycles != "fifteen") %>% 
+  mutate(cycles = case_when(
+    cycles == "twenty" ~ "20x", 
+    cycles == "twenty_five" ~ "25x", 
+    cycles == "thirty" ~ "30x", 
+    cycles == "thirty_five" ~ "35x", 
+    TRUE ~ "uh oh"))
+
+colnames(mock_gc_wlcox) <- c("Number of Cycles", "Polymerase", "Rank Sum Statistic", "P-value", "BH", "Test Type")
+
+kable(mock_gc_wlcox, format = "markdown", align = 'c', padding = 2)
+```
+
+
+
+\newpage
+
+
+
+**Table S2: ANOVA results of differences in number of OTUs between polymerases in fecal and mock samples**
+
+```{r supplemental_table3, echo=FALSE, message=FALSE, warning=FALSE}
 
 fs_anova <- as.data.frame(read_csv("../data/process/tables/fecal_overall_anova_results.csv")) %>% 
   filter(sub_sample_level == 1000) %>% 
@@ -62,9 +99,9 @@ kable(fs_anova, format = "markdown", align = 'c', padding = 2)
 \newpage
 
 
-**Table S2: Tukey post-hoc results of differences in number of OTUs between polymerases in fecal and mock samples**
+**Table S3: Tukey post-hoc results of differences in number of OTUs between polymerases in fecal and mock samples**
 
-```{r supplemental_table2, echo=FALSE, message=FALSE, warning=FALSE}
+```{r supplemental_table4, echo=FALSE, message=FALSE, warning=FALSE}
 
 fs_tukey <- as.data.frame(read_csv("../data/process/tables/fecal_overall_tukey_results.csv")) %>% 
   mutate_at(vars(diff:upr), funs(round(., digits = 2))) %>% 
@@ -97,7 +134,7 @@ kable(fs_tukey, format = "markdown", align = 'c', padding = 2)
 \newpage
 
 
-**Table S3: Kruskal-Wallis results of differences in error rate, sequences with an error, and chimera prevalence between polymerases in mock samples**
+**Table S4: Kruskal-Wallis results of differences in error rate, sequences with an error, and chimera prevalence between polymerases in mock samples**
 
 ```{r supplemental_table5, echo=FALSE, message=FALSE, warning=FALSE}
 
@@ -131,7 +168,7 @@ kable(mock_error_rate_kruskal, format = "markdown", align = 'c', padding = 2)
 \newpage
 
 
-**Table S4: Dunn's Post-Hoc results of differences in error rate, sequences with an error, and chimera prevalence between polymerases in mock samples**
+**Table S5: Dunn's Post-Hoc results of differences in error rate, sequences with an error, and chimera prevalence between polymerases in mock samples**
 
 ```{r supplemental_table6, echo=FALSE, message=FALSE, warning=FALSE}
 
