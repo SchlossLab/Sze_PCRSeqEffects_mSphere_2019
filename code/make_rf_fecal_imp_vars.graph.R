@@ -42,7 +42,7 @@ model_graph <- graph_data %>%
   mutate(model_type = factor(model_type, 
                              levels = c("fecal_sample_group", "fecal_polymerase", "fecal_cycles", 
                                         "mock_polymerase", "mock_cycles"), 
-                             labels = c("Fecal Sample Group Model", "Fecal Polymerase Model", 
+                             labels = c("Fecal Individual Model", "Fecal Polymerase Model", 
                                         "Fecal Cycles Model", "Mock Polymerase Model", "Mock Cycles Model"))) %>% 
   ggplot(aes(model_type, probs)) + 
     stat_summary(fun.y = median, fun.ymin = median, fun.ymax = median, 
