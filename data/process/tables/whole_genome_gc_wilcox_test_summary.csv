@@ -1,26 +1,26 @@
 cycles,taq,statistic,p.value,method,alternative,bh
-fifteen,ACC,12,0.3094240603646589,Wilcoxon rank sum test with continuity correction,two.sided,0.4511278195488722
-thirty,ACC,13,0.2,Wilcoxon rank sum test,two.sided,0.3125
-thirty_five,ACC,10,0.6857142857142857,Wilcoxon rank sum test,two.sided,0.7453416149068323
-twenty,ACC,13.5,0.14648918393520854,Wilcoxon rank sum test with continuity correction,two.sided,0.3051857998650178
-twenty_five,ACC,14,0.11428571428571428,Wilcoxon rank sum test,two.sided,0.2857142857142857
-fifteen,K,7.5,1,Wilcoxon rank sum test with continuity correction,two.sided,1
-thirty,K,12,0.34285714285714286,Wilcoxon rank sum test,two.sided,0.4511278195488722
-thirty_five,K,14,0.11428571428571428,Wilcoxon rank sum test,two.sided,0.2857142857142857
-twenty,K,13,0.2,Wilcoxon rank sum test,two.sided,0.3125
-twenty_five,K,13.5,0.14648918393520854,Wilcoxon rank sum test with continuity correction,two.sided,0.3051857998650178
-fifteen,PHU,8.5,1,Wilcoxon rank sum test with continuity correction,two.sided,1
-thirty,PHU,13,0.2,Wilcoxon rank sum test,two.sided,0.3125
-thirty_five,PHU,12,0.34285714285714286,Wilcoxon rank sum test,two.sided,0.4511278195488722
-twenty,PHU,14,0.11428571428571428,Wilcoxon rank sum test,two.sided,0.2857142857142857
-twenty_five,PHU,15,0.05714285714285714,Wilcoxon rank sum test,two.sided,0.2857142857142857
-fifteen,PL,15,0.05714285714285714,Wilcoxon rank sum test,two.sided,0.2857142857142857
-thirty,PL,10,0.6857142857142857,Wilcoxon rank sum test,two.sided,0.7453416149068323
-thirty_five,PL,6,0.6857142857142857,Wilcoxon rank sum test,two.sided,0.7453416149068323
-twenty,PL,16,0.02857142857142857,Wilcoxon rank sum test,two.sided,0.2857142857142857
-twenty_five,PL,15,0.05714285714285714,Wilcoxon rank sum test,two.sided,0.2857142857142857
-fifteen,Q5,14,0.11428571428571428,Wilcoxon rank sum test,two.sided,0.2857142857142857
-thirty,Q5,13,0.2,Wilcoxon rank sum test,two.sided,0.3125
-thirty_five,Q5,11,0.4857142857142857,Wilcoxon rank sum test,two.sided,0.6071428571428571
-twenty,Q5,15,0.05714285714285714,Wilcoxon rank sum test,two.sided,0.2857142857142857
-twenty_five,Q5,14,0.11428571428571428,Wilcoxon rank sum test,two.sided,0.2857142857142857
+fifteen,ACC,80.5,0.06377234816818565,Wilcoxon rank sum test with continuity correction,two.sided,0.08391098443182324
+twenty,ACC,194,0.013554787436270544,Wilcoxon rank sum test with continuity correction,two.sided,0.019933510935691977
+twenty_five,ACC,223.5,3.4257606801468615e-4,Wilcoxon rank sum test with continuity correction,two.sided,7.785819727606504e-4
+thirty,ACC,217,4.6656321627794247e-4,Wilcoxon rank sum test,two.sided,9.720067005790469e-4
+thirty_five,ACC,152,0.380896465446161,Wilcoxon rank sum test,two.sided,0.41401789722408805
+fifteen,K,41.5,0.3588701781375177,Wilcoxon rank sum test with continuity correction,two.sided,0.4078070206108156
+twenty,K,201,0.006262717908864508,Wilcoxon rank sum test with continuity correction,two.sided,0.009785496732600794
+twenty_five,K,210,0.0021268076632721487,Wilcoxon rank sum test with continuity correction,two.sided,0.004090014737061824
+thirty,K,1354.5,9.772790996564992e-8,Wilcoxon rank sum test with continuity correction,two.sided,1.221598874570624e-6
+thirty_five,K,223.5,3.4257606801468615e-4,Wilcoxon rank sum test with continuity correction,two.sided,7.785819727606504e-4
+fifteen,PHU,28.5,0.789780556087158,Wilcoxon rank sum test with continuity correction,two.sided,0.789780556087158
+twenty,PHU,220,2.749449204290295e-4,Wilcoxon rank sum test,two.sided,7.637358900806374e-4
+twenty_five,PHU,237,6.897579872802038e-6,Wilcoxon rank sum test,two.sided,2.8739916136675162e-5
+thirty,PHU,206,0.002592801272388873,Wilcoxon rank sum test,two.sided,0.004412071097488827
+thirty_five,PHU,186,0.028796976723862173,Wilcoxon rank sum test,two.sided,0.03999580100536413
+fifteen,PL,240,3.044517888863418e-6,Wilcoxon rank sum test,two.sided,1.9028236805396362e-5
+twenty,PL,249,1.4973038797688943e-7,Wilcoxon rank sum test,two.sided,1.2477532331407453e-6
+twenty_five,PL,237,6.897579872802038e-6,Wilcoxon rank sum test,two.sided,2.8739916136675162e-5
+thirty,PL,961,0.12293055170436157,Wilcoxon rank sum test,two.sided,0.15366318963045195
+thirty_five,PL,115,0.6420222226847228,Wilcoxon rank sum test,two.sided,0.6687731486299195
+fifteen,Q5,196.5,0.002647242658493296,Wilcoxon rank sum test with continuity correction,two.sided,0.004412071097488827
+twenty,Q5,224,1.2946687547068372e-4,Wilcoxon rank sum test,two.sided,4.045839858458866e-4
+twenty_five,Q5,227,7.068937983486701e-5,Wilcoxon rank sum test,two.sided,2.5246207083881074e-4
+thirty,Q5,1340,4.104062023020147e-8,Wilcoxon rank sum test,two.sided,1.0260155057550367e-6
+thirty_five,Q5,168,0.13808298420781956,Wilcoxon rank sum test,two.sided,0.16438450500930898

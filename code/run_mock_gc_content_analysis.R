@@ -140,30 +140,42 @@ write_csv(summary_test_data, "data/process/tables/gc_taxa_dunn_summary.csv")
 
 # Summarise the counts from each sequence by polymerase and cycle
 seq_counts_table <- error_table %>% 
-  group_by(query, taq, cycles) %>% 
-  summarise(median_abund = median(total_seqs), 
-            iqr25 = quantile(total_seqs)["25%"],
-            iqr75 = quantile(total_seqs)["75%"],
-            min_abund = min(total_seqs),
-            max_abund = max(total_seqs))
+  group_by(taq, cycles, sample_name.y) %>% 
+  mutate(overall_total = sum(total_seqs)) %>% 
+  ungroup() %>% 
+  mutate(rel_abund = total_seqs/overall_total) %>% 
+  group_by(taq, cycles) %>% 
+  summarise(median_abund = median(rel_abund), 
+            iqr25 = quantile(rel_abund)["25%"],
+            iqr75 = quantile(rel_abund)["75%"],
+            min_abund = min(rel_abund),
+            max_abund = max(rel_abund))
   
-test <- seq_counts_table %>% 
+test <- error_table %>% 
+  group_by(taq, cycles, sample_name.y) %>% 
+  mutate(overall_total = sum(total_seqs)) %>% 
+  ungroup() %>% 
+  mutate(rel_abund = total_seqs/overall_total) %>% 
   inner_join(select(summarized_table, query, reference, higher_gc), by = "query") %>% 
-  group_by(higher_gc, cycles, taq) %>% 
-  summarise(median_of_median_abund = median(median_abund), 
-            iqr25 = quantile(median_abund)["25%"],
-            iqr75 = quantile(median_abund)["75%"],
-            min_abund = min(median_abund),
-            max_abund = max(median_abund))
+  group_by(taq, cycles, higher_gc) %>% 
+  summarise(median_abund = median(rel_abund), 
+            iqr25 = quantile(rel_abund)["25%"],
+            iqr75 = quantile(rel_abund)["75%"],
+            min_abund = min(rel_abund),
+            max_abund = max(rel_abund))
 
-whole_test <- seq_counts_table %>% 
+whole_test <- error_table %>% 
+  group_by(taq, cycles, sample_name.y) %>% 
+  mutate(overall_total = sum(total_seqs)) %>% 
+  ungroup() %>% 
+  mutate(rel_abund = total_seqs/overall_total) %>%  
   inner_join(select(summarized_table, query, reference, whole_genome_higher_gc), by = "query") %>% 
-  group_by(whole_genome_higher_gc, cycles, taq) %>% 
-  summarise(median_of_median_abund = median(median_abund), 
-            iqr25 = quantile(median_abund)["25%"],
-            iqr75 = quantile(median_abund)["75%"],
-            min_abund = min(median_abund),
-            max_abund = max(median_abund))
+  group_by(taq, cycles, whole_genome_higher_gc) %>% 
+  summarise(median_abund = median(rel_abund), 
+            iqr25 = quantile(rel_abund)["25%"],
+            iqr75 = quantile(rel_abund)["75%"],
+            min_abund = min(rel_abund),
+            max_abund = max(rel_abund))
 
 # Write out the table 
 write_csv(test, "data/process/tables/gc_content_amp_summary.csv")
@@ -172,20 +184,29 @@ write_csv(whole_test, "data/process/tables/gc_content_whole_genome_amp_summary.c
 
 
 # Run statistical tests on both sets of data
-v4_gc_test <- seq_counts_table %>% 
+v4_gc_test <- error_table %>% 
+  group_by(taq, cycles, sample_name.y) %>% 
+  mutate(overall_total = sum(total_seqs)) %>% 
+  ungroup() %>% 
+  mutate(rel_abund = total_seqs/overall_total) %>% 
   inner_join(select(summarized_table, query, reference, higher_gc), by = "query") %>% 
-  group_by(cycles, taq) %>% 
+  group_by(taq, cycles) %>% 
   nest() %>% 
-  mutate(test = map(data, ~wilcox.test(median_abund ~ higher_gc, data = .x)), 
+  mutate(test = map(data, ~wilcox.test(rel_abund ~ higher_gc, data = .x)), 
          summary_data = map(test, broom::tidy)) %>% 
   select(cycles, taq, summary_data) %>% 
-  unnest(summary_data)
+  unnest(summary_data) %>% 
+  mutate(bh = p.adjust(p.value, method = "BH"))
 
-wg_gc_test <- seq_counts_table %>% 
+wg_gc_test <-  error_table %>% 
+  group_by(taq, cycles, sample_name.y) %>% 
+  mutate(overall_total = sum(total_seqs)) %>% 
+  ungroup() %>% 
+  mutate(rel_abund = total_seqs/overall_total) %>% 
   inner_join(select(summarized_table, query, reference, whole_genome_higher_gc), by = "query") %>% 
-  group_by(cycles, taq) %>% 
+  group_by(taq, cycles) %>% 
   nest() %>% 
-  mutate(test = map(data, ~wilcox.test(median_abund ~ whole_genome_higher_gc, data = .x)), 
+  mutate(test = map(data, ~wilcox.test(rel_abund ~ whole_genome_higher_gc, data = .x)), 
          summary_data = map(test, broom::tidy)) %>% 
   select(cycles, taq, summary_data) %>% 
   unnest(summary_data) %>% 
