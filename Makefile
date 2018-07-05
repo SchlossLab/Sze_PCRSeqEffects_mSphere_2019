@@ -211,6 +211,8 @@ $(PROC)/tables/cycles_group_mock_rf_model_summary.csv code/run_rf_model_probs_te
 
 # Run the GC content analysis
 $(PROC)/tables/gc_summary_table.csv\
+$(PROC)/tables/gc_taxa_kruskal_summary.csv\
+$(PROC)/tables/gc_taxa_dunn_summary.csv\
 $(PROC)/tables/gc_content_amp_summary.csv\
 $(PROC)/tables/gc_content_whole_genome_amp_summary.csv\
 $(PROC)/tables/v4_gc_wilcox_test_summary.csv\
@@ -241,7 +243,7 @@ code/run_taxonomy_based_fecal_samples_analysis.R
 ################################################################################
 
 # GC content figure
-$(FIGS)/Figure1.pdf : $(PROC)/gc_content_amp_summary.csv\
+$(FIGS)/Figure1.pdf : $(PROC)/gc_summary_table.csv\
 code/make_gc_content_graph.R
 	R -e "source('code/make_gc_content_graph.R')"
 
