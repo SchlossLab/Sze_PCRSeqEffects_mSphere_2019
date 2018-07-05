@@ -214,24 +214,24 @@ A recent study found differences in the number of OTUS and chimeras between norm
 
 ## Materials & Methods
 
-***Human and mock samples:***
+***Human and mock samples.***
 Fecal samples were obtained from 4 individuals who were part of the Enterics Research Investigational Network (ERIN). The processing and storage of these samples were previously published [@erin_seekatz_2016]. Other than confirmation that none of these individuals had a *Clostridium difficle* infection, clinical data and other types of meta data were not utilized or accessed for this study. All samples were extracted using the MOBIO^TM^ PowerMag Microbiome RNA/DNA extraction kit (now Qiagen, MD, USA). The ZymoBIOMICS^TM^ Microbial Community DNA Standard (Zymo, CA, USA) was used for mock communities and was made up of *Pseudomonas aeruginosa*, *Escherichia coli*, *Salmonella enterica*, *Lactobacillus fermentum*, *Enterococcus faecalis*, *Staphylococcus aureus*, *Listeria monocytogenes*, and *Bacillus subtilis* at equal genomic DNA abundance (http://www.zymoresearch.com/microbiomics/microbial-standards/zymobiomics-microbial-community-standards).
 
-***PCR protocol:***
+***PCR protocol.***
 The five different high fidelity DNA polymerases (hereto referred to as polymerases) that were tested included AccuPrime^TM^ (ThermoFisher, MA, USA), KAPA HIFI (Roche, IN, USA), Phusion (ThermoFisher, MA, USA), Platinum (ThermoFisher, MA, USA), and Q5 (New England Biolabs, MA, USA). The polymerases activation time was 2 minutes, unless a different activation was specified by the manufacturer. The annealing and extension time for Platinum and Accuprime followed a previously published protocol [@protocol_Kozich_2013] (https://github.com/SchlossLab/MiSeq_WetLab_SOP/blob/master/MiSeq_WetLab_SOP_v4.md). For Kappa and Q5, the annealing and extension time also were from a previously published protocol [@taq_Gohl_2016]. For Phusion, the company defined activation and annealing times were used while the extension time followed the Accuprime and Platinum settings. 
 
 The number of cycles in the PCR for fecal and mock samples started at 15 and increased by 5 up to 35 cycles, with amplicons used at each 5-step increase for sequencing. The PCR of fecal DNA samples consisted of all 4 samples at 15, 20, 25, 30, and 35 cycles for each polymerase (total sample n=100). The mock communities had 4 replicates at 15, 20, 25, and 35 cycles and 10 replicates for 30 cycles for all polymerases (total samples n=130). No mock community sample had enough PCR product at 15 cycles for adequate 16S rRNA gene sequencing.    
 
-***Sequence processing:***
+***Sequence processing.***
 The mothur software program was used for all sequence processing steps [@mothur_schloss_2009]. The protocol has been previously published [@protocol_Kozich_2013] (https://www.mothur.org/wiki/MiSeq_SOP). Two major differences from the published protocol were the use of VSEARCH instead of UCHIME for chimera detection and the use of the OptiClust algorithm instead of average neighbor for OTU generation at 97% similarity [@vsearch_Rognes_2016; @uchime_Edgar_2011; @opticlust_Westcott_2017]. Sequence error was determined using the 'seq.error' command on mock samples to compare back to the reference 16S sequences of *P. aeruginosa*, *E. coli*, *S. enterica*, *L. fermentum*, *E. faecalis*, *S. aureus*, *L. monocytogenes*, and *B. subtilis* [@mothur_schloss_2009; @vsearch_Rognes_2016; @rdp_Cole_2013].  
 
-***Analysis workflow:***
+***Analysis workflow.***
 To adjust for unequal sequencing, all samples were rarefied to 1000 sequences for downstream analysis. Analysis of the mock community of each polymerase for GC-based amplification differences, sequence error rate, number of sequences with an error, base substitution, and numbers of chimeras before and after chimera removal with VSEARCH was assessed. Additionally, the correlation between the number of chimeras and the number of OTUs was also assessed. The total number of OTUs, taxa differences, and Bray-Curtis indices were analyzed for both the fecal and mock community samples. Finally, Random Forest models were created to assess whether classification of polymerase, cycles, or individual could be performed best using 16S rRNA gene sequencing data. Additionally, overlap between the most important OTUs to the three models was assessed using mean decrease in accuracy (MDA).  
 
-***Statistical analysis:***
+***Statistical analysis.***
 All analysis was done with the R (v `r paste(version$major, ".", version$minor, sep = "")`) software package [@r_citation_2017]. Data transformation and graphing was completed using the tidyverse package (v `r paste(packageVersion("tidyverse")[1])`) and colors selected using the viridis package (v `r paste(packageVersion("viridis")[1])`) [@tidyverse_2017; @viridis_citation_2017]. High and low GC content was determined based on the median GC percentage of either the V4 region or the whole genome of the bacterial species used in the mock community. Differences in the total number of OTUs were analyzed using an ANOVA with a tukey post-hoc test. For the comparison of the number of OTUS in fecal samples the data was normalized to each individual by cycle number to account for the biological variation. Bray-Curtis distance matrices were generated using mothur. The distance matrix data was analyzed using PERMANOVA with the vegan package (v `r paste(packageVersion("vegan")[1])`) [@vegan_citation] and Kruskal-Wallis tests within R. The Random Forest models were run using the caret package (v `r paste(packageVersion("caret")[1])`) [@caret_citation]. A total of 100 10-fold CV runs on different 80/20 splits of the data was run to generate a range of the Logloss value. The probability of a correct call was obtained from this Logloss value by taking the negative natural logrithim. For both error and chimera analysis, samples were tested using Kruskal-Wallis with a Dunns post-hoc test. Where applicable, correction for multiple comparison utilized the Benjamini-Hochberg method [@benjamini_controlling_1995].    
 
-***Reproducible methods:***
+***Reproducible methods.***
 The code and analysis can be found here https://github.com/SchlossLab/Sze_PCRSeqEffects_XXXX_2017. The raw sequences can be found on the SRA at the following accession number SRP132931.
 
 
@@ -240,11 +240,11 @@ The code and analysis can be found here https://github.com/SchlossLab/Sze_PCRSeq
 
 ## Results
 
-***16S rRNA gene sequencing counts differ by GC content:*** There was a significant difference in relative abundance between high/low GC content based on either the V4 16S rRNA gene region or the whole genome [Figure 1, Table S1 & S2]. 
+***Observed relative abundance differs by GC content.***
+There was a significant difference in relative abundance between high/low GC content based on either the V4 16S rRNA gene region or the whole genome [Figure 1 & Table S1]. 
 
 
-
-***Sequence error varies by polymerase and is consistent across the number of cycles used:***
+***Sequence error varies by polymerase and is consistent across the number of cycles used.***
 The median error rate varied by polymerase, with Kappa having the highest error rate of all the polymerases across the number of cycles [Figure 4 & Table S3]. The majority of the differences across the number of cycles was between Kappa and the other polymerases [Figure 4 & Table S4]. The total sequences with at least one error was also polymerase dependent, with the majority of differences being between Kappa or Accuprime and the other polymerases [Table S3 & S4]. These differences in error rates were not due to polymerase dependent differences in base substitution rate [Figure S1]. Collectively, the results suggest that sequence error is dependent on polymerase, persists across the number of cycles used, and are not due to any bias towards a specific base substitution.
 
 
