@@ -61,6 +61,7 @@ summarized_table <- error_summary %>%
            whole_genome_gc_percent <= wg_median_cutoff ~ "no", 
            TRUE ~ "uh oh"))
 
+write_csv(summarized_table, "data/process/tables/gc_summary_table.csv")
 
 
 # Summarise the counts from each sequence by polymerase and cycle

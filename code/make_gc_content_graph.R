@@ -9,13 +9,14 @@ source("code/functions.R")
 loadLibs(c("tidyverse", "gridExtra", "scales", "viridis", "RColorBrewer", "ggrepel"))
 
 # Load in needed data
-summary_data <- read_csv("data/process/tables/gc_content_amp_summary.csv")
+summary_data <- read_csv("data/process/tables/gc_content_amp_summary.csv") %>% 
+  filter(cycles != "fifteen")
 
 
 gc_graph <- summary_data %>% 
   mutate(cycles = factor(cycles, 
-                         levels = c("fifteen", "twenty", "twenty_five", "thirty", "thirty_five"), 
-                         labels = c("15x", "20x", "25x", "30x", "35x")), 
+                         levels = c("twenty", "twenty_five", "thirty", "thirty_five"), 
+                         labels = c("20x", "25x", "30x", "35x")), 
          higher_gc = factor(higher_gc, 
                             levels = c("yes", "no"), 
                             labels = c("Yes", "No")), 

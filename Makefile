@@ -210,6 +210,7 @@ $(PROC)/tables/cycles_group_mock_rf_model_summary.csv code/run_rf_model_probs_te
 	R -e "source('code/run_rf_model_probs_test.R')"
 
 # Run the GC content analysis
+$(PROC)/tables/gc_summary_table.csv\
 $(PROC)/tables/gc_content_amp_summary.csv\
 $(PROC)/tables/gc_content_whole_genome_amp_summary.csv\
 $(PROC)/tables/v4_gc_wilcox_test_summary.csv\
