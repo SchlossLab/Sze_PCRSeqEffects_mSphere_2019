@@ -205,9 +205,51 @@ kable(fs_tukey, format = "markdown", align = 'c', padding = 2)
 
 \newpage
 
-**Table S6: Dunns post-hoc results of differences in model classification success using 16S rRNA gene sequencing data**
+**Table S6: Kruskal-Wallis results of significant differences in OTU in mock community samples**
 
 ```{r supplemental_table6, echo=FALSE, message=FALSE, warning=FALSE}
+
+kruskal_otus <- read_csv("../data/process/tables/kruskal_otu_polymerase_mock_diffs_summary.csv") %>% 
+  mutate(sample_type = "mock") %>% 
+  filter(bh < 0.05) %>% 
+  arrange(cycles, p.value) %>% 
+  mutate_at(vars(p.value:bh),  funs(format(., scientific = TRUE, digits = 2, nsmall = 2))) %>% 
+  mutate(genus = str_replace_all(genus, "_unclassified", ""))
+
+colnames(kruskal_otus) <- c("Cycles", "OTU", "Lowest Taxa ID", "Statistic", "P-value", "BH", "Sample Type")
+
+kable(kruskal_otus, format = "markdown", align = 'c', padding = 2)
+
+```
+
+
+\newpage
+
+**Table S7: Significant Dunns post-hoc results of differences between polymerases for specific taxa**
+
+\footnotesize
+
+```{r supplemental_table7, echo=FALSE, message=FALSE, warning=FALSE}
+
+dunn_otus <- read_csv("../data/process/tables/dunns_sig_otu_polymerase_mock_diffs_summary.csv") %>% 
+  arrange(bh) %>% 
+  mutate_at(vars(chi2:bh),  funs(format(., scientific = TRUE, digits = 2, nsmall = 2)))
+  
+  
+colnames(dunn_otus) <- c("Chi Sq", "Z", "P-value", "BH", "Comparison", "Cycles", "OTU", "Taxa", "Part of Mock")
+
+kable(dunn_otus, format = "markdown", align = 'c', padding = 2)
+
+```
+
+\normalsize
+
+\newpage
+
+
+**Table S8: Dunns post-hoc results of differences in model classification success using 16S rRNA gene sequencing data**
+
+```{r supplemental_table8, echo=FALSE, message=FALSE, warning=FALSE}
 
 rf_sig_table <- read_csv("../data/process/tables/dunn_rf_model_test_summary.csv") %>% 
   mutate_at(vars(chi2:bh),  funs(format(., scientific = TRUE, digits = 2, nsmall = 2))) %>% 

@@ -136,9 +136,9 @@ Co-author e-mails:
 \textbf{Background.} A typical 16S rRNA gene sequencing workflow can be
 divided into preservation, extraction, amplification, and sequencing
 steps. At each of these stages error can be introduced that will change
-the underlying bacterial community composition results. In this study we
-focus on the amplification step's contribution to this overall error. To
-accomplish this we assessed 16S rRNA gene sequencing results in human
+the underlying bacterial community composition results. In this study,
+we focus on the amplification step's contribution to this overall error.
+To accomplish this we assessed 16S rRNA gene sequencing results in human
 fecal and mock community samples after using different high fidelity
 (HiFi) DNA polymerases and number of amplification cycles.
 
@@ -152,35 +152,35 @@ assessed GC dependent differences, error rate, sequence error
 prevalence, chimera prevalence, and correlation between chimera
 prevalence and number of Operational Taxonomic Units (OTUs) by
 polymerase and number of cycles. Next, differences in the number of OTUs
-and taxa was examined based on the polymerase and number of cycles used.
+was examined based on the polymerase and number of cycles used.
 Additionally, differences in the bacterial community composition by the
 Bray-Curtis index also was assessed based on polymerase and number of
-cycles. Finally, Random Forest models were created to test whether the
-bacterial community was better at classifying polymerases, number of
-cycles, or individual donor. We also assessed whether the most important
-taxa in the polymerase and number of cycle Random Forest models also
-were the most important in the model for individual donors.
+cycles. Based on these findings individual taxa differences based on
+polymerase and number of cycles was investigated. Finally, Random Forest
+models were created to test whether the bacterial community was better
+at classifying polymerases, number of cycles, or individual donor. We
+also assessed whether the most important taxa in the polymerase and
+number of cycle Random Forest models were also important in the model
+for individual donors.
 
-\textbf{Results.} In addition to the total counts for specific taxa
-varying by polymerase, we found noticeable differences in relative
-abundance based on high and low GC content (P-value \(\leqslant\) 0.04).
-Chimera prevalence in mock communities varied by polymerase with
-differences being most notable at 35 cycles (Kappa = 5.71\% (median)
-versus Platinum = 26.62\%) and this variation persisted after chimera
-removal using VSEARCH. We also observed positive correlations between
-chimera prevalence and the number of OTUs with Platinum having the
-highest (R\textsuperscript{2} = 0.974) and Kappa having the worst
-(R\textsuperscript{2} = 0.478). When analyzing mock community samples
-the variation in the number of OTUs detected by the polymerases was
-observable as early as 20 cycles (P-value = 0.002). There also was a
-large range in the number of OTUs amplified by the polymerases at 35
-cycles (Accuprime = 15 - 20 versus Phusion = 14 - 73). When analyzing
-fecal samples we observed that the range in the number of OTUs detected
-was not consistent between HiFi DNA polymerases (eg. at 35 cycles
-Accuprime = 84 - 106 (min - max) versus Phusion = 84 - 136).
-Additionally, the median number of OTUs varied by HiFi DNA polymerase
-used at 35 cycles (P-value \textless{} 0.0001). Random Forest models
-were most successful at classifying individual donor samples rather than
+\textbf{Results.} Predictably, we found noticeable differences in
+relative abundance based on high and low GC content (P-value
+\(\leqslant\) 0.04). Chimera prevalence in mock communities varied by
+polymerase with differences being most notable at 35 cycles (Kappa =
+5.71\% (median) versus Platinum = 26.62\%) and this variation persisted
+after chimera removal using VSEARCH. We also observed positive
+correlations between chimera prevalence and the number of OTUs with
+Platinum having the highest (R\textsuperscript{2} = 0.974) and Kappa
+having the worst (R\textsuperscript{2} = 0.478). When analyzing mock
+community samples the variation in the number of OTUs detected by the
+polymerases was observable as early as 20 cycles (P-value = 0.002).
+There also was a large range in the number of OTUs amplified by the
+polymerases at 35 cycles (Accuprime = 15 - 20 versus Phusion = 14 - 73).
+When analyzing fecal samples we observed similar differences in the
+number of OTUs. However, the median number of OTUs only varied by HiFi
+DNA polymerase used at 35 cycles and not at 20 cycles like the mock
+community (P-value \textless{} 0.0001). Random Forest models were most
+successful at classifying individual donor samples rather than
 polymerase or number of cycles used (P-value \(\leqslant\) 5.49e-07).
 Additionally, the most important OTUs in the polymerase and number of
 cycle models were not the most important in the individual donor sample
@@ -375,97 +375,144 @@ number SRP132931.
 
 \subsection{Results}\label{results}
 
-\textbf{\emph{Observed relative abundance differs by GC content.}} There
-was a significant difference in relative abundance between high/low GC
-content based on either the V4 16S rRNA gene region or the whole genome
-{[}Figure 1 \& Table S1{]}.
+\textbf{\emph{Mock community relative abundance differs by GC content.}}
+There was a significant difference in relative abundance between
+high/low GC content based on either the V4 16S rRNA gene region or the
+whole genome {[}Figure 1 \& Table S1{]}. However, using only the GC
+content of the V4 region resulted in less differences than when using
+the whole genome {[}Table S1{]}. The differences between high and low GC
+content groups were significant as early as 20 cycles in all polymerases
+except Q5 {[}Table S1{]}. The highest (\emph{Staphylococcus}) and lowest
+(\emph{Pseudomonas}) GC content bacteria were the most divergent from
+the expected relative abundance of 0.12 {[}Figure 1{]}. These
+observations suggest that the high fidelity DNA polymerases tested do
+not prevent GC-based amplification error.
 
 \textbf{\emph{Sequence error varies by polymerase and is consistent
 across the number of cycles used.}} The median error rate varied by
 polymerase, with Kappa having the highest error rate of all the
-polymerases across the number of cycles {[}Figure 4 \& Table S3{]}. The
-majority of the differences across the number of cycles was between
-Kappa and the other polymerases {[}Figure 4 \& Table S4{]}. The total
-sequences with at least one error was also polymerase dependent, with
-the majority of differences being between Kappa or Accuprime and the
-other polymerases {[}Table S3 \& S4{]}. These differences in error rates
-were not due to polymerase dependent differences in base substitution
-rate {[}Figure S1{]}. Collectively, the results suggest that sequence
-error is dependent on polymerase, persists across the number of cycles
-used, and are not due to any bias towards a specific base substitution.
+polymerases across the number of cycles {[}Figure 2A \& Table S2{]}.
+Thus, the majority of the differences observed across the number of
+cycles was between Kappa and other polymerases {[}Figure 2A \& Table
+S3{]}. The total sequences that contained at least one error was also
+polymerase dependent, with the majority of differences being between
+Kappa or Accuprime and the other polymerases {[}Table S2 \& S3{]}. These
+differences in error rates were not due to polymerase dependent
+differences in base substitution rate {[}Figure S1{]}. Collectively, the
+results suggest that sequence error is dependent on polymerase, persists
+across the number of cycles used, and are not due to any bias towards a
+specific base substitution.
 
 \textbf{\emph{Prevalence of chimeric sequences are polymerase dependent
-and correlate with the number of OTUs:}} Based on the previous results,
+and correlate with the number of OTUs.}} Based on the previous results,
 we examined whether chimeras also were dependent on polymerase and
-whether this could affect the number of OTUs. We observed significant
-differences in the chimera prevalence based on polymerase across the
-number of cycles used (P-value \textless{} 0.05) {[}Table S3{]}.
-Differences in chimera prevalence between Platinum and all other
+whether this could affect the total number of OTUs. We observed
+significant differences in the chimera prevalence based on polymerase
+across the number of cycles used (P-value \textless{} 0.05) {[}Table
+S2{]}. Differences in chimera prevalence between Platinum and all other
 polymerases accounted for the majority of these differences {[}Table
-S4{]}. Accuprime\textsuperscript{TM} had the lowest chimera prevalence
+S3{]}. Accuprime\textsuperscript{TM} had the lowest chimera prevalence
 of all polymerases regardless of whether chimera removal with VSEARCH
-was used {[}Figure 5A \& 5B{]}. The number of cycles used clearly
+was used {[}Figure 2B \& 2C{]}. The number of cycles used clearly
 increased chimera prevalence for all polymerases but the rate of
-increase differed {[}Figure 5A \& 5B{]}. Additionally, there was a
+increase differed {[}Figure 2B \& 2C{]}. Additionally, there was a
 plateau in the total percent of chimeras that were removed that was
-similar for all polymerases {[}Figure 5C{]}. A positive correlation was
+similar for all polymerases {[}Figure 2D{]}. A positive correlation was
 observed between chimeric sequences and the number of OTUs for all
-polymerases {[}Figure 6{]}. This positive correlation was strongest for
-Accuprime\textsuperscript{TM}, Platinum, and Phusion {[}Figure 6{]}.
+polymerases {[}Figure 2E{]}. This positive correlation was strongest for
+Accuprime\textsuperscript{TM}, Platinum, and Phusion {[}Figure 2E{]}.
 This data suggests that chimera prevalence depends on polymerase, is
 made worse by increasing the number of cycles, and confirms that the
 number of OTUs is dependent on the prevalence of these chimeric
 sequences.
 
 \textbf{\emph{The number of OTUs generated are dependent on polymerase
-used:}} Differences in the range of the number of OTUs detected for
-fecal samples is dependent on the polymerase used (e.g.~Accuprime at 35
-cycles = 84 - 106 versus Phusion at 35 cycles = 84 - 136) {[}Figure
-1{]}. Additionally, there is a trend for lower number of cycles (15-20)
-to result in a reduced range in the number of OTUs versus higher number
-of cycles (25, 30, and 35) for all polymerases (e.g.~Phusion at 15
-cycles = 10 - 19 versus Phusion at 35 cycles = 84 - 136) {[}Figure 1{]}.
-There is an overall difference in the number of OTUs detected within
-fecal samples between polymerases at 35 cycles (F-stat \textgreater{}
-16.35, P-value = 9.7e-05) {[}Table S1{]}, but a Tukey post-hoc test
-failed to identify which specific polymerase groups were different
-(P-value \textgreater{} 0.05) {[}Table S2{]}. The polymerase dependent
-difference in the range of the number of OTUs also was observed in the
-mock community samples {[}Figure 2{]}. The closest the polymerases came
-to the total of 8 OTUs created by the mock reference 16S sequences was
-at 25 and 30 cycles {[}Figure 2{]}. Regardless of if fecal or mock
-communities were used, the same polymerases generated high and low
-number of OTUs and this was consistent across the number of cycles used
-{[}Figure 1-2 \& Table S1-S2{]}. In contrast to the results obtained
-with fecal samples, differences between polymerases for the number of
-OTUs created were observed as early as 20 cycles in the mock community
-(F-stat = 15.82, P-value = 0.002) {[}Table S1{]}. Using a Tukey post-hoc
-test, the majority of differences for the number of OTUs detected in the
-mock community was largely due to Kappa and Platinum versus the other
-polymerases across the number of cycles used {[}Table S2{]}. Based on
-these observations in fecal and mock communities, it is clear that using
-different polymerases result in a different total number of OTUs within
-a sample.
+used.}} In addition to the sequence error and chimera differences
+between polymerases, we also investigated whether there were polymerase
+or number of cycle dependent effects on the observed number of OTUs.
+There was a polymerase dependent difference in the range of the number
+of OTUs in the mock community samples {[}Figure 3A{]}. The closest any
+of the polymerases came to a total of 8 OTUs, created by running the
+mock reference 16S sequences through mothur processing, was at 25 and 30
+cycles {[}Figure 3A{]}. Differences between polymerases for the number
+of OTUs created were observed as early as 20 cycles in the mock
+community (F-stat = 15.82, P-value = 0.002) {[}Table S4{]}. Using a
+Tukey post-hoc test, the majority of differences for the number of OTUs
+detected in the mock community was largely due to Kappa and Platinum
+versus the other polymerases across the number of cycles used {[}Table
+S5{]}. Similarily, differences in the range of the number of OTUs
+detected for fecal samples was dependent on the polymerase used
+(e.g.~Accuprime at 35 cycles = 84 - 106 versus Phusion at 35 cycles = 84
+- 136) {[}Figure 3B{]}. There was also a trend for lower number of
+cycles (15-20) to result in a reduced range in the number of OTUs versus
+higher number of cycles (25, 30, and 35) for all polymerases
+(e.g.~Phusion at 15 cycles = 10 - 19 versus Phusion at 35 cycles = 84 -
+136) {[}Figure 3B{]}. Unlike mock community samples, an overall
+difference in the number of OTUs was only detected between polymerases
+at 35 cycles in fecal samples (F-stat \textgreater{} 16.35, P-value =
+9.7e-05) {[}Table S4{]}, and a Tukey post-hoc test failed to identify
+any differences between specific polymerase groups (P-value
+\textgreater{} 0.05) {[}Table S5{]}. Overall, mock communities showed a
+noticeably larger difference between polymerases in the number of OTUs
+than actual fecal samples {[}Figure 3 \& Table S4-S5{]}. This was
+consistent across the number of amplification cycles tested {[}Figure
+3{]}. Based on these observations, it is clear that larger differences
+in total number of OTUs based on polymerases are found in mock versus
+fecal communities.
 
 \textbf{\emph{The bacterial communities generated by the polymerases
-were similar but varied by number of cycles:}} Within each respective
+were similar but varied by number of cycles.}} Next, we investigated the
+effect polymerases and number of cycles had on the bacterial community
+composition in more detail by using the Bray-Curtis index. We observed
+no difference in the bacterial community composition between any measure
+tested when using the mock community (P-value \textgreater{} 0.05)
+{[}Figure 4A{]}. With respect to fecal samples, within each respective
 5-cycle increment comparison there was no difference in Bray-Curtis
 index between the polymerases (P-value \textgreater{} 0.05) {[}Figure
-3{]}. Using PERMANOVA to test for community differences based on any of
+4B{]}. Using PERMANOVA to test for community differences based on any of
 the number of cycles within polymerases, only Phusion had cycle
-dependent differences (P-value = 0.03). For fecal samples, Phusion was
-one of two polymerases that had enough sequences to be rarefied to 1000
+dependent differences (P-value = 0.03). Additionally, Phusion was one of
+two polymerases that had enough sequences to be rarefied to 1000
 sequences at 15 cycles. There was an overall decrease in Bray-Curtis
 index by cycle comparison group (e.g.~the 15 cycle versus 20 cycle group
 compared to the 30 cycle versus 35 cycle group) (P-value \textless{}
-0.01) {[}Figure 3A{]}. Using a Dunn's post-hoc test the 15 cycle versus
+0.01) {[}Figure 4B{]}. Using a Dunn's post-hoc test the 15 cycle versus
 20 cycle and 20 cycle versus 25 cycle comparison groups had a higher
 Bray-Curtis index than the 30 cycle versus 35 cycle comparison group
-(P-value \textless{} 0.05). Similar trends were observed in the mock
-community but none were significant (P-value \textgreater{} 0.05)
-{[}Figure 3B{]}. Overall, these data suggest that the number of cycles
-can change the bacterial community independent of the polymerase used to
-generate the sequences.
+(P-value \textless{} 0.05). Overall, these data suggest that the number
+of cycles can change the bacterial community independent of the
+polymerase used to generate the sequences.
+
+\textbf{\emph{Polymerase dependent differences in taxa are more
+pronounced in mock versus fecal samples.}} Finding minimal differences
+in overall bacterial community composision, we next examined if specific
+taxa vary depending on polymerase and number of cycles. Further
+investigation of mock community samples found that OTUs taxonomically
+classified to \emph{Salmonella}, \emph{Escherichia},
+\emph{Enterococcus}, and \emph{Staphylococcus} differed based on
+polymerase used {[}Table S6 \& S7{]}. These specific OTUs were all
+members of the mock community {[}Table S7{]}. The majority of the
+differences between taxa were due to differences between Kappa and the
+other polymerases {[}Table S7{]}. When differences in OTUs based on
+polymerase were investigated for fecal samples, no differences could be
+found (P-value \(\geqslant\) 0.01, corrected P-value = 1). These results
+suggest that taxa specific differences in mock community samples do not
+carry over to actual fecal community samples.
+
+\textbf{\emph{Variation due to polymerase and number of cycles is
+dwarfed by the biological variation of an individual.}} Using 16S rRNA
+gene sequencing data there was a large disparity in a model's ability to
+correctly classify samples based on polymerase used, number of cycles,
+and individual {[}Figure 5A{]}. The model classification success for an
+individual was significantly better than all other models tested
+{[}Figure 5A \& Table S8{]}. Additionally, the top 10 most impotant
+variables to the polymerase and number of cycle models were not the most
+important variables in the model classifying individuals {[}Figure
+5B{]}. This observation shows that OTUs that change due to the number of
+cycles and polymerase used are not the same as OTUs that differentiate
+between indvidiuals {[}Figure 5B{]}. Although there are a variety of
+errors associated with the amplification process, they are smaller than
+the bacterial community variation between indviduals.
 
 \newpage
 
