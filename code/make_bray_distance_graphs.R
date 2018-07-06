@@ -72,7 +72,7 @@ fecal_graph <- dist_data %>%
              lwd=1, colour="gray") + 
   scale_color_manual(name = "HiFi DNA Polymerase", 
                      values = c("#440154FF", "#3B528BFF", "#21908CFF", "#5DC863FF", "#FDE725FF")) + 
-  theme_bw() +  coord_cartesian(ylim = c(0, 1)) + ggtitle("A") + 
+  theme_bw() +  coord_cartesian(ylim = c(0, 1)) + ggtitle("B") + 
   labs(x = "Cycle Comparison", y = "Bray-Curtis Index") + 
   annotate("text", label = paste("Fecal Data"), x = 4.3, y = 1.0, size = 3.5) + 
   theme(plot.title = element_text(face="bold", hjust = -0.07, size = 20), 
@@ -94,7 +94,7 @@ mock_graph <- mock_dist_data %>%
              lwd=1, colour="gray") + 
   scale_color_manual(name = "HiFi DNA Polymerase", 
                      values = c("#440154FF", "#3B528BFF", "#21908CFF", "#5DC863FF", "#FDE725FF")) + 
-  theme_bw() +  coord_cartesian(ylim = c(0, 1)) + ggtitle("B") + 
+  theme_bw() +  coord_cartesian(ylim = c(0, 1)) + ggtitle("A") + 
   labs(x = "Cycle Comparison", y = "Bray-Curtis Index") + 
   annotate("text", label = paste("Mock Data"), x = 3.35, y = 1.0, size = 3.5) + 
   theme(plot.title = element_text(face="bold", hjust = -0.07, size = 20), 
@@ -108,6 +108,6 @@ mock_graph <- mock_dist_data %>%
         legend.key = element_blank(), 
         legend.background = element_rect(color = "black"))
 
-combined_graph <- grid.arrange(fecal_graph, mock_graph, ncol = 1, nrow = 2)
+combined_graph <- grid.arrange(mock_graph, fecal_graph, ncol = 1, nrow = 2)
 
 ggsave("results/figures/Figure4.pdf", combined_graph, width = 6, height = 6.5, dpi = 300)
