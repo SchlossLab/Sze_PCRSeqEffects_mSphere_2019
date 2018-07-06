@@ -205,10 +205,29 @@ kable(fs_tukey, format = "markdown", align = 'c', padding = 2)
 
 \newpage
 
+**Table S6: Dunns post-hoc results of differences in model classification success using 16S rRNA gene sequencing data**
+
+```{r supplemental_table6, echo=FALSE, message=FALSE, warning=FALSE}
+
+rf_sig_table <- read_csv("../data/process/tables/dunn_rf_model_test_summary.csv") %>% 
+  mutate_at(vars(chi2:bh),  funs(format(., scientific = TRUE, digits = 2, nsmall = 2))) %>% 
+  separate(var1, c("sample_type1", "model1"), sep = "_") %>% 
+  separate(var2, c("sample_type2", "model2"), sep = "_") %>% 
+  mutate(model1 = case_when(
+    model1 == "sample" ~ "individual", 
+    TRUE ~ model1), 
+    model2 = case_when(
+      model2 == "sample" ~ "individual", 
+      TRUE ~ model2))
+  
+colnames(rf_sig_table) <- c("Chi Sq", "Z", "P-value", "BH", "Sample Type 1", "Model 1", "Sample Type 2", "Model 2")
+
+kable(rf_sig_table, format = "markdown", align = 'c', padding = 2)
+
+```
 
 
-
-
+\newpage
 
 
 
