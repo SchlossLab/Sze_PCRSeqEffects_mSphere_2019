@@ -519,50 +519,41 @@ the bacterial community variation between indviduals.
 
 \subsection{Discussion}\label{discussion}
 
-Our observations support that the number of OTUs, error rate, and
-chimera prevalence depends on polymerase used and that chimera
-prevalence is highly correlated with the number of OTUs {[}Figure 1-2 \&
-4-6{]}. Our observations also suggest that undetected chimeras, not
-removed using standard bioinformatic approaches, cause many of these
-differences. In addition to the reported polymerase dependent
-differences, the bacterial community also varied by the number of cycles
-used. These differences are important because many diversity metrics
-rely on calculations (e.g.~richness) that are dependent on the number of
-OTUs. Since the number of OTUs are dependent on error rate and chimera
-prevalence the diversity metrics can vary simply by changing the
-polymerase used. Based on these observations, metrics that measure
-diversity using calculations such as richness depend on the polymerase,
-but this may not be the case for all diversity metrics.
+Previous studies using regular DNA polymerase have reported GC dependent
+amplification differences (Polz \& Cavanaugh, 1998) and we confirm that
+these differences still persist in high fidelity DNA polymerase when
+analyzing mock community samples {[}Figure 1{]}. Additionally, these
+specific polymerases also have different sequence error rate and chimera
+prevalence in these samples {[}Figure 2{]}. Chimera prevalence in
+particular was strongly associated with the total number of OTUs
+detected in a sample {[}Figure 2E{]}. The total number of OTUs also
+varied by polymerase used for mock community samples {[}Fiugre 3A{]}.
+The range in the number of OTUs observed increased with the number of
+cycles and the change in range was dependent on the polymerase for mock
+community and fecal samples {[}Figure 3{]}. However, these differences
+did not translate to large bacterial community composition changes based
+on polymerase {[}Figure 4{]}. Even though there were bacterial community
+composition changes based on the number of cycles they occured
+independently of the polymerase used {[}Figure 4{]}. Additionally, there
+were no differences observed within the number of cycles between any of
+the polymerases for fecal samples. When Random Forest models were
+created to classify number of cycles, polymerase, and individual based
+on the 16S rRNA gene sequencing the model performance for individuals
+was significantly greater than all other models tested {[}Figure 5A{]}.
+In addition to the better model performance of individuals the most
+important OTUs to this model were not the most important OTUs in the
+other models {[}Figure 5B{]}. Our observations show that differences
+between high fidelity DNA polymerases can be found. However, when using
+16S rRNA gene sequencing these technical differences are dwarfed by
+biological differences between individuals.
 
-Based on polymerase used, our observations generally found no difference
-when using the Bray-Curtis index to measure the bacterial community.
-Specifically, there was no difference in distance between successive
-5-cycle increments within samples between the polymerases when using the
-Bray-Curtis index {[}Figure 3{]}. However, the distance between cycle
-comparison groups (e.g.~20 cycles versus 25 cycles group compared to 30
-cycles versus 35 cycles group) was different across polymerase used.
-These results support the idea that cycle number and not the specific
-polymerase used may have a larger affect on metrics such as Bray-Curtis.
-One possible reason for this outcome is that many of the OTUs generated
-by polymerase dependent error rates and chimera prevalence are likely
-not highly abundant, allowing the Bray-Curtis index to be able to
-successfully down-weight these OTUs (Minchin, 1987). The choice of
-downstream diversity metric could be an important consideration in
-helping to mitigate some of the observed polymerase dependent
-differences in error rate and chimera prevalence. Metrics that solely
-use presence/absence of OTUs (e.g.~Jaccard (Real \& Vargas, 1996),
-richness) may be less robust to polymerase dependent error rates and
-chimera prevalence. When choosing a distance metric, careful
-consideration of the biases introduced from the PCR step of the 16S rRNA
-gene sequencing workflow need to be taken into account. One possible way
-to better choose polymerases may be based on the DNA polymerase family
-used in the PCR mixture.
-
-Although the variation in error rate and chimera prevalence may be due
-to the DNA polymerase family because of the different binding affinities
-and error correction capacity (Ishino \& Ishino, 2014), this is unlikely
-to be the only contributor. Within our study the highest and lowest
-chimera prevalence both belonged to a family A polymerase (Platinum and
+The small differences observed due to error rate and chimera prevalence
+may be due to the actual DNA polymerase family being used within the PCR
+mix. DNA polymerases from distinct families have different binding
+affinities and error correction capacity (Ishino \& Ishino, 2014).
+However, based on the observations within our study this is unlikely to
+be the only contributor. Within our study the highest and lowest chimera
+prevalence both belonged to a family A polymerase (Platinum and
 Accuprime\textsuperscript{TM} respectively) (Ishino \& Ishino, 2014).
 Additionally, based on the information supplied by the respective
 manufacturers, the differences between the two PCR mixtures are not
@@ -577,30 +568,48 @@ prevalence. Beyond the choice of the type of polymerase, there may be
 other ways to reduce the affect of polymerase dependent error rates and
 chimera prevalence on the downstream results.
 
-Standardization of the 16S rRNA gene sequencing workflow may partially
-solve this problem by introducing a consistent bias to all samples.
-However, as mentioned in the introduction, many of the choices made to
-standardize the workflow will result in missing important members of the
-microbial community. Therefore, the degree of workflow standardization
-across studies and research groups need to be approached on a study by
-study basis. All aspects of the 16S rRNA gene sequencing workflow should
-be customized for the specific scientific questions that want to be
-answered. Although a diversity of approaches may make reproducibility
-and replicability more difficult it will help reduce systematic biases
-from occurring.
+Based on polymerase used, our observations generally found no difference
+when using the Bray-Curtis index to measure the bacterial community.
+Specifically, there was no difference in distance between successive
+5-cycle increments within samples between the polymerases when using the
+Bray-Curtis index {[}Figure 4{]}. One possible reason for this outcome
+is that many of the OTUs generated by polymerase dependent error rates
+and chimera prevalence are likely not highly abundant, allowing the
+Bray-Curtis index to be able to successfully down-weight these OTUs
+(Minchin, 1987). The choice of downstream diversity metric could be an
+important consideration in helping to mitigate some of the observed
+polymerase dependent differences in error rate and chimera prevalence.
+Metrics that solely use presence/absence of OTUs (e.g.~Jaccard (Real \&
+Vargas, 1996), richness) may be less robust to polymerase dependent
+error rates and chimera prevalence. When choosing a distance metric,
+careful consideration of the biases introduced from the PCR step of the
+16S rRNA gene sequencing workflow need to be taken into account. One
+possible way to better choose polymerases may be based on the DNA
+polymerase family used in the PCR mixture.
+
+Collectively, our data shows that using distinct high fidelity DNA
+polymerases will result in a different number of OTUs being detected.
+The differences in the number of OTUs are primarily due to chimera
+prevalence and sequence error rates that are distinct to the specific
+polymerase. Despite this variation in the number of OTUs, our Random
+Forest models were able to correctly classify individuals regardless of
+the number of cycles and polymerase used. These results suggest that
+even though there is a large variation in the high fidelity DNA
+polymerases used across studies, biological variation similar in effect
+to bacterial community composition differences between individuals will
+still be consistent.
 
 \newpage
 
 \subsection{Conclusion}\label{conclusion}
 
-Our observations show that errors dependent on either high fidelity DNA
-polymerases used or the number of cycles chosen can change diversity
-metrics used in 16S rRNA gene sequencing. Care should be taken when
-choosing a polymerase for 16S rRNA gene surveys because they can
-influence diversity-based metrics. By knowing the inherent bias
-associated with different polymerases it allows for more informed
-choices to be made on how to reduce 16S rRNA gene sequencing-based
-error.
+Although care should always be taken when choosing a polymerase for 16S
+rRNA gene sequencing, our observations show that the differences between
+a variety of polymerases are dwarfed by the actual biological variation
+between individuals. Therefore, if the biological signal of interest is
+similar to differences in bacterial community composition found between
+individuals, then the type of high fidelity DNA polymerase used will
+only minimally change the results.
 
 \newpage
 
