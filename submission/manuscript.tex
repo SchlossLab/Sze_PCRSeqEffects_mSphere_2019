@@ -203,30 +203,21 @@ a number of diseases (Turnbaugh et al., 2008; Sze et al., 2015; Baxter
 et al., 2016; Bonfili et al., 2017). However, for diseases like obesity,
 the taxa identified have varied widely depending on the study (Turnbaugh
 et al., 2008; Zupancic et al., 2012). Some of this variation could be
-due to error introduced during the 16S rRNA gene sequencing workflow.
-Yet, standardizing a 16S rRNA gene sequencing workflow will ultimately
-result in a standardized and reproducible bias due to choices made on
-the methods used for preservation, extraction, PCR, and sequencing.
-Within this context, all 16S rRNA gene sequencing methods are biased
-even when these workflows are standardized to increase reproducibility.
-In order to interpret specific studies within the broader context of the
-overall field, assessing error at different parts of the 16S rRNA gene
-sequencing workflow is critical.
-
-A typical 16S rRNA gene sequencing workflow can be divided into
+due to error introduced during the 16S rRNA gene sequencing workflow. A
+typical 16S rRNA gene sequencing workflow can be divided into
 preservation, extraction, PCR, and sequencing steps. The preservation
 and extraction stages of the 16S rRNA gene sequencing workflow have been
 the most extensively studied (Salter et al., 2014; Song et al., 2016;
 Bassis et al., 2017; Kim et al., 2017). For preservation and extraction
 stages of the workflow, it has been consistently found that there are
-biases based on the kits used, but that these differences are smaller
+errors based on the kits used, but that these differences are smaller
 than the overall biological difference measured between samples with
 different kits (Song et al., 2016; Bassis et al., 2017). Since these
 studies use the same PCR approach while varying preservation or
-extraction method, the contribution of PCR bias to this overall workflow
-is not well characterized.
+extraction method, the contribution of PCR error to this overall
+workflow is not well characterized.
 
-There is a large body of literature that shows there are biases due to
+There is a large body of literature that shows there are errors due to
 primer and number of cycles chosen for the PCR stage of 16S rRNA gene
 sequencing (Eckert \& Kunkel, 1991; Burkardt, 2000). Primers have
 variable region dependent binding affinities which causes an inability
@@ -236,7 +227,7 @@ to detect specific bacteria (e.g.~V1-V3 does not detect
 al., 2016). Another source of error is the selective amplification of
 AT-rich over GC-rich sequences which exaggerate the difference between
 16S rRNA genes higher in AT versus those higher in GC content (Polz \&
-Cavanaugh, 1998). Many of these sources of biases are made worse as the
+Cavanaugh, 1998). Many of these sources of error are made worse as the
 number of cycles increases (Wang \& Wang, 1996; Haas et al., 2011;
 Kebschull \& Zador, 2015). For example, both amplification error and
 non-specific amplification (e.g.~incorrect amplicon size products) also
@@ -260,15 +251,24 @@ between normal and high fidelity DNA polymerases (Gohl et al., 2016).
 The authors could reduce the difference between the two polymerases by
 optimizing the annealing and extension steps within the PCR protocol
 (Gohl et al., 2016). Yet, within this study there was no comparison made
-between different high fidelity DNA polymerases. Due to this gap, it is
-natural to extend this line of inquiry and test if biases in the number
-of OTUs and chimeras also are dependent on the type of high fidelity DNA
-polymerase. This study will investigate how high fidelity DNA
-polymerases can bias observed bacterial community results derived from
-16S rRNA gene sequencing. We will accomplish this by examining the
-number of OTUs, Bray-Curtis index, error rate, number of sequences with
-an error, and chimera prevalence at varying number of cycles in five
-different high fidelity DNA polymerases
+between different high fidelity DNA polymerases. Additionally, the more
+complex fecal samples that were analyzed had different methodolgies
+applied to the two different groups tested, which could exagerate the
+actual biological differences detected. Due to this gap, it is natural
+to extend this line of inquiry. First, for detecting whether there are
+high fidelity polymerase and number of cycle dependent error. Second,
+for examining whether these differences are enough to obscure smaller
+biological signals than what has been previously reported (Gohl et al.,
+2016). Thus, this study will investigate whether differences in high
+fidelity DNA polymerases are due to error and whether these differences
+obscure the biological variation in the fecal bacterial community
+composition between individuals. We will accomplish this by examining
+GC-based amplification error, sequence error (e.g.~subsitutions),
+chimera prevalence, the number of OTUs, Bray-Curtis index, and OTU-based
+differences at varying number of cycles in five different high fidelity
+DNA polymerases. Additionally, we also used Random Forest models to
+classify number of cycles, polymerase, and individuals to assess which
+model was best when using 16S rRNA gene sequencing data.
 
 \newpage
 
@@ -327,7 +327,12 @@ was determined using the `seq.error' command on mock samples to compare
 back to the reference 16S sequences of \emph{P. aeruginosa}, \emph{E.
 coli}, \emph{S. enterica}, \emph{L. fermentum}, \emph{E. faecalis},
 \emph{S. aureus}, \emph{L. monocytogenes}, and \emph{B. subtilis}
-(Schloss et al., 2009; Cole et al., 2013; Rognes et al., 2016).
+(Schloss et al., 2009; Cole et al., 2013; Rognes et al., 2016). For
+simplicity, the use of the term `error' within the context of this study
+moving forward encompasses changes in the downstream sequencing results
+due to the amplification step (e.g.~higher GC content genomes, base
+subsitutions, deletions, insertions, non-specific amplification,
+chimeras, etc.).
 
 \textbf{\emph{Analysis workflow.}} To adjust for unequal sequencing, all
 samples were rarefied to 1000 sequences for downstream analysis.
