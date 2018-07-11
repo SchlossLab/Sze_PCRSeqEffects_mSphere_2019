@@ -210,12 +210,13 @@ and extraction stages of the 16S rRNA gene sequencing workflow have been
 the most extensively studied (Salter et al., 2014; Song et al., 2016;
 Bassis et al., 2017; Kim et al., 2017). For preservation and extraction
 stages of the workflow, it has been consistently found that there are
-errors based on the kits used, but that these differences are smaller
-than the overall biological difference measured between samples with
-different kits (Song et al., 2016; Bassis et al., 2017). Since these
-studies use the same PCR approach while varying preservation or
-extraction method, the contribution of PCR error to this overall
-workflow is not well characterized.
+errors in the observed bacterial community composition based on the kits
+used, but that these differences are smaller than the overall biological
+difference measured between samples with different kits (Song et al.,
+2016; Bassis et al., 2017). Since these studies use the same PCR
+approach while varying preservation or extraction method, the
+contribution of PCR error to this overall workflow is not well
+characterized.
 
 There is a large body of literature that shows there are errors due to
 primer and number of cycles chosen for the PCR stage of 16S rRNA gene
@@ -244,31 +245,35 @@ multiple families of DNA polymerases that have their own error rate and
 proof reading capacity (Ishino \& Ishino, 2014). Interestingly, the
 influence that these different DNA polymerases can have on the observed
 16S rRNA gene sequencing results have not been well studied like some of
-the other sources of PCR-based bias.
+the other sources of PCR-based error
 
 A recent study found differences in the number of OTUS and chimeras
 between normal and high fidelity DNA polymerases (Gohl et al., 2016).
-The authors could reduce the difference between the two polymerases by
-optimizing the annealing and extension steps within the PCR protocol
-(Gohl et al., 2016). Yet, within this study there was no comparison made
-between different high fidelity DNA polymerases. Additionally, the more
-complex fecal samples that were analyzed had different methodolgies
-applied to the two different groups tested, which could exagerate the
-actual biological differences detected. Due to this gap, it is natural
-to extend this line of inquiry. First, for detecting whether there are
-high fidelity polymerase and number of cycle dependent error. Second,
-for examining whether these differences are enough to obscure smaller
-biological signals than what has been previously reported (Gohl et al.,
-2016). Thus, this study will investigate whether differences in high
-fidelity DNA polymerases are due to error and whether these differences
-obscure the biological variation in the fecal bacterial community
-composition between individuals. We will accomplish this by examining
-GC-based amplification error, sequence error (e.g.~subsitutions),
-chimera prevalence, the number of OTUs, Bray-Curtis index, and OTU-based
+The authors of this study could reduce the difference between two
+polymerases by optimizing the annealing and extension steps within the
+PCR protocol (Gohl et al., 2016). Yet, within this study there was no
+comparison made between different high fidelity DNA polymerases on the
+same samples. Additionally, the fecal samples that were analyzed, as a
+model of a more complex community, had different processing methodolgies
+applied to the two different treatment groups tested, which could
+exagerate the observed biological differences. Due to these gaps, it is
+natural to extend the previous line of inquiry to include a more
+detailed examination of two specific areas. First, for the investigation
+of whether differences in PCR error are detected between high fidelity
+polymerases and number of cycles used. Second, for examining whether
+these differences in error are enough to obscure smaller biological
+signals than what has been previously reported (Gohl et al., 2016).
+Thus, this study will investigate whether differences in high fidelity
+DNA polymerases are due to error and whether these differences obscure
+the biological variation in the fecal bacterial community composition
+between individuals. We accomplish this by examining GC-based
+amplification error, sequence error (e.g.~subsitutions), chimera
+prevalence, the number of OTUs, Bray-Curtis index, and OTU-based
 differences at varying number of cycles in five different high fidelity
-DNA polymerases. Additionally, we also used Random Forest models to
+DNA polymerases. Additionally, we also created Random Forest models to
 classify number of cycles, polymerase, and individuals to assess which
-model was best when using 16S rRNA gene sequencing data.
+model had the best classification success when using 16S rRNA gene
+sequencing data.
 
 \newpage
 
