@@ -259,15 +259,13 @@ code/make_correlation_graphs.R
 	R -e "source('code/make_mock_chimera_count_graphs.R')"
 
 # Number of OTU graph
-$(FIGS)/Figure3.pdf : $(FS_ZSCORE_TABLES) $(M_COUNT_TABLES)\
-code/make_fecal_numOTU_graphs.R code/make_numOTU_graphs.R
-	R -e "('code/make_numOTU_graphs.R')"
+$(FIGS)/Figure3.pdf : $(M_BC_5_TABLES) $(M_COUNT_TABLES) code/figure3.R
+	R -e "('code/figure3.R')"
 
 
 # Run code to create Figure 3 - Bray-Curtis distance differences by 5 set cycle
-$(FIGS)/Figure4.pdf : $(M_BC_5_TABLES) $(FS_BC_5_TABLES)\
-code/make_bray_distance_graphs.R
-	R -e "source('code/make_bray_distance_graphs.R')"
+$(FIGS)/Figure4.pdf : $(FS_ZSCORE_TABLES) $(FS_BC_5_TABLES) code/figure4.R
+	R -e "source('code/figure4.R')"
 
 # RF model classification for samples, cycles, and polymerase
 $(FIGS)/Figure5.pdf : $(PROC)/tables/sample_group_rf_imp_vars_summary.csv\
