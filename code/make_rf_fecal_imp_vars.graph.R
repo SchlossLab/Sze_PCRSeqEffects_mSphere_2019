@@ -78,7 +78,7 @@ imp_taxa_graph <- rf_data %>%
                             labels = c("Cycles", "Polymerase", "Cycles & Polymerase"))) %>% 
   ggplot(aes(otu, median_mda, color = other_model, shape = other_model, fill = other_model)) + 
   # geom_hline(yintercept = 0, linetype = "dashed") + 
-  geom_point(size = 3) + ggtitle("B") + coord_cartesian(ylim = c(0, 7)) + 
+  geom_point(size = 3) + coord_cartesian(ylim = c(0, 7)) + 
   theme_bw() + labs(x = "", y = "Median MDA") + 
   scale_shape_manual(name = "", values = c(1, 21, 21, 21)) + 
   scale_color_manual(name = "", values = c('#8B8386', '#B0171F', '#0000FF', '#308014')) + 
@@ -112,6 +112,6 @@ imp_taxa_graph <- rf_data %>%
 
 test <- grid.arrange(model_graph, imp_taxa_graph, layout_matrix = rbind(c(1, 1, 2, 2, 2)))
 
-ggsave("results/figures/Figure5.pdf", test, width = 11, height = 5, dpi = 300)
+ggsave("results/figures/Figure5.pdf", imp_taxa_graph, width = 6.5, height = 5, dpi = 300)
 
              
