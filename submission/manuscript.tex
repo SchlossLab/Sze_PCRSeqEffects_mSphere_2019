@@ -189,7 +189,7 @@ model.
 \textbf{Conclusions.} Although there are 16S rRNA gene sequencing
 differences based on polymerase and number of cycles used, they are
 small with respect to the biological differences between fecal bacterial
-communities within indivdiuals. Collectively, these results provide
+communities within individuals. Collectively, these results provide
 evidence that a real biological difference between groups, based on 16S
 rRNA gene sequencing of fecal samples, should be detectable regardless
 of polymerase and number of cycles used.
@@ -215,7 +215,7 @@ used, but that these differences are smaller than the overall biological
 difference measured between samples with different kits (Song et al.,
 2016; Bassis et al., 2017). Since these studies use the same PCR
 approach while varying preservation or extraction method, the
-contribution of PCR error to this overall workflow is not well
+contribution of PCR error to this overall workflow is not as well
 characterized.
 
 There is a large body of literature that shows there are errors due to
@@ -242,38 +242,52 @@ al., 2011). These chimeras will artificially increase community
 diversity by increasing the number of OTUs that are observed (Haas et
 al., 2011). In addition to these sources of errors, there also are
 multiple families of DNA polymerases that have their own error rate and
-proof reading capacity (Ishino \& Ishino, 2014). Interestingly, the
-influence that these different DNA polymerases can have on the observed
-16S rRNA gene sequencing results have not been well studied like some of
-the other sources of PCR-based error
+proof reading capacity (Ishino \& Ishino, 2014). For simplicity, the use
+of the term `error' within the context of this study will be used as a
+broad term for changes in the downstream sequencing results due to the
+amplification step (e.g.~higher GC content genomes, base substitutions,
+chimeras, changes from the expected relative abundance, etc.).
 
-A recent study found differences in the number of OTUS and chimeras
-between normal and high fidelity DNA polymerases (Gohl et al., 2016).
-The authors of this study could reduce the difference between two
-polymerases by optimizing the annealing and extension steps within the
-PCR protocol (Gohl et al., 2016). Yet, within this study there was no
-comparison made between different high fidelity DNA polymerases on the
-same samples. Additionally, the fecal samples that were analyzed, as a
-model of a more complex community, had different processing methodolgies
-applied to the two different treatment groups tested, which could
-exagerate the observed biological differences. Due to these gaps, it is
-natural to extend the previous line of inquiry to include a more
-detailed examination of two specific areas. First, for the investigation
-of whether differences in PCR error are detected between high fidelity
-polymerases and number of cycles used. Second, for examining whether
-these differences in error are enough to obscure smaller biological
-signals than what has been previously reported (Gohl et al., 2016).
-Thus, this study will investigate whether differences in high fidelity
-DNA polymerases are due to error and whether these differences obscure
-the biological variation in the fecal bacterial community composition
-between individuals. We accomplish this by examining GC-based
-amplification error, sequence error (e.g.~subsitutions), chimera
+Interestingly, the influence different DNA polymerases can have on the
+observed 16S rRNA gene sequencing results have not been well studied
+like some of the other sources of PCR-based error. A recent study found
+differences in the number of OTUS and chimeras between normal and high
+fidelity DNA polymerases (Gohl et al., 2016). The authors of this study
+could reduce the difference between two polymerases by optimizing the
+annealing and extension steps within the PCR protocol (Gohl et al.,
+2016). Yet, within this study there was no comparison made between
+different high fidelity DNA polymerases on the same samples. The authors
+instead focused their efforts on testing specific types of amplification
+methods. Additionally, the fecal samples that were analyzed, as a model
+of a more complex community, may overestimate the biological variation
+in human samples due to the comparison of captive versus semi-captive
+red-shanked doucs. Due to these gaps, it makes sense to extend the
+previous line of inquiry to include a more detailed examination of two
+specific areas. First, whether differences in PCR error are detected
+based on number of cycles used and high fidelity polymerases. Second,
+whether these differences in error are enough to obscure smaller
+biological signals than what has been previously reported (Gohl et al.,
+2016).
+
+This study will investigate whether there are error differences that are
+dependent on high fidelity DNA polymerases and whether these differences
+obscure the biological variation in the fecal bacterial communities
+between individuals. We accomplish this by first examining GC-based
+amplification error, sequence error (e.g.~substitutions), chimera
 prevalence, the number of OTUs, Bray-Curtis index, and OTU-based
 differences at varying number of cycles in five different high fidelity
-DNA polymerases. Additionally, we also created Random Forest models to
-classify number of cycles, polymerase, and individuals to assess which
-model had the best classification success when using 16S rRNA gene
-sequencing data.
+DNA polymerases in mock communities. In addition to these metrics we
+also created Random Forest models of the mock community to assess how
+successful classification based on 16S rRNA gene sequencing of number of
+cycles and type of polymerase could be. We then assessed if similar
+differences in the number of OTUs, Bray-Curtis index, and OTUs could be
+detected in human fecal samples. Additionally, we also created Random
+Forest models to assess how successful they could be at classifying
+fecal samples by number of cycles, polymerase used, or individual.
+Collectively, our observations suggest that although detectable
+differences occur based on number of cycles or high fidelity DNA
+polymerase used, they are smaller than the biological differences
+between individuals.
 
 \newpage
 
@@ -336,7 +350,7 @@ coli}, \emph{S. enterica}, \emph{L. fermentum}, \emph{E. faecalis},
 simplicity, the use of the term `error' within the context of this study
 moving forward encompasses changes in the downstream sequencing results
 due to the amplification step (e.g.~higher GC content genomes, base
-subsitutions, deletions, insertions, non-specific amplification,
+substitutions, deletions, insertions, non-specific amplification,
 chimeras, etc.).
 
 \textbf{\emph{Analysis workflow.}} To adjust for unequal sequencing, all
@@ -371,7 +385,7 @@ within R. The Random Forest models were run using the caret package (v
 6.0.78) (Jed Wing et al., 2017). A total of 100 10-fold CV runs on
 different 80/20 splits of the data was run to generate a range of the
 Logloss value. The probability of a correct call was obtained from this
-Logloss value by taking the negative natural logrithim. For both error
+Logloss value by taking the negative natural logarithm. For both error
 and chimera analysis, samples were tested using Kruskal-Wallis with a
 Dunns post-hoc test. Where applicable, correction for multiple
 comparison utilized the Benjamini-Hochberg method (Benjamini \&
@@ -451,7 +465,7 @@ community (F-stat = 15.82, P-value = 0.002) {[}Table S4{]}. Using a
 Tukey post-hoc test, the majority of differences for the number of OTUs
 detected in the mock community was largely due to Kappa and Platinum
 versus the other polymerases across the number of cycles used {[}Table
-S5{]}. Similarily, differences in the range of the number of OTUs
+S5{]}. Similarly, differences in the range of the number of OTUs
 detected for fecal samples was dependent on the polymerase used
 (e.g.~Accuprime at 35 cycles = 84 - 106 versus Phusion at 35 cycles = 84
 - 136) {[}Figure 3B{]}. There was also a trend for lower number of
@@ -517,14 +531,14 @@ gene sequencing data there was a large disparity in a model's ability to
 correctly classify samples based on polymerase used, number of cycles,
 and individual {[}Figure 5A{]}. The model classification success for an
 individual was significantly better than all other models tested
-{[}Figure 5A \& Table S8{]}. Additionally, the top 10 most impotant
+{[}Figure 5A \& Table S8{]}. Additionally, the top 10 most important
 variables to the polymerase and number of cycle models were not the most
 important variables in the model classifying individuals {[}Figure
 5B{]}. This observation shows that OTUs that change due to the number of
 cycles and polymerase used are not the same as OTUs that differentiate
-between indvidiuals {[}Figure 5B{]}. Although there are a variety of
+between individuals {[}Figure 5B{]}. Although there are a variety of
 errors associated with the amplification process, they are smaller than
-the bacterial community variation between indviduals.
+the bacterial community variation between individuals.
 
 \newpage
 
@@ -538,13 +552,13 @@ different sequence error rates and chimera prevalence {[}Figure 2{]}.
 Chimera prevalence in particular was strongly associated with the total
 number of OTUs detected in a mock community {[}Figure 2E{]}. This total
 number of OTUs also varied by polymerase used for these mock community
-samples {[}Fiugre 3A{]}. The range in the number of OTUs observed
+samples {[}Figure 3A{]}. The range in the number of OTUs observed
 increased with the number of cycles and the change in range was
 dependent on the polymerase for both mock community and fecal samples
 {[}Figure 3{]}. However, these differences did not translate to large
 bacterial community composition changes based on polymerase {[}Figure
 4{]}. Even though there were bacterial community composition changes
-based on the number of cycles they occured independently of the
+based on the number of cycles they occurred independently of the
 polymerase used {[}Figure 4{]}. Additionally, there were no OTU-based
 differences observed within the number of cycles between any of the
 polymerases for fecal samples. When Random Forest models were created to
