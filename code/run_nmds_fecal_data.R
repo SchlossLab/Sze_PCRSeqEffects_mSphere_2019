@@ -270,6 +270,25 @@ permanova_results <- sapply(sub_sample_level,
                function(x) get_permanova(x, sep_meta_list, sep_red_bray_dist), simplify = F) %>% 
   bind_rows()
 
+# Run the PERMANOVA with both variables included
+meta_1000_only <- meta_list[["1000"]]
+samples_to_keep <- meta_1000_only$full_name
+bray_all_1000 <- braycurtis_dist[["1000"]][samples_to_keep, samples_to_keep]
+
+
+set.seed(12345)
+combo_test <- adonis(as.dist(bray_all_1000) ~ 
+                       factor(meta_1000_only$sample_name) * factor(meta_1000_only$taq)/factor(meta_1000_only$cycles), 
+                     permutations = 9999)$aov.tab %>% 
+  mutate(x1 = case_when(
+    str_detect(rownames(.), "sample_name") & str_detect(rownames(.), "taq") == F ~ "individual", 
+    str_detect(rownames(.), "taq") & str_detect(rownames(.), "cycles") == F & 
+      str_detect(rownames(.), "sample_name") == F ~ "polymerase", 
+    str_detect(rownames(.), "sample_name") & str_detect(rownames(.), "cycles") ~ "interaction_ind_poly_cycle",
+    str_detect(rownames(.), "sample_name") & str_detect(rownames(.), "cycles") == F ~ "interaction_ind_poly", 
+    TRUE ~ rownames(.)))
+
+
 # Write out results 
 write_csv(kruskal_test_data, "data/process/tables/bray_sim_to_prev_cycle_kruskal_results.csv")
 write_csv(permanova_results, "data/process/tables/bray_permanova_by_taq_results.csv")
@@ -279,4 +298,4 @@ sapply(c(1:length(finalized_tables)),
                              paste("data/process/tables/bray_5_cycle_dist_", sub_sample_level[x], "_data.csv", sep = "")))
 
 
-
+write_csv(combo_test, "data/process/tables/fecal_bray_combined_permanova_results.csv")
