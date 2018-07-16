@@ -347,12 +347,11 @@ meta_1000_only <- meta_list[["1000"]]
 
 set.seed(12345)
 combo_test <- adonis(as.dist(bray_all_1000) ~ 
-#                 factor(meta_1000_only$cycles) + factor(meta_1000_only$taq) + 
-                  factor(meta_1000_only$taq)*factor(meta_1000_only$cycles), permutations = 9999)$aov.tab %>% 
+                  factor(meta_1000_only$taq)/factor(meta_1000_only$cycles), permutations = 9999)$aov.tab %>% 
   mutate(x1 = case_when(
     str_detect(rownames(.), "cycles") & str_detect(rownames(.), "taq") == F ~ "cycles", 
     str_detect(rownames(.), "taq") & str_detect(rownames(.), "cycles") == F ~ "polymerase", 
-    str_detect(rownames(.), "taq") & str_detect(rownames(.), "cycles") ~ "interaction", 
+    str_detect(rownames(.), "taq") & str_detect(rownames(.), "cycles") ~ "interaction_polymerase_cycles", 
     TRUE ~ rownames(.)))
 
 # Write out results 
