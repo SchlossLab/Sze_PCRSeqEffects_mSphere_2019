@@ -176,9 +176,9 @@ community samples the variation in the number of OTUs detected by the
 polymerases was observable as early as 20 cycles (P-value = 0.002).
 There also was a large range in the number of OTUs amplified by the
 polymerases at 35 cycles (Accuprime = 15 - 20 versus Phusion = 14 - 73).
-When analyzing fecal samples we observed similar differences in the
-number of OTUs. However, the median number of OTUs only varied by HiFi
-DNA polymerase used at 35 cycles and not at 20 cycles like the mock
+When analyzing fecal samples we observed smaller differences in the
+number of OTUs. Additionally, the median number of OTUs only varied by
+HiFi DNA polymerase used at 35 cycles and not at 20 cycles like the mock
 community (P-value \textless{} 0.0001). Random Forest models were most
 successful at classifying individual donor samples rather than
 polymerase or number of cycles used (P-value \(\leqslant\) 5.49e-07).
@@ -186,13 +186,13 @@ Additionally, the most important OTUs in the polymerase and number of
 cycle models were not the most important in the individual donor sample
 model.
 
-\textbf{Conclusions.} Although there are 16S rRNA gene sequencing
-differences based on polymerase and number of cycles used, they are
-small with respect to the biological differences between fecal bacterial
-communities within individuals. Collectively, these results provide
-evidence that a real biological difference between groups, based on 16S
-rRNA gene sequencing of fecal samples, should be detectable regardless
-of polymerase and number of cycles used.
+\textbf{Conclusions.} Although there were 16S rRNA gene sequencing
+differences based on polymerase and number of cycles used, bacterial
+community composition differences are mostly only detectable in mock
+communities. Collectively, these results provide evidence that smaller
+biological differences between groups, based on 16S rRNA gene sequencing
+of fecal samples, can be consistently detected regardless of polymerase
+and number of cycles used.
 
 \newpage
 
@@ -360,18 +360,22 @@ S5{]}.
 
 We next investigated the effect polymerases and number of cycles had on
 the bacterial community composition in more detail by using the
-Bray-Curtis index. We observed no difference in the bacterial community
-composition between any measure tested when using the mock community
-(P-value \textgreater{} 0.05) {[}Figure 3B{]}. Finding minimal
-differences in overall bacterial community composition, we next examined
-if specific taxa vary depending on polymerase and number of cycles. We
-found that OTUs that taxonomically classified to \emph{Salmonella},
-\emph{Escherichia}, \emph{Enterococcus}, and \emph{Staphylococcus}
-differed based on polymerase used {[}Table S6 \& S7{]}. These specific
-OTUs were all members of the mock community and the differences were
-most pronounced at 25 and 30 cycles {[}Table S7{]}. The majority of the
-differences between taxa were due to differences between a single
-polymerase (Kappa) and the other polymerases tested {[}Table S7{]}.
+Bray-Curtis index. We observed clear differences in the mock community
+based on polymerase used (P-value = 1e-04) as well as differences based
+on polymerase and number of cycles (P-value = 1e-04). However, when
+investigating specific cycles within each polymerase we observed no
+difference in the bacterial community composition (P-value
+\textgreater{} 0.05) {[}Figure 3B{]}. Finding specific differences in
+overall bacterial community composition based on number of cycles and
+polymerase, we next examined if specific taxa vary depending on
+polymerase and number of cycles. We found that OTUs that taxonomically
+classified to \emph{Salmonella}, \emph{Escherichia},
+\emph{Enterococcus}, and \emph{Staphylococcus} differed based on
+polymerase used {[}Table S6 \& S7{]}. These specific OTUs were all
+members of the mock community and the differences were most pronounced
+at 25 and 30 cycles {[}Table S7{]}. The majority of the differences
+between taxa were due to differences between a single polymerase (Kappa)
+and the other polymerases tested {[}Table S7{]}.
 
 Based on these observations, we created Random Forest models to classify
 samples based on number of cycles or polymerase used. When assessing the
@@ -403,28 +407,29 @@ cycles = 84 - 136) {[}Figure 4A{]}. Based on these observations, there
 are only small differences in the total number of OTUs detected in fecal
 samples that are based on number of cycles or polymerases used.
 
-When using the Bray-Curtis index, we observed that the affect
-polymerases and number of cycles had on the bacterial community
-composition in fecal samples was minimal. Within each respective 5-cycle
-increment comparison there was no difference in Bray-Curtis index
-between the polymerases (P-value \textgreater{} 0.05) {[}Figure 4B{]}.
-When using PERMANOVA to test for community differences based on any of
-the number of cycles within polymerases, only Phusion had cycle
-dependent differences (P-value = 0.03). Additionally, Phusion was one of
-two polymerases that had enough sequences to be rarefied to 1000
-sequences at 15 cycles. There was also an overall decrease in
-Bray-Curtis index by cycle comparison group (e.g.~the 15 cycle versus 20
-cycle group compared to the 30 cycle versus 35 cycle group) (P-value
-\textless{} 0.01) {[}Figure 4B{]}. Using a Dunn's post-hoc test the 15
-cycle versus 20 cycle and 20 cycle versus 25 cycle comparison groups had
-a higher Bray-Curtis index than the 30 cycle versus 35 cycle comparison
-group (P-value \textless{} 0.05). In addition to assessing community
-composition by Bray-Curtis index, we also investigated differences in
-OTUs based on polymerase at each number of cycle used and no significant
-differences could be found (P-value \(\geqslant\) 0.01, corrected
-P-value = 1). Overall, these results suggest that in fecal samples the
-number of cycles and polymerase used only minimally change the bacterial
-community composition.
+When using the Bray-Curtis index, we observed that polymerases and
+number of cycles had no affect on the bacterial community composition in
+fecal samples (P-value = 1). There was also no interaction between
+individuals, number of cycles, and polymerase used (P-value = 1). When
+using PERMANOVA to test for community differences based on any of the
+number of cycles within polymerases, only Phusion had cycle dependent
+differences (P-value = 0.03). Additionally, Phusion was one of two
+polymerases that had enough sequences to be rarefied to 1000 sequences
+at 15 cycles. Within each respective 5-cycle increment comparison there
+was no difference in Bray-Curtis index between the polymerases (P-value
+\textgreater{} 0.05) {[}Figure 4B{]}. However, there was an overall
+decrease in Bray-Curtis index by cycle comparison group (e.g.~the 15
+cycle versus 20 cycle group compared to the 30 cycle versus 35 cycle
+group) (P-value \textless{} 0.01) {[}Figure 4B{]}. Using a Dunn's
+post-hoc test the 15 cycle versus 20 cycle and 20 cycle versus 25 cycle
+comparison groups had a higher Bray-Curtis index than the 30 cycle
+versus 35 cycle comparison group (P-value \textless{} 0.05). In addition
+to assessing community composition by Bray-Curtis index, we also
+investigated differences in OTUs based on polymerase at each number of
+cycle used and no significant differences could be found (P-value
+\(\geqslant\) 0.01, corrected P-value = 1). Overall, these results
+suggest that in fecal samples the number of cycles and polymerase used
+only minimally change the bacterial community composition.
 
 Finally, we built Random Forest models to classify samples for the
 number of cycles, polymerase used, or individual it was obtained from.
