@@ -461,28 +461,34 @@ persist in high fidelity DNA polymerase when analyzing mock community
 samples {[}Figure 1{]}. Additionally, these specific polymerases have
 different sequence error rates and chimera prevalence {[}Figure 2{]}.
 Chimera prevalence in particular was strongly associated with the total
-number of OTUs detected in a mock community {[}Figure 2E{]}. This total
-number of OTUs also varied by polymerase used for these mock community
-samples {[}Figure 3A{]}. The range in the number of OTUs observed
-increased with the number of cycles and the change in range was
-dependent on the polymerase for both mock community and fecal samples
-{[}Figure 3{]}. However, these differences did not translate to large
-bacterial community composition changes based on polymerase {[}Figure
-4{]}. Even though there were bacterial community composition changes
-based on the number of cycles they occurred independently of the
-polymerase used {[}Figure 4{]}. Additionally, there were no OTU-based
-differences observed within the number of cycles between any of the
-polymerases for fecal samples. When Random Forest models were created to
-classify number of cycles, polymerase, and individual based on the 16S
-rRNA gene sequencing, the model performance for individuals was
-significantly greater than all other models tested {[}Figure 5A{]}. In
-addition to the better model performance of individuals, the most
-important OTUs to this model were not the most important OTUs for the
-other models tested {[}Figure 5B{]}. Our observations show that
-differences between high fidelity DNA polymerases can be found. However,
-when using 16S rRNA gene sequencing these technical differences are
-dwarfed by biological differences between fecal bacterial communities
-within individuals.
+number of OTUs detected in our mock community and vaired by polymerase
+{[}Figure 2E \& 3A{]}. Additionally, the bacterial community composition
+varied by number of cycles and polymerase in these mock community
+samples. Clearly, it is possible to identify a large number of
+differences based on number of cycles and polymerase used when analyzing
+mock community samples. However, these differences may not be a major
+concern when analyzing more complex community samples.
+
+Fecal samples showed a similar increase in median and range for the
+number of OTUs, based on number of cycles and polymerase used, as that
+found when analyzing mock community samples {[}Figure 4A{]}. However,
+there were few differences between the polymerases within each of the
+amplification cycles {[}Figure 4A{]}. Additionally, these differences
+did not translate to large bacterial community composition changes based
+on number of cycles or polymerase. The differences that were identifed
+were small and occured based on the number of cycles, independent of the
+polymerase used {[}Figure 4B{]}. There was also no OTU-based differences
+observed within the number of cycles between any of the polymerases for
+fecal samples. Interestingly, Random Forest models built on this OTU
+data had the highest classification success for individuals versus
+number of cycles or polymerase. In addition to the better model
+performance of Random Forest for individuals, the most important OTUs to
+this model were not the most important OTUs for the other models tested
+{[}Figure 5{]}. Collectively, these observations show that differences
+based on the number of cycles and between high fidelity DNA polymerases
+can be found. However, when using 16S rRNA gene sequencing these
+technical differences can be smaller than the biological differences
+between fecal bacterial communities within individuals.
 
 The small differences observed due to error rate and chimera prevalence
 may be due to the actual DNA polymerase family being used within the PCR
@@ -613,8 +619,8 @@ substitutions, deletions, insertions, non-specific amplification,
 chimeras, etc.).
 
 \textbf{\emph{Analysis workflow.}} To adjust for unequal sequencing, all
-samples were rarefied to 1000 sequences for downstream analysis.
-Analysis of the mock community of each polymerase for GC-based
+samples were rarefied to 1000 sequences for downstream analysis. The
+analysis of the mock community of each polymerase for GC-based
 amplification differences, sequence error rate, number of sequences with
 an error, base substitution, and numbers of chimeras before and after
 chimera removal with VSEARCH was assessed. Additionally, the correlation
@@ -622,10 +628,14 @@ between the number of chimeras and the number of OTUs was also assessed.
 The total number of OTUs, taxa differences, and Bray-Curtis indices were
 analyzed for both the fecal and mock community samples. Finally, Random
 Forest models were created to assess whether classification of
-polymerase, cycles, or individual could be performed best using 16S rRNA
-gene sequencing data. Additionally, overlap between the most important
-OTUs to the three models was assessed using mean decrease in accuracy
-(MDA).
+polymerase, number of cycles, or individual could be performed best
+using 16S rRNA gene sequencing data. For the model used to classify
+individuals, all samples were included from all number of cycles and
+polymerases but only the individual labels were used. Both number of
+cycles and polymerase models included all samples but only the number of
+cycles or polymerase label was used for each respective model.
+Additionally, overlap between the most important OTUs to the three
+models was assessed using mean decrease in accuracy (MDA).
 
 \textbf{\emph{Statistical analysis.}} All analysis was done with the R
 (v 3.4.4) software package (R Core Team, 2017). Data transformation and
