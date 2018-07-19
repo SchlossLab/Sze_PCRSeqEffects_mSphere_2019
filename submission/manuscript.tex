@@ -138,30 +138,31 @@ divided into preservation, extraction, amplification, and sequencing
 steps. At each of these stages error can be introduced that will change
 the underlying bacterial community composition results. In this study,
 we focus on the amplification step's contribution to this overall error.
-To accomplish this we assessed 16S rRNA gene sequencing results in human
-fecal and mock community samples after using different high fidelity
-(HiFi) DNA polymerases and number of amplification cycles.
+To accomplish this we assessed 16S rRNA gene sequencing results in mock
+community and human fecal samples after using different amplification
+cycles and high fidelity DNA polymerases.
 
-\textbf{Methods.} We extracted DNA from fecal samples (n=4) using a
-PowerMag DNA extraction kit with a 10 minute bead beating step and
-amplified at 15, 20, 25, 30, and 35 cycles using Accuprime, Kappa,
-Phusion, Platinum, or Q5 HiFi DNA polymerase. Amplification of mock
-communities (technical replicates n=4) consisting of previously isolated
-whole genomes of 8 different bacteria used the same approach. We first
+\textbf{Methods.} Amplification of mock communities (technical
+replicates n=4) consisting of previously isolated whole genomes of 8
+different bacteria were amplifeid at 15, 20, 25, 30, and 35 cycles using
+Accuprime, Kappa, Phusion, Platinum, or Q5 high fidelity DNA polymerase.
+For fecal samples (n=4) we first extracted DNA using a PowerMag DNA
+extraction kit with a 10 minute bead beating step and then used the same
+approach as the mock community for the PCR amplification step. We first
 assessed GC dependent differences, error rate, sequence error
 prevalence, chimera prevalence, and correlation between chimera
 prevalence and number of Operational Taxonomic Units (OTUs) by
 polymerase and number of cycles. Next, differences in the number of OTUs
 was examined based on the polymerase and number of cycles used.
-Additionally, differences in the bacterial community composition by the
-Bray-Curtis index also was assessed based on polymerase and number of
-cycles. Based on these findings individual taxa differences based on
-polymerase and number of cycles was investigated. Finally, Random Forest
-models were created to test whether the bacterial community was better
-at classifying polymerases, number of cycles, or individual donor. We
-also assessed whether the most important taxa in the polymerase and
-number of cycle Random Forest models were also important in the model
-for individual donors.
+Additionally, differences in the bacterial community composition was
+assessed based on polymerase and number of cycles using the Bray-Curtis
+index. Based on these findings individual taxa differences based on
+polymerase and number of cycles was also investigated. Finally, Random
+Forest models were created to test whether the bacterial community was
+better at classifying polymerases, number of cycles, or individual
+donor. We also assessed whether the most important taxa in the
+polymerase and number of cycle Random Forest models were also important
+in the model for individual donors.
 
 \textbf{Results.} Predictably, we found noticeable differences in
 relative abundance based on high and low GC content (P-value
@@ -173,26 +174,23 @@ correlations between chimera prevalence and the number of OTUs with
 Platinum having the highest (R\textsuperscript{2} = 0.974) and Kappa
 having the worst (R\textsuperscript{2} = 0.478). When analyzing mock
 community samples the variation in the number of OTUs detected by the
-polymerases was observable as early as 20 cycles (P-value = 0.002).
-There also was a large range in the number of OTUs amplified by the
-polymerases at 35 cycles (Accuprime = 15 - 20 versus Phusion = 14 - 73).
-When analyzing fecal samples we observed smaller differences in the
-number of OTUs. Additionally, the median number of OTUs only varied by
-HiFi DNA polymerase used at 35 cycles and not at 20 cycles like the mock
-community (P-value \textless{} 0.0001). Random Forest models were most
-successful at classifying individual donor samples rather than
+polymerases was observable as early as 20 cycles (P-value = 0.002). When
+analyzing fecal samples we observed smaller differences in the number of
+OTUs between polymerases. The median number of OTUs only varied by high
+fidelity DNA polymerase used at 35 cycles and not at 20 cycles like the
+mock community (P-value \textless{} 0.0001). Random Forest models were
+most successful at classifying individual donor samples rather than
 polymerase or number of cycles used (P-value \(\leqslant\) 5.49e-07).
 Additionally, the most important OTUs in the polymerase and number of
-cycle models were not the most important in the individual donor sample
-model.
+cycle models were not the most important in the individual donor model.
 
 \textbf{Conclusions.} Although there were 16S rRNA gene sequencing
 differences based on polymerase and number of cycles used, bacterial
-community composition differences are mostly only detectable in mock
+community composition differences were mostly only detectable in mock
 communities. Collectively, these results provide evidence that smaller
 biological differences between groups, based on 16S rRNA gene sequencing
-of fecal samples, can be consistently detected regardless of polymerase
-and number of cycles used.
+of human fecal samples, can be consistently detected regardless of
+polymerase and number of cycles used.
 
 \newpage
 
@@ -202,9 +200,10 @@ The bacterial community is reported to vary between case and control for
 a number of diseases (Turnbaugh et al., 2008; Sze et al., 2015; Baxter
 et al., 2016; Bonfili et al., 2017). However, for diseases like obesity,
 the taxa identified have varied widely depending on the study (Turnbaugh
-et al., 2008; Zupancic et al., 2012). Some of this variation could be
-due to error introduced during the 16S rRNA gene sequencing workflow. A
-typical 16S rRNA gene sequencing workflow can be divided into
+et al., 2008; Zupancic et al., 2012). Although some of the differences
+could be attributed to study design, error introduced during the 16S
+rRNA gene sequencing workflow could also be another source of variation.
+A typical 16S rRNA gene sequencing workflow can be divided into
 preservation, extraction, PCR, and sequencing steps. The preservation
 and extraction stages of the 16S rRNA gene sequencing workflow have been
 the most extensively studied (Salter et al., 2014; Song et al., 2016;
@@ -382,13 +381,13 @@ samples based on number of cycles or polymerase used. When assessing the
 Random Forest models there was a difference between models built to
 classify number of cycles versus those built to classify polymerase used
 {[}P-value = 5.06e-07{]}. Although there was a difference, neither model
-was successful at correctly classifying samples based on 16S rRNA gene
-sequencing data (cycles model, probability of correct classification =
-0.42 (0.4 - 0.43)(min - max) versus polymerase model, probability of
-correct classification = 0.39 (0.37 - 0.4)). Our observations in mock
-communities suggest that although differences are detected based on
-number of cycles or polymerase used, the overall community-wide
-differences are subtle.
+was overly successful at correctly classifying samples based on 16S rRNA
+gene sequencing data (cycles model, probability of correct
+classification = 0.42 (0.4 - 0.43)(min - max) versus polymerase model,
+probability of correct classification = 0.39 (0.37 - 0.4)). Our
+observations in mock communities suggest that although differences are
+detected based on number of cycles or polymerase used, the overall
+community-wide differences are not as large.
 
 \textbf{\emph{Few differences based on number of cycles and polymerase
 used were identified in fecal samples.}} Unlike mock community samples,
@@ -404,7 +403,7 @@ lower number of cycles (15-20) to result in a reduced range in the
 number of OTUs versus higher number of cycles (25, 30, and 35) for all
 polymerases (e.g.~Phusion at 15 cycles = 10 - 19 versus Phusion at 35
 cycles = 84 - 136) {[}Figure 4A{]}. Based on these observations, there
-are only small differences in the total number of OTUs detected in fecal
+are small differences in the total number of OTUs detected in fecal
 samples that are based on number of cycles or polymerases used.
 
 When using the Bray-Curtis index, we observed that polymerases and
@@ -429,7 +428,7 @@ investigated differences in OTUs based on polymerase at each number of
 cycle used and no significant differences could be found (P-value
 \(\geqslant\) 0.01, corrected P-value = 1). Overall, these results
 suggest that in fecal samples the number of cycles and polymerase used
-only minimally change the bacterial community composition.
+minimally change the bacterial community composition.
 
 Finally, we built Random Forest models to classify samples for the
 number of cycles, polymerase used, or individual it was obtained from.
@@ -501,7 +500,7 @@ Accuprime\textsuperscript{TM} respectively) (Ishino \& Ishino, 2014).
 Additionally, based on the information supplied by the respective
 manufacturers, the differences between the two PCR mixtures are not
 immediately apparent. Both PCR mixtures contain a recombinant \emph{Taq}
-DNA polymerase, a \emph{Pyrococcus} spp GB-D polymerase and a platinum
+DNA polymerase, a \emph{Pyrococcus} spp GB-D polymerase, and a platinum
 \emph{Taq} antibody. Since it is not possible to know everything about
 the mixture beyond what was willingly provided by the manufacturer, it
 is possible that differences in how the recombinant \emph{Taq} was
@@ -525,10 +524,8 @@ polymerase dependent differences in error rate and chimera prevalence.
 Metrics that solely use presence/absence of OTUs (e.g.~Jaccard (Real \&
 Vargas, 1996), richness) may be less robust to polymerase dependent
 error rates and chimera prevalence. When choosing a distance metric,
-careful consideration of the biases introduced from the PCR step of the
-16S rRNA gene sequencing workflow need to be taken into account. One
-possible way to better choose polymerases may be based on the DNA
-polymerase family used in the PCR mixture.
+careful consideration of the errors introduced from the PCR step of the
+16S rRNA gene sequencing workflow need to be taken into account.
 
 Collectively, our data shows that using distinct high fidelity DNA
 polymerases will result in a different number of OTUs being detected.
@@ -548,56 +545,58 @@ will still be consistent.
 
 Although care should always be taken when choosing a polymerase for 16S
 rRNA gene sequencing, our observations show that the differences between
-a variety of polymerases are dwarfed by the actual biological variation
-in fecal communities between individuals. Therefore, if the biological
-signal of interest is similar to differences in fecal bacterial
-communities found between individuals, then the type of high fidelity
-DNA polymerase used will only minimally change the results.
+a variety of polymerases are smaller than the actual biological
+variation in fecal communities between individuals. Therefore, if the
+biological signal of interest is similar to differences in fecal
+bacterial communities found between individuals, then the type of high
+fidelity DNA polymerase used will only minimally change the results.
 
 \newpage
 
 \subsection{Materials \& Methods}\label{materials-methods}
 
-\textbf{\emph{Human and mock samples.}} Fecal samples were obtained from
-4 individuals who were part of the Enterics Research Investigational
-Network (ERIN). The processing and storage of these samples were
-previously published (Seekatz et al., 2016). Other than confirmation
-that none of these individuals had a \emph{Clostridium difficle}
-infection, clinical data and other types of meta data were not utilized
-or accessed for this study. All samples were extracted using the
-MOBIO\textsuperscript{TM} PowerMag Microbiome RNA/DNA extraction kit
-(now Qiagen, MD, USA). The ZymoBIOMICS\textsuperscript{TM} Microbial
-Community DNA Standard (Zymo, CA, USA) was used for mock communities and
-was made up of \emph{Pseudomonas aeruginosa}, \emph{Escherichia coli},
+\textbf{\emph{Mock community and human samples.}} The
+ZymoBIOMICS\textsuperscript{TM} Microbial Community DNA Standard (Zymo,
+CA, USA) was used for mock communities and the bacterial component was
+made up of \emph{Pseudomonas aeruginosa}, \emph{Escherichia coli},
 \emph{Salmonella enterica}, \emph{Lactobacillus fermentum},
 \emph{Enterococcus faecalis}, \emph{Staphylococcus aureus},
 \emph{Listeria monocytogenes}, and \emph{Bacillus subtilis} at equal
 genomic DNA abundance
 (\url{http://www.zymoresearch.com/microbiomics/microbial-standards/zymobiomics-microbial-community-standards}).
+The theoretical abundance of 0.12 used as a comparison point for our
+relative abundance was based on this equal genomic DNA composition of
+the mock community. Fecal samples were obtained from 4 individuals who
+were part of the Enterics Research Investigational Network (ERIN). The
+processing and storage of these samples were previously published
+(Seekatz et al., 2016). Other than confirmation that none of these
+individuals had a \emph{Clostridium difficle} infection, clinical data
+and other types of meta data were not utilized or accessed for this
+study. All samples were extracted using the MOBIO\textsuperscript{TM}
+PowerMag Microbiome RNA/DNA extraction kit (now Qiagen, MD, USA).
 
 \textbf{\emph{PCR protocol.}} The five different high fidelity DNA
-polymerases (hereto referred to as polymerases) that were tested
-included AccuPrime\textsuperscript{TM} (ThermoFisher, MA, USA), KAPA
-HIFI (Roche, IN, USA), Phusion (ThermoFisher, MA, USA), Platinum
-(ThermoFisher, MA, USA), and Q5 (New England Biolabs, MA, USA). The
-polymerases activation time was 2 minutes, unless a different activation
-was specified by the manufacturer. The annealing and extension time for
-Platinum and Accuprime followed a previously published protocol (Kozich
-et al., 2013)
+polymerases that were tested included AccuPrime\textsuperscript{TM}
+(ThermoFisher, MA, USA), KAPA HIFI (Roche, IN, USA), Phusion
+(ThermoFisher, MA, USA), Platinum (ThermoFisher, MA, USA), and Q5 (New
+England Biolabs, MA, USA). The polymerases activation time was 2
+minutes, unless a different activation was specified by the
+manufacturer. The annealing and extension time for Platinum and
+Accuprime followed a previously published protocol (Kozich et al., 2013)
 (\url{https://github.com/SchlossLab/MiSeq_WetLab_SOP/blob/master/MiSeq_WetLab_SOP_v4.md}).
 For Kappa and Q5, the annealing and extension time also were from a
-previously published protocol (Gohl et al., 2016). For Phusion, the
-company defined activation and annealing times were used while the
-extension time followed the Accuprime and Platinum settings.
+previously published optimized protocol (Gohl et al., 2016). For
+Phusion, the company defined activation and annealing times were used
+while the extension time followed the Accuprime and Platinum settings.
 
-The number of cycles in the PCR for fecal and mock samples started at 15
+The number of cycles in the PCR for mock and fecal samples started at 15
 and increased by 5 up to 35 cycles, with amplicons used at each 5-step
-increase for sequencing. The PCR of fecal DNA samples consisted of all 4
-samples at 15, 20, 25, 30, and 35 cycles for each polymerase (total
-sample n=100). The mock communities had 4 replicates at 15, 20, 25, and
-35 cycles and 10 replicates for 30 cycles for all polymerases (total
-samples n=130). No mock community sample had enough PCR product at 15
-cycles for adequate 16S rRNA gene sequencing.
+increase for sequencing. The mock communities had 4 replicates at 15,
+20, 25, and 35 cycles and 10 replicates for 30 cycles for all
+polymerases (total samples n=130). No mock community sample had enough
+PCR product at 15 cycles for adequate 16S rRNA gene sequencing. The PCR
+of fecal DNA samples consisted of all 4 samples at 15, 20, 25, 30, and
+35 cycles for each polymerase (total sample n=100).
 
 \textbf{\emph{Sequence processing.}} The mothur software program was
 used for all sequence processing steps (Schloss et al., 2009). The
@@ -611,12 +610,7 @@ was determined using the `seq.error' command on mock samples to compare
 back to the reference 16S sequences of \emph{P. aeruginosa}, \emph{E.
 coli}, \emph{S. enterica}, \emph{L. fermentum}, \emph{E. faecalis},
 \emph{S. aureus}, \emph{L. monocytogenes}, and \emph{B. subtilis}
-(Schloss et al., 2009; Cole et al., 2013; Rognes et al., 2016). For
-simplicity, the use of the term `error' within the context of this study
-moving forward encompasses changes in the downstream sequencing results
-due to the amplification step (e.g.~higher GC content genomes, base
-substitutions, deletions, insertions, non-specific amplification,
-chimeras, etc.).
+(Schloss et al., 2009; Cole et al., 2013; Rognes et al., 2016).
 
 \textbf{\emph{Analysis workflow.}} To adjust for unequal sequencing, all
 samples were rarefied to 1000 sequences for downstream analysis. The
@@ -631,7 +625,7 @@ Forest models were created to assess whether classification of
 polymerase, number of cycles, or individual could be performed best
 using 16S rRNA gene sequencing data. For the model used to classify
 individuals, all samples were included from all number of cycles and
-polymerases but only the individual labels were used. Both number of
+polymerases but only the individual label was used. Both number of
 cycles and polymerase models included all samples but only the number of
 cycles or polymerase label was used for each respective model.
 Additionally, overlap between the most important OTUs to the three
@@ -642,28 +636,29 @@ models was assessed using mean decrease in accuracy (MDA).
 graphing was completed using the tidyverse package (v 1.2.1) and colors
 selected using the viridis package (v 0.4.1) (Garnier, 2017; Wickham,
 2017). High and low GC content was determined based on the median GC
-percentage of either the V4 region or the whole genome of the bacterial
-species used in the mock community. Differences in the total number of
-OTUs were analyzed using an ANOVA with a tukey post-hoc test. For the
-comparison of the number of OTUS in fecal samples the data was
-normalized to each individual by cycle number to account for the
-biological variation. Bray-Curtis distance matrices were generated using
-mothur. The distance matrix data was analyzed using PERMANOVA with the
-vegan package (v 2.4.5) (Oksanen et al., 2017) and Kruskal-Wallis tests
-within R. The Random Forest models were run using the caret package (v
-6.0.78) (Jed Wing et al., 2017). A total of 100 10-fold CV runs on
-different 80/20 splits of the data was run to generate a range of the
-Logloss value. The probability of a correct call was obtained from this
-Logloss value by taking the negative natural logarithm. For both error
-and chimera analysis, samples were tested using Kruskal-Wallis with a
-Dunns post-hoc test. Where applicable, correction for multiple
-comparison utilized the Benjamini-Hochberg method (Benjamini \&
-Hochberg, 1995).
+percentage of either the V4 region or the average GC content of the
+whole genome of the bacterial species used in the mock community.
+Differences in the total number of OTUs were analyzed using an ANOVA
+with a tukey post-hoc test. For the comparison of the number of OTUS in
+fecal samples the data was normalized to each individual by cycle number
+to account for the biological variation. Bray-Curtis distance matrices
+were generated using mothur. The distance matrix data was analyzed using
+PERMANOVA with the vegan package (v 2.4.5) (Oksanen et al., 2017) and
+Kruskal-Wallis tests within R. The Random Forest models were run using
+the caret package (v 6.0.78) (Jed Wing et al., 2017). A total of 100
+10-fold CV runs on different 80/20 splits of the data were run to
+generate a range of the Logloss value. The probability of a correct call
+was obtained from this Logloss value by taking the negative natural
+logarithm. For both error and chimera analysis, samples were tested
+using Kruskal-Wallis with a Dunns post-hoc test. Where applicable,
+correction for multiple comparison utilized the Benjamini-Hochberg
+method (Benjamini \& Hochberg, 1995).
 
-\textbf{\emph{Reproducible methods.}} The code and analysis can be found
-here \url{https://github.com/SchlossLab/Sze_PCRSeqEffects_XXXX_2017}.
-The raw sequences can be found on the SRA at the following accession
-number SRP132931.
+\textbf{\emph{Reproducible methods.}} The code and analysis for this
+study can be found here
+\url{https://github.com/SchlossLab/Sze_PCRSeqEffects_XXXX_2017}. The raw
+sequences can be found on the SRA at the following accession number
+SRP132931.
 
 \newpage
 
