@@ -1,5 +1,3 @@
-M_SAMPLING = 50 100 500 1000 5000 10000
-H_SAMPLING = 1000 5000 10000 15000 20000 
 REFS = data/references
 FIGS = results/figures
 TABLES = results/tables
@@ -17,29 +15,31 @@ print-%:
 	@echo '$*=$($*)'
 
 
-
 ################################################################################
 #
 # Part 1: Get the references
 #
 # We will need several reference files to complete the analyses including the
-# SILVA reference alignment and RDP reference taxonomy.
+# SILVA reference alignment and RDP reference taxonomy. Note that this code
+# assumes that mothur is in your PATH. If not (e.g. it's in code/mothur/, you
+# will need to replace `mothur` with `code/mothur/mothur` throughout the
+# following code.
 #
 ################################################################################
 
 # We want the latest greatest reference alignment and the SILVA reference
 # alignment is the best reference alignment on the market. This version is from
-# v123 and described at http://blog.mothur.org/2015/12/03/SILVA-v123-reference-files/
-# We will use the SEED v. 123, which contain 12,083 bacterial sequences. This
+# 132 and described at http://blog.mothur.org/2018/01/10/SILVA-v132-reference-files/
+# We will use the SEED v. 132, which contain 12,083 bacterial sequences. This
 # also contains the reference taxonomy. We will limit the databases to only
 # include bacterial sequences.
 
 $(REFS)/silva.seed.align :
-	wget -N http://mothur.org/w/images/1/15/Silva.seed_v123.tgz
-	tar xvzf Silva.seed_v123.tgz silva.seed_v123.align silva.seed_v123.tax
-	mothur "#get.lineage(fasta=silva.seed_v123.align, taxonomy=silva.seed_v123.tax, taxon=Bacteria);degap.seqs(fasta=silva.seed_v123.pick.align, processors=8)"
-	mv silva.seed_v123.pick.align $(REFS)/silva.seed.align
-	rm Silva.seed_v123.tgz silva.seed_v123.*
+	wget -N https://mothur.org/w/images/7/71/Silva.seed_v132.tgz
+	tar xvzf Silva.seed_v132.tgz silva.seed_v132.align silva.seed_v132.tax
+	mothur "#get.lineage(fasta=silva.seed_v132.align, taxonomy=silva.seed_v132.tax, taxon=Bacteria);degap.seqs(fasta=silva.seed_v132.pick.align, processors=8)"
+	mv silva.seed_v132.pick.align $(REFS)/silva.seed.align
+	rm Silva.seed_v132.tgz silva.seed_v132.*
 
 $(REFS)/silva.v4.align : $(REFS)/silva.seed.align
 	mothur "#pcr.seqs(fasta=$(REFS)/silva.seed.align, start=11894, end=25319, keepdots=F, processors=8)"
@@ -47,215 +47,101 @@ $(REFS)/silva.v4.align : $(REFS)/silva.seed.align
 
 # Next, we want the RDP reference taxonomy. The current version is v10 and we
 # use a "special" pds version of the database files, which are described at
-# http://blog.mothur.org/2014/10/28/RDP-v10-reference-files/
+# http://blog.mothur.org/2017/03/15/RDP-v16-reference_files/
 
-$(REFS)/trainset14_032015.% :
-	wget -N http://www.mothur.org/w/images/8/88/Trainset14_032015.pds.tgz
-	tar xvzf Trainset14_032015.pds.tgz trainset14_032015.pds/trainset14_032015.pds.*
-	mv trainset14_032015.pds/* $(REFS)/
-	rmdir trainset14_032015.pds
-	rm Trainset14_032015.pds.tgz
+$(REFS)/trainset16_022016.% :
+	wget -N https://www.mothur.org/w/images/c/c3/Trainset16_022016.pds.tgz
+	tar xvzf Trainset16_022016.pds.tgz trainset16_022016.pds
+	mv trainset16_022016.pds/* $(REFS)/
+	rm -rf trainset16_022016.pds
+	rm Trainset16_022016.pds.tgz
 
 ################################################################################
 #
-# Part 2: Run data through mothur
+# Part 2: Get and run data through mothur
 #
 #	Process fastq data through the generation of files that will be used in the
 # overall analysis.
 #
 ################################################################################
 
-# Set up specific Taq variables
-TAQ_USED = acc_data k_data phu_data pl_data q5_data
-TAQ_USED_PATH=$(addprefix $(PROC)/,$(H_SAMPLING))
-TAQ_USED_FILES=$(addsuffix _only.files,$(TAQ_USED_PATH))
-
-# Create the necessary mothur .file files
-$(TAQ_USED_FILES)\
-$(PROC)/amp.files\
-$(PROC)/mock_amp.files : code/make_amp_file.R
-	R -e "source('code/make_amp_file.R')"
+# Change stability to the * part of your *.files file that lives in data/raw/
+BASIC_STEM = data/mothur/stability.trim.contigs.good.unique.good.filter.unique.precluster
 
 
-# Run the mothur analysis for error based on MOCK samples
-$(PROC)/mock_error.% : code/mock_amp_mothur.batch
-	bash code/mock_amp_mothur.batch
+# here we go from the raw fastq files and the files file to generate a fasta,
+# taxonomy, and count_table file that has had the chimeras removed as well as
+# any non bacterial sequences.
+
+# Edit code/get_good_seqs.batch to include the proper name of your *files file
+$(BASIC_STEM).denovo.uchime.pick.pick.count_table $(BASIC_STEM).pick.pick.fasta $(BASIC_STEM).pick.pds.wang.pick.taxonomy : code/get_good_seqs.batch\
+					data/references/silva.v4.align\
+					data/references/trainset16_022016.pds.fasta\
+					data/references/trainset16_022016.pds.tax
+	mothur code/get_good_seqs.batch;\
+	rm data/mothur/*.map
 
 
-# Run the full analysis with different levels of subsampling with MOCK and Samples
-$(PROC)/all_amp.% : code/amp_mothur.batch
-	bash code/amp_mothur.batch
 
-################################################################################
-#
-# Part 3: Metadata Processing and Analysis
-#
-#	Run scripts that analyze the generated data
-#
-################################################################################
+# here we go from the good sequences and generate a shared file and a
+# cons.taxonomy file based on OTU data
 
-# Create master meta data file
-$(PROC)/amp.files : (TABLES)/meta_data.csv code/make_metadata_file.R
-	R -e "source('code/make_metadata_file.R')"
+# Edit code/get_shared_otus.batch to include the proper root name of your files file
+# Edit code/get_shared_otus.batch to include the proper group names to remove
 
-
-# Set up fecal sample count files
-FS_SHARED_PATH=$(addprefix $(PROC)/all_amp.0.03.subsample._,$(H_SAMPLING))
-FS_SHARED_TABLES=$(addsuffix .shared,$(FS_PATH))
-FS_PATH=$(addprefix $(TABLES)/fecal_sub_sample_,$(H_SAMPLING))
-FS_COUNT_TABLES=$(addsuffix _count_table.csv,$(FS_PATH))
-FS_ZSCORE_PATH=$(addprefix $(TABLES)/fecal_zscore_sub_sample_,$(H_SAMPLING))
-FS_ZSCORE_TABLES=$(addsuffix _count_table.csv,$(FS_ZSCORE_PATH))
+$(BASIC_STEM).pick.pick.pick.opti_mcc.unique_list.shared $(BASIC_STEM).pick.pick.pick.opti_mcc.unique_list.0.03.cons.taxonomy : code/get_shared_otus.batch\
+					$(BASIC_STEM).denovo.uchime.pick.pick.count_table\
+					$(BASIC_STEM).pick.pick.fasta\
+					$(BASIC_STEM).pick.pds.wang.pick.taxonomy
+	mothur code/get_shared_otus.batch
+	rm $(BASIC_STEM).denovo.uchime.pick.pick.pick.count_table
+	rm $(BASIC_STEM).pick.pick.pick.fasta
+	rm $(BASIC_STEM).pick.pds.wang.pick.pick.taxonomy;
 
 
-# Generate the fecal sample count tables
-$(FS_SHARED_TABLES)\
-$(TABLES)/meta_data.csv : $(FS_SHARED_TABLES) code/run_fecal_otu_count_tables.R
-	R -e "source('code/run_fecal_otu_count_tables.R')"
+# now we want to get the sequencing error as seen in the mock community samples
 
+# Edit code/get_error.batch to include the proper root name of your files file
+# Edit code/get_error.batch to include the proper group names for your mocks
 
-# Generate the analysis tables for the number OTUs by subsampling for fecal samples
-$(FS_COUNT_TABLES) : $(TABLES)/fecal_overall_anova_results.csv\
-$(TABLES)/fecal_overall_tukey_results.csv $(FS_ZSCORE_TABLES)\
-code/run_fecal_numOTU_analysis.R
-	R -e "source('code/run_fecal_numOTU_analysis.R')"
-
-
-# Set up mock sample count files
-M_SHARED_PATH=$(addprefix $(PROC)/all_amp.0.03.subsample._,$(M_SAMPLING))
-M_SHARED_TABLES=$(addsuffix .shared,$(M_SHARED_PATH))
-M_PATH=$(addprefix $(TABLES)/mock_sub_sample_,$(M_SAMPLING))
-M_COUNT_TABLES=$(addsuffix _count_table.csv,$(M_PATH))
-
-
-# Generate the number of OTUs by subsampling for Mock samples
-$(M_SHARED_TABLES) : $(TABLES)/mock_overall_anova_results.csv\
-$(TABLES)/mock_overall_tukey_results.csv $(M_COUNT_TABLES)\
-code/run_otu_diversity_analysis.R
-	R -e "source('code/run_otu_diversity_analysis.R')"
-
-
-# Set up mock seq error tables
-M_ERROR_PATH=$(addprefix $(TABLES)/error_,$(M_SAMPLING))
-M_ERROR_COUNT_TABLES=$(addsuffix _summary.csv,$(M_ERROR_PATH))
-M_NUC_PATH=$(addprefix $(TABLES)/nucleotide_error_,$(M_SAMPLING))
-M_NUC_TABLES=$(addsuffix _summary.csv,$(M_NUC_PATH))
-
-
-# Generate the needed tables for error analysis and graphing
-$(M_ERROR_COUNT_TABLES)\
-$(M_NUC_TABLES) : $(PROC)/mock_error.count_table\
-$(PROC)/mock_error.summary $(TABLES)/meta_data.csv\
-code/run_seq_error_table_creations.R
-	R -e "source('code/run_seq_error_table_creations.R')"
-
-#Generate the analysis tables for the error metrics by subsampling for mocks
-$(TABLES)/mock_error_overall_kruskal_results.csv\
-$(TABLES)/mock_error_overall_dunn_results.csv\
-$(TABLES)/mock_error_count_overall_kruskal_results.csv\
-$(TABLES)/mock_error_count_overall_dunn_results.csv\
-$(TABLES)/mock_chimera_overall_kruskal_results.csv\
-$(TABLES)/mock_chimera_overall_tukey_results.csv : $(M_ERROR_COUNT_TABLES)\
-code/run_error_analysis.R
-	R -e "source('code/run_error_analysis.R')"
-
-#Set up mock bray-curtis tables
-M_BC_PATH=$(addprefix $(PROC)/all_amp.braycurtis.0.03.lt.,$(M_SAMPLING))
-M_BC_TABLES=$(addsuffix .dist,$(M_BC_PATH))
-M_BC_5_PATH=$(addprefix $(TABLES)/mock_bray_5_cycle_dist_,$(M_SAMPLING))
-M_BC_5_TABLES=$(addsuffix _data.csv,$(M_BC_5_PATH))
-
-#Set up human bray-curtis tables
-FS_BC_PATH=$(addprefix $(PROC)/all_amp.braycurtis.0.03.lt.,$(H_SAMPLING))
-FS_BC_TABLES=$(addsuffix .dist,$(FS_PATH))
-FS_BC_5_PATH=$(addprefix $(TABLES)/bray_5_cycle_dist_,$(H_SAMPLING))
-FS_BC_5_TABLES=$(addsuffix _data.csv,$(FS_BC_5_PATH))
-
-#Generate the bray-curtis analysis for fecal samples
-$(TABLES)/bray_sim_to_prev_cycle_kruskal_results.csv\
-$(TABLES)/bray_permanova_by_taq_results.csv\
-$(FS_BC_5_TABLES) : $(TABLES)/meta_data.csv $(FS_BC_TABLES)\
-code/run_nmds_fecal_data.R
-	 R -e "source('code/run_nmds_fecal_data.R')"
-
-#Generate the bray-curtis analysis for stool samples
-$(TABLES)/mock_bray_sim_to_prev_cycle_kruskal_results.csv\
-$(TABLES)/mock_bray_permanova_by_taq_results.csv\
-$(M_BC_5_TABLES) : $(TABLES)/meta_data.csv $(M_BC_TABLES)\
-code/run_nmds_mock_data.R
-	 R -e "source('code/run_nmds_mock_data.R')"
+$(BASIC_STEM).pick.pick.pick.error.summary : code/get_error.batch\
+					$(BASIC_STEM).denovo.uchime.pick.pick.count_table\
+					$(BASIC_STEM).pick.pick.fasta\
+					$(REFS)/HMP_MOCK.v4.fasta
+	mothur code/get_error.batch
 
 
 
 ################################################################################
 #
-# Part 4: Figure and table generation
+# Part 3: Figure and table generation
 #
 #	Run scripts to generate figures and tables
 #
 ################################################################################
 
-# Run code to create Figure 1 - Fecal number of OTUs
-$(FIGS)/Figure1.pdf : $(FS_ZSCORE_TABLES)\
-code/make_fecal_numOTU_graphs.R
-	R -e "source('code/make_fecal_numOTU_graphs.R')"
-
-
-# Run code to create Figure 2 - Mock number of OTUs
-$(FIGS)/Figure2.pdf : $(M_COUNT_TABLES)\
-code/make_numOTU_graphs.R
-	R -e "source('code/make_numOTU_graphs.R')"
-
-
-# Run code to create Figure 3 - Bray-Curtis distance differences by 5 set cycle
-$(FIGS)/Figure3.pdf : $(M_BC_5_TABLES) $(FS_BC_5_TABLES)\
-code/make_bray_distance_graphs.R
-	R -e "source('code/make_bray_distance_graphs.R')"
-
-# Run code to create Figure 4 - Mock Sequence Error Rate
-$(FIGS)/Figure4.pdf : $(M_ERROR_COUNT_TABLES)\
-code/make_mock_error_graphs.R
-	R -e "source('code/make_mock_error_graphs.R')"
-
-
-
-# Run code to create Figure 5 - Mock Chimera Frequency
-$(FIGS)/Figure5.pdf : $(M_ERROR_COUNT_TABLES)\
-code/make_mock_chimera_count_graphs.R
-	R -e "source('code/make_mock_chimera_count_graphs.R')"
-
-
-# Run code to create Figure 6 - Mock Chimera versus Numberof OTUs
-$(FIGS)/Figure6.pdf : $(M_ERROR_COUNT_TABLES)\
-$(M_COUNT_TABLES) code/make_correlation_graphs.R
-	R -e "source('code/make_correlation_graphs.R')"
-
-
-# Run code to create Figure S1 - Mock Sequences with Error
-$(FIGS)/FigureS1.pdf : $(M_ERROR_COUNT_TABLES)\
-code/make_mock_seq_error_count_graphs.R
-	R -e "source('code/make_mock_seq_error_count_graphs.R')"
-
-
-# Run code to create Figure S2, 3, and 4 - Mock Sequences substitution frequency
-$(FIGS)/FigureS2.pdf\
-$(FIGS)/FigureS3.pdf\
-$(FIGS)/FigureS4.pdf : $(M_NUC_TABLES)\
-code/make_nucleotide_graphs.R
-	R -e "source('code/make_nucleotide_graphs.R')"
 
 
 ################################################################################
 #
-# Part 5: Pull it all together
+# Part 4: Pull it all together
 #
 # Render the manuscript
 #
 ################################################################################
 
 
-#write.paper : $(TABLES)/table_1.pdf $(TABLES)/table_2.pdf\ #customize to include
-#				$(FIGS)/figure_1.pdf $(FIGS)/figure_2.pdf\	# appropriate tables and
-#				$(FIGS)/figure_3.pdf $(FIGS)/figure_4.pdf\	# figures
-#				$(FINAL)/study.Rmd $(FINAL)/study.md\
-#				$(FINAL)/study.tex $(FINAL)/study.pdf
+$(FINAL)/manuscript.% : 			\ #include data files that are needed for paper don't leave this line with a : \
+						$(FINAL)/mbio.csl\
+						$(FINAL)/references.bib\
+						$(FINAL)/manuscript.Rmd
+	R -e 'render("$(FINAL)/manuscript.Rmd", clean=FALSE)'
+	mv $(FINAL)/manuscript.knit.md submission/manuscript.md
+	rm $(FINAL)/manuscript.utf8.md
+
+
+write.paper : $(TABLES)/table_1.pdf $(TABLES)/table_2.pdf\ #customize to include
+				$(FIGS)/figure_1.pdf $(FIGS)/figure_2.pdf\	# appropriate tables and
+				$(FIGS)/figure_3.pdf $(FIGS)/figure_4.pdf\	# figures
+				$(FINAL)/manuscript.Rmd $(FINAL)/manuscript.md\
+				$(FINAL)/manuscript.tex $(FINAL)/manuscript.pdf
