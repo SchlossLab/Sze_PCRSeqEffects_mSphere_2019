@@ -37,8 +37,10 @@ print-%:
 $(REFS)/silva.seed.align :
 	wget -N https://mothur.org/w/images/7/71/Silva.seed_v132.tgz
 	tar xvzf Silva.seed_v132.tgz silva.seed_v132.align silva.seed_v132.tax
-	mothur "#get.lineage(fasta=silva.seed_v132.align, taxonomy=silva.seed_v132.tax, taxon=Bacteria);degap.seqs(fasta=silva.seed_v132.pick.align, processors=8)"
+	mothur "#get.lineage(fasta=silva.seed_v132.align, taxonomy=silva.seed_v132.tax, taxon=Bacteria)"
 	mv silva.seed_v132.pick.align $(REFS)/silva.seed.align
+	mothur "#get.seqs(fasta=silva.seed_v132.align, accnos=$(REFS)/euks.accnos)"
+	cat silva.seed_v132.pick.align >> $(REFS)/silva.seed.align
 	rm Silva.seed_v132.tgz silva.seed_v132.*
 
 $(REFS)/silva.v4.align : $(REFS)/silva.seed.align
@@ -55,6 +57,16 @@ $(REFS)/trainset16_022016.% :
 	mv trainset16_022016.pds/* $(REFS)/
 	rm -rf trainset16_022016.pds
 	rm Trainset16_022016.pds.tgz
+
+# We need to get the Zymo mock community data
+$(REFS)/zymo_mock.align : $(REFS)/silva.v4.align
+	wget -N https://s3.amazonaws.com/zymo-files/BioPool/ZymoBIOMICS.STD.refseq.v2.zip
+	unzip ZymoBIOMICS.STD.refseq.v2.zip 
+	rm ZymoBIOMICS.STD.refseq.v2/ssrRNAs/*itochondria_ssrRNA.fasta #V4 primers don't come close to annealing to these
+	cat ZymoBIOMICS.STD.refseq.v2/ssrRNAs/*fasta > zymo.fasta
+	mothur "#align.seqs(fasta=zymo.fasta, reference=data/references/silva.v4.align, processors=12)"
+	mv zymo.align data/references/zymo_mock.align
+	rm -rf zymo.* ZymoBIOMICS.STD.refseq.v2*
 
 ################################################################################
 #

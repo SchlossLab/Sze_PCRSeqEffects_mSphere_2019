@@ -1,17 +1,12 @@
 .Rhistory
 .Rproj.user
 *.Rproj
-*.pbs
-*.fastq
-data/raw/*.gz
-data/raw/part_one
-data/raw/part_two
-data/raw/repeated_V2_frozens
+
+data/raw/
+data/mothur/
 data/references/
+
 *.logfile
-*.pbs.*
-data/process/test.fasta
-data/process/q5_data_only.fasta
 
-sra_submission/
-
+head.batch
+tail.batch
