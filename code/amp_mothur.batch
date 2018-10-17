@@ -9,18 +9,22 @@ REF=data/references
 
 module load sratoolkit/2.8.2-1
 
-#Unzip fastq files and place them in work directory
-#cp $DOWNDIR/part_one/*.fastq.gz $WORKDIR
-#cp $DOWNDIR/part_two/*.fastq.gz $WORKDIR
-#cp $DOWNDIR/repeated_V2_frozens/*.fastq.gz $WORKDIR
-#gzip -d $WORKDIR/*.gz
 
-# Rename all files with "-" to "_" in workdir
-#for i in `ls $WORKDIR/*-*`;
-#do
-#	NEW=`echo $i|tr '-' '_'`
-#	mv $i $NEW
-#done
+# Download the data set
+wget -r -q -np -nd -k -P $DOWNDIR ftp://ftp-trace.ncbi.nih.gov/sra/sra-instant/reads/ByStudy/sra/SRP/SRP132/SRP132931/
+
+# remove uneeded files
+rm $DOWNDIR/index.html*
+rm $DOWNDIR/*.sra.*
+
+
+# Convert to fasta files that will be used
+for sample in $DOWNDIR/*.sra
+do
+	fastq-dump --split-files $sample -O $WORKDIR
+
+done
+
 
 # Run mothur process
 #$tempMothur "#make.contigs(file=$WORKDIR/amp.files);
@@ -70,18 +74,18 @@ module load sratoolkit/2.8.2-1
 #mv $WORKDIR/temp.amp.opti_mcc.unique_list.0.03.cons.taxonomy $WORKDIR/all_amp.taxonomy
 #mv $WORKDIR/temp.amp.opti_mcc.unique_list.0.03.rep.fasta $WORKDIR/all_amp.rep.seqs
 #mv $WORKDIR/temp.amp.opti_mcc.unique_list.0.03.rep.count_table $WORKDIR/all_amp.rep.count_table
-mv $WORKDIR/amp.trim.contigs.good.unique.good.filter.unique.precluster.count_table $WORKDIR/before_chimera_vsearch.count_table
-mv $WORKDIR/amp.trim.contigs.good.unique.good.filter.unique.precluster.denovo.vsearch.chimeras $WORKDIR/all_amp.chimeras
-mv $WORKDIR/amp.trim.contigs.good.unique.good.filter.unique.precluster.denovo.vsearch.accnos $WORKDIR/all_amp_chimera.accnos
+#mv $WORKDIR/amp.trim.contigs.good.unique.good.filter.unique.precluster.count_table $WORKDIR/before_chimera_vsearch.count_table
+#mv $WORKDIR/amp.trim.contigs.good.unique.good.filter.unique.precluster.denovo.vsearch.chimeras $WORKDIR/all_amp.chimeras
+#mv $WORKDIR/amp.trim.contigs.good.unique.good.filter.unique.precluster.denovo.vsearch.accnos $WORKDIR/all_amp_chimera.accnos
 
 # Zip larger files
-gzip $WORKDIR/all_amp.chimeras
-gzip $WORKDIR/before_chimera_vsearch.count_table
+#gzip $WORKDIR/all_amp.chimeras
+#gzip $WORKDIR/before_chimera_vsearch.count_table
 
 # Remove unneeded intermidate files
-rm $WORKDIR/temp.amp.opti_mcc* $WORKDIR/temp.amp*
-rm $WORKDIR/*.map $WORKDIR/amp.trim.contigs* $WORKDIR/amp.contigs.*
-rm $WORKDIR/amp.scrap.* $WORKDIR/amp.filter
+#rm $WORKDIR/temp.amp.opti_mcc* $WORKDIR/temp.amp*
+#rm $WORKDIR/*.map $WORKDIR/amp.trim.contigs* $WORKDIR/amp.contigs.*
+#rm $WORKDIR/amp.scrap.* $WORKDIR/amp.filter
 
 # Run alpha and beta at different subsamplings as well as rarefaction
 #for i in 50 100 500 1000 5000 10000 15000 20000;

@@ -8,18 +8,20 @@ REF=data/references
 
 module load sratoolkit/2.8.2-1
 
-#Unzip fastq files and place them in work directory
-#cp $DOWNDIR/part_one/*.fastq.gz $WORKDIR
-#cp $DOWNDIR/part_two/*.fastq.gz $WORKDIR
-#cp $DOWNDIR/repeated_V2_frozens/*.fastq.gz $WORKDIR
-#gzip -d $WORKDIR/*.gz
+# Download the data set
+wget -r -q -np -nd -k -P $DOWNDIR ftp://ftp-trace.ncbi.nih.gov/sra/sra-instant/reads/ByStudy/sra/SRP/SRP132/SRP132931/
 
-# Rename all files with "-" to "_" in workdir
-#for i in `ls $WORKDIR/*-*`;
-#do
-#	NEW=`echo $i|tr '-' '_'`
-#	mv $i $NEW
-#done
+# remove uneeded files
+rm $DOWNDIR/index.html*
+rm $DOWNDIR/*.sra.*
+
+
+# Convert to fasta files that will be used
+for sample in $DOWNDIR/*.sra
+do
+	fastq-dump --split-files $sample -O $WORKDIR
+
+done
 
 # Run mothur process checking error after full process
 #$tempMothur "#make.contigs(file=$WORKDIR/mock_amp.files);
