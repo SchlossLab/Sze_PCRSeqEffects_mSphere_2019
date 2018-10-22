@@ -61,7 +61,7 @@ $(REFS)/trainset16_022016.% :
 # We need to get the Zymo mock community data
 $(REFS)/zymo_mock.align : $(REFS)/silva.v4.align
 	wget -N https://s3.amazonaws.com/zymo-files/BioPool/ZymoBIOMICS.STD.refseq.v2.zip
-	unzip ZymoBIOMICS.STD.refseq.v2.zip 
+	unzip ZymoBIOMICS.STD.refseq.v2.zip
 	rm ZymoBIOMICS.STD.refseq.v2/ssrRNAs/*itochondria_ssrRNA.fasta #V4 primers don't come close to annealing to these
 	cat ZymoBIOMICS.STD.refseq.v2/ssrRNAs/*fasta > zymo.fasta
 	mothur "#align.seqs(fasta=zymo.fasta, reference=data/references/silva.v4.align, processors=12)"
@@ -77,51 +77,109 @@ $(REFS)/zymo_mock.align : $(REFS)/silva.v4.align
 #
 ################################################################################
 
-# Change stability to the * part of your *.files file that lives in data/raw/
-BASIC_STEM = data/mothur/stability.trim.contigs.good.unique.good.filter.unique.precluster
+# here we take the raw fastq files for all of the files and process them through the generation of
+# a shared file. we stop at different stages where files are needed for splitting off the mock
+# community data from the stool data
 
-
-# here we go from the raw fastq files and the files file to generate a fasta,
-# taxonomy, and count_table file that has had the chimeras removed as well as
-# any non bacterial sequences.
-
-# Edit code/get_good_seqs.batch to include the proper name of your *files file
-$(BASIC_STEM).denovo.uchime.pick.pick.count_table $(BASIC_STEM).pick.pick.fasta $(BASIC_STEM).pick.pds.wang.pick.taxonomy : code/get_good_seqs.batch\
-					data/references/silva.v4.align\
-					data/references/trainset16_022016.pds.fasta\
-					data/references/trainset16_022016.pds.tax
-	mothur code/get_good_seqs.batch;\
-	rm data/mothur/*.map
+# Run stool sequences from make.contigs through make.shared
+data/mothur/stool.trim.contigs.good.unique.good.filter.unique.precluster.pick.pick.opti_mcc.shared:\
+			code/get_shared_stool.batch\
+			data/references/silva.v4.align\
+			data/references/trainset16_022016.pds.fasta\
+			data/references/trainset16_022016.pds.tax\
+			data/raw/stool.files
+	mothur code/get_shared_stool.batch
+	rm data/mothur/stool*map
 
 
 
-# here we go from the good sequences and generate a shared file and a
-# cons.taxonomy file based on OTU data
+# make.contigs; screen.seqs; unique; align (w/mock); filter; unique; classify.seqs; remove contaminants
 
-# Edit code/get_shared_otus.batch to include the proper root name of your files file
-# Edit code/get_shared_otus.batch to include the proper group names to remove
-
-$(BASIC_STEM).pick.pick.pick.opti_mcc.unique_list.shared $(BASIC_STEM).pick.pick.pick.opti_mcc.unique_list.0.03.cons.taxonomy : code/get_shared_otus.batch\
-					$(BASIC_STEM).denovo.uchime.pick.pick.count_table\
-					$(BASIC_STEM).pick.pick.fasta\
-					$(BASIC_STEM).pick.pds.wang.pick.taxonomy
-	mothur code/get_shared_otus.batch
-	rm $(BASIC_STEM).denovo.uchime.pick.pick.pick.count_table
-	rm $(BASIC_STEM).pick.pick.pick.fasta
-	rm $(BASIC_STEM).pick.pds.wang.pick.pick.taxonomy;
+data/mothur/mock.trim.contigs.good.unique.good.filter.unique.pick.fasta data/mothur/mock.trim.contigs.good.unique.good.filter.pick.count_table $(REFS)/zymo_mock.filter.fasta:\
+			code/get_good_mock.batch\
+			data/references/silva.v4.align\
+			$(REFS)/zymo_mock.align\
+			data/references/trainset16_022016.pds.fasta\
+			data/references/trainset16_022016.pds.tax\
+			data/raw/mock.files
+	mothur code/get_good_mock.batch
 
 
-# now we want to get the sequencing error as seen in the mock community samples
+# error.seqs
+data/mothur/mock.trim.contigs.good.unique.good.filter.unique.pick.error.summary:\
+			data/mothur/mock.trim.contigs.good.unique.good.filter.unique.pick.fasta\
+			data/mothur/mock.trim.contigs.good.unique.good.filter.pick.count_table\
+			data/mothur/zymo_mock.filter.fasta
+	mothur "#seq.error(fasta=data/mothur/mock.trim.contigs.good.unique.good.filter.unique.pick.fasta, count=data/mothur/mock.trim.contigs.good.unique.good.filter.pick.count_table, reference=data/mothur/zymo_mock.filter.fasta, aligned=T)"
 
-# Edit code/get_error.batch to include the proper root name of your files file
-# Edit code/get_error.batch to include the proper group names for your mocks
 
-$(BASIC_STEM).pick.pick.pick.error.summary : code/get_error.batch\
-					$(BASIC_STEM).denovo.uchime.pick.pick.count_table\
-					$(BASIC_STEM).pick.pick.fasta\
-					$(REFS)/HMP_MOCK.v4.fasta
-	mothur code/get_error.batch
+#need to remove those sequences that are more than 20 away from a reference
+data/mothur/mock.trim.contigs.good.unique.good.filter.unique.pick.pick.fasta data/mothur/mock.trim.contigs.good.unique.good.filter.pick.pick.count_table : \
+			data/mothur/mock.trim.contigs.good.unique.good.filter.unique.pick.fasta\
+			data/mothur/mock.trim.contigs.good.unique.good.filter.pick.count_table\
+			data/mothur/mock.trim.contigs.good.unique.good.filter.unique.pick.error.summary\
+			code/remove_contaminants.R
+	Rscript code/remove_contaminants.R
 
+
+# precluster
+data/mothur/mock.trim.contigs.good.unique.good.filter.unique.pick.pick.precluster.fasta data/mothur/mock.trim.contigs.good.unique.good.filter.unique.pick.pick.precluster.count_table:\
+			code/run_precluster_mock.batch\
+			data/mothur/mock.trim.contigs.good.unique.good.filter.unique.pick.pick.fasta\
+			data/mothur/mock.trim.contigs.good.unique.good.filter.pick.pick.count_table
+	mothur code/run_precluster_mock.batch
+	rm data/mothur/mock*map
+
+
+# error.seqs
+data/mothur/mock.trim.contigs.good.unique.good.filter.unique.pick.pick.precluster.error.summary:\
+			data/mothur/mock.trim.contigs.good.unique.good.filter.unique.pick.pick.precluster.fasta\
+			data/mothur/mock.trim.contigs.good.unique.good.filter.unique.pick.pick.precluster.count_table\
+			data/mothur/zymo_mock.filter.fasta
+	mothur "#seq.error(fasta=data/mothur/mock.trim.contigs.good.unique.good.filter.unique.pick.pick.precluster.fasta, count=data/mothur/mock.trim.contigs.good.unique.good.filter.unique.pick.pick.precluster.count_table, reference=data/mothur/zymo_mock.filter.fasta, aligned=T)"
+
+
+# chimera.vsearch
+data/mothur/mock.trim.contigs.good.unique.good.filter.unique.pick.pick.precluster.vsearch.fasta data/mothur/mock.trim.contigs.good.unique.good.filter.unique.pick.pick.precluster.vsearch.count_table:\
+			code/run_vchime_mock.batch\
+			data/mothur/mock.trim.contigs.good.unique.good.filter.unique.pick.pick.precluster.fasta\
+			data/mothur/mock.trim.contigs.good.unique.good.filter.unique.pick.pick.precluster.count_table
+	mothur code/run_vchime_mock.batch
+	mv data/mothur/mock.trim.contigs.good.unique.good.filter.unique.pick.pick.precluster.pick.fasta data/mothur/mock.trim.contigs.good.unique.good.filter.unique.pick.pick.precluster.vsearch.fasta
+	mv data/mothur/mock.trim.contigs.good.unique.good.filter.unique.pick.pick.precluster.denovo.vsearch.pick.count_table data/mothur/mock.trim.contigs.good.unique.good.filter.unique.pick.pick.precluster.vsearch.count_table
+
+
+# dist.seqs; cluster based on chimera.vsearch output
+data/mothur/mock.trim.contigs.good.unique.good.filter.unique.pick.pick.precluster.vsearch.opti_mcc.shared :\
+		code/get_vsearch_shared_mock.batch\
+		data/mothur/mock.trim.contigs.good.unique.good.filter.unique.pick.pick.precluster.vsearch.fasta\
+		data/mothur/mock.trim.contigs.good.unique.good.filter.unique.pick.pick.precluster.vsearch.count_table
+	mothur code/get_vsearch_shared_mock.batch
+
+
+# perfect chimera removal
+data/mothur/mock.trim.contigs.good.unique.good.filter.unique.pick.pick.precluster.perfect.fasta data/mothur/mock.trim.contigs.good.unique.good.filter.unique.pick.pick.precluster.perfect.count_table : \
+		code/perfect_chimera_removal.R\
+		data/mothur/mock.trim.contigs.good.unique.good.filter.unique.pick.pick.precluster.error.summary\
+		data/mothur/mock.trim.contigs.good.unique.good.filter.unique.pick.pick.precluster.fasta\
+		data/mothur/mock.trim.contigs.good.unique.good.filter.unique.pick.pick.precluster.count_table
+	Rscript code/perfect_chimera_removal.R
+
+
+# dist.seqs; cluster based on perfect chimera removal
+data/mothur/mock.trim.contigs.good.unique.good.filter.unique.pick.pick.precluster.perfect.opti_mcc.shared :\
+		code/get_perfect_shared_mock.batch\
+		data/mothur/mock.trim.contigs.good.unique.good.filter.unique.pick.pick.precluster.perfect.fasta\
+		data/mothur/mock.trim.contigs.good.unique.good.filter.unique.pick.pick.precluster.perfect.count_table
+	mothur code/get_perfect_shared_mock.batch
+
+
+# No sequencing errors
+data/mothur/zymo_mock.filter.pick.unique.precluster.opti_mcc.summary : \
+		code/no_sequence_errors.batch\
+		data/mothur/zymo_mock.filter.fasta
+	grep "18S" data/mothur/zymo_mock.filter.fasta | cut -c2- > data/mothur/18S.accnos
+	mothur code/no_sequence_errors.batch
 
 
 ################################################################################
