@@ -190,6 +190,13 @@ data/mothur/zymo_mock.filter.pick.unique.precluster.opti_mcc.summary : \
 #
 ################################################################################
 
+data/process/error_chimera_rates.tsv : code/error_chimera_analysis.R\
+		data/mothur/mock.trim.contigs.good.unique.good.filter.unique.pick.error.summary\
+		data/mothur/mock.trim.contigs.good.unique.good.filter.pick.count_table\
+		data/mothur/mock.trim.contigs.good.unique.good.filter.unique.pick.pick.precluster.error.summary\
+		data/mothur/mock.trim.contigs.good.unique.good.filter.unique.pick.pick.precluster.count_table\
+		data/mothur/mock.trim.contigs.good.unique.good.filter.unique.pick.pick.precluster.vsearch.count_table
+	Rscript code/error_chimera_analysis.R
 
 
 ################################################################################
