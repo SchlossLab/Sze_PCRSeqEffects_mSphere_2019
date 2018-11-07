@@ -58,15 +58,16 @@ $(REFS)/trainset16_022016.% :
 	rm -rf trainset16_022016.pds
 	rm Trainset16_022016.pds.tgz
 
-# We need to get the Zymo mock community data
+# We need to get the Zymo mock community data; note that Zymo named the 5 operon of Salmonella twice
 $(REFS)/zymo_mock.align : $(REFS)/silva.v4.align
 	wget -N https://s3.amazonaws.com/zymo-files/BioPool/ZymoBIOMICS.STD.refseq.v2.zip
 	unzip ZymoBIOMICS.STD.refseq.v2.zip
 	rm ZymoBIOMICS.STD.refseq.v2/ssrRNAs/*itochondria_ssrRNA.fasta #V4 primers don't come close to annealing to these
-	cat ZymoBIOMICS.STD.refseq.v2/ssrRNAs/*fasta > zymo.fasta
+	cat ZymoBIOMICS.STD.refseq.v2/ssrRNAs/*fasta > zymo_temp.fasta
+	sed '0,/Salmonella_enterica_16S_5/{s/Salmonella_enterica_16S_5/Salmonella_enterica_16S_7/}' zymo_temp.fasta > zymo.fasta
 	mothur "#align.seqs(fasta=zymo.fasta, reference=data/references/silva.v4.align, processors=12)"
 	mv zymo.align data/references/zymo_mock.align
-	rm -rf zymo.* ZymoBIOMICS.STD.refseq.v2*
+	rm -rf zymo* ZymoBIOMICS.STD.refseq.v2* zymo_temp.fasta
 
 ################################################################################
 #
@@ -95,7 +96,7 @@ data/mothur/stool.trim.contigs.good.unique.good.filter.unique.precluster.pick.pi
 
 # make.contigs; screen.seqs; unique; align (w/mock); filter; unique; classify.seqs; remove contaminants
 
-data/mothur/mock.trim.contigs.good.unique.good.filter.unique.pick.fasta data/mothur/mock.trim.contigs.good.unique.good.filter.pick.count_table $(REFS)/zymo_mock.filter.fasta:\
+data/mothur/mock.trim.contigs.good.unique.good.filter.unique.pick.fasta data/mothur/mock.trim.contigs.good.unique.good.filter.pick.count_table data/mothur/zymo_mock.filter.fasta:\
 			code/get_good_mock.batch\
 			data/references/silva.v4.align\
 			$(REFS)/zymo_mock.align\
@@ -174,12 +175,18 @@ data/mothur/mock.trim.contigs.good.unique.good.filter.unique.pick.pick.precluste
 	mothur code/get_perfect_shared_mock.batch
 
 
-# No sequencing errors
-data/mothur/zymo_mock.filter.pick.unique.precluster.opti_mcc.summary : \
-		code/no_sequence_errors.batch\
+# No sequencing errors - through unique.seqs
+data/mothur/zymo_mock.filter.pick.count_table data/mothur/zymo_mock.filter.pick.unique.fasta : \
+		code/no_sequence_errors_unique.batch\
 		data/mothur/zymo_mock.filter.fasta
 	grep "18S" data/mothur/zymo_mock.filter.fasta | cut -c2- > data/mothur/18S.accnos
-	mothur code/no_sequence_errors.batch
+	mothur code/no_sequence_errors_unique.batch
+
+data/mothur/zymo_mock.filter.pick.unique.precluster.opti_mcc.summary : \
+		code/no_sequence_errors_cluster.batch\
+		data/mothur/zymo_mock.filter.pick.count_table\
+		data/mothur/zymo_mock.filter.pick.unique.fasta
+	mothur code/no_sequence_errors_cluster.batch
 
 
 ################################################################################
