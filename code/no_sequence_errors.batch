@@ -1,6 +1,0 @@
-remove.seqs(fasta=data/mothur/zymo_mock.filter.fasta, accnos=data/mothur/18S.accnos)
-unique.seqs()
-pre.cluster(fasta=current, name=current, diffs=2)
-dist.seqs(fasta=current, cutoff=0.03)
-cluster(column=current, count=current)
-summary.single(calc=sobs)
