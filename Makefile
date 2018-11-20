@@ -157,6 +157,11 @@ data/mothur/mock.trim.contigs.good.unique.good.filter.unique.pick.pick.precluste
 		data/mothur/mock.trim.contigs.good.unique.good.filter.unique.pick.pick.precluster.vsearch.count_table
 	mothur code/get_vsearch_shared_mock.batch
 
+data/mothur/mock.trim.contigs.good.unique.good.filter.unique.pick.pick.precluster.vsearch.opti_mcc.merge.braycurtis.0.03.lt.ave.dist data/mothur/mock.trim.contigs.good.unique.good.filter.unique.pick.pick.precluster.vsearch.opti_mcc.merge.groups.ave-std.summary :\
+		data/mothur/mock.trim.contigs.good.unique.good.filter.unique.pick.pick.precluster.vsearch.opti_mcc.shared\
+		code/get_alpha_beta_mock.bash
+	bash code/get_alpha_beta_mock.bash $^
+
 
 # perfect chimera removal
 data/mothur/mock.trim.contigs.good.unique.good.filter.unique.pick.pick.precluster.perfect.fasta data/mothur/mock.trim.contigs.good.unique.good.filter.unique.pick.pick.precluster.perfect.count_table : \
@@ -167,12 +172,17 @@ data/mothur/mock.trim.contigs.good.unique.good.filter.unique.pick.pick.precluste
 	Rscript code/perfect_chimera_removal.R
 
 
-# dist.seqs; cluster based on perfect chimera removal
+# dist.seqs; cluster based on perfect chimera removal; get shared file
 data/mothur/mock.trim.contigs.good.unique.good.filter.unique.pick.pick.precluster.perfect.opti_mcc.shared :\
 		code/get_perfect_shared_mock.batch\
 		data/mothur/mock.trim.contigs.good.unique.good.filter.unique.pick.pick.precluster.perfect.fasta\
 		data/mothur/mock.trim.contigs.good.unique.good.filter.unique.pick.pick.precluster.perfect.count_table
 	mothur code/get_perfect_shared_mock.batch
+
+data/mothur/mock.trim.contigs.good.unique.good.filter.unique.pick.pick.precluster.perfect.opti_mcc.merge.braycurtis.0.03.lt.ave.dist data/mothur/mock.trim.contigs.good.unique.good.filter.unique.pick.pick.precluster.perfect.opti_mcc.merge.groups.ave-std.summary :\
+		data/mothur/mock.trim.contigs.good.unique.good.filter.unique.pick.pick.precluster.perfect.opti_mcc.shared\
+		code/get_alpha_beta_mock.bash
+	bash code/get_alpha_beta_mock.bash $^
 
 
 # No sequencing errors - through unique.seqs
@@ -182,11 +192,13 @@ data/mothur/zymo_mock.filter.pick.count_table data/mothur/zymo_mock.filter.pick.
 	grep "18S" data/mothur/zymo_mock.filter.fasta | cut -c2- > data/mothur/18S.accnos
 	mothur code/no_sequence_errors_unique.batch
 
-data/mothur/zymo_mock.filter.pick.unique.precluster.opti_mcc.summary : \
+
+data/mothur/zymo_mock.filter.pick.unique.precluster.opti_mcc.list data/mothur/zymo_mock.filter.pick.unique.precluster.count_table : \
 		code/no_sequence_errors_cluster.batch\
 		data/mothur/zymo_mock.filter.pick.count_table\
 		data/mothur/zymo_mock.filter.pick.unique.fasta
 	mothur code/no_sequence_errors_cluster.batch
+
 
 
 ################################################################################
@@ -204,6 +216,18 @@ data/process/error_chimera_rates.tsv : code/error_chimera_analysis.R\
 		data/mothur/mock.trim.contigs.good.unique.good.filter.unique.pick.pick.precluster.count_table\
 		data/mothur/mock.trim.contigs.good.unique.good.filter.unique.pick.pick.precluster.vsearch.count_table
 	Rscript code/error_chimera_analysis.R
+
+data/proces/mock_alpha_diversity.tsv : code/mock_alpha.R\
+		data/mothur/mock.trim.contigs.good.unique.good.filter.unique.pick.pick.precluster.perfect.opti_mcc.merge.groups.ave-std.summary\
+		data/mothur/mock.trim.contigs.good.unique.good.filter.unique.pick.pick.precluster.vsearch.opti_mcc.merge.groups.ave-std.summary\
+		data/mothur/zymo_mock.filter.pick.unique.precluster.opti_mcc.list\
+		data/mothur/zymo_mock.filter.pick.unique.precluster.count_table
+	Rscript code/mock_alpha.R
+
+data/process/mock_beta_diversity.tsv : code/mock_beta.R\
+		data/mothur/mock.trim.contigs.good.unique.good.filter.unique.pick.pick.precluster.perfect.opti_mcc.merge.braycurtis.0.03.lt.ave.dist\
+		data/mothur/mock.trim.contigs.good.unique.good.filter.unique.pick.pick.precluster.vsearch.opti_mcc.merge.braycurtis.0.03.lt.ave.dist
+	Rscript code/mock_beta.R
 
 
 ################################################################################
