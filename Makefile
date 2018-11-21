@@ -92,6 +92,12 @@ data/mothur/stool.trim.contigs.good.unique.good.filter.unique.precluster.pick.pi
 	mothur code/get_shared_stool.batch
 	rm data/mothur/stool*map
 
+data/mothur/stool.trim.contigs.good.unique.good.filter.unique.precluster.pick.pick.opti_mcc.merge.braycurtis.0.03.lt.ave.dist data/mothur/stool.trim.contigs.good.unique.good.filter.unique.precluster.pick.pick.opti_mcc.merge.groups.ave-std.summary :\
+		data/mothur/stool.trim.contigs.good.unique.good.filter.unique.precluster.pick.pick.opti_mcc.shared\
+		code/get_alpha_beta_stool.bash
+	bash code/get_alpha_beta_stool.bash $^
+
+
 
 
 # make.contigs; screen.seqs; unique; align (w/mock); filter; unique; classify.seqs; remove contaminants
@@ -232,6 +238,11 @@ data/process/mock_beta_diversity.tsv : code/mock_beta.R\
 data/process/mock_beta_drift.csv : code/mock_drift.R\
 		data/mothur/mock.trim.contigs.good.unique.good.filter.unique.pick.pick.precluster.perfect.opti_mcc.braycurtis.0.03.lt.ave.dist
 	Rscript code/mock_drift.R
+
+
+data/process/stool_alpha_diversity.csv : code/stool_alpha.R\
+		data/mothur/stool.trim.contigs.good.unique.good.filter.unique.precluster.pick.pick.opti_mcc.groups.ave-std.summary
+	Rscript code/stool_alpha.R
 
 
 ################################################################################
