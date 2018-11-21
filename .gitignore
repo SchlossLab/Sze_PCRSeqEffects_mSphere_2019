@@ -2,6 +2,8 @@
 .Rproj.user
 *.Rproj
 
+.DS_Store
+
 data/raw/
 data/mothur/
 data/references/
