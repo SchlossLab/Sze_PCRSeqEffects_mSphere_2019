@@ -157,7 +157,7 @@ data/mothur/mock.trim.contigs.good.unique.good.filter.unique.pick.pick.precluste
 		data/mothur/mock.trim.contigs.good.unique.good.filter.unique.pick.pick.precluster.vsearch.count_table
 	mothur code/get_vsearch_shared_mock.batch
 
-data/mothur/mock.trim.contigs.good.unique.good.filter.unique.pick.pick.precluster.vsearch.opti_mcc.merge.braycurtis.0.03.lt.ave.dist data/mothur/mock.trim.contigs.good.unique.good.filter.unique.pick.pick.precluster.vsearch.opti_mcc.merge.groups.ave-std.summary :\
+data/mothur/mock.trim.contigs.good.unique.good.filter.unique.pick.pick.precluster.vsearch.opti_mcc.braycurtis.0.03.lt.ave.dist data/mothur/mock.trim.contigs.good.unique.good.filter.unique.pick.pick.precluster.vsearch.opti_mcc.merge.braycurtis.0.03.lt.ave.dist data/mothur/mock.trim.contigs.good.unique.good.filter.unique.pick.pick.precluster.vsearch.opti_mcc.merge.groups.ave-std.summary :\
 		data/mothur/mock.trim.contigs.good.unique.good.filter.unique.pick.pick.precluster.vsearch.opti_mcc.shared\
 		code/get_alpha_beta_mock.bash
 	bash code/get_alpha_beta_mock.bash $^
@@ -179,7 +179,7 @@ data/mothur/mock.trim.contigs.good.unique.good.filter.unique.pick.pick.precluste
 		data/mothur/mock.trim.contigs.good.unique.good.filter.unique.pick.pick.precluster.perfect.count_table
 	mothur code/get_perfect_shared_mock.batch
 
-data/mothur/mock.trim.contigs.good.unique.good.filter.unique.pick.pick.precluster.perfect.opti_mcc.merge.braycurtis.0.03.lt.ave.dist data/mothur/mock.trim.contigs.good.unique.good.filter.unique.pick.pick.precluster.perfect.opti_mcc.merge.groups.ave-std.summary :\
+data/mothur/mock.trim.contigs.good.unique.good.filter.unique.pick.pick.precluster.perfect.opti_mcc.braycurtis.0.03.lt.ave.dist data/mothur/mock.trim.contigs.good.unique.good.filter.unique.pick.pick.precluster.perfect.opti_mcc.merge.braycurtis.0.03.lt.ave.dist data/mothur/mock.trim.contigs.good.unique.good.filter.unique.pick.pick.precluster.perfect.opti_mcc.merge.groups.ave-std.summary :\
 		data/mothur/mock.trim.contigs.good.unique.good.filter.unique.pick.pick.precluster.perfect.opti_mcc.shared\
 		code/get_alpha_beta_mock.bash
 	bash code/get_alpha_beta_mock.bash $^
@@ -228,6 +228,10 @@ data/process/mock_beta_diversity.tsv : code/mock_beta.R\
 		data/mothur/mock.trim.contigs.good.unique.good.filter.unique.pick.pick.precluster.perfect.opti_mcc.merge.braycurtis.0.03.lt.ave.dist\
 		data/mothur/mock.trim.contigs.good.unique.good.filter.unique.pick.pick.precluster.vsearch.opti_mcc.merge.braycurtis.0.03.lt.ave.dist
 	Rscript code/mock_beta.R
+
+data/process/mock_beta_drift.csv : code/mock_drift.R\
+		data/mothur/mock.trim.contigs.good.unique.good.filter.unique.pick.pick.precluster.perfect.opti_mcc.braycurtis.0.03.lt.ave.dist
+	Rscript code/mock_drift.R
 
 
 ################################################################################
