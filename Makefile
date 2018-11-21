@@ -239,7 +239,6 @@ data/process/mock_beta_drift.csv : code/mock_drift.R\
 		data/mothur/mock.trim.contigs.good.unique.good.filter.unique.pick.pick.precluster.perfect.opti_mcc.braycurtis.0.03.lt.ave.dist
 	Rscript code/mock_drift.R
 
-
 data/process/stool_alpha_diversity.csv : code/stool_alpha.R\
 		data/mothur/stool.trim.contigs.good.unique.good.filter.unique.precluster.pick.pick.opti_mcc.groups.ave-std.summary
 	Rscript code/stool_alpha.R
@@ -248,6 +247,10 @@ data/process/stool_chimera.csv : code/stool_chimera.R\
 		data/mothur/stool.trim.contigs.good.unique.good.filter.unique.precluster.count_table\
 		data/mothur/stool.trim.contigs.good.unique.good.filter.unique.precluster.denovo.vsearch.pick.count_table
 	Rscript code/stool_chimera.R
+
+data/process/stool_beta_diversity.tsv : code/stool_beta.R\
+		data/mothur/stool.trim.contigs.good.unique.good.filter.unique.precluster.pick.pick.opti_mcc.braycurtis.0.03.lt.ave.dist
+	Rscript code/stool_beta.R
 
 ################################################################################
 #
