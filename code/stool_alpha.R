@@ -17,4 +17,4 @@ read_tsv("data/process/stool_alpha_diversity.tsv") %>%
 	ggplot(aes(x=rounds, y=value, group=subject, color=subject)) +
 	geom_line() +
 	facet_grid(metric~polymerase, scales="free_y") +
-	ggsave("stool_alpha.pdf")
+	ggsave("results/figures/stool_alpha.pdf")

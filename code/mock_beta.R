@@ -41,4 +41,4 @@ read_tsv("data/process/mock_beta_diversity.tsv") %>%
 	mutate(col_rounds = str_replace(col_rounds, "x", "")) %>%
 	ggplot(aes(x=polymerase, y=distances, fill=col_rounds))+
 		geom_col(position=position_dodge()) +
-		ggsave("mock_beta.pdf")
+		ggsave("results/figures/mock_beta.pdf")

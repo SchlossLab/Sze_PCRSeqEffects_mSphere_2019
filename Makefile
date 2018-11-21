@@ -252,6 +252,7 @@ data/process/stool_beta_diversity.tsv : code/stool_beta.R\
 		data/mothur/stool.trim.contigs.good.unique.good.filter.unique.precluster.pick.pick.opti_mcc.braycurtis.0.03.lt.ave.dist
 	Rscript code/stool_beta.R
 
+
 ################################################################################
 #
 # Part 4: Pull it all together
