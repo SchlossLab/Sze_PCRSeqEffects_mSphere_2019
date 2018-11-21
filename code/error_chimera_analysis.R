@@ -109,8 +109,8 @@ n_references <- inner_join(contig_errors, contig_counts, by="seq_name") %>%
 						filter(numparents == 1, mismatches <= 20) %>%
 						group_by(rounds, polymerase, reference) %>%
 						summarize(N = sum(count)) %>%
-						summarize(n_references = n()) %>% print(n=50)
-					# -> they did.
+						summarize(n_references = n()) #%>%
+						#print(n=50)	# -> they did.
 
 #	Aggregate everything and spit it out...
 inner_join(contig_error_summary, contig_chimera_summary, by=c("rounds", "polymerase")) %>%
@@ -119,3 +119,30 @@ inner_join(contig_error_summary, contig_chimera_summary, by=c("rounds", "polymer
 	inner_join(., sens_spec, by=c("rounds", "polymerase")) %>%
 	inner_join(., n_references, by=c("rounds", "polymerase")) %>%
 	write_tsv("data/process/error_chimera_rates.tsv")
+
+
+
+mock <- read_tsv("data/process/error_chimera_rates.tsv")
+
+mock %>%
+	gather(stage, error_rate, contig_error, pc_error) %>%
+	mutate(error_rate = 100* error_rate) %>%
+	ggplot(aes(x=rounds, y=error_rate, color=polymerase)) +
+		geom_line() +
+		facet_wrap(.~stage) +
+		ggsave('results/figures/mock_error.pdf')
+
+mock %>%
+	mutate(pc_frac_chimera = 100 * pc_frac_chimera) %>%
+	ggplot(aes(x=rounds, y=pc_frac_chimera, color=polymerase)) +
+		geom_line() +
+		ggsave("results/figures/mock_chimera_rate.pdf")
+
+mock %>%
+	mutate(vsearch_sens = 100 * vsearch_sens,
+					vsearch_spec = 100 * vsearch_spec) %>%
+	gather(sens_spec, value, vsearch_sens, vsearch_spec) %>%
+	ggplot(aes(x=rounds, y=value, color=polymerase)) +
+		geom_line() +
+		facet_grid(~sens_spec) +
+		ggsave("results/figures/mock_chimera_sens_spec.pdf")
