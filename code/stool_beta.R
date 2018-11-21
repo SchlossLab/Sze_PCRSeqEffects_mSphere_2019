@@ -35,7 +35,7 @@ read_tsv("data/process/stool_beta_diversity.tsv") %>%
 	ggplot(aes(x=subject, y=distances, fill=rounds))+
 		geom_col(position=position_dodge()) +
 		facet_wrap(.~polymerase) +
-		ggsave("test1.pdf")
+		ggsave("stool_beta.pdf")
 
 
 read_tsv("data/process/stool_beta_diversity.tsv") %>%
@@ -50,4 +50,4 @@ read_tsv("data/process/stool_beta_diversity.tsv") %>%
 	mutate(rounds = str_replace(rounds, "x", "")) %>%
 	ggplot(aes(x=rounds, y=ave_dist, group=polymerase, color=polymerase)) +
 		geom_line() +
-		ggsave('test2.pdf')
+		ggsave('stool_drift.pdf')

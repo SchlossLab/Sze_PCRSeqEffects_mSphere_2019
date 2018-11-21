@@ -41,4 +41,4 @@ read_csv("data/process/mock_beta_drift.csv") %>%
 	filter(method == "vsearch") %>%
 	ggplot(aes(x=rounds, y=ave_dist, color=polymerase)) +
 		geom_line() +
-		ggsave("test.pdf")
+		ggsave("mock_drift.pdf")

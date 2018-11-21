@@ -92,7 +92,7 @@ inner_join(rel_abundances, mock, by="species") %>%
 		theme(strip.text=element_text(face="italic"),
 					strip.text.x=element_text(hjust=0, size=9),
 					strip.background = element_rect(color = 'white', fill = 'white', size = 10)) +
-		ggsave("test.pdf")
+		ggsave("bias.pdf")
 
 
 
@@ -119,4 +119,4 @@ ggplot(salmonella_ratio, aes(x=rounds, y=ratio, group=polymerase, color=polymera
 	geom_hline(aes(yintercept=6), col="gray") +
 	geom_line() +
 	theme_classic() +
-	ggsave("ratio.pdf")
+	ggsave("salmonella_ratio.pdf")

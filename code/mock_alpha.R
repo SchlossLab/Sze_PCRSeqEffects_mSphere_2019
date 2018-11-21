@@ -73,4 +73,4 @@ read_tsv("data/process/mock_alpha_diversity.tsv") %>%
 	geom_line() +
 	geom_hline(aes(yintercept=ideal)) +
 	facet_grid(metric~polymerase, scales="free_y") +
-	ggsave("test.pdf")
+	ggsave("mock_alpha.pdf")
