@@ -244,6 +244,10 @@ data/process/stool_alpha_diversity.csv : code/stool_alpha.R\
 		data/mothur/stool.trim.contigs.good.unique.good.filter.unique.precluster.pick.pick.opti_mcc.groups.ave-std.summary
 	Rscript code/stool_alpha.R
 
+data/process/stool_chimera.csv : code/stool_chimera.R\
+		data/mothur/stool.trim.contigs.good.unique.good.filter.unique.precluster.count_table\
+		data/mothur/stool.trim.contigs.good.unique.good.filter.unique.precluster.denovo.vsearch.pick.count_table
+	Rscript code/stool_chimera.R
 
 ################################################################################
 #
