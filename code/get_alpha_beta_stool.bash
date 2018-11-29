@@ -5,5 +5,7 @@ mothur "#summary.single(shared=$SHARED, calc=nseqs-coverage-invsimpson-shannon-s
 				dist.shared(calc=braycurtis, subsample=$SUBSAMPLE)"
 
 rm $(echo $SHARED | sed -e "s/shared/groups.summary/")
+rm $(echo $SHARED | sed -e "s/shared/.*.rabund/")
+
 rm $(echo $SHARED | sed -e "s/shared/braycurtis.0.03.lt.dist/")
 rm $(echo $SHARED | sed -e "s/shared/braycurtis.0.03.lt.std.dist/")

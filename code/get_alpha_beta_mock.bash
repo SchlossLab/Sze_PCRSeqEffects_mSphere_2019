@@ -10,6 +10,7 @@ mothur "#merge.groups(shared=$SHARED, design=data/mothur/merge.file);
 
 rm data/mothur/merge.file
 rm $(echo $SHARED | sed -e "s/shared/merge.shared/")
+rm $(echo $SHARED | sed -e "s/shared/merge.*.rabund/")
 rm $(echo $SHARED | sed -e "s/shared/merge.groups.summary/")
 rm $(echo $SHARED | sed -e "s/shared/merge.braycurtis.0.03.lt.dist/")
 rm $(echo $SHARED | sed -e "s/shared/merge.braycurtis.0.03.lt.std.dist/")
