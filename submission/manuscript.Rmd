@@ -12,168 +12,6 @@ geometry: margin=1.0in
 bibliography: references.bib
 ---
 
-```{r knitr_settings, eval=TRUE, echo=FALSE, warning=FALSE, message=FALSE}
-
-source('../code/functions.R')
-
-loadLibs(c("tidyverse", "scales", "knitr", "rmarkdown", "stringr", "FSA"))
-
-```
-
-```{r rdata_tables, eval=TRUE, echo=FALSE, warning=FALSE, message=FALSE}
-
-#Read in the meta data file
-metadata <- read_csv("../data/process/tables/meta_data.csv")
-
-# Read in fecal count data
-fecal_numOTU_data <- read_csv("../data/process/tables/fecal_sub_sample_1000_count_table.csv") %>%
-  mutate(taq = factor(taq,
-                      levels = c("ACC", "K", "PHU", "PL", "Q5"),
-                      labels = c("Accuprime", "Kappa", "Phusion", "Platinum", "Q5")),
-         cycles = factor(cycles,
-                            levels = c("15x", "20x", "25x", "30x", "35x"),
-                            labels = c("15x", "20x", "25x", "30x", "35x"))) %>%
-  group_by(taq, cycles) %>%
-  summarise(taq_median = median(numOTUs, na.rm = T),
-            taq_min = min(numOTUs, na.rm = T),
-            taq_max = max(numOTUs, na.rm = T)) %>%
-  mutate(range_diff = taq_max - taq_min)
-
-# Read in fecal sample number of OTU results
-fs_anova_summary <- as.data.frame(read_csv("../data/process/tables/fecal_overall_anova_results.csv"))
-fs_tukey_summary <- as.data.frame(read_csv("../data/process/tables/fecal_overall_tukey_results.csv")) %>%
-  rename(padj = `p adj`)
-
-
-# Read in the Mock count data
-mock_num_otu_data <- read_csv("../data/process/tables/mock_sub_sample_1000_count_table.csv") %>%
-  mutate(taq = factor(taq,
-                      levels = c("ACC", "K", "PHU", "PL", "Q5"),
-                      labels = c("Accuprime", "Kappa", "Phusion", "Platinum", "Q5"))) %>%
-  group_by(taq, cycles) %>%
-  summarise(taq_median = median(numOTUs, na.rm = T),
-            taq_min = min(numOTUs, na.rm = T),
-            taq_max = max(numOTUs, na.rm = T)) %>%
-  mutate(range_diff = taq_max - taq_min)
-
-ref_mock_otu_num <- read_tsv("../data/process/zymo_mock_only.shared") %>%
-  select(numOtus)
-
-
-# Read in mock sample number of OTU results
-mock_anova_summary <- as.data.frame(read_csv("../data/process/tables/mock_overall_anova_results.csv"))
-mock_tukey_summary <- read_csv("../data/process/tables/mock_overall_tukey_results.csv")
-
-# Read in error rate results
-krsukal_error_rate <- read_csv("../data/process/tables/mock_error_overall_kruskal_results.csv")
-dunn_error_rate <- read_csv("../data/process/tables/mock_error_overall_dunn_results.csv")
-
-# Read in sequence error count results
-kruskal_seq_error_count <- read_csv("../data/process/tables/mock_error_count_overall_kruskal_results.csv")
-dunn_seq_error_count <- read_csv("../data/process/tables/mock_error_count_overall_dunn_results.csv")
-
-# Read in chimera prevalence results
-kruskal_chimera_prev <- as.data.frame(read_csv("../data/process/tables/mock_chimera_overall_kruskal_results.csv"))
-dunn_chimera_prev <- read_csv("../data/process/tables/mock_chimera_overall_dunn_results.csv")
-
-# Read in results from PERMANOVA and bray analysis
-bray_sim_to_prev_cycle_kruskal_results <- as.data.frame(read_csv("../data/process/tables/bray_sim_to_prev_cycle_kruskal_results.csv"))
-bray_permanova_by_taq_results <- as.data.frame(read_csv("../data/process/tables/bray_permanova_by_taq_results.csv"))
-
-bray_mock_combined <- read_csv("../data/process/tables/mock_bray_combined_permanova_results.csv")
-bray_fecal_combined <- read_csv("../data/process/tables/fecal_bray_combined_permanova_results.csv")
-
-# Read in actual error data
-error_data <- read_csv("../data/process/tables/mock_chimera_error_summary.csv") %>%
-                       filter(total_seqs >= 1000)
-
-error_summary <- error_data %>%
-  group_by(taq, cycles) %>%
-  summarise_at(vars(mean_error, chimera_prevalence, seq_error_prevalence), funs(median, min, max)) %>%
-  select(taq, cycles, contains("chimera"), contains("mean_error"), contains("seq_error"))
-
-
-# Vector of sub samples used
-dist_data <- read_csv("../data/process/tables/bray_5_cycle_dist_1000_data.csv") %>%
-  mutate(taq = factor(taq,
-                      levels = c("ACC", "K", "PHU", "PL", "Q5"),
-                      labels = c("Accuprime", "Kappa", "Phusion", "Platinum", "Q5"))) %>%
-  group_by(taq, cycle_compare) %>%
-  summarise(dist_median = median(distance, na.rm = T),
-            dist_min = min(distance, na.rm = T),
-            dist_max = max(distance, na.rm = T)) %>%
-  mutate(range_diff = dist_max - dist_min) %>%
-  ungroup() %>%
-  filter(cycle_compare != "25to35")
-
-
-fecal_kruskal_test_by_cycle_compare_summary <- dist_data %>%
-  nest() %>%
-  mutate(kruskal_analysis = map(data, ~kruskal.test(dist_median ~ factor(cycle_compare), data = .x)),
-         summary_data = map(kruskal_analysis, broom::tidy)) %>%
-  select(summary_data) %>% unnest(summary_data)
-
-dunns_test_by_cycle_compare_summary <- dist_data %>%
-  nest() %>%
-  mutate(dunn_analysis = map(data, ~dunnTest(dist_median ~ factor(cycle_compare), data = .x, method = "bh")[["res"]])) %>%
-  select(dunn_analysis) %>% unnest() %>%
-  arrange(Comparison)
-
-mock_dist_data <- read_csv("../data/process/tables/mock_bray_5_cycle_dist_1000_data.csv") %>%
-  mutate(taq = factor(taq,
-                      levels = c("ACC", "K", "PHU", "PL", "Q5"),
-                      labels = c("Accuprime", "Kappa", "Phusion", "Platinum", "Q5"))) %>%
-  filter(!is.na(distance)) %>%
-  group_by(taq, cycle_compare) %>%
-  summarise(dist_median = median(distance, na.rm = T),
-            dist_min = min(distance, na.rm = T),
-            dist_max = max(distance, na.rm = T)) %>%
-  mutate(range_diff = dist_max - dist_min) %>%
-  ungroup() %>%
-  filter(cycle_compare != "25to35")
-
-mock_kruskal_test_by_cycle_compare_summary <- mock_dist_data %>%
-  nest() %>%
-  mutate(kruskal_analysis = map(data, ~kruskal.test(dist_median ~ factor(cycle_compare), data = .x)),
-         summary_data = map(kruskal_analysis, broom::tidy)) %>%
-  select(summary_data) %>% unnest(summary_data)
-
-# Read in the regression data
-r2_table <- read_csv("../data/process/tables/r2_otu_vs_chimera_summary.csv")
-
-# Read in GC data
-gc_data <- read_csv("../data/process/tables/v4_gc_wilcox_test_summary.csv") %>%
-  filter(cycles != "fifteen") %>%
-  mutate(bh = p.adjust(p.value, method = "BH"))
-
-gc_genome_data <- read_csv("../data/process/tables/whole_genome_gc_wilcox_test_summary.csv") %>%
-  filter(cycles != "fifteen") %>%
-  mutate(bh = p.adjust(p.value, method = "BH"))
-
-gc_summary <- read_csv("../data/process/tables/gc_summary_table.csv")
-
-# Read in the taxa data
-fecal_otu_tests <- read_csv("../data/process/tables/kruskal_otu_polymerase_fecal_sample_diffs_summary.csv") %>%
-  arrange(p.value)
-
-mock_otu_tests_kruskal <- read_csv("../data/process/tables/kruskal_otu_polymerase_mock_diffs_summary.csv") %>%
-  arrange(bh)
-
-mock_otu_tests_dunns <- read_csv("../data/process/tables/dunns_sig_otu_polymerase_mock_diffs_summary.csv")
-
-# Read in RF model data
-mock_poly_rf_summary <- read_csv("../data/process/tables/polymerase_group_mock_rf_model_summary.csv")
-mock_cycles_rf_summary <- read_csv("../data/process/tables/cycles_group_mock_rf_model_summary.csv")
-
-fecal_sample_rf_summary <- read_csv("../data/process/tables/sample_group_rf_model_summary.csv")
-fecal_poly_rf_summary <- read_csv("../data/process/tables/polymerase_group_rf_model_summary.csv")
-fecal_cycles_rf_summary <- read_csv("../data/process/tables/cycles_group_rf_model_summary.csv")
-
-dunn_rf_data <- read_csv("../data/process/tables/dunn_rf_model_test_summary.csv")
-
-```
-
-
 
 # Assessing the Differences in 16S rRNA Gene Sequencing Due to High Fidelity DNA Polymerase
 
@@ -265,89 +103,50 @@ Interestingly, the influence different DNA polymerases can have on the observed 
 This study will investigate whether there are error differences that are dependent on high fidelity DNA polymerases and whether these differences obscure the biological variation in the fecal bacterial communities between individuals. We accomplish this by first examining GC-based amplification error, sequence error (e.g. substitutions), chimera prevalence, the number of OTUs, Bray-Curtis index, and OTU-based differences at varying number of cycles in five different high fidelity DNA polymerases in mock communities. In addition to these metrics we also created Random Forest models of the mock community to assess how successful classification based on 16S rRNA gene sequencing of number of cycles and type of polymerase could be. We then assessed if similar differences in the number of OTUs, Bray-Curtis index, and OTUs could be detected in human fecal samples. Additionally, we also created Random Forest models to assess how successful they could be at classifying fecal samples by number of cycles, polymerase used, or individual. Collectively, our observations suggest that although detectable differences occur based on number of cycles or high fidelity DNA polymerase used, they are smaller than the biological differences between individuals.   
 
 
+## pat's final paragraph
+We addressed X potential areas where the type of PCR polymerase was hypothesized to impact the results of a microbiome analysis. These included (i) the effect of the polymerase on the error rate of the bases represented in the final sequences, (ii) the fraction of sequences that appeared to be chimeras and the ability to detect those chimeras, (iii) the bias of preferentially amplifying one fragment over another in a mixed pool of templates, and (iv) inter-sample variation in community structure of samples amplified with the same polymerase across the amplification process. To characterize these factors we sequenced a mock community with known sequences and community structure and human fecal samples with unknown sequences and community structures.
 
+Three factors can impact whether an organism's 16S rRNA gene sequence is correctly represented. These include mis-incorporated bases during the PCR amplification phase, mis-incorporated bases during sequencing, and creation of chimeras during the PCR amplification phase.
+
+We sequenced the V4 region of the 16S rRNA genes from a mock community by generating paired 250 nt reads on the Illumina MiSeq platform. This region and sequencing approach was used because it has been shown to result in a relatively low sequencing error rate and is a widely used protocol. The mock community is commercially available and was made up of genomic DNA from 8 bacteria. The benefit of using this mock community is that the sequences of the 16S rRNA genes from these bacteria is known. This allowed us to confidently identify any chimeras and to calculate the sequencing error rate.
+
+We selected five high fidelity DNA polymerases to amplify the V4 region of the 16S rRNA gene from a mock community containing genomic DNA from 8 previously sequenced bacteria. The genomic DNA from the mock community was amplified using 15, 20, 25, 30, and 35 rounds of amplification using one of five different polymerases. Each condition was replicated four times and reads for each condition were pooled. Paired 250-nt sequencing reads were generated on an Illumina MiSeq sequencing platform and the reads were assembled using the make.contigs command in mothur. Any contigs that contained an ambiguous base call, mapped to the incorrect region of the 16S rRNA gene, or appeared to be a contaminant were removed from subsequent analyses. The sequencing error rates of the resulting contigs were quantified using the seq.error command in mothur. This command uses the true sequences from the mock community to generate all possible chimeras and removes any contigs that were at least three bases more similar to a chimera than to a reference sequence. The command then counts the number of substitutions, insertions, and deletions in the contig relative to the reference sequence.
 
 \newpage
 
 
 ## Results
 
-Quantifying the problems...
-
-* Polymerases' effects on bias
-	* Different polymerases and cycle numbers
-	* Mock community w/ perfect chimera removal
-	* Relative abundance
-	* Variation in Shannon/Inverse Simpson diversity across cycle numbers
-	* Variation in Bray-Curtis across cycle numbers
-	* Impact of fragment length on bias (are they all the same length)
-	* Impact of fragment GC content on bias
-
-* Polymerases' effects on error rates
-	* Different polymerases and cycle numbers
-	* Mock community w/ perfect chimera removal
-
-* Polymerases' effects on chimera rate
-	* Different polymerases and cycle numbers
-	* Mock community w/ perfect chimera removal
+***Sequencing errors vary by the number of cycles and the DNA polymerase used in PCR.*** The presence of sequence errors can confound the ability to accurately classify 16S rRNA gene sequences and group sequences into operational taxonomic units (OTUs). More importantly, sequencing errors themselves can alter the representation of the community. Therefore, it is important to minimize the number of sequencing errors in an analysis. Using a widely-used approach that generates the lowest reported error rate, we quantified the error rate by sequencing the V4 region of the 16S rRNA genes from an 8 member mock community. We also removed any contigs that were at least three bases more similar to a chimera of two references than to a single reference sequence [ref]. Regardless of the polymerase, the error rate increased with the number of rounds of amplification. Using 30 rounds of PCR is a common approach across diverse types of samples. Among the data generated using 30 rounds of PCR the Accuprime polymerase had the highest error rate (i.e. 0.XXX%) followed by the Platinum (i.e. 0.XXX%), Phusion (i.e. 0.XXX%), Kappa (i.e. 0.XXX%), and Q5 (i.e. 0.XXX%) polymerases (Figure 1). The order of the error rates using these polymerases is consistent with previously documented reports of their per cycle error rates. When we applied the pre.clustering denoising step, which merges the counts of reads within 2 nt of a more abundant sequence, the error rates dropped considerably such that the Platinum polymerase had the highest error rate (i.e. 0.XXX%) followed by the Accuprime (i.e. 0.XXX%), Phusion (i.e. 0.XXX%), Kappa (i.e. 0.XXX%), and Q5 (i.e. 0.XXX%) polymerases (Figure 1). Although specific recommendations are difficult to make because the impact of the actual community structure and concentration of the initial DNA template are likely to have an impact on the results, it is clear that using as few PCR cycles as necessary is a good guide to minimizing the impact of polymerase on the error rate. Furthermore, using a polymerase with the lowest possible error rate is preferred.
 
 
-Characterizing the effects...
-
-* Polymerases' effects on bias
-	* Different polymerases and cycle numbers
-	* Human communities w/ uchime chimera removal
-	* Variation in Shannon/Inverse Simpson diversity across cycle numbers
-	* Variation in Bray-Curtis across cycle numbers
-	* Which factor has biggest influence on beta-diversity - polymerase, cycle number, sample
-	* Impact of fragment length on bias (are they all the same length)
-	* Impact of fragment GC content on bias
-
-* Detection of chimeras
-	* Different polymerases and cycle numbers
-	* Use Mock community data
-	* Use uchime to remove chimeras to get residual chimera rate
-	* Error rate vs residual chimera rate
+***The fraction of sequences identified as being chimeric varies by the number of cycles and the DNA polymerase used in PCR.*** Chimeric PCR products can significantly confound downstream analyses. Although numerous bioinformatic tools exist to identify and remove chimeric sequences with high specificity, their sensitivity is relatively low and can be reduced by the presence of sequencing errors. We identified those contigs that were at least three bases more similar to a chimera of two references than to a single reference sequence. As expected from previous studies, the number of chimeras increased with rounds of amplification. Interestingly, the fraction of chimeric sequences from the mock community varied by the type of polymerase used. After 30 rounds of PCR, the Platinum polymerase had the highest chimera rate (i.e. XX%) followed by the Q5 (i.e. XX%), Phusion (i.e. XX%), Kappa (i.e. XX%), and Accuprime (i.e. XX%) polymerases. We used the UChime algorithm to detect chimeras in our pre-clustered mock community data and calculate the algorithm's sensitivity and specificity. For all polymerases, the specificity was above XX% and showed a slight association with the number of cycles used. There was considerable inter-polymerase and inter-round of amplification variation in the sensitivity of UChime to detect the chimeras from the mock community. This suggests that the residual error rate after pre-clustering the sequence data did not compromise the sensitivity. In general, the sensitivity of UChime varied between 50 and 90%. These results could be affected by the use of a single mock community with limited genetic diversity. Although we did not know the true chimera rate for our four human stool samples, we were able to calculate the fraction of sequences that UChime identified as being chimeric. These results followed those from the mock communities - additional rounds of amplification significantly increased the rate of chimeras and there was variation between the polymerases that we used. Although it is difficult to identify a feature of a polymerase that resulted in higher rates of chimeras, it is clear that using the smallest number of PCR cycles possible will minimize the impacts of chimeras.
 
 
+***The bias of PCR amplification is inconsistent and subtle.*** Since researchers began using PCR to sequence 16S rRNA genes there has been concern that amplifying fragments from a mixed template pool could lead to a biased representation in the pool of products and would confound downstream analyses. The mock community was generated by mixing equal amounts of genomic DNA from each of the 8 bacteria resulting in uneven representation of the *rrn* operons across the bacteria. The vendor of the mock community subjects each lot of genomic DNA to shotgun sequencing to more accurately quantify the actual abundance of each organism in the community. We compared the expected relative abundance of the 16S rRNA genes from each bacterium in the mock community to the data we generated across rounds of amplification and polymerase. Interestingly, for some bacteria, there representation became less biased with additional rounds of PCR (e.g. *L. fermentum*), while others became more biased (e.g. *E. faecalis*), and others had little change (e.g. *B. subtilis*). The percentage of bases in the V4 region that were guanines or cytosines was not predictive of the amount of bias. Across the bacteria there was no variation in the length of their V4 regions and they each had the same sequence in the region that the primers annealed. One of the bacteria represented in the mock community, *S. enterica*, had 6 identical copies of the V4 region and 1 copy that differed from those by one nucleotide. We used the sequence data to calculate the ratio of the dominant to rare variants from *S. enterica* (Figure. XXX). With the exception of the Kappa polymerase, the other four polymerases converged to a ratio of 5.XXX. Based on the relative abundance data from the mock community it was not possible to discern the factors that result in amplification bias. As an additional test, we quantified the Bray-Curtis distance between the communities observed after 25 rounds of amplification and those at 30 and 35 rounds of amplification. For the mock community data, the distances between 25 and 35 rounds were higher than between 25 and 30 rounds for each of the polymerases by an average of 0.XX units. The Platinum polymerase varied the most across rounds of amplification (25 vs 30 rounds: 0.XX; 25 vs 35 rounds: 0.XX). In contrast, when we characterized the variation between amplification rounds using human stool samples, the distance between the 25 and 30 rounds and 25 and 35 rounds varied considerably between samples and polymerases. In general the inter-round variation was lowest for the data generated using the Kappa and Accuprime polymerases. The data generated using the Platinum polymerase was consistent across rounds, but it was more biased than these polymerases. Considering the average distance across the four samples varied between 0.XX and 0.XX, regardless of the polymerases and number of rounds of amplification, any bias due to amplification is unlikely to obscure community-wide differences between samples. It is difficult to develop a specific recommendation based on the level of bias across rounds of PCR or polymerases; however, the general suggestion is to use as few rounds of amplification as possible.
 
 
+***There is little evidence of a relationship between polymerase or number of rounds of amplification on PCR drift.*** There have been concerns that the same template DNA subjected to the same PCR conditions could result in different representations of communities because of random drift. To test this, we determined the average Bray-Curtis distance between replicate reactions using the same polymerase and number of rounds of amplification. Using the mock community data there were no obvious trends. The average Bray-Curtis distance within a set of conditions varied by 0.XX to 0.XX units. Although we did not obtain replicates of each of the stool samples, the intra-sample variation for each set of conditions was consistent and varied between 0.XX and 0.XX units. These data suggest that amplicon sequencing is robust to random variation in amplification and that any differences are likely to be smaller than what is considered biologically relevant.
 
 
-***Error differences due to number of cycles or polymerase used are detectable in mock communities.***
-There was a significant difference in relative abundance between high/low GC content based on either the V4 16S rRNA gene region or the whole genome [Figure 1 & Table S1]. However, using only the GC content of the V4 region resulted in less differences than when using the whole genome [Table S1]. The differences between high and low GC content groups were significant as early as 20 cycles in all polymerases except Q5 [Table S1]. The highest (*Staphylococcus*) and lowest (*Pseudomonas*) GC content bacteria were the most divergent  from the expected relative abundance of 0.12 [Figure 1]. These observations suggest that the high fidelity DNA polymerases tested do not prevent GC-based amplification error.   
-
-The median error rate varied by polymerase, with Kappa having the highest error rate of all the polymerases across the number of cycles [Figure 2A & Table S2]. Thus, the majority of the differences observed across the number of cycles was between Kappa and other polymerases [Figure 2A & Table S3]. The total sequences that contained at least one error was also polymerase dependent, with the majority of differences being between Kappa or Accuprime and the other polymerases [Table S2 & S3]. These differences in error rates were not due to polymerase dependent differences in base substitution rate [Figure S1]. Collectively, the results suggest that sequence error is dependent on polymerase, persists across the number of cycles used, and are not due to any bias towards a specific type of base substitution.
-
-We next examined whether chimeras also were dependent on polymerase and whether this could affect the total number of OTUs. We observed significant differences in the chimera prevalence based on polymerase across the number of cycles used (P-value `r ifelse(max(filter(kruskal_chimera_prev)[, "bh"]) < 0.05, invisible("<"), invisible("check data"))` 0.05) [Table S2]. Differences in chimera prevalence between Platinum and all other polymerases accounted for the majority of these differences [Table S3]. Accuprime^TM^ had the lowest chimera prevalence of all polymerases regardless of whether chimera removal with VSEARCH was used [Figure 2B & 2C]. The number of cycles used clearly increased chimera prevalence for all polymerases but the rate of increase differed [Figure 2B & 2C]. There was also a plateau in the total percent of chimeras that were removed that was similar for all polymerases [Figure 2D]. Additionally, a positive correlation was observed between chimeric sequences and the number of OTUs for all polymerases [Figure 2E]. This positive correlation was strongest for Accuprime^TM^, Platinum, and Phusion [Figure 2E]. This data suggests that chimera prevalence depends on polymerase, is made worse by increasing the number of cycles, and confirms previous reports that the number of OTUs is dependent on the prevalence of these chimeric sequences.
+***The choice of polymerase or the number of rounds of amplification have little impact on the relative interpretation of community-wide metrics of diversity.*** The biases that we observed at the population and community levels appeared to be small relative to the overall differences between samples. To study this further, we calculated alpha and beta-diversity metrics using the human stool samples for each of the polymerases and rounds of amplification. We calculated the number of observed OTUs, Shannon diversity, inverse Simpson diversity index for each condition and donor. Although there were clear differences between conditions, the relative ordering of the stool samples did not meaningfully vary across conditions. We also performed a principle coordinates analysis of the Bray-Curtis distances showed distinct clusters by donor. Within each cluster there were no obvious patterns related to the polymerase or number of rounds of PCR. Both of these results indicate that for these samples, the differences were larger than the difference between conditions. These results suggest that for a coarse analysis of communities, the choice of number of rounds of amplification or polymerase are not important.
 
 
+Generate PCoA diagrams
+Alpha diversity figures
 
-***Bacterial community composition differences based on number of cycles or polymerase used are less obvious in mock community samples.***
-Due to the close relationship between chimera prevalence and the number of OTUs, we also observed a polymerase dependent difference in the range of the number of OTUs in the mock community samples based on number of cycles and polymerase [Figure 3A]. The closest any of the polymerases came to a total of `r pull(ref_mock_otu_num, numOtus)` OTUs, created by running the mock reference 16S sequences through mothur processing, was at 25 and 30 cycles [Figure 3A]. Differences between polymerases for the number of OTUs created were observed as early as 20 cycles in the mock community (F-stat = `r round(filter(mock_anova_summary, sub_sample_level == 1000, cycle == "20x")[, "F.value"], digits = 2)`, P-value = `r format(filter(mock_anova_summary, sub_sample_level == 1000, cycle == "20x")[, "bh"], digits = 1, nsmall = 1)`) [Table S4]. Using a Tukey post-hoc test, the majority of differences for the number of OTUs detected in the mock community was largely due to Kappa and Platinum versus the other polymerases across the number of cycles used [Table S5].
-
-We next investigated the effect polymerases and number of cycles had on the bacterial community composition in more detail by using the Bray-Curtis index. We observed clear differences in the mock community based on polymerase used (P-value = `r format(filter(bray_mock_combined, x1 == "polymerase") %>% select("Pr(>F)") %>% pull(), scientific = T, digits = 2)`) as well as differences based on polymerase and number of cycles (P-value = `r format(filter(bray_mock_combined, x1 == "interaction_polymerase_cycles") %>% select("Pr(>F)") %>% pull(), scientific = T, digits = 2)`). However, when investigating specific cycles within each polymerase we observed no difference in the bacterial community composition (P-value `r ifelse(pull(mock_kruskal_test_by_cycle_compare_summary, p.value) < 0.05, invisible("<"), invisible(">"))` 0.05) [Figure 3B]. Finding specific differences in overall bacterial community composition based on number of cycles and polymerase, we next examined if specific taxa vary depending on polymerase and number of cycles. We found that OTUs that taxonomically classified to *Salmonella*, *Escherichia*, *Enterococcus*, and *Staphylococcus* differed based on polymerase used [Table S6 & S7]. These specific OTUs were all members of the mock community and the differences were most pronounced at 25 and 30 cycles [Table S7]. The majority of the differences between taxa were due to differences between a single polymerase (Kappa) and the other polymerases tested [Table S7].
-
-Based on these observations, we created Random Forest models to classify samples based on number of cycles or polymerase used. When assessing the Random Forest models there was a difference between models built to classify number of cycles versus those built to classify polymerase used [P-value = `r format(filter(dunn_rf_data, str_detect(var1, "mock") & str_detect(var2, "mock")) %>% pull(bh), scientific = T, digits = 3)`]. Although there was a difference, neither model was overly successful at correctly classifying samples based on 16S rRNA gene sequencing data (cycles model, probability of correct classification = `r round(exp(-median(mock_cycles_rf_summary$logLoss)), digits = 2)` (`r round(exp(-max(mock_cycles_rf_summary$logLoss)), digits = 2)` - `r round(exp(-min(mock_cycles_rf_summary$logLoss)), digits = 2)`)(min - max) versus polymerase model, probability of correct classification = `r round(exp(-median(mock_poly_rf_summary$logLoss)), digits = 2)` (`r round(exp(-max(mock_poly_rf_summary$logLoss)), digits = 2)` - `r round(exp(-min(mock_poly_rf_summary$logLoss)), digits = 2)`)). Our observations in mock communities suggest that although differences are detected based on number of cycles or polymerase used, the overall community-wide differences are not as large.  
-
-
-***Few differences based on number of cycles and polymerase used were identified in fecal samples.***
-Unlike mock community samples, an overall difference in the number of OTUs was only detected between polymerases at 35 cycles in fecal samples (F-stat > `r round(min(filter(fs_anova_summary, cycle == "35x", sub_sample_level == 1000)[, "F.value"]), digits = 2)`, P-value = `r format(filter(fs_anova_summary, cycle == "35x", sub_sample_level == 1000)[, "bh"], digits = 2, nsmall = 2, scientific = T)`) [Table S4], and a Tukey post-hoc test failed to identify any differences between specific polymerases used (P-value `r ifelse(min(filter(fs_tukey_summary, sub_sample_level == 1000)[, "padj"]) > 0.05,  invisible(">"), invisible("check data"))` 0.05) [Table S5]. However, differences in the range of the number of OTUs detected for fecal samples was dependent on the polymerase used (e.g. Accuprime at 35 cycles = `r filter(fecal_numOTU_data, cycles == "35x", taq == "Accuprime") %>% pull(taq_min)` - `r filter(fecal_numOTU_data, cycles == "35x", taq == "Accuprime") %>% pull(taq_max)` versus Phusion at 35 cycles = `r filter(fecal_numOTU_data, cycles == "35x", taq == "Phusion") %>% pull(taq_min)` - `r filter(fecal_numOTU_data, cycles == "35x", taq == "Phusion") %>% pull(taq_max)`) [Figure 4A]. There was also a trend for lower number of cycles (15-20) to result in a reduced range in the number of OTUs versus higher number of cycles (25, 30, and 35) for all polymerases (e.g. Phusion at 15 cycles = `r filter(fecal_numOTU_data, cycles == "15x", taq == "Phusion") %>% pull(taq_min)` - `r filter(fecal_numOTU_data, cycles == "15x", taq == "Phusion") %>% pull(taq_max)` versus Phusion at 35 cycles = `r filter(fecal_numOTU_data, cycles == "35x", taq == "Phusion") %>% pull(taq_min)` - `r filter(fecal_numOTU_data, cycles == "35x", taq == "Phusion") %>% pull(taq_max)`) [Figure 4A]. Based on these observations, there are small differences in the total number of OTUs detected in fecal samples that are based on number of cycles or polymerases used.    
-
-
-When using the Bray-Curtis index, we observed that polymerases and number of cycles had no affect on the bacterial community composition in fecal samples (P-value = `r round(filter(bray_fecal_combined, x1 == "polymerase") %>% select("Pr(>F)") %>% pull(), digits = 2)`). There was also no interaction between individuals, number of cycles, and polymerase used (P-value = `r round(filter(bray_fecal_combined, x1 == "interaction_ind_poly_cycle") %>% select("Pr(>F)") %>% pull(), digits = 2)`). When using PERMANOVA to test for community differences based on any of the number of cycles within polymerases, only Phusion had cycle dependent differences (P-value = `r format(filter(bray_permanova_by_taq_results, sub_sample_level == 1000, taq == "PHU")[, "bh"], digits = 1, nsmall = 1)`). Additionally, Phusion was one of two polymerases that had enough sequences to be rarefied to 1000 sequences at 15 cycles. Within each respective 5-cycle increment comparison there was no difference in Bray-Curtis index between the polymerases (P-value `r ifelse(min(filter(bray_sim_to_prev_cycle_kruskal_results, sub_sample_level == 1000)[, "bh"], na.rm = T) > 0.05, invisible(">"), invisible("check data"))` 0.05) [Figure 4B]. However, there was an overall decrease in Bray-Curtis index by cycle comparison group (e.g. the 15 cycle versus 20 cycle group compared to the 30 cycle versus 35 cycle group) (P-value `r ifelse(pull(fecal_kruskal_test_by_cycle_compare_summary, p.value) < 0.01, invisible("<"), invisible(">"))` 0.01) [Figure 4B]. Using a Dunn's post-hoc test the 15 cycle versus 20 cycle and 20 cycle versus 25 cycle comparison groups had a higher Bray-Curtis index than the 30 cycle versus 35 cycle comparison group (P-value `r ifelse(min(pull(dunns_test_by_cycle_compare_summary, P.adj)) < 0.05, invisible("<"), invisible(">"))` 0.05). In addition to assessing community composition by Bray-Curtis index, we also investigated differences in OTUs based on polymerase at each number of cycle used and no significant differences could be found (P-value $\geqslant$ `r round(min(pull(fecal_otu_tests, p.value)), digits = 2)`, corrected P-value = `r round(min(pull(fecal_otu_tests, bh)), digits = 2)`). Overall, these results suggest that in fecal samples the number of cycles and polymerase used minimally change the bacterial community composition.
-
-
-Finally, we built Random Forest models to classify samples for the number of cycles, polymerase used, or individual it was obtained from. Using 16S rRNA gene sequencing data there was a large disparity in the model's ability to correctly classify samples based on polymerase used, number of cycles, and individual (P-value $\leqslant$ `r format(max(filter(dunn_rf_data, str_detect(var1, "fecal") & str_detect(var2, "fecal")) %>% pull(bh)), scientific = T, digits = 3)`). There was a clear difference in the success of the model used to classify individuals (probability of correct classification = `r round(exp(-median(fecal_sample_rf_summary$logLoss)), digits = 2)` (`r round(exp(-max(fecal_sample_rf_summary$logLoss)), digits = 2)` - `r round(exp(-min(fecal_sample_rf_summary$logLoss)), digits = 2)`)) versus the models created to classify number of cycles or polymerase (cycles model, probability of correct classification = `r round(exp(-median(fecal_cycles_rf_summary$logLoss)), digits = 2)` (`r round(exp(-max(fecal_cycles_rf_summary$logLoss)), digits = 2)` - `r round(exp(-min(fecal_cycles_rf_summary$logLoss)), digits = 2)`)(min - max) and polymerase model, probability of correct classification = `r round(exp(-median(fecal_poly_rf_summary$logLoss)), digits = 2)` (`r round(exp(-max(fecal_poly_rf_summary$logLoss)), digits = 2)` - `r round(exp(-min(fecal_poly_rf_summary$logLoss)), digits = 2)`)). Additionally, the top 10 most important OTUs to the polymerase and number of cycle models were not the most important OTUs to the model that classified individuals [Figure 5]. This suggests that OTUs that change the most due to the number of cycles and polymerase in fecal samples are not the same as OTUs that are part of the biological variation between individuals [Figure 5]. Collectively, our observations show that despite a variety of errors associated with the amplification process, it is still possible to detect the bacterial community variation between individuals.
+https://www.hindawi.com/journals/mbi/2014/287430/
+https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0169774
+https://academic.oup.com/nar/article/24/18/3546/2359477
 
 
 \newpage
 
 ## Discussion
 
-Previous studies have reported GC dependent amplification differences [@polz_bias_1998] and we confirm that these differences still persist in high fidelity DNA polymerase when analyzing mock community samples [Figure 1]. Additionally, these specific polymerases have different sequence error rates and chimera prevalence [Figure 2]. Chimera prevalence in particular was strongly associated with the total number of OTUs detected in our mock community and vaired by polymerase  [Figure 2E & 3A]. Additionally, the bacterial community composition varied by number of cycles and polymerase in these mock community samples. Clearly, it is possible to identify a large number of differences based on number of cycles and polymerase used when analyzing mock community samples. However, these differences may not be a major concern when analyzing more complex community samples.
+Previous studies have reported GC dependent amplification differences [@polz_bias_1998] and we confirm that these differences still persist in high fidelity DNA polymerase when analyzing mock community samples [Figure 1]. Additionally, these specific polymerases have different sequence error rates and chimera prevalence [Figure 2]. Chimera prevalence in particular was strongly associated with the total number of OTUs detected in our mock community and varied by polymerase  [Figure 2E & 3A]. Additionally, the bacterial community composition varied by number of cycles and polymerase in these mock community samples. Clearly, it is possible to identify a large number of differences based on number of cycles and polymerase used when analyzing mock community samples. However, these differences may not be a major concern when analyzing more complex community samples.
 
-Fecal samples showed a similar increase in median and range for the number of OTUs, based on number of cycles and polymerase used, as that found when analyzing mock community samples [Figure 4A]. However, there were few differences between the polymerases within each of the amplification cycles [Figure 4A]. Additionally, these differences did not translate to large bacterial community composition changes based on number of cycles or polymerase. The differences that were identifed were small and occured based on the number of cycles, independent of the polymerase used [Figure 4B]. There was also no OTU-based differences observed within the number of cycles between any of the polymerases for fecal samples. Interestingly, Random Forest models built on this OTU data had the highest classification success for individuals versus number of cycles or polymerase. In addition to the better model performance of Random Forest for individuals, the most important OTUs to this model were not the most important OTUs for the other models tested [Figure 5]. Collectively, these observations show that differences based on the number of cycles and between high fidelity DNA polymerases can be found. However, when using 16S rRNA gene sequencing these technical differences can be smaller than the biological differences between fecal bacterial communities within individuals.    
+Fecal samples showed a similar increase in median and range for the number of OTUs, based on number of cycles and polymerase used, as that found when analyzing mock community samples [Figure 4A]. However, there were few differences between the polymerases within each of the amplification cycles [Figure 4A]. Additionally, these differences did not translate to large bacterial community composition changes based on number of cycles or polymerase. The differences that were identified were small and occurred based on the number of cycles, independent of the polymerase used [Figure 4B]. There was also no OTU-based differences observed within the number of cycles between any of the polymerases for fecal samples. Interestingly, Random Forest models built on this OTU data had the highest classification success for individuals versus number of cycles or polymerase. In addition to the better model performance of Random Forest for individuals, the most important OTUs to this model were not the most important OTUs for the other models tested [Figure 5]. Collectively, these observations show that differences based on the number of cycles and between high fidelity DNA polymerases can be found. However, when using 16S rRNA gene sequencing these technical differences can be smaller than the biological differences between fecal bacterial communities within individuals.    
 
 The small differences observed due to error rate and chimera prevalence may be due to the actual DNA polymerase family being used within the PCR mix. DNA polymerases from distinct families have different binding affinities and error correction capacity [@polymerase_Ishino_2014]. However, based on the observations within our study this is unlikely to be the only contributor. Within our study the highest and lowest chimera prevalence both belonged to a family A polymerase (Platinum and Accuprime^TM^ respectively) [@polymerase_Ishino_2014]. Additionally, based on the information supplied by the respective manufacturers, the differences between the two PCR mixtures are not immediately apparent. Both PCR mixtures contain a recombinant *Taq* DNA polymerase, a *Pyrococcus* spp GB-D polymerase, and a platinum *Taq* antibody. Since it is not possible to know everything about the mixture beyond what was willingly provided by the manufacturer, it is possible that differences in how the recombinant *Taq* was generated or other compounds within the PCR mixture could be a contributing factor for the differences in error rate and chimera prevalence. Beyond the choice of the type of polymerase, there may be other ways to reduce the affect of polymerase dependent error rates and chimera prevalence on the downstream results.
 
