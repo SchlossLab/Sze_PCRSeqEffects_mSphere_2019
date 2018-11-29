@@ -223,7 +223,7 @@ data/process/error_chimera_rates.tsv : code/error_chimera_analysis.R\
 		data/mothur/mock.trim.contigs.good.unique.good.filter.unique.pick.pick.precluster.vsearch.count_table
 	Rscript code/error_chimera_analysis.R
 
-data/proces/mock_alpha_diversity.tsv : code/mock_alpha.R\
+data/process/mock_alpha_diversity.tsv : code/mock_alpha.R\
 		data/mothur/mock.trim.contigs.good.unique.good.filter.unique.pick.pick.precluster.perfect.opti_mcc.merge.groups.ave-std.summary\
 		data/mothur/mock.trim.contigs.good.unique.good.filter.unique.pick.pick.precluster.vsearch.opti_mcc.merge.groups.ave-std.summary\
 		data/mothur/zymo_mock.filter.pick.unique.precluster.opti_mcc.list\
