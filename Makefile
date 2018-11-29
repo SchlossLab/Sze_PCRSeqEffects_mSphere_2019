@@ -92,7 +92,7 @@ data/mothur/stool.trim.contigs.good.unique.good.filter.unique.precluster.pick.pi
 	mothur code/get_shared_stool.batch
 	rm data/mothur/stool*map
 
-data/mothur/stool.trim.contigs.good.unique.good.filter.unique.precluster.pick.pick.opti_mcc.merge.braycurtis.0.03.lt.ave.dist data/mothur/stool.trim.contigs.good.unique.good.filter.unique.precluster.pick.pick.opti_mcc.merge.groups.ave-std.summary :\
+data/mothur/stool.trim.contigs.good.unique.good.filter.unique.precluster.pick.pick.opti_mcc.braycurtis.0.03.lt.ave.dist data/mothur/stool.trim.contigs.good.unique.good.filter.unique.precluster.pick.pick.opti_mcc.groups.ave-std.summary :\
 		data/mothur/stool.trim.contigs.good.unique.good.filter.unique.precluster.pick.pick.opti_mcc.shared\
 		code/get_alpha_beta_stool.bash
 	bash code/get_alpha_beta_stool.bash $^
@@ -205,6 +205,11 @@ data/mothur/zymo_mock.filter.pick.unique.precluster.opti_mcc.list data/mothur/zy
 		data/mothur/zymo_mock.filter.pick.unique.fasta
 	mothur code/no_sequence_errors_cluster.batch
 
+data/mothur/mock.trim.contigs.good.unique.good.filter.unique.pick.pick.precluster.vsearch.opti_mcc.braycurtis.0.03.lt.ave.pcoa.axes : code/get_pcoa.bash data/mothur/mock.trim.contigs.good.unique.good.filter.unique.pick.pick.precluster.vsearch.opti_mcc.braycurtis.0.03.lt.ave.dist
+	bash $^
+
+data/mothur/stool.trim.contigs.good.unique.good.filter.unique.pick.pick.precluster.opti_mcc.braycurtis.0.03.lt.ave.pcoa.axes : code/get_pcoa.bash data/mothur/stool.trim.contigs.good.unique.good.filter.unique.precluster.pick.pick.opti_mcc.braycurtis.0.03.lt.ave.dist
+	bash $^
 
 
 ################################################################################
@@ -251,6 +256,13 @@ data/process/stool_chimera.csv : code/stool_chimera.R\
 data/process/stool_beta_diversity.tsv : code/stool_beta.R\
 		data/mothur/stool.trim.contigs.good.unique.good.filter.unique.precluster.pick.pick.opti_mcc.braycurtis.0.03.lt.ave.dist
 	Rscript code/stool_beta.R
+
+
+results/figures/mock_pcoa.pdf : code/plot_mock_pcoa.R data/mothur/mock.trim.contigs.good.unique.good.filter.unique.pick.pick.precluster.vsearch.opti_mcc.braycurtis.0.03.lt.ave.pcoa.axes
+	Rscript $^
+
+results/figures/stool_pcoa.pdf : code/plot_stool_pcoa.R data/mothur/stool.trim.contigs.good.unique.good.filter.unique.precluster.pick.pick.opti_mcc.braycurtis.0.03.lt.ave.dist
+	Rscript $^
 
 
 ################################################################################
