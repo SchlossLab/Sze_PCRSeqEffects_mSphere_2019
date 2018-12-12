@@ -191,7 +191,14 @@ data/mothur/mock.trim.contigs.good.unique.good.filter.unique.pick.pick.precluste
 	bash code/get_alpha_beta_mock.bash $^
 
 
-# No sequencing errors - through unique.seqs
+# No sequencing errors, no error_chimera_rates
+data/mothur/taxa_mapping.braycurtis.1.lt.ave.dist data/mothur/taxa_mapping.groups.ave-std.summary:\
+		code/mock_perfect_sequencing.batch\
+		data/mothur/taxa_mapping.shared
+	bash code/mock_perfect_sequencing.batch
+
+
+# No sequencing errors, no bias - through unique.seqs
 data/mothur/zymo_mock.filter.pick.count_table data/mothur/zymo_mock.filter.pick.unique.fasta : \
 		code/no_sequence_errors_unique.batch\
 		data/mothur/zymo_mock.filter.fasta
@@ -220,6 +227,13 @@ data/mothur/stool.trim.contigs.good.unique.good.filter.unique.pick.pick.preclust
 #
 ################################################################################
 
+data/process/taxa_mapping.shared : code/bias_analysis.R\
+		data/mothur/zymo_mock.filter.pick.fasta\
+		data/mothur/mock.trim.contigs.good.unique.good.filter.unique.pick.error.summary\
+		data/mothur/mock.trim.contigs.good.unique.good.filter.pick.count_table\
+	Rscript code/bias_analysis.R
+
+
 data/process/error_chimera_rates.tsv : code/error_chimera_analysis.R\
 		data/mothur/mock.trim.contigs.good.unique.good.filter.unique.pick.error.summary\
 		data/mothur/mock.trim.contigs.good.unique.good.filter.pick.count_table\
@@ -231,6 +245,7 @@ data/process/error_chimera_rates.tsv : code/error_chimera_analysis.R\
 data/process/mock_alpha_diversity.tsv : code/mock_alpha.R\
 		data/mothur/mock.trim.contigs.good.unique.good.filter.unique.pick.pick.precluster.perfect.opti_mcc.merge.groups.ave-std.summary\
 		data/mothur/mock.trim.contigs.good.unique.good.filter.unique.pick.pick.precluster.vsearch.opti_mcc.merge.groups.ave-std.summary\
+		data/mothur/taxa_mapping.groups.ave-std.summary\
 		data/mothur/zymo_mock.filter.pick.unique.precluster.opti_mcc.list\
 		data/mothur/zymo_mock.filter.pick.unique.precluster.count_table
 	Rscript code/mock_alpha.R

@@ -1,5 +1,15 @@
 library(tidyverse)
 
+perfect_seq_file <- "data/mothur/taxa_mapping.groups.ave-std.summary"
+
+perfect_seq <- read_tsv(perfect_seq_file) %>%
+	separate(group, into=c("polymerase", "rounds")) %>%
+	filter(method == 'ave') %>%
+	mutate(method="no_error") %>%
+	select(method, rounds, polymerase, nseqs, coverage, invsimpson, shannon, sobs)
+
+
+
 perfect_chimera_file <- "data/mothur/mock.trim.contigs.good.unique.good.filter.unique.pick.pick.precluster.perfect.opti_mcc.merge.groups.ave-std.summary"
 
 perfect_chimera <- read_tsv(perfect_chimera_file) %>%
@@ -58,7 +68,7 @@ ideal <- mock_rel_abund %>%
 
 
 
-bind_rows(vsearch_chimera, perfect_chimera) %>%
+bind_rows(perfect_seq, vsearch_chimera, perfect_chimera) %>%
 	gather(key=metric, value=value, nseqs, coverage, invsimpson, shannon, sobs) %>%
 	inner_join(., ideal, by="metric") %>%
 	write_tsv("data/process/mock_alpha_diversity.tsv")
@@ -70,7 +80,7 @@ read_tsv("data/process/mock_alpha_diversity.tsv") %>%
 	filter(metric== "invsimpson" | metric == "shannon" | metric == "sobs") %>%
 	mutate(metric = factor(metric, levels = c("sobs", "shannon", "invsimpson"))) %>%
 	ggplot(aes(x=rounds, y=value, group=method, color=method)) +
-	geom_line() +
 	geom_hline(aes(yintercept=ideal)) +
+	geom_line() +
 	facet_grid(metric~polymerase, scales="free_y") +
 	ggsave("results/figures/mock_alpha.pdf")

@@ -1,6 +1,6 @@
 library(tidyverse)
 
-# see data/references/zrc187325_d6305.pdf for certificate of analysis from Zymo
+# see data/references/ZRC187325.pdf for certificate of analysis from Zymo
 mock_rel_abund <-
 		tibble(
 			species = c("Pseudomonas_aeruginosa", "Escherichia_coli", "Salmonella_enterica",
@@ -74,9 +74,17 @@ rel_abundances <- inner_join(contig_errors, contig_counts, by="seq_name") %>%
 			mutate(n_seqs = sum(count)) %>%
 			filter(n_seqs > 200) %>%
 			group_by(polymerase, rounds, species) %>%
-			summarize(obs_rel_abund = sum(count) / n_seqs[1]) %>%
+			summarize(obs_count = sum(count), obs_rel_abund = sum(count) / n_seqs[1]) %>%
 			ungroup() %>%
 			arrange(species)
+
+
+rel_abundances %>%
+	select(polymerase, rounds, species, obs_count) %>%
+	spread(species, obs_count) %>%
+	mutate(label="1", Group=paste(polymerase, rounds, sep="_"), numOtus=8) %>%
+	select(label, Group, numOtus, everything(), -polymerase, -rounds, ) %>%
+	write_tsv("data/mothur/taxa_mapping.shared")
 
 
 inner_join(rel_abundances, mock, by="species") %>%
