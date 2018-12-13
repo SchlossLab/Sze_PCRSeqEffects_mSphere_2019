@@ -215,7 +215,7 @@ data/mothur/zymo_mock.filter.pick.unique.precluster.opti_mcc.list data/mothur/zy
 data/mothur/mock.trim.contigs.good.unique.good.filter.unique.pick.pick.precluster.vsearch.opti_mcc.braycurtis.0.03.lt.ave.pcoa.axes : code/get_pcoa.bash data/mothur/mock.trim.contigs.good.unique.good.filter.unique.pick.pick.precluster.vsearch.opti_mcc.braycurtis.0.03.lt.ave.dist
 	bash $^
 
-data/mothur/stool.trim.contigs.good.unique.good.filter.unique.pick.pick.precluster.opti_mcc.braycurtis.0.03.lt.ave.pcoa.axes : code/get_pcoa.bash data/mothur/stool.trim.contigs.good.unique.good.filter.unique.precluster.pick.pick.opti_mcc.braycurtis.0.03.lt.ave.dist
+data/mothur/stool.trim.contigs.good.unique.good.filter.unique.precluster.pick.pick.opti_mcc.braycurtis.0.03.lt.ave.pcoa.axes : code/get_pcoa.bash data/mothur/stool.trim.contigs.good.unique.good.filter.unique.precluster.pick.pick.opti_mcc.braycurtis.0.03.lt.ave.dist
 	bash $^
 
 
