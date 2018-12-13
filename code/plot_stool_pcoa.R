@@ -11,6 +11,6 @@ read_tsv(file_name) %>%
 	separate(group, into=c("rounds", "polymerase", "subject")) %>%
 	mutate(rounds = str_replace(rounds, "x", "")) %>%
 	ggplot(aes(x=axis1, y=axis2, color=polymerase, shape=rounds)) +
+		stat_ellipse(aes(group=subject), type="norm", geom="polygon", color="gray", fill="lightgray") +
 		geom_point() +
-		stat_ellipse(aes(group=subject), type="norm", color="gray", fill="gray") +
 		ggsave("results/figures/stool_pcoa.pdf")

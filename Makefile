@@ -276,7 +276,7 @@ data/process/stool_beta_diversity.tsv : code/stool_beta.R\
 results/figures/mock_pcoa.pdf : code/plot_mock_pcoa.R data/mothur/mock.trim.contigs.good.unique.good.filter.unique.pick.pick.precluster.vsearch.opti_mcc.braycurtis.0.03.lt.ave.pcoa.axes
 	Rscript $^
 
-results/figures/stool_pcoa.pdf : code/plot_stool_pcoa.R data/mothur/stool.trim.contigs.good.unique.good.filter.unique.precluster.pick.pick.opti_mcc.braycurtis.0.03.lt.ave.dist
+results/figures/stool_pcoa.pdf : code/plot_stool_pcoa.R data/mothur/stool.trim.contigs.good.unique.good.filter.unique.precluster.pick.pick.opti_mcc.braycurtis.0.03.lt.ave.pcoa.axes
 	Rscript $^
 
 
