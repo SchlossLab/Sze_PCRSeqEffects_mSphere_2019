@@ -1,4 +1,4 @@
-\documentclass[12pt,]{article}
+\documentclass[11pt,]{article}
 \usepackage{lmodern}
 \usepackage{amssymb,amsmath}
 \usepackage{ifxetex,ifluatex}
@@ -71,14 +71,15 @@
 }
 
 \setlength{\droptitle}{-2em}
-  \title{}
-  \pretitle{\vspace{\droptitle}}
-  \posttitle{}
-  \author{}
-  \preauthor{}\postauthor{}
-  \date{}
-  \predate{}\postdate{}
 
+  \title{}
+    \pretitle{\vspace{\droptitle}}
+  \posttitle{}
+    \author{}
+    \preauthor{}\postauthor{}
+    \date{}
+    \predate{}\postdate{}
+  
 \usepackage{helvet} % Helvetica font
 \renewcommand*\familydefault{\sfdefault} % Use the sans serif version of the font
 \usepackage[T1]{fontenc}
@@ -99,9 +100,13 @@
 
 \begin{document}
 
-\section{High Fidelity DNA Polymerase Introduces Bias into 16S rRNA Gene
-Sequencing
-Results}\label{high-fidelity-dna-polymerase-introduces-bias-into-16s-rrna-gene-sequencing-results}
+\section{Assessing the Differences in 16S rRNA Gene Sequencing Due to
+High Fidelity DNA
+Polymerase}\label{assessing-the-differences-in-16s-rrna-gene-sequencing-due-to-high-fidelity-dna-polymerase}
+
+\section{Influence of DNA Polymerase on PCR bias, chimera formation, and
+errors when sequencing 16S rRNA genes from complex
+communities}\label{influence-of-dna-polymerase-on-pcr-bias-chimera-formation-and-errors-when-sequencing-16s-rrna-genes-from-complex-communities}
 
 \begin{center}
 \vspace{25mm}
@@ -133,703 +138,864 @@ Co-author e-mails:
 
 \subsection{Abstract}\label{abstract}
 
-\textbf{Background.} Bias is introduced at different stages of the 16S
-rRNA gene sequencing workflow. Commonly studied sources of bias include
-preservation and DNA extraction methods. Although cycle number and high
-fidelity (HiFi) DNA polymerase are studied less often, they are still
-important sources of bias in this workflow. Here, we examine how both
-cycle number and HiFi DNA polymerase can change the bacterial community
-and introduce bias to the final obtained results.
-
-\textbf{Methods.} We extracted DNA from fecal samples (n=4) using a
-PowerMag DNA extraction kit with a 10 minute bead beating step and
-amplified at 15, 20, 25, 30, and 35 cycles using Accuprime, Kappa,
-Phusion, Platinum, or Q5 HiFi DNA polymerase. Amplification of mock
-communities (technical replicates n=4) consisting of previously isolated
-whole genomes of 8 different bacteria used the same approach. The
-analysis initially examined the number of Operational Taxonomic Units
-(OTUs) for both fecal samples and mock communities. It also assessed
-HiFi DNA polymerase dependent differences in the Bray-Curtis index,
-error rate, sequence error prevalence, and chimera prevalence. Our
-analysis also examined chimera prevalence correlation with the number of
-OTUs.
-
-\textbf{Results.} When analyzing fecal samples we observed a different
-number of OTUs between HiFi DNA polymerases at 35 cycles (P-value
-\textless{} 0.0001). Our analysis identified these HiFi dependent
-differences in the number of OTUs as early as 20 cycles in the mock
-communities (P-value = 0.002). Chimera prevalence varied by HiFi DNA
-polymerase and this variation persisted after chimera removal using
-VSEARCH. We also observed positive correlations between chimera
-prevalence and the number of OTUs which was not affected by chimera
-removal with VSEARCH.
-
-\textbf{Conclusions.} HiFi DNA polymerase dependent differences in the
-number of OTUs and chimera prevalence makes comparison across studies
-difficult. Care should be exercised when choosing both HiFi DNA
-polymerase and cycle number to be used in 16S rRNA gene sequencing
-studies.
-
 \newpage
 
 \subsection{Introduction}\label{introduction}
 
-Accounting for bias is critical in order to reach an understanding of
-bacterial community changes using 16S rRNA gene sequencing results.
-Differentiating between bias, reproducibility, and standardization is
-important since often times these three can be confused and used
-interchangeably with each other. Bias can change the observed results in
-a way that is reproducible and standardized. For example, if one group
-uses one brand of DNA extraction kit for their 16S rRNA gene sequencing,
-their results may be biased versus another group not using the same
-brand kit but within their group they can still have reproducible
-results (Salter et al., 2014). Our 16S rRNA gene sequencing methods are
-biased even when these workflows are standardized to increase
-reproducibility. In order to interpret specific studies within the
-broader context of the overall field, assessing bias at different parts
-of the 16S rRNA gene sequencing workflow is critical.
+16S rRNA gene sequencing is a powerful and widely used tool for
+surveying the structure of microbial communities (1--3). This approach
+has exploded in popularity with the advent of high throughput sequencing
+where it is possible to characterize numerous samples with thousands of
+sequences per sample. Numerous factors can impact how a natural
+community is represented by the sequencing data including the method of
+acquiring samples (4--8), storage conditions (4--6, 9--12), extraction
+methods (13), amplification conditions (8, 14, 15), sequencing method
+(15--17), and analytical pipeline (15, 18--20). The increased sampling
+depth that is now available relative to previous Sanger-based methods is
+expected to compound the impacts of an investigator's choices and the
+interpretation of their results.
 
-Many parts of the 16S rRNA gene sequencing workflow contribute bias to
-the results and are studied extensively. A typical 16S rRNA gene
-sequencing workflow can be divided into preservation, extraction, PCR,
-and sequencing steps. Generally, not using a preservation media and
-leaving samples at room temperature supports overgrowth of low abundance
-members of the fecal bacterial community (Amir et al., 2017). Similarly,
-this overgrowth can still occur if the preservation media does not
-adequately inhibit growth (Song et al., 2016; Luo et al., 2016). Reports
-have also shown that changes in specific community members might occur
-due to differing susceptibility to freeze thaw cycles amongst microbes
-(Gorzelak et al., 2015). Additionally, reagent contamination can add
-community members and the contribution of these contaminant members
-grows larger with lower biomass samples (Salter et al., 2014). Overall,
-biases due to either preservation or extraction tend to be smaller than
-the overall biological signal being measured (Song et al., 2016; Bassis
-et al., 2017). However, the contribution of PCR bias to this overall
-workflow is not well characterized since these studies use the same PCR
-approach while varying preservation or extraction method.
+One step in the generation of 16S rRNA gene sequence data that has been
+long known to have a significant impact on the description of microbial
+communities is the choice of conditions for PCR amplification (8, 14,
+15). Factors such as the choice of primers have an obvious impact on
+which populations will be amplified (18, 21). However, a variety of PCR
+artifacts can also impact the perception of a community including the
+formation of chimeras (14, 22--24), misincorporation of nucleotides (23,
+25, 26), preferential amplification of populations leading to bias (24,
+27--33), and accumulation of random amplification events leading to PCR
+drift (24, 27, 32, 34). Many bioinformatic tools have been developed to
+identify chimeras, there are significant sensitivity and specificity
+tradeoffs (14, 35). Others have attempted to account for PCR bias using
+modeling approaches (29, 36); however, these have been developed for
+idealized situations. Laboratory-based solutions to minimize chimera
+formation have also been proposed such as minimizing the amount of
+template DNA in the PCR, minimizing the number of rounds of PCR,
+minimizing the amount of shearing in the template DNA, and using DNA
+polymerases that have a proof-reading ability (14, 23). To minimize PCR
+drift, some investigators will pool technical replicate PCRs hoping to
+average out the drift (34). Other factors that have been shown to impact
+the formation of PCR artifacts are outside the control of an
+investigator including the fraction of DNA bases that are guanines or
+cytosines, the variation in the length of the targeted region across the
+community, the sequence of the DNA that flanks the template, and the
+genetic diversity of the community (28, 30--33). Early investigations of
+the factors that lead to the formation of PCR artifacts focused on
+analyzing binary mixtures of genomic DNA and 16S rRNA gene fragments to
+explore PCR biases and chimera formation. Although these studies were
+instrumental in forcing researchers to be cautious about the
+interpretation of their results, we have a poor understanding of how
+these factors affect the formation of PCR artifacts in more complex
+communities.
 
-Identifying the biases in the PCR stage of 16S rRNA gene sequencing is
-important because a large body of literature shows that there are a
-variety of steps during PCR that can change the observed results (Eckert
-\& Kunkel, 1991; Burkardt, 2000). Many of these sources of biases are
-made worse as cycle number increases (Wang \& Wang, 1996; Haas et al.,
-2011; Kebschull \& Zador, 2015). For example, the selective
-amplification of AT-rich over GC-rich sequences can exaggerate the
-difference between 16S rRNA genes higher in AT versus those higher in GC
-(Polz \& Cavanaugh, 1998). Both amplification error and non-specific
-amplification (e.g.~incorrect amplicon size products) can also increase
-as cycle number increases which can drastically change commonly used
-diversity measures (Acinas et al., 2005; Santos et al., 2016).
-Additionally, chimeras can form from an aborted extension step followed
-by a subsequent priming error and secondary extension and will
-artificially increase community diversity (Haas et al., 2011). Although
-these differences are not necessarily dependent on primer and DNA
-polymerase used, there are also biases that are.
+The influence that the choice of DNA polymerase has on the formation of
+PCR artifacts has not been well studied. There has been recent interest
+in how the choice of the hypervariable region and data analysis
+pipelines impact the sequencing error rate (15, 18--20); however, these
+studies use the same DNA polymerase in the PCR step and implicitly
+assume that the rate of nucleotide misincorporation from PCR are
+significantly smaller than those from the sequencing phase. There has
+been more limited interest in the impact that DNA polymerase choice has
+on the formation of chimeras (23, 37). A recent study found differences
+in the number of OTUs and chimeras between normal and high fidelity DNA
+polymerases (37). The authors of this study could reduce the difference
+between two polymerases by optimizing the annealing and extension steps
+within the PCR protocol (37). Yet this optimization was specific for the
+community they were analyzing (i.e.~captive and semi-captive red-shanked
+doucs) and assumed that if the two polymerases generate the same
+community structure that the community structure was correct. In fact,
+the community structure generated by both methods was not free of
+artifacts, but has the same artifacts. A challenge in these types of
+experiments is having a priori knowledge of the true community
+representation. A mock community with known composition allows
+researchers to quantify the sequencing error rate, fraction of chimeras,
+and bias (19); however, mock communities have a limited phylogenetic
+diversity relative to natural communities. Natural communities, in
+contrast, have an unknown community composition making absolute
+measurements impossible. They can be used to validate results from mock
+communities and to understand the relative impacts of artifacts on the
+ability to differentiate biological and methodological sources of
+variation. Given the large number of DNA polymerases available to
+researchers it is unlikely that a specific recommendation is possible.
+Rather, the development of general best practices and understanding the
+impact of PCR artifacts on an analysis are desired.
 
-The intrinsic properties to primers and DNA polymerases chosen can also
-introduce bias. Primers have variable region dependent binding
-affinities for different bacteria and depending on the primer pair do
-not detect specific bacteria (e.g.~V1-V3 does not detect
-\emph{Haemophilus influenzae} and V3-V5 does not detect
-\emph{Propionibacterium acnes}) (Sze et al., 2015 (Table S4); Meisel et
-al., 2016). Additionally, there are multiple families of DNA polymerases
-that have their own error rate and proof reading capacity (Ishino \&
-Ishino, 2014). Interestingly, the influence that these different DNA
-polymerases can have on the observed 16S rRNA gene sequencing results
-have not been well studied like some of the other previously mentioned
-sources of PCR-based bias.
-
-A recent study found clear differences between normal and high fidelity
-(HiFi) DNA polymerase and that optimization of the PCR protocol could
-reduce error and chimera generation (Gohl et al., 2016). This study also
-found that regardless of DNA polymerase, the number of Operational
-Taxonomic Units (OTUs) or taxa generated were not easily reduced using
-the authors chosen bioinformatic pipeline (Gohl et al., 2016). It is
-natural to extend this line of inquiry and ask if biases in the number
-of OTUs and chimeras are also dependent on the type of HiFi DNA
-polymerase. There is some reason to think that this may be the case
-since many of these HiFi DNA polymerases come from different families
-(e.g. \emph{Taq} belongs to the family A polymerases) and may
-intrinsically have different error rates that cannot be completely
-removed with modifications (Ishino \& Ishino, 2014).
-
-Although bias introduced due to differences between DNA polymerase and
-HiFi DNA polymerase has been investigated for 16S rRNA gene sequencing,
-the bias caused due to differences between specific HiFi DNA polymerases
-has not been. This study will specifically address how HiFi DNA
-polymerases can bias observed bacterial community results derived from
-16S rRNA gene sequencing. We will accomplish this by examining if any of
-five different types of HiFi DNA polymerases introduce significant
-biases into 16S rRNA gene surveys, if this is a cycle dependent
-phenomenon, and whether they can be removed using a standard
-bioinformatic pipeline.
-
-\newpage
-
-\subsection{Materials \& Methods}\label{materials-methods}
-
-\textbf{\emph{Human and Mock Samples:}} A single fecal sample was
-obtained from 4 individuals who were part of the Enterics Research
-Investigational Network (ERIN). The processing and storage of these
-samples were previously published (Seekatz et al., 2016). Other than
-confirmation that none of these individuals had a \emph{Clostridium
-difficle} infection, clinical data and other types of meta data were not
-utilized or accessed for this study. All samples were extracted using
-the MOBIO\textsuperscript{TM} PowerMag Microbiome RNA/DNA extraction kit
-(now Qiagen, MD, USA). The ZymoBIOMICS\textsuperscript{TM} Microbial
-Community DNA Standard (Zymo, CA, USA) was used for mock communities and
-was made up of \emph{Pseudomonas aeruginosa}, \emph{Escherichia coli},
-\emph{Salmonella enterica}, \emph{Lactobacillus fermentum},
-\emph{Enterococcus faecalis}, \emph{Staphylococcus aureus},
-\emph{Listeria monocytogenes}, and \emph{Bacillus subtilis} at equal
-genomic DNA abundance
-(\url{http://www.zymoresearch.com/microbiomics/microbial-standards/zymobiomics-microbial-community-standards}).
-
-\textbf{\emph{PCR Protocol:}} The five different HiFi DNA polymerases
-that were tested included AccuPrime\textsuperscript{TM} (ThermoFisher,
-MA, USA), KAPA HIFI (Roche, IN, USA), Phusion (ThermoFisher, MA, USA),
-Platinum (ThermoFisher, MA, USA), and Q5 (New England Biolabs, MA, USA).
-The PCR cycle conditions for Platinum and Accuprime followed a
-previously published protocol (Kozich et al., 2013)
-(\url{https://github.com/SchlossLab/MiSeq_WetLab_SOP/blob/master/MiSeq_WetLab_SOP_v4.md}).
-The HiFi DNA polymerase activation time was 2 minutes, unless a
-different activation was specified. For Kappa and Q5, a previously
-published protocol was used (Gohl et al., 2016). For Phusion, the
-company defined conditions were used except for extension time, where
-the Accuprime and Platinum settings were used.
-
-The cycle conditions for both fecal and mock samples started at 15 and
-increased by 5 up to 35 cycles with amplicons used at each 5-step
-increase for sequencing. The PCR of fecal DNA samples consisted of all 4
-samples at 15, 20, 25, 30, and 35 cycles for each HiFi DNA polymerase
-(total sample n=100). The mock communities had 4 replicates at 15, 20,
-25, and 35 cycles and 10 replicates for 30 cycles for all HiFi DNA
-polymerases (total samples n=130). No mock community sample had enough
-PCR product at 15 cycles for adequate 16S rRNA gene sequencing.
-
-\textbf{\emph{Sequence Processing:}} The mothur software program was
-used for all sequence processing steps (Schloss et al., 2009). The
-protocol has been previously published (Kozich et al., 2013)
-(\url{https://www.mothur.org/wiki/MiSeq_SOP}). Two major differences
-from the published protocol were the use of VSEARCH instead of UCHIME
-for chimera detection and the use of the OptiClust algorithm instead of
-average neighbor for OTU generation at 97\% similarity (Edgar et al.,
-2011; Rognes et al., 2016; Westcott \& Schloss, 2017). Sequence error
-was determined using the `seq.error' command on mock samples before the
-`pre.cluster' command, before chimera removal, and after chimera removal
-(Schloss et al., 2009; Cole et al., 2013; Rognes et al., 2016).
-
-\textbf{\emph{Analysis Workflow:}} The total number of OTUs was analyzed
-after sub-sampling for both the fecal and mock community samples. For
-fecal samples, cycle dependent affects on Bray-Curtis indices were
-assessed for cycle group and within individual differences from the
-previous cycle (e.g.~20 versus 25, 25 versus 30, etc.). These community
-based measures for fecal samples were analyzed at 4 different
-sub-sampling sequence depths (1000, 5000, 10000, and 15000) while the
-mock community samples were analysed at 3 levels (1000, 5000, 10000).
-Based on these observations we analyzed potential reasons for these
-differences. Analysis of the mock community of each HiFi DNA polymerase
-for general sequence error rate, number of sequences with an error, base
-substitution, and numbers of chimeras were assessed before the
-`pre.cluster' command, before chimera removal, and after chimera
-removal. Additionally, the correlation between the number of chimeras
-and the number of OTUs was also assessed before the `pre.cluster'
-command, before chimera removal, and after chimera removal.
-
-\textbf{\emph{Statistical Analysis:}} All analysis was done with the R
-(v 3.4.3) software package (R Core Team, 2017). Data transformation and
-graphing was completed using the tidyverse package (v 1.2.1) and colors
-selected using the viridis package (v 0.4.1) (Garnier, 2017; Wickham,
-2017). Differences in the total number of OTUs were analyzed using an
-ANOVA with a tukey post-hoc test. For the fecal samples the data was
-normalized to each individual by cycle number to account for the
-biological variation between people. Bray-Curtis distance matrices were
-generated using mothur after 100 sub-samplings at 1000, 5000, 10000, and
-15000 sequence depth. The distance matrix data was analyzed using
-PERMANOVA with the vegan package (v 2.4.5) (Oksanen et al., 2017) and
-Kruskal-Wallis tests within R. For both error and chimera analysis,
-samples were tested using Kruskal-Wallis with a Dunns post-hoc test.
-Where applicable correction for multiple comparison utilized the
-Benjamini-Hochberg method (Benjamini \& Hochberg, 1995).
-
-\textbf{\emph{Reproducible Methods:}} The code and analysis can be found
-here \url{https://github.com/SchlossLab/Sze_PCRSeqEffects_XXXX_2017}.
-The raw sequences can be found in the SRA at the following accession
-number SRP132931.
+This study investigated the impact of choice of high fidelity DNA
+polymerase and the number of rounds of amplification on the formation of
+PCR artifacts using a mock community and human stool samples. These PCR
+artifacts included (i) the effect of the polymerase on the error rate of
+the bases represented in the final sequences, (ii) the fraction of
+sequences that appeared to be chimeras and the ability to detect those
+chimeras, (iii) the bias of preferentially amplifying one fragment over
+another in a mixed pool of templates, and (iv) inter-sample variation in
+community structure of samples amplified with the same polymerase across
+the amplification process. To characterize these factors we sequenced a
+mock community of 8 organisms with known sequences and community
+structure and human fecal samples with unknown sequences and community
+structures. We sequenced the V4 region of the 16S rRNA genes from a mock
+community by generating paired 250 nt reads on the Illumina MiSeq
+platform. This region and sequencing approach was used because it has
+been shown to result in a relatively low sequencing error rate and is a
+widely used protocol. To better understand the impact of DNA polymerase
+choice on PCR artifacts, we selected five high fidelity DNA polymerases
+and amplified the communities using 15, 20, 25, 30, and 35 rounds of
+amplification (Table 1). Collectively, our results suggest that the
+number of rounds and to a lesser degree the choice of DNA polymerase
+used in PCR impact the sequence data, the effects are consistent and are
+smaller than the biological differences between individuals.
 
 \newpage
 
 \subsection{Results}\label{results}
 
-\textbf{\emph{The Number of OTUs are Dependent on HiFi DNA Polymerase:}}
-A consistent difference in the number of OTUs, that was dependent on the
-HiFi DNA polymerase used was observed regardless of sub-sampling depth
-for fecal samples {[}Figure 1{]}. Additionally, there was a trend for
-lower cycle numbers (15-20) to result in less differences in the number
-of OTUs versus higher cycle numbers (25, 30, and 35) between HiFi DNA
-polymerases {[}Figure 1{]}. For fecal samples, all sub-sampling levels
-had significant differences between HiFi DNA polymerases at 35 cycles
-(F-stat \textgreater{} 16.35, P-value \textless{} 0.0001) {[}Table
-S1{]}. Most of the differences observed at 35 cycles were between
-Platinum and other HiFi DNA polymerases, based on a Tukey post-hoc test
-(P-value \textless{} 0.05) {[}Table S2{]}. Differences in the number of
-OTUs between HiFi DNA polymerases were identifiable at earlier cycles
-(25 and 30) but the sub-sampling depth had to be 5000 sequences or
-higher (F-stat \textgreater{} 4.98, P-value \textless{} 0.05) {[}Table
-S1{]}.
+\textbf{\emph{Sequencing errors vary by the number of cycles and the DNA
+polymerase used in PCR.}} The presence of sequence errors can confound
+the ability to accurately classify 16S rRNA gene sequences and group
+sequences into operational taxonomic units (OTUs). More importantly,
+sequencing errors themselves can alter the representation of the
+community. Therefore, it is important to minimize the number of
+sequencing errors. Using a widely-used approach that generates the
+lowest reported error rate, we quantified the error rate by sequencing
+the V4 region of the 16S rRNA genes from an 8 member mock community. We
+also removed any contigs that were at least three bases more similar to
+a chimera of two references than to a single reference sequence
+{[}ref{]}. Regardless of the polymerase, the error rate increased with
+the number of rounds of amplification. Using 30 rounds of PCR is a
+common approach across diverse types of samples. Among the data
+generated using 30 rounds of PCR the Accuprime polymerase had the
+highest error rate (i.e.~0.XXX\%) followed by the Platinum
+(i.e.~0.XXX\%), Phusion (i.e.~0.XXX\%), Kappa (i.e.~0.XXX\%), and Q5
+(i.e.~0.XXX\%) polymerases (Figure 1). When we applied the
+pre.clustering denoising step, which merges the counts of reads within 2
+nt of a more abundant sequence, the error rates dropped considerably
+such that the Platinum polymerase had the highest error rate
+(i.e.~0.XXX\%) followed by the Accuprime (i.e.~0.XXX\%), Phusion
+(i.e.~0.XXX\%), Kappa (i.e.~0.XXX\%), and Q5 (i.e.~0.XXX\%) polymerases
+(Figure 1). Although specific recommendations are difficult to make
+because the impact of the actual community structure and concentration
+of the initial DNA template are likely to have an impact on the results,
+it is clear that using as few PCR cycles as necessary and a polymerase
+with the lowest possible error rate is a good guide to minimizing the
+impact of polymerase on the error rate.
 
-This HiFi DNA polymerase dependent difference in the number of OTUs was
-also observed in the mock community samples {[}Figure 2{]}. Regardless
-if fecal or mock communities were used, the same HiFi DNA polymerases
-had high (Platinum) and low (Accuprime) number of OTUs and this was
-consistent across cycle number and sub-sampling depth {[}Figure 1-2 \&
-Table S1-S4{]}. In contrast to the results obtained with fecal samples,
-differences between HiFi DNA polymerases were observed as early as 20
-cycles and at as low of a sub-sampling depth as 1000 sequences in the
-mock community samples (F-stat = 15.82, P-value = 0.002) {[}Table S3{]}.
-For both cycle numbers and sub-sampling depths, the majority of
-differences in the number of OTUs were between Platinum and the other
-HiFi DNA polymerases {[}Table S4{]}. Based on these observations in
-fecal and mock communities, it is clear that different HiFi DNA
-polymerases result in a different total number of OTUs observed within a
-sample.
+\textbf{\emph{The fraction of sequences identified as being chimeric
+varies by the number of cycles and the DNA polymerase used in PCR.}}
+Chimeric PCR products can significantly confound downstream analyses.
+Although numerous bioinformatic tools exist to identify and remove
+chimeric sequences with high specificity, their sensitivity is
+relatively low and can be reduced by the presence of sequencing errors.
+We identified those contigs that were at least three bases more similar
+to a chimera of two references than to a single reference sequence. As
+expected from previous studies, the number of chimeras increased with
+rounds of amplification. Interestingly, the fraction of chimeric
+sequences from the mock community varied by the type of polymerase used.
+After 30 rounds of PCR, the Platinum polymerase had the highest chimera
+rate (i.e.~XX\%) followed by the Q5 (i.e.~XX\%), Phusion (i.e.~XX\%),
+Kappa (i.e.~XX\%), and Accuprime (i.e.~XX\%) polymerases. We used the
+UChime algorithm to detect chimeras in our pre-clustered mock community
+data and calculate the algorithm's sensitivity and specificity. For all
+polymerases, the specificity was above XX\% and showed a weak
+association with the number of cycles used. There was considerable
+inter-polymerase and inter-round of amplification variation in the
+sensitivity of UChime to detect the chimeras from the mock community.
+This suggested that the residual error rate after pre-clustering the
+sequence data did not compromise the sensitivity. In general, the
+sensitivity of UChime varied between XX and XX\%. The generalizability
+of these results is limited because we used a single mock community with
+limited genetic diversity. Although we did not know the true chimera
+rate for our four human stool samples, we were able to calculate the
+fraction of sequences that UChime identified as being chimeric. These
+results followed those from the mock communities; additional rounds of
+amplification significantly increased the rate of chimeras and there was
+variation between the polymerases that we used. Although it was not
+possible to identify the features of a polymerase that resulted in
+higher rates of chimeras, it is clear that using the smallest number of
+PCR cycles possible will minimize the impacts of chimeras.
 
-\textbf{\emph{Minimal Bray-Curtis Differences are Detected and are
-Dependent on both Cycle Number and Sub-Sampling Depth:}} A few small
-differences based on sub-sampling and cycle number were detected in
-overall bacterial community composition. Within the same fecal sample
-and independent of HiFi DNA polymerases, there were differences in the
-community composition between 20 and 25 cycles that was dependent on
-sub-sampling depth (sub-sampled to 1000 = 0.51 (0.4 - 0.79) (median
-(IQR)), sub-sampled to 5000 = 0.43 (0.33 - 0.63), sub-sampled to 10000 =
-0.4 (0.24 - 0.43)) {[}Figure 3A{]}. Further, when data was available for
-the mock communities, there were larger observed differences between 20
-and 25 cycles (sub-sampled to 1000 = 0.88 (0.42 - 0.91)) {[}Figure
-3B{]}. Additionally, these stated community differences disappear when
-comparing 25 to 30 cycles and do not persist past 25 cycles {[}Figure
-3{]}. Although these trends are clearly noticeable, we found that there
-was no detectable difference in Bray-Curtis index when comparing to the
-previous 5-cycle increment for both fecal and mock communities after
-multiple comparison correction (P-value \textgreater{} 0.05). Using
-PERMANOVA to test for community differences based on cycle number within
-HiFi DNA polymerases, only Phusion had cycle dependent differences at
-1000 and 5000 sub-sampling depths (P-value = 0.03 and 0.01). For fecal
-samples, Phusion was one of two HiFi DNA polymerases that had enough
-sequences to reach a sub-sampling depth of 1000 at 15 cycles. Overall,
-these data suggest that there are small HiFi DNA polymerase differences
-in Bray-Curtis index that are dependent on both sub-sampling depth and
-cycle number.
+\textbf{\emph{At the sequence level, PCR amplification bias is subtle.}}
+Since researchers began using PCR to sequence 16S rRNA genes there has
+been concern that amplifying fragments from a mixed template pool could
+lead to a biased representation in the pool of products and would
+confound downstream analyses. The mock community was generated by mixing
+equal amounts of genomic DNA from each of the 8 bacteria resulting in
+uneven representation of the \emph{rrn} operons across the bacteria. The
+vendor of the mock community subjects each lot of genomic DNA to shotgun
+sequencing to more accurately quantify the actual abundance of each
+organism in the community. We compared the expected relative abundance
+of the 16S rRNA genes from each bacterium in the mock community to the
+data we generated across rounds of amplification and polymerase.
+Interestingly, for some bacteria, their representation became less
+biased with additional rounds of PCR (e.g. \emph{L. fermentum}), while
+others became more biased (e.g. \emph{E. faecalis}), and others had
+little change (e.g. \emph{B. subtilis}). The percentage of bases in the
+V4 region that were guanines or cytosines was not predictive of the
+amount of bias. Across the strains there was no variation in the length
+of their V4 regions and they each had the same sequence in the region
+that the primers annealed. One of the bacteria represented in the mock
+community, \emph{S. enterica}, had 6 identical copies of the V4 region
+and 1 copy that differed from those by one nucleotide. The dominant copy
+had a thymidine and the rare copy had a guanine. We used the sequence
+data to calculate the ratio of the dominant to rare variants from
+\emph{S. enterica} (Figure. XXX). The Accuprime, Phusion, Platinum, and
+Q5 polymerases converged to a ratio of 5.XXX; however, the ratio for the
+Kappa polymerase varied between 6.XXX and 7.XXX for 25 to 35 rounds of
+PCR. Given the subtle nature of the variation in the relative abundances
+of each 16S rRNA gene fragment, it was not possible to create
+generalizable rules that would explain the bias and the previous
+observation regarding the guanine and cytosine relative abundance was
+not observed with our data.
 
-\textbf{\emph{Sequence Error is Dependent on both HiFi DNA Polymerase
-and Cycle Number:}} Differences in the median average per base error
-varied by HiFi DNA polymerase without a clear pattern across
-sub-sampling depth {[}Table S5{]}. The highest median average per base
-error rates were for the Kappa HiFi DNA polymerase {[}Figure 4{]}. This
-error rate was minimally affected by both the `pre.cluster' step and
-chimera removal by VSEARCH {[}Figure 4{]}. The differences in the median
-average per base error rate between the different HiFi DNA polymerases
-was cycle dependent with Platinum having the largest changes versus
-other HiFi DNA polymerases {[}Figure 4B-C and Table S6{]}. The total
-sequences with at least one error was also cycle number dependent and
-differences between HiFi DNA polymerases could be drastically reduced by
-the use of the `pre.cluster' step {[}Figure S1{]}. These differences in
-sequences with at least one error were mostly due to differences in
-Accuprime\textsuperscript{TM} and Platinum versus the other HiFi DNA
-polymerases {[}Figure S1 \& Table S7 \& S8{]}. Finally, we did not
-observe a HiFi DNA polymerase dependent difference on base substitution
-rate {[}Figure S2{]}. Although sequence error is dependent on HiFi DNA
-polymerase some of these error dependent differences can be corrected
-using existing bioinformatic approaches.
+\textbf{\emph{At the community level, the effects of PCR amplification
+bias grow with additional rounds of PCR.}} Because the distance between
+samples and across rounds of PCR could be artificially inflated due to
+sequencing errors and chimeras, we used analyzed the alpha and beta
+diversity of the mock community data at different phases of the sequence
+curation pipeline. First, we removed the chimeras from the mock
+community data as described above and mapped the individual reads to the
+OTUs that the 16S rRNA gene fragments would cluster into if there were
+no sequencing errors. This gave us a community distribution that
+reflected the distribution following PCR without any artifacts. Alpha
+diversity metrics such as richness and Shannon and Inverse Simpson
+diversity metrics increased with the number of rounds of PCR for all
+polymerases except for the Kappa polymerase, where the richness remained
+constant but the diversity decreased. These data suggest that PCR had
+the effect of making the community distribution more even than it was
+originally. Next, we used the true sequence diversity, but removed
+chimeras based on mapping reads to all possible chimeras between
+reference sequences, and clustered the reads to OTUs. The same trends
+were observed as with perfect sequence data except that the richness and
+diversity metrics trended higher. Finally, we used the observed sequence
+data and used the UCHIME algorithm to identify chimeras. Again, we
+observed the same trends as with the other analyses except the richness
+and diversity metrics trended higher. These comparisons demonstrated
+that although the bias at the sequence level was subtle, PCR does have a
+bias that is exacerbated by errors and chimeras. When we measured the
+Bray-Curtis distance between the communities observed after 25 rounds of
+amplification and those at 30 and 35 rounds of amplification the
+distances between 25 and 35 rounds were higher than between 25 and 30
+rounds for each of the polymerases by an average of 0.XX units. The
+Platinum polymerase varied the most across rounds of amplification (25
+vs 30 rounds: 0.XX; 25 vs 35 rounds: 0.XX). Although the distances
+between samples were small, the ordination of these distances showed a
+clear change in community structure with increasing rounds of PCR. This
+observation was supported by our statistical analysis, which revealed
+that the number of rounds of PCR (R\textsuperscript{2}=0.XX, P=0.XXXX)
+was a larger factor than the choice of polymerase
+(R\textsuperscript{2}=0.XX, P=0.XXXX). These results demonstrate that
+subtle differences in relative abundances can have an impact on overall
+community structure. This variation underscores the importance of only
+comparing sequence data that have been generated using the same PCR
+conditions.
 
-\textbf{\emph{Prevalence of Chimeric Sequences are HiFi DNA Polymerase
-Dependent and Correlate with the Number of OTUs:}} There were
-significant differences in the chimera prevalence based on HiFi DNA
-polymerase used at all levels of sub-sampling and cycle numbers (P-value
-\textless{} 0.05) {[}Table S9{]}. Differences in chimera prevalence
-between Platinum and all other HiFi DNA polymerases accounted for the
-majority of these differences {[}Table S10{]}.
-Accuprime\textsuperscript{TM} had the lowest chimera prevalence of all
-HiFi DNA polymerases regardless of whether `pre.cluster' or chimera
-removal with VSEARCH was used {[}Figure 5{]}. A positive correlation was
-observed between chimeric sequences and the number of OTUs for all HiFi
-DNA polymerases {[}Figure 6{]}. This positive correlation was strongest
-for Accuprime\textsuperscript{TM}, Platinum, and Phusion HiFi DNA
-Polymerases {[}Figure 6{]}. The R\textsuperscript{2} value between the
-number of OTUs and chimeric sequences did not change with the use of
-`pre.cluster' or with the removal of chimeras using VSEARCH {[}Figure
-6{]}. This data suggests that chimera prevalence depends on HiFi DNA
-polymerase used and confirms that the number of OTUs is dependent on the
-prevalence of these chimeric sequences.
+\textbf{\emph{The choice of polymerase or the number of rounds of
+amplification have little impact on the relative interpretation of
+community-wide metrics of diversity.}} The biases that we observed at
+the population and community levels using mock community data appeared
+to be small relative to the expected differences between biological
+samples. To study this further, we calculated alpha and beta-diversity
+metrics using the human stool samples for each of the polymerases and
+rounds of amplification. We calculated the number of observed OTUs,
+Shannon diversity, inverse Simpson diversity index for each condition
+and donor. Although there were clear differences between conditions, the
+relative ordering of the stool samples did not meaningfully vary across
+conditions. When we characterized the variation between rounds of
+amplification using human stool samples, the distance between the 25 and
+30 rounds and 25 and 35 rounds varied considerably between samples and
+polymerases. In general the inter-round variation was lowest for the
+data generated using the Kappa and Accuprime polymerases. The data
+generated using the Platinum polymerase was consistent across rounds,
+but it was more biased than these polymerases. Considering the average
+distance across the four samples varied between 0.XX and 0.XX,
+regardless of the polymerases and number of rounds of amplification, any
+bias due to amplification is unlikely to obscure community-wide
+differences between samples. In support of this was our principle
+coordinates analysis of the Bray-Curtis distances, which revealed
+distinct clusters by donor. Within each cluster there were no obvious
+patterns related to the polymerase or number of rounds of PCR. However,
+our statistical analysis using adonis revealed statistically significant
+differences in the community structures with the subject explaining the
+most variation (R\textsuperscript{2}=0.XXX, P=0.XXXX), followed by the
+number of rounds of PCR (R\textsuperscript{2}=0.XXX, P=0.XXXX) and the
+choice of polymerase (R\textsuperscript{2}=0.XXX, P=0.XXXX). Together,
+these results indicate that for a coarse analysis of communities, the
+choice of number of rounds of amplification or polymerase are not
+important, but that they must be consistent across samples. It is
+difficult to develop a specific recommendation based on the level of
+bias across rounds of PCR or polymerases; however, the general
+suggestion is to use as few rounds of amplification as possible.
+
+\textbf{\emph{There is little evidence of a relationship between
+polymerase or number of rounds of amplification on PCR drift.}} There
+have been concerns that the same template DNA subjected to the same PCR
+conditions could result in different representations of communities
+because of random drift. To test this, we determined the average
+Bray-Curtis distance between replicate reactions using the same
+polymerase and number of rounds of amplification. Using the mock
+community data there were no obvious trends. The average Bray-Curtis
+distance within a set of conditions varied by 0.XX to 0.XX units.
+Although we did not obtain replicates of each of the stool samples, the
+intra-sample variation for each set of conditions was consistent and
+varied between 0.XX and 0.XX units. These data suggest that amplicon
+sequencing is robust to random variation in amplification and that any
+differences are likely to be smaller than what is considered
+biologically relevant.
 
 \newpage
 
 \subsection{Discussion}\label{discussion}
 
-In this study we show that the number of OTUs, error rate, and chimera
-prevalence depends on HiFi DNA polymerase {[}Figure 1-2 \& 4-5{]}. These
-differences are important because many diversity metrics rely on the
-number of OTUs or other measures dependent on error rate and chimera
-prevalence as part of their metric calculations (e.g.~richness).
-Additionally, the earlier detection of differences in total number of
-OTUs between HiFi DNA polymerases in the mock versus fecal samples might
-indicate that high biomass samples may underestimate the biases present
-within low biomass samples. We observed that undetected chimeras that
-were not identified and removed using standard bioinformatic approaches
-cause many of these differences. This suggests that specific diversity
-differences between studies can be attributed to differences in HiFi DNA
-polyermase used. Based on our observations metrics that measure within
-sample diversity depend on HiFi DNA polymerase but this may not be the
-case for metrics that assess between sample diversity.
+Our results suggest that the number of rounds of PCR and to a lesser
+degree the choice of DNA polymerase impact the analysis of 16S rRNA gene
+sequence data from bacterial communities. Although it was not possible
+to make direct connections between PCR conditions and specific sources
+of bias, we were able to identify general recommendations that reduce
+the amount of error, chimera formation, and bias. Researchers should
+strive to minimize the number of rounds of PCR and should use a high
+fidelity polymerase. Although specific PCR conditions impact the precise
+interpretation of the data, the effects were consistent and were smaller
+than the biological differences between individuals. Based on these
+observations, within a study, amplicons must be generated by consistent
+protocols to yield meaningful comparisons. When comparing across
+studies, values like richness, diversity, and relative abundances must
+be made in relative and not absolute terms.
 
-There were few differences that depend on HiFi DNA polymerase for
-between sample diversity, as measured by the Bray-Curtis index. Using
-this metric our observations found no differences in the overall
-bacterial community composition for sub-sampling depth or cycle number
-used. One possible reason for this outcome was that our study did not
-have enough power to detect differences due to low sample number in each
-group. Another reason was that many of the OTUs are likely not highly
-abundant, allowing the Bray-Curtis index to be able to successfully
-down-weight chimeric OTUs (Minchin, 1987). The choice of downstream
-diversity metric could be an important consideration in helping to
-mitigate these observed HiFi DNA polymerase dependent differences in
-chimera prevalence. Metrics that solely use presence/absence of OTUs
-(e.g.~Jaccard (Real \& Vargas, 1996)) may be less robust to chimera
-prevalence and by extension total number of OTU differences in HiFi DNA
-Polymerases. When choosing a distance metric, careful consideration of
-the biases introduced from the PCR step of the 16S rRNA gene sequencing
-workflow need to be taken into account. With differences in the number
-of OTUs and chimera prevalence depending on HiFi DNA polymerase used, it
-might be easier to avoid specific DNA polymerase families altogether.
+The observed sequencing error rates and alpha diversity metrics followed
+the manufacturers' measurements of their polymerases' fidelity.
+Accuprime and Platinum have fidelity that are approximately 10-times
+higher than that of Taq whereas the fidelity of Phusion, Q5, and Kappa
+are more than 100 times higher. Among these polymerases, the Kappa
+polymerase resulted in the the lowest error rate, lowest chimera rate,
+and least bias across rounds of PCR. Considering polymerase development
+is an active area of commercial development and it likely that new
+polymerases will come to market, it is important for researchers to
+understand how changing the polymerase impacts downstream analyses for
+their type of samples.
 
-Although the variation in error rate and chimera prevalence may be due
-to the DNA polymerase family, the highest and lowest chimera rates both
-belonged to a family A polymerase (Platinum and
-Accuprime\textsuperscript{TM} respectively) (Ishino \& Ishino, 2014).
-Additionally, based on the material safety data sheet (MSDS) the
-differences between the two HiFi DNA polymerases are not immediately
-apparent. Both HiFi DNA polymerases contain a recombinant \emph{Taq} DNA
-polymerase, a \emph{Pyrococcus} spp GB-D polymerase and a platinum
-\emph{Taq} antibody. With everything else being equal, it is possible
-that differences in how the recombinant \emph{Taq} was generated could
-be a contributing factor for the differences observed between the HiFi
-DNA polymerases. We are unlikely to avoid adding HiFi dependent bias to
-16S rRNA gene sequencing results, however, these differences may not be
-large enough to mask the actual biological signal.
+Over the past 20 years, a large literature has attempted to document
+various PCR biases and underscores the fact that data based on
+amplification of DNA from a mixed community are not a true
+representation of the actual community. In addition to obvious biases
+imposed by primer selection, other factors inherent in PCR can influence
+the representation of communities. Factors that can lead to preferential
+amplification of one fragment over another have included guanine and
+cytosine composition, length, flanking DNA composition, amount of DNA
+shearing, and number of rounds of PCR (24, 27--33). In addition,
+environmental and reagent contaminants can also have a significant
+impact on the analysis of low biomass samples (38). Less well understood
+is the effect of phylogenetic diversity on bias and chimera formation.
+Communities with low phylogenetic diversity may be more prone to chimera
+formation since chimeras are more likely to form among closely related
+sequences (14, 35). The interaction of these various influences on PCR
+artifacts are complex and difficult to tease apart. Minimizing the level
+of DNA shearing and using the fewest number of rounds of PCR with a
+polymerase that has the highest possible fidelity are strategies that
+can be employed to minimize the formation of chimeras. Although care
+should always be taken when choosing a polymerase for 16S rRNA gene
+sequencing, our observations show that the differences between a variety
+of polymerases are smaller than the actual biological variation in fecal
+communities between individuals. Therefore, if the biological signal of
+interest is similar to differences in fecal bacterial communities found
+between individuals, then the type of high fidelity DNA polymerase used
+will only minimally change the results.
 
-The majority of HiFi DNA polymerases we studied add small increases in
-the number of OTUs and chimera prevalence that can be masked by
-biological differences. The sequence error introduced by the HiFi DNA
-polymerase is small and likely to be smaller than the biological
-variation within a specific study, which would be consistent with
-previous findings for preservation and DNA extraction methods (Salter et
-al., 2014; Song et al., 2016; Luo et al., 2016). However, the chimarea
-prevalence for some HiFi DNA polymerases (e.g.~Platinum) are relatively
-large and might be greater than the oberseved biological variation
-within a specific study. The choice of HiFi DNA polymerase can be as
-important a consideration as either preservation or DNA extraction
-method used because similar to using different preservation methods or
-different DNA extraction kits, the type of HiFi DNA polymerase can add
-bias to the observed bacterial community. Although avoiding HiFi DNA
-polymerases that yield a high number of OTUs and chimera prevalence
-might provide better standardization of results it does come at a cost.
-
-Methods can be standardized but they commonly contain bias that is
-reproducible and may miss important associations. Bias can be easily
-reproduced and can be found in every step of the 16S rRNA gene
-sequencing workflow (Salter et al., 2014; Gohl et al., 2016; Luo et al.,
-2016; Amir et al., 2017). This study shows that specific diversity
-metrics used to measure the microbial community consistently vary based
-on HiFi DNA polymerase. Standardizing multiple workflows to one specific
-HiFi DNA polymerase could be detrimental since some HiFi DNA polymerases
-may work better in certain situations over others. Arguably, the degree
-of workflow standardization across studies and research group needs to
-be approached on a study by study basis and not every project needs to
-use the exact same approach. All aspects of the 16S rRNA gene sequencing
-workflow need to be customized for the specific microbial community that
-will be sampled. Although a diversity of approaches may make
-reproducibility and replicability more difficult it will help to avoid
-systematic biases from occuring due to widespread standardization of
-approaches.
+Even with these strategies it is impossible to remove all PCR artifacts.
+Beyond the imperfections of the best polymerases, sometimes difficult to
+lyse organisms require stringent lysis steps and low biomass samples
+require additional rounds of PCR. A host of bioinformatics tools are
+available for removing residual sequencing errors (18, 39--41). These
+tools struggle to correctly differentiate true biological diversity
+(i.e.~Amplicon Sequencing Variants or ASVs) and PCR or sequencing
+errors. Although these methods remove residual errors, they also risk
+splitting intragenomic variants into separate ASVs, merging 16S rRNA
+gene sequences from different taxa into the same ASV. Other tools are
+available for removing chimeras (14, 35) where there is a trade off
+between the sensitivity of detecting chimeras and the specificity of
+correctly calling a sequence a chimera. In recent years, parameters for
+these algorithms have been changed to increase their sensitivity with
+little evaluation of the effects on the specificity of the algorithms
+(39, 41). Others recommend removing any read that has an abundance below
+a specified threshold (e.g.~removing all sequences that only appear
+once) (20, 39--41). This method must be approached with caution as such
+approaches are likely to introduce a different bias of the community
+representation and ignore the fact that artifacts may be quite abundant.
+Ultimately, researchers must test their hypotheses with multiple methods
+to validate the claims they reach with any one method (42). All methods
+have biases and limitations and we must use complementary methods to
+obtain robust results.
 
 \newpage
 
-\subsection{Conclusion}\label{conclusion}
+\subsection{Materials \& Methods}\label{materials-methods}
 
-Our observations fill a gap in knowledge on the bias introduced to 16S
-rRNA gene sequencing results due to differences in HiFi DNA polymerases.
-We found that the number of OTUs and the chimera prevalence is dependent
-on both HiFi DNA polymerase and cycle number chosen. Care should be
-taken when choosing a HiFi DNA polymerase for 16S rRNA gene surveys
-because their intrinsic differences can change the number of OTUs
-observed and influence diversity based metrics that do not down-weight
-rare observations. Knowing the inherent bias associated with different
-HiFi DNA polymerases allows for better interpretation of the relationsip
-between an individual study to their respective field of research.
+\textbf{\emph{Mock community.}} The ZymoBIOMICS\textsuperscript{TM}
+Microbial Community DNA Standard (Zymo, CA, USA) was used for mock
+communities and the bacterial component was made up of \emph{Pseudomonas
+aeruginosa}, \emph{Escherichia coli}, \emph{Salmonella enterica},
+\emph{Lactobacillus fermentum}, \emph{Enterococcus faecalis},
+\emph{Staphylococcus aureus}, \emph{Listeria monocytogenes}, and
+\emph{Bacillus subtilis} at equal genomic DNA abundance
+(\url{https://web.archive.org/web/20171217151108/http://www.zymoresearch.com:80/microbiomics/microbial-standards/zymobiomics-microbial-community-standards}).
+The actual relative abundance for each bacterium was obtained from
+Zymo's certificate of analysis for the lot (Lot: ZRC187325), which they
+determined using shotgun metagenomic sequencing
+(\url{https://github.com/SchlossLab/Sze_PCRSeqEffects_mSphere_2019/data/references/ZRC187325.pdf}).
+
+\textbf{\emph{Human samples.}} Fecal samples were obtained from 4
+individuals who were part of an earlier study (43). These samples were
+collected using a protocol approved by the University of Michigan
+Institutional Review Board. For this study, the samples were
+de-identified. DNA was extracted from the fecal samples using the
+MOBIO\textsuperscript{TM} PowerMag Microbiome RNA/DNA extraction kit
+(now Qiagen, MD, USA).
+
+\textbf{\emph{PCR protocol.}} Five high fidelity DNA polymerases were
+tested including AccuPrime\textsuperscript{TM} (ThermoFisher, MA, USA),
+KAPA HIFI (Roche, IN, USA), Phusion (New England Biolabs, MA, USA),
+Platinum (ThermoFisher, MA, USA), and Q5 (New England Biolabs, MA, USA).
+Manufacturer recommendations were followed except for the annealing and
+extension times, which were selected based on previously published
+protocols (18, 37). Primers targeting the V4 region of the 16S rRNA gene
+were used with modifications to generate MiSeq amplicon libraries
+{[}(18); \url{https://github.com/SchlossLab/MiSeq_WetLab_SOP/}{]}. The
+number of rounds of PCR used for each sample and polymerase 15 and
+increased by 5 rounds up to 35 cycles. Insufficient PCR product was
+generated using 15 rounds and has not been included in our analysis.
+
+\textbf{\emph{Library generation and sequencing.}} Each PCR condition
+(i.e.~combination of polymerase and number of rounds of PCR) were
+replicated four times for the mock community and one time for each fecal
+sample. Libraries were generated as described previously {[}(18);
+\url{https://github.com/SchlossLab/MiSeq_WetLab_SOP/}{]}. The libraries
+were sequenced using the Illumina MiSeq sequencing platform to generate
+paired 250-nt reads.
+
+\textbf{\emph{Sequence processing.}} The mothur software program (v
+1.41) was used for all sequence processing steps (44). The protocol has
+been previously published (18)
+(\url{https://www.mothur.org/wiki/MiSeq_SOP}). Briefly, paired reads
+were assembled using mothur's make.contigs command to correct errors
+introduced by sequencing (18). Any assembled contigs that contained an
+ambiguous base call, mapped to the incorrect region of the 16S rRNA
+gene, or appeared to be a contaminant were removed from subsequent
+analyses. Sequences were further denoised using mothur's pre.cluster
+command to merge the counts of sequences that were within 2 nt of a more
+abundant sequence. The VSEARCH implementation of UCHIME was used to
+screen for chimeras (35, 45). At various stages in the sequence
+processing pipeline for the mock community data, the mothur seq.error
+command was used to quantify the sequencing error rate as well as the
+true chimera rate. This command uses the true sequences from the mock
+community to generate all possible chimeras and removes any contigs that
+were at least three bases more similar to a chimera than to a reference
+sequence. The command then counts the number of substitutions,
+insertions, and deletions in the contig relative to the reference
+sequence and reports the error rate without the inclusion of chimeric
+sequences (19). The reference sequences and operon copy number for each
+bacterium were obtained from the ZymoBIOMICS\textsuperscript{TM}
+Microbial Community DNA Standard protocol
+(\url{https://web.archive.org/web/20181221151905/https://www.zymoresearch.com/media/amasty/amfile/attach/_D6305_D6306_ZymoBIOMICS_Microbial_Community_DNA_Standard_v1.1.3.pdf}).
+Sequences were assigned to operational taxonomic units (OTUs) at a
+threshold of 3\% dissimilarity using the OptiClust algorithm (46). To
+adjust for unequal sequencing when measuring alpha and beta diversity,
+all samples were rarefied to 1,000 sequences 1,000 times for downstream
+analysis. The Good's coverage for the samples at this level of sampling
+was routinely greater than 95\%.
+
+\textbf{\emph{Statistical analysis.}} All analysis was done with the R
+(v 3.5.0) software package (47). Data transformation and graphing were
+completed using the tidyverse package (v 1.2.1) (48). The distance
+matrix data was analyzed using the adonis function within the vegan
+package (v 2.5.2) (49).
+
+\textbf{\emph{Reproducible methods.}} The data analysis code for this
+study can be found at
+\url{https://github.com/SchlossLab/Sze_PCRSeqEffects_mSphere_2019}. The
+raw sequences are available at the SRA (Accession SRP132931).
 
 \newpage
 
 \subsection{Acknowledgements}\label{acknowledgements}
 
 The authors would like to thank all the study participants in ERIN whose
-samples were utilized. We would also like to thank Judy Opp and April
+samples were utilized. We also would like to thank Judy Opp and April
 Cockburn for their effort in sequencing the samples as part of the
-Microbiome Core Facility at the University of Michigan. Salary support
-for Marc A. Sze came from the Canadian Institute of Health Research and
-NIH grant UL1TR002240. Salary support for Patrick D. Schloss came from
-NIH grants P30DK034933 and 1R01CA215574.
+Microbiome Core Facility at the University of Michigan. Additional
+thanks to members of the Schloss lab and Dr.~Marcy Balunas for reading
+earlier drafts of the manuscript and providing helpful critiques. Salary
+support for Marc A. Sze came from the Canadian Institute of Health
+Research and NIH grant UL1TR002240. Salary support for Patrick D.
+Schloss came from NIH grants P30DK034933 and 1R01CA215574.
 
 \newpage
 
 \subsection{References}\label{references}
 
 \hypertarget{refs}{}
-\hypertarget{ref-Acinas2005}{}
-Acinas SG., Sarma-Rupavtarm R., Klepac-Ceraj V., Polz MF. 2005.
-PCR-induced sequence artifacts and bias: Insights from comparison of two
-16S rRNA clone libraries constructed from the same sample. \emph{Applied
-and Environmental Microbiology} 71:8966--8969. DOI:
-\href{https://doi.org/10.1128/aem.71.12.8966-8969.2005}{10.1128/aem.71.12.8966-8969.2005}.
+\hypertarget{ref-Gilbert2018}{}
+1. \textbf{Gilbert JA}, \textbf{Jansson JK}, \textbf{Knight R}. 2018.
+Earth microbiome project and global systems biology. mSystems
+\textbf{3}.
+doi:\href{https://doi.org/10.1128/msystems.00217-17}{10.1128/msystems.00217-17}.
 
-\hypertarget{ref-Amir2017}{}
-Amir A., McDonald D., Navas-Molina JA., Debelius J., Morton JT., Hyde
-E., Robbins-Pianka A., Knight R. 2017. Correcting for microbial blooms
-in fecal samples during room-temperature shipping. \emph{mSystems}
-2:e00199--16. DOI:
-\href{https://doi.org/10.1128/msystems.00199-16}{10.1128/msystems.00199-16}.
+\hypertarget{ref-HMP2012}{}
+2. \textbf{Consortium HM}. 2012. Structure, function and diversity of
+the healthy human microbiome. Nature \textbf{486}:207--214.
+doi:\href{https://doi.org/10.1038/nature11234}{10.1038/nature11234}.
 
-\hypertarget{ref-storage_Bassis_2017}{}
-Bassis CM., Nicholas M. Moore., Lolans K., Seekatz AM., Weinstein RA.,
-Young VB., Hayden MK. 2017. Comparison of stool versus rectal swab
-samples and storage conditions on bacterial community profiles.
-\emph{BMC Microbiology} 17. DOI:
-\href{https://doi.org/10.1186/s12866-017-0983-9}{10.1186/s12866-017-0983-9}.
+\hypertarget{ref-Schloss2016}{}
+3. \textbf{Schloss PD}, \textbf{Girard RA}, \textbf{Martin T},
+\textbf{Edwards J}, \textbf{Thrash JC}. 2016. Status of the archaeal and
+bacterial census: An update. mBio \textbf{7}.
+doi:\href{https://doi.org/10.1128/mbio.00201-16}{10.1128/mbio.00201-16}.
 
-\hypertarget{ref-benjamini_controlling_1995}{}
-Benjamini Y., Hochberg Y. 1995. Controlling the false discovery rate: A
-practical and powerful approach to multiple testing. \emph{Journal of
-the Royal Statistical Society. Series B (Methodological)} 57:289--300.
+\hypertarget{ref-Luo2016}{}
+4. \textbf{Luo T}, \textbf{Srinivasan U}, \textbf{Ramadugu K},
+\textbf{Shedden KA}, \textbf{Neiswanger K}, \textbf{Trumble E},
+\textbf{Li JJ}, \textbf{McNeil DW}, \textbf{Crout RJ}, \textbf{Weyant
+RJ}, \textbf{Marazita ML}, \textbf{Foxman B}. 2016. Effects of specimen
+collection methodologies and storage conditions on the short-term
+stability of oral microbiome taxonomy. Applied and Environmental
+Microbiology \textbf{82}:5519--5529.
+doi:\href{https://doi.org/10.1128/aem.01132-16}{10.1128/aem.01132-16}.
 
-\hypertarget{ref-Burkardt2000}{}
-Burkardt H-J. 2000. Standardization and quality control of PCR analyses.
-\emph{Clinical Chemistry and Laboratory Medicine} 38. DOI:
-\href{https://doi.org/10.1515/cclm.2000.014}{10.1515/cclm.2000.014}.
-
-\hypertarget{ref-rdp_Cole_2013}{}
-Cole JR., Wang Q., Fish JA., Chai B., McGarrell DM., Sun Y., Brown CT.,
-Porras-Alfaro A., Kuske CR., Tiedje JM. 2013. Ribosomal database
-project: Data and tools for high throughput rRNA analysis. \emph{Nucleic
-Acids Research} 42:D633--D642. DOI:
-\href{https://doi.org/10.1093/nar/gkt1244}{10.1093/nar/gkt1244}.
-
-\hypertarget{ref-Eckert1991}{}
-Eckert KA., Kunkel TA. 1991. DNA polymerase fidelity and the polymerase
-chain reaction. \emph{Genome Research} 1:17--24. DOI:
-\href{https://doi.org/10.1101/gr.1.1.17}{10.1101/gr.1.1.17}.
-
-\hypertarget{ref-uchime_Edgar_2011}{}
-Edgar RC., Haas BJ., Clemente JC., Quince C., Knight R. 2011. UCHIME
-improves sensitivity and speed of chimera detection.
-\emph{Bioinformatics} 27:2194--2200. DOI:
-\href{https://doi.org/10.1093/bioinformatics/btr381}{10.1093/bioinformatics/btr381}.
-
-\hypertarget{ref-viridis_citation_2017}{}
-Garnier S. 2017. \emph{Viridis: Default color maps from 'matplotlib'}.
-
-\hypertarget{ref-taq_Gohl_2016}{}
-Gohl DM., Vangay P., Garbe J., MacLean A., Hauge A., Becker A., Gould
-TJ., Clayton JB., Johnson TJ., Hunter R., Knights D., Beckman KB. 2016.
-Systematic improvement of amplicon marker gene methods for increased
-accuracy in microbiome studies. \emph{Nature Biotechnology} 34:942--949.
-DOI: \href{https://doi.org/10.1038/nbt.3601}{10.1038/nbt.3601}.
+\hypertarget{ref-Bassis2017}{}
+5. \textbf{Bassis CM}, \textbf{Nicholas M. Moore}, \textbf{Lolans K},
+\textbf{Seekatz AM}, \textbf{Weinstein RA}, \textbf{Young VB},
+\textbf{Hayden MK}. 2017. Comparison of stool versus rectal swab samples
+and storage conditions on bacterial community profiles. BMC Microbiology
+\textbf{17}.
+doi:\href{https://doi.org/10.1186/s12866-017-0983-9}{10.1186/s12866-017-0983-9}.
 
 \hypertarget{ref-Gorzelak2015}{}
-Gorzelak MA., Gill SK., Tasnim N., Ahmadi-Vand Z., Jay M., Gibson DL.
-2015. Methods for improving human gut microbiome data by reducing
-variability through sample processing and storage of stool. \emph{PLOS
-ONE} 10:e0134802. DOI:
-\href{https://doi.org/10.1371/journal.pone.0134802}{10.1371/journal.pone.0134802}.
+6. \textbf{Gorzelak MA}, \textbf{Gill SK}, \textbf{Tasnim N},
+\textbf{Ahmadi-Vand Z}, \textbf{Jay M}, \textbf{Gibson DL}. 2015.
+Methods for improving human gut microbiome data by reducing variability
+through sample processing and storage of stool. PLOS ONE
+\textbf{10}:e0134802.
+doi:\href{https://doi.org/10.1371/journal.pone.0134802}{10.1371/journal.pone.0134802}.
 
-\hypertarget{ref-Haas2011}{}
-Haas BJ., Gevers D., Earl AM., Feldgarden M., Ward DV., Giannoukos G.,
-Ciulla D., Tabbaa D., Highlander SK., Sodergren E., Methe B., DeSantis
-TZ., Petrosino JF., Knight R., and BWB. 2011. Chimeric 16S rRNA sequence
-formation and detection in sanger and 454-pyrosequenced PCR amplicons.
-\emph{Genome Research} 21:494--504. DOI:
-\href{https://doi.org/10.1101/gr.112730.110}{10.1101/gr.112730.110}.
-
-\hypertarget{ref-polymerase_Ishino_2014}{}
-Ishino S., Ishino Y. 2014. DNA polymerases as useful reagents for
-biotechnology â the history of developmental research in the field.
-\emph{Frontiers in Microbiology} 5. DOI:
-\href{https://doi.org/10.3389/fmicb.2014.00465}{10.3389/fmicb.2014.00465}.
-
-\hypertarget{ref-Kebschull2015}{}
-Kebschull JM., Zador AM. 2015. Sources of PCR-induced distortions in
-high-throughput sequencing data sets. \emph{Nucleic Acids
-Research}:gkv717. DOI:
-\href{https://doi.org/10.1093/nar/gkv717}{10.1093/nar/gkv717}.
-
-\hypertarget{ref-protocol_Kozich_2013}{}
-Kozich JJ., Westcott SL., Baxter NT., Highlander SK., Schloss PD. 2013.
-Development of a dual-index sequencing strategy and curation pipeline
-for analyzing amplicon sequence data on the MiSeq illumina sequencing
-platform. \emph{Applied and Environmental Microbiology} 79:5112--5120.
-DOI: \href{https://doi.org/10.1128/aem.01043-13}{10.1128/aem.01043-13}.
-
-\hypertarget{ref-preservation_Luo_2016}{}
-Luo T., Srinivasan U., Ramadugu K., Shedden KA., Neiswanger K., Trumble
-E., Li JJ., McNeil DW., Crout RJ., Weyant RJ., Marazita ML., Foxman B.
-2016. Effects of specimen collection methodologies and storage
-conditions on the short-term stability of oral microbiome taxonomy.
-\emph{Applied and Environmental Microbiology} 82:5519--5529. DOI:
-\href{https://doi.org/10.1128/aem.01132-16}{10.1128/aem.01132-16}.
-
-\hypertarget{ref-Meisel2016}{}
-Meisel JS., Hannigan GD., Tyldsley AS., SanMiguel AJ., Hodkinson BP.,
-Zheng Q., Grice EA. 2016. Skin microbiome surveys are strongly
-influenced by experimental design. \emph{Journal of Investigative
-Dermatology} 136:947--956. DOI:
-\href{https://doi.org/10.1016/j.jid.2016.01.016}{10.1016/j.jid.2016.01.016}.
-
-\hypertarget{ref-bc_index_Minchin1987}{}
-Minchin PR. 1987. An evaluation of the relative robustness of techniques
-for ecological ordination. \emph{Vegetatio} 69:89--107. DOI:
-\href{https://doi.org/10.1007/bf00038690}{10.1007/bf00038690}.
-
-\hypertarget{ref-vegan_citation}{}
-Oksanen J., Blanchet FG., Friendly M., Kindt R., Legendre P., McGlinn
-D., Minchin PR., O'Hara RB., Simpson GL., Solymos P., Stevens MHH.,
-Szoecs E., Wagner H. 2017. \emph{Vegan: Community ecology package}.
-
-\hypertarget{ref-polz_bias_1998}{}
-Polz MF., Cavanaugh CM. 1998. Bias in template-to-product ratios in
-multitemplate PCR. \emph{Applied and Environmental Microbiology}
-64:3724--3730.
-
-\hypertarget{ref-r_citation_2017}{}
-R Core Team. 2017. \emph{R: A language and environment for statistical
-computing}. Vienna, Austria: R Foundation for Statistical Computing.
-
-\hypertarget{ref-Real1996}{}
-Real R., Vargas JM. 1996. The probabilistic basis of jaccards index of
-similarity. \emph{Systematic Biology} 45:380--385. DOI:
-\href{https://doi.org/10.1093/sysbio/45.3.380}{10.1093/sysbio/45.3.380}.
-
-\hypertarget{ref-vsearch_Rognes_2016}{}
-Rognes T., Flouri T., Nichols B., Quince C., Mahé F. 2016. VSEARCH: A
-versatile open source tool for metagenomics. \emph{PeerJ} 4:e2584. DOI:
-\href{https://doi.org/10.7717/peerj.2584}{10.7717/peerj.2584}.
-
-\hypertarget{ref-contamination_Salter2014}{}
-Salter SJ., Cox MJ., Turek EM., Calus ST., Cookson WO., Moffatt MF.,
-Turner P., Parkhill J., Loman NJ., Walker AW. 2014. Reagent and
-laboratory contamination can critically impact sequence-based microbiome
-analyses. \emph{BMC Biology} 12. DOI:
-\href{https://doi.org/10.1186/s12915-014-0087-z}{10.1186/s12915-014-0087-z}.
+\hypertarget{ref-Dominianni2014}{}
+7. \textbf{Dominianni C}, \textbf{Wu J}, \textbf{Hayes RB}, \textbf{Ahn
+J}. 2014. Comparison of methods for fecal microbiome biospecimen
+collection. BMC Microbiology \textbf{14}:103.
+doi:\href{https://doi.org/10.1186/1471-2180-14-103}{10.1186/1471-2180-14-103}.
 
 \hypertarget{ref-BautistadelosSantos2016}{}
-Santos QMB-d los., Schroeder JL., Blakemore O., Moses J., Haffey M.,
-Sloan W., Pinto AJ. 2016. The impact of sampling, PCR, and sequencing
-replication on discerning changes in drinking water bacterial community
-over diurnal time-scales. \emph{Water Research} 90:216--224. DOI:
-\href{https://doi.org/10.1016/j.watres.2015.12.010}{10.1016/j.watres.2015.12.010}.
+8. \textbf{Santos QMB-d los}, \textbf{Schroeder JL}, \textbf{Blakemore
+O}, \textbf{Moses J}, \textbf{Haffey M}, \textbf{Sloan W}, \textbf{Pinto
+AJ}. 2016. The impact of sampling, PCR, and sequencing replication on
+discerning changes in drinking water bacterial community over diurnal
+time-scales. Water Research \textbf{90}:216--224.
+doi:\href{https://doi.org/10.1016/j.watres.2015.12.010}{10.1016/j.watres.2015.12.010}.
 
-\hypertarget{ref-mothur_schloss_2009}{}
-Schloss PD., Westcott SL., Ryabin T., Hall JR., Hartmann M., Hollister
-EB., Lesniewski RA., Oakley BB., Parks DH., Robinson CJ., Sahl JW.,
-Stres B., Thallinger GG., Horn DJV., Weber CF. 2009. Introducing mothur:
-Open-source, platform-independent, community-supported software for
-describing and comparing microbial communities. \emph{Applied and
-Environmental Microbiology} 75:7537--7541. DOI:
-\href{https://doi.org/10.1128/aem.01541-09}{10.1128/aem.01541-09}.
+\hypertarget{ref-Sinha2015}{}
+9. \textbf{Sinha R}, \textbf{Chen J}, \textbf{Amir A}, \textbf{Vogtmann
+E}, \textbf{Shi J}, \textbf{Inman KS}, \textbf{Flores R},
+\textbf{Sampson J}, \textbf{Knight R}, \textbf{Chia N}. 2015. Collecting
+fecal samples for microbiome analyses in epidemiology studies. Cancer
+Epidemiology Biomarkers \& Prevention \textbf{25}:407--416.
+doi:\href{https://doi.org/10.1158/1055-9965.epi-15-0951}{10.1158/1055-9965.epi-15-0951}.
 
-\hypertarget{ref-erin_seekatz_2016}{}
-Seekatz AM., Rao K., Santhosh K., Young VB. 2016. Dynamics of the fecal
-microbiome in patients with recurrent and nonrecurrent clostridium
-difficile infection. \emph{Genome Medicine} 8. DOI:
-\href{https://doi.org/10.1186/s13073-016-0298-8}{10.1186/s13073-016-0298-8}.
+\hypertarget{ref-Amir2017b}{}
+10. \textbf{Amir A}, \textbf{McDonald D}, \textbf{Navas-Molina JA},
+\textbf{Debelius J}, \textbf{Morton JT}, \textbf{Hyde E},
+\textbf{Robbins-Pianka A}, \textbf{Knight R}. 2017. Correcting for
+microbial blooms in fecal samples during room-temperature shipping.
+mSystems \textbf{2}:e00199--16.
+doi:\href{https://doi.org/10.1128/msystems.00199-16}{10.1128/msystems.00199-16}.
 
-\hypertarget{ref-preservation_Song_2016}{}
-Song SJ., Amir A., Metcalf JL., Amato KR., Xu ZZ., Humphrey G., Knight
-R. 2016. Preservation methods differ in fecal microbiome stability,
-affecting suitability for field studies. \emph{mSystems} 1:e00021--16.
-DOI:
-\href{https://doi.org/10.1128/msystems.00021-16}{10.1128/msystems.00021-16}.
+\hypertarget{ref-Lauber2010}{}
+11. \textbf{Lauber CL}, \textbf{Zhou N}, \textbf{Gordon JI},
+\textbf{Knight R}, \textbf{Fierer N}. 2010. Effect of storage conditions
+on the assessment of bacterial community structure in soil and
+human-associated samples. FEMS Microbiology Letters \textbf{307}:80--86.
+doi:\href{https://doi.org/10.1111/j.1574-6968.2010.01965.x}{10.1111/j.1574-6968.2010.01965.x}.
 
-\hypertarget{ref-Sze2015}{}
-Sze MA., Dimitriu PA., Suzuki M., McDonough JE., Campbell JD., Brothers
-JF., Erb-Downward JR., Huffnagle GB., Hayashi S., Elliott WM., Cooper
-J., Sin DD., Lenburg ME., Spira A., Mohn WW., Hogg JC. 2015. Host
-response to the lung microbiome in chronic obstructive pulmonary
-disease. \emph{American Journal of Respiratory and Critical Care
-Medicine} 192:438--445. DOI:
-\href{https://doi.org/10.1164/rccm.201502-0223oc}{10.1164/rccm.201502-0223oc}.
+\hypertarget{ref-Song2016}{}
+12. \textbf{Song SJ}, \textbf{Amir A}, \textbf{Metcalf JL},
+\textbf{Amato KR}, \textbf{Xu ZZ}, \textbf{Humphrey G}, \textbf{Knight
+R}. 2016. Preservation methods differ in fecal microbiome stability,
+affecting suitability for field studies. mSystems \textbf{1}:e00021--16.
+doi:\href{https://doi.org/10.1128/msystems.00021-16}{10.1128/msystems.00021-16}.
+
+\hypertarget{ref-Costea2017}{}
+13. \textbf{Costea PI}, \textbf{Zeller G}, \textbf{Sunagawa S},
+\textbf{Pelletier E}, \textbf{Alberti A}, \textbf{Levenez F},
+\textbf{Tramontano M}, \textbf{Driessen M}, \textbf{Hercog R},
+\textbf{Jung F-E}, \textbf{Kultima JR}, \textbf{Hayward MR},
+\textbf{Coelho LP}, \textbf{Allen-Vercoe E}, \textbf{Bertrand L},
+\textbf{Blaut M}, \textbf{Brown JRM}, \textbf{Carton T},
+\textbf{Cools-Portier S}, \textbf{Daigneault M}, \textbf{Derrien M},
+\textbf{Druesne A}, \textbf{Vos WM de}, \textbf{Finlay BB},
+\textbf{Flint HJ}, \textbf{Guarner F}, \textbf{Hattori M},
+\textbf{Heilig H}, \textbf{Luna RA}, \textbf{Hylckama Vlieg J van},
+\textbf{Junick J}, \textbf{Klymiuk I}, \textbf{Langella P},
+\textbf{Chatelier EL}, \textbf{Mai V}, \textbf{Manichanh C},
+\textbf{Martin JC}, \textbf{Mery C}, \textbf{Morita H}, \textbf{O'Toole
+PW}, \textbf{Orvain C}, \textbf{Patil KR}, \textbf{Penders J},
+\textbf{Persson S}, \textbf{Pons N}, \textbf{Popova M}, \textbf{Salonen
+A}, \textbf{Saulnier D}, \textbf{Scott KP}, \textbf{Singh B},
+\textbf{Slezak K}, \textbf{Veiga P}, \textbf{Versalovic J}, \textbf{Zhao
+L}, \textbf{Zoetendal EG}, \textbf{Ehrlich SD}, \textbf{Dore J},
+\textbf{Bork P}. 2017. Towards standards for human fecal sample
+processing in metagenomic studies. Nature Biotechnology.
+doi:\href{https://doi.org/10.1038/nbt.3960}{10.1038/nbt.3960}.
+
+\hypertarget{ref-Haas2011}{}
+14. \textbf{Haas BJ}, \textbf{Gevers D}, \textbf{Earl AM},
+\textbf{Feldgarden M}, \textbf{Ward DV}, \textbf{Giannoukos G},
+\textbf{Ciulla D}, \textbf{Tabbaa D}, \textbf{Highlander SK},
+\textbf{Sodergren E}, \textbf{Methe B}, \textbf{DeSantis TZ},
+\textbf{Petrosino JF}, \textbf{Knight R}, \textbf{and BWB}. 2011.
+Chimeric 16S rRNA sequence formation and detection in sanger and
+454-pyrosequenced PCR amplicons. Genome Research \textbf{21}:494--504.
+doi:\href{https://doi.org/10.1101/gr.112730.110}{10.1101/gr.112730.110}.
+
+\hypertarget{ref-Sinha2017}{}
+15. \textbf{Sinha R}, \textbf{Abu-Ali G}, \textbf{Vogtmann E},
+\textbf{Fodor AA}, \textbf{Ren B}, \textbf{Amir A}, \textbf{Schwager E},
+\textbf{Crabtree J}, \textbf{Ma S}, \textbf{Abnet CC}, \textbf{Knight
+R}, \textbf{White O}, \textbf{Huttenhower C}. 2017. Assessment of
+variation in microbial community amplicon sequencing by the microbiome
+quality control (MBQC) project consortium. Nature Biotechnology.
+doi:\href{https://doi.org/10.1038/nbt.3981}{10.1038/nbt.3981}.
+
+\hypertarget{ref-Meisel2016}{}
+16. \textbf{Meisel JS}, \textbf{Hannigan GD}, \textbf{Tyldsley AS},
+\textbf{SanMiguel AJ}, \textbf{Hodkinson BP}, \textbf{Zheng Q},
+\textbf{Grice EA}. 2016. Skin microbiome surveys are strongly influenced
+by experimental design. Journal of Investigative Dermatology
+\textbf{136}:947--956.
+doi:\href{https://doi.org/10.1016/j.jid.2016.01.016}{10.1016/j.jid.2016.01.016}.
+
+\hypertarget{ref-Caporaso2010}{}
+17. \textbf{Caporaso JG}, \textbf{Lauber CL}, \textbf{Walters WA},
+\textbf{Berg-Lyons D}, \textbf{Lozupone CA}, \textbf{Turnbaugh PJ},
+\textbf{Fierer N}, \textbf{Knight R}. 2010. Global patterns of 16S rRNA
+diversity at a depth of millions of sequences per sample. Proceedings of
+the National Academy of Sciences \textbf{108}:4516--4522.
+doi:\href{https://doi.org/10.1073/pnas.1000080107}{10.1073/pnas.1000080107}.
+
+\hypertarget{ref-Kozich2013}{}
+18. \textbf{Kozich JJ}, \textbf{Westcott SL}, \textbf{Baxter NT},
+\textbf{Highlander SK}, \textbf{Schloss PD}. 2013. Development of a
+dual-index sequencing strategy and curation pipeline for analyzing
+amplicon sequence data on the MiSeq illumina sequencing platform.
+Applied and Environmental Microbiology \textbf{79}:5112--5120.
+doi:\href{https://doi.org/10.1128/aem.01043-13}{10.1128/aem.01043-13}.
+
+\hypertarget{ref-Schloss2011}{}
+19. \textbf{Schloss PD}, \textbf{Gevers D}, \textbf{Westcott SL}. 2011.
+Reducing the effects of PCR amplification and sequencing artifacts on
+16S rRNA-based studies. PLoS ONE \textbf{6}:e27310.
+doi:\href{https://doi.org/10.1371/journal.pone.0027310}{10.1371/journal.pone.0027310}.
+
+\hypertarget{ref-Bokulich2012}{}
+20. \textbf{Bokulich NA}, \textbf{Subramanian S}, \textbf{Faith JJ},
+\textbf{Gevers D}, \textbf{Gordon JI}, \textbf{Knight R}, \textbf{Mills
+DA}, \textbf{Caporaso JG}. 2012. Quality-filtering vastly improves
+diversity estimates from illumina amplicon sequencing. Nature Methods
+\textbf{10}:57--59.
+doi:\href{https://doi.org/10.1038/nmeth.2276}{10.1038/nmeth.2276}.
+
+\hypertarget{ref-Parada2015}{}
+21. \textbf{Parada AE}, \textbf{Needham DM}, \textbf{Fuhrman JA}. 2015.
+Every base matters: Assessing small subunit rRNA primers for marine
+microbiomes with mock communities, time series and global field samples.
+Environmental Microbiology \textbf{18}:1403--1414.
+doi:\href{https://doi.org/10.1111/1462-2920.13023}{10.1111/1462-2920.13023}.
 
 \hypertarget{ref-Wang1996}{}
-Wang GCY., Wang Y. 1996. The frequency of chimeric molecules as a
-consequence of PCR co-amplification of 16S rRNA genes from different
-bacterial species. \emph{Microbiology} 142:1107--1114. DOI:
-\href{https://doi.org/10.1099/13500872-142-5-1107}{10.1099/13500872-142-5-1107}.
+22. \textbf{Wang GCY}, \textbf{Wang Y}. 1996. The frequency of chimeric
+molecules as a consequence of PCR co-amplification of 16S rRNA genes
+from different bacterial species. Microbiology \textbf{142}:1107--1114.
+doi:\href{https://doi.org/10.1099/13500872-142-5-1107}{10.1099/13500872-142-5-1107}.
 
-\hypertarget{ref-opticlust_Westcott_2017}{}
-Westcott SL., Schloss PD. 2017. OptiClust, an improved method for
-assigning amplicon-based sequence data to operational taxonomic units.
-\emph{mSphere} 2:e00073--17. DOI:
-\href{https://doi.org/10.1128/mspheredirect.00073-17}{10.1128/mspheredirect.00073-17}.
+\hypertarget{ref-Potapov2017}{}
+23. \textbf{Potapov V}, \textbf{Ong JL}. 2017. Examining sources of
+error in PCR by single-molecule sequencing. PLOS ONE
+\textbf{12}:e0169774.
+doi:\href{https://doi.org/10.1371/journal.pone.0169774}{10.1371/journal.pone.0169774}.
 
-\hypertarget{ref-tidyverse_2017}{}
-Wickham H. 2017. \emph{Tidyverse: Easily install and load 'tidyverse'
-packages}.
+\hypertarget{ref-Kebschull2015}{}
+24. \textbf{Kebschull JM}, \textbf{Zador AM}. 2015. Sources of
+PCR-induced distortions in high-throughput sequencing data sets. Nucleic
+Acids Research gkv717.
+doi:\href{https://doi.org/10.1093/nar/gkv717}{10.1093/nar/gkv717}.
+
+\hypertarget{ref-McInerney2014}{}
+25. \textbf{McInerney P}, \textbf{Adams P}, \textbf{Hadi MZ}. 2014.
+Error rate comparison during polymerase chain reaction by DNA
+polymerase. Molecular Biology International \textbf{2014}:1--8.
+doi:\href{https://doi.org/10.1155/2014/287430}{10.1155/2014/287430}.
+
+\hypertarget{ref-Cline1996}{}
+26. \textbf{Cline J}. 1996. PCR fidelity of pfu DNA polymerase and other
+thermostable DNA polymerases. Nucleic Acids Research
+\textbf{24}:3546--3551.
+doi:\href{https://doi.org/10.1093/nar/24.18.3546}{10.1093/nar/24.18.3546}.
+
+\hypertarget{ref-Acinas2005}{}
+27. \textbf{Acinas SG}, \textbf{Sarma-Rupavtarm R}, \textbf{Klepac-Ceraj
+V}, \textbf{Polz MF}. 2005. PCR-induced sequence artifacts and bias:
+Insights from comparison of two 16S rRNA clone libraries constructed
+from the same sample. Applied and Environmental Microbiology
+\textbf{71}:8966--8969.
+doi:\href{https://doi.org/10.1128/aem.71.12.8966-8969.2005}{10.1128/aem.71.12.8966-8969.2005}.
+
+\hypertarget{ref-Polz1998}{}
+28. \textbf{Polz MF}, \textbf{Cavanaugh CM}. 1998. Bias in
+template-to-product ratios in multitemplate PCR. Applied and
+Environmental Microbiology \textbf{64}:3724--3730.
+
+\hypertarget{ref-Brooks2015}{}
+29. \textbf{Brooks JP}, \textbf{David J Edwards}, \textbf{Harwich MD},
+\textbf{Rivera MC}, \textbf{Fettweis JM}, \textbf{Serrano MG},
+\textbf{Reris RA}, \textbf{Sheth NU}, \textbf{Huang B}, \textbf{Girerd
+P}, \textbf{Strauss JF}, \textbf{Jefferson KK}, \textbf{Buck GA}. 2015.
+The truth about metagenomics: Quantifying and counteracting bias in 16S
+rRNA studies. BMC Microbiology \textbf{15}.
+doi:\href{https://doi.org/10.1186/s12866-015-0351-6}{10.1186/s12866-015-0351-6}.
+
+\hypertarget{ref-Suzuki1996}{}
+30. \textbf{Suzuki MT}, \textbf{Giovannoni SJ}. 1996. Bias caused by
+template annealing in the amplification of mixtures of 16S rRNA genes by
+pcr. Applied and environmental microbiology \textbf{62}:625--630.
+
+\hypertarget{ref-Chandler1997}{}
+31. \textbf{Chandler D}, \textbf{Fredrickson J}, \textbf{Brockman F}.
+1997. Effect of pcr template concentration on the composition and
+distribution of total community 16S rDNA clone libraries. Molecular
+Ecology \textbf{6}:475--482.
+
+\hypertarget{ref-Wagner1994}{}
+32. \textbf{Wagner A}, \textbf{Blackstone N}, \textbf{Cartwright P},
+\textbf{Dick M}, \textbf{Misof B}, \textbf{Snow P}, \textbf{Wagner GP},
+\textbf{Bartels J}, \textbf{Murtha M}, \textbf{Pendleton J}. 1994.
+Surveys of gene families using polymerase chain reaction: PCR selection
+and pcr drift. Systematic Biology \textbf{43}:250--261.
+
+\hypertarget{ref-Hansen1998}{}
+33. \textbf{Hansen MC}, \textbf{Tolker-Nielsen T}, \textbf{Givskov M},
+\textbf{Molin S}. 1998. Biased 16S rDNA pcr amplification caused by
+interference from dna flanking the template region. FEMS Microbiology
+Ecology \textbf{26}:141--149.
+
+\hypertarget{ref-Kennedy2014}{}
+34. \textbf{Kennedy K}, \textbf{Hall MW}, \textbf{Lynch MDJ},
+\textbf{Moreno-Hagelsieb G}, \textbf{Neufeld JD}. 2014. Evaluating bias
+of illumina-based bacterial 16S rRNA gene profiles. Applied and
+Environmental Microbiology \textbf{80}:5717--5722.
+doi:\href{https://doi.org/10.1128/aem.01451-14}{10.1128/aem.01451-14}.
+
+\hypertarget{ref-Edgar2011}{}
+35. \textbf{Edgar RC}, \textbf{Haas BJ}, \textbf{Clemente JC},
+\textbf{Quince C}, \textbf{Knight R}. 2011. UCHIME improves sensitivity
+and speed of chimera detection. Bioinformatics \textbf{27}:2194--2200.
+doi:\href{https://doi.org/10.1093/bioinformatics/btr381}{10.1093/bioinformatics/btr381}.
+
+\hypertarget{ref-Edgar2017}{}
+36. \textbf{Edgar RC}. 2017. UNBIAS: An attempt to correct abundance
+bias in 16S sequencing, with limited success.
+doi:\href{https://doi.org/10.1101/124149}{10.1101/124149}.
+
+\hypertarget{ref-Gohl2016}{}
+37. \textbf{Gohl DM}, \textbf{Vangay P}, \textbf{Garbe J},
+\textbf{MacLean A}, \textbf{Hauge A}, \textbf{Becker A}, \textbf{Gould
+TJ}, \textbf{Clayton JB}, \textbf{Johnson TJ}, \textbf{Hunter R},
+\textbf{Knights D}, \textbf{Beckman KB}. 2016. Systematic improvement of
+amplicon marker gene methods for increased accuracy in microbiome
+studies. Nature Biotechnology \textbf{34}:942--949.
+doi:\href{https://doi.org/10.1038/nbt.3601}{10.1038/nbt.3601}.
+
+\hypertarget{ref-Salter2014}{}
+38. \textbf{Salter SJ}, \textbf{Cox MJ}, \textbf{Turek EM},
+\textbf{Calus ST}, \textbf{Cookson WO}, \textbf{Moffatt MF},
+\textbf{Turner P}, \textbf{Parkhill J}, \textbf{Loman NJ},
+\textbf{Walker AW}. 2014. Reagent and laboratory contamination can
+critically impact sequence-based microbiome analyses. BMC Biology
+\textbf{12}.
+doi:\href{https://doi.org/10.1186/s12915-014-0087-z}{10.1186/s12915-014-0087-z}.
+
+\hypertarget{ref-Callahan2016}{}
+39. \textbf{Callahan BJ}, \textbf{McMurdie PJ}, \textbf{Rosen MJ},
+\textbf{Han AW}, \textbf{Johnson AJA}, \textbf{Holmes SP}. 2016. DADA2:
+High-resolution sample inference from illumina amplicon data. Nature
+Methods \textbf{13}:581--583.
+doi:\href{https://doi.org/10.1038/nmeth.3869}{10.1038/nmeth.3869}.
+
+\hypertarget{ref-Edgar2016}{}
+40. \textbf{Edgar RC}. 2016. UNOISE2: Improved error-correction for
+illumina 16S and ITS amplicon sequencing.
+doi:\href{https://doi.org/10.1101/081257}{10.1101/081257}.
+
+\hypertarget{ref-Amir2017a}{}
+41. \textbf{Amir A}, \textbf{McDonald D}, \textbf{Navas-Molina JA},
+\textbf{Kopylova E}, \textbf{Morton JT}, \textbf{Xu ZZ},
+\textbf{Kightley EP}, \textbf{Thompson LR}, \textbf{Hyde ER},
+\textbf{Gonzalez A}, \textbf{Knight R}. 2017. Deblur rapidly resolves
+single-nucleotide community sequence patterns. mSystems \textbf{2}.
+doi:\href{https://doi.org/10.1128/msystems.00191-16}{10.1128/msystems.00191-16}.
+
+\hypertarget{ref-Schloss2018}{}
+42. \textbf{Schloss PD}. 2018. Identifying and overcoming threats to
+reproducibility, replicability, robustness, and generalizability in
+microbiome research. mBio \textbf{9}.
+doi:\href{https://doi.org/10.1128/mbio.00525-18}{10.1128/mbio.00525-18}.
+
+\hypertarget{ref-Seekatz2016}{}
+43. \textbf{Seekatz AM}, \textbf{Rao K}, \textbf{Santhosh K},
+\textbf{Young VB}. 2016. Dynamics of the fecal microbiome in patients
+with recurrent and nonrecurrent clostridium difficile infection. Genome
+Medicine \textbf{8}.
+doi:\href{https://doi.org/10.1186/s13073-016-0298-8}{10.1186/s13073-016-0298-8}.
+
+\hypertarget{ref-Schloss2009}{}
+44. \textbf{Schloss PD}, \textbf{Westcott SL}, \textbf{Ryabin T},
+\textbf{Hall JR}, \textbf{Hartmann M}, \textbf{Hollister EB},
+\textbf{Lesniewski RA}, \textbf{Oakley BB}, \textbf{Parks DH},
+\textbf{Robinson CJ}, \textbf{Sahl JW}, \textbf{Stres B},
+\textbf{Thallinger GG}, \textbf{Horn DJV}, \textbf{Weber CF}. 2009.
+Introducing mothur: Open-source, platform-independent,
+community-supported software for describing and comparing microbial
+communities. Applied and Environmental Microbiology
+\textbf{75}:7537--7541.
+doi:\href{https://doi.org/10.1128/aem.01541-09}{10.1128/aem.01541-09}.
+
+\hypertarget{ref-Rognes2016}{}
+45. \textbf{Rognes T}, \textbf{Flouri T}, \textbf{Nichols B},
+\textbf{Quince C}, \textbf{Mahé F}. 2016. VSEARCH: A versatile open
+source tool for metagenomics. PeerJ \textbf{4}:e2584.
+doi:\href{https://doi.org/10.7717/peerj.2584}{10.7717/peerj.2584}.
+
+\hypertarget{ref-Westcott2017}{}
+46. \textbf{Westcott SL}, \textbf{Schloss PD}. 2017. OptiClust, an
+improved method for assigning amplicon-based sequence data to
+operational taxonomic units. mSphere \textbf{2}:e00073--17.
+doi:\href{https://doi.org/10.1128/mspheredirect.00073-17}{10.1128/mspheredirect.00073-17}.
+
+\hypertarget{ref-r_citation_2018}{}
+47. \textbf{R Core Team}. 2018. R: A language and environment for
+statistical computing. R Foundation for Statistical Computing, Vienna,
+Austria.
+
+\hypertarget{ref-Tidyverse2017}{}
+48. \textbf{Wickham H}. 2017. Tidyverse: Easily install and load the
+'tidyverse'.
+
+\hypertarget{ref-Vegan2018}{}
+49. \textbf{Oksanen J}, \textbf{Blanchet FG}, \textbf{Friendly M},
+\textbf{Kindt R}, \textbf{Legendre P}, \textbf{McGlinn D},
+\textbf{Minchin PR}, \textbf{O'Hara RB}, \textbf{Simpson GL},
+\textbf{Solymos P}, \textbf{Stevens MHH}, \textbf{Szoecs E},
+\textbf{Wagner H}. 2018. Vegan: Community ecology package.
 
 \newpage
 
-\textbf{Figure 1: Normalized Fecal Number of OTUs.} The x-axis
-represents the different sub-sampling depths used and the y-axis is the
-normalized within individual number of OTUs. The red line represents the
-overall mean Z-score normalized number of OTUs for each respective HiFi
-DNA polymerase. The dashed black line represents the overall Z-score
-normalized mean number of OTUs.
-
-\textbf{Figure 2: Mock Sample Variability in Number of OTUs based on
-HiFi DNA Polymerase.} A) Sub-sampled to 1000 reads. B) Sub-sampled to
-5000 reads. C) Sub-sampled to 10000 reads. The dotted line represents
-the number of OTUs generated when the mock reference sequences are run
-through the pipeline.
-
-\textbf{Figure 3: Community Differences by Five-Cycle Intervals and
-Sub-sampling Depth.} A) Fecal samples within person difference based on
-the next 5-cycle PCR interval. B) Mock samples within replicate
-difference based on the next 5-cycle PCR interval.
-
-\textbf{Figure 4: HiFi DNA Polymerase Per Base Error Rate in Mock
-Samples.} A) Error rate before the merger of sequences with pre.cluster
-and the removal of chimeras with VSEARCH. B) Error rate before the
-removal of chimeras with VSEARCH. C) Full pipeline. The error bars
-represent the 75\% interquartile range of the median.
-
-\textbf{Figure 5: HiFi DNA Polymerase Chimera Prevalence in Mock
-Samples.} A) Chimera sequence percentage before the merger of sequences
-with pre.cluster and the removal of chimeras with VSEARCH. B) Chimera
-sequence percentage before the removal of chimeras with VSEARCH. C) Full
-pipeline. The error bars represent the 75\% interquartile range of the
-median.
-
-\textbf{Figure 6: The Correlation between Number of OTUs and Chimeras.}
-A) Correlation before the merger of sequences with pre.cluster and the
-removal of chimeras with VSEARCH. B) Correlation before the removal of
-chimeras with VSEARCH. C) Correlation with full pipeline.
+\textbf{Figure 1: XXXXXXXX.}
 
 \newpage
 
-\textbf{Figure S1: HiFi DNA Polymerase Sequence Error Prevalence in Mock
-Samples.} A) Sequence error prevalence before the merger of sequences
-with pre.cluster and the removal of chimeras with VSEARCH. B) Sequence
-error prevalence before the removal of chimeras with VSEARCH. C) Full
-pipeline. The error bars represent the 75\% interquartile range of the
-median.
-
-\textbf{Figure S2: HiFi DNA Polymerase Nucleotide Subsitutions in Mock
-Samples.}
+\textbf{Figure S1: XXXXXXXX.}
 
 
 \end{document}
