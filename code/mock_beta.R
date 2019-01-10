@@ -29,16 +29,3 @@ vsearch_dist <- read_dist(vsearch_dist_file) %>% mutate(method="vsearch")
 
 bind_rows(perfect_dist, vsearch_dist) %>%
 	write_tsv("data/process/mock_beta_diversity.tsv")
-
-
-read_tsv("data/process/mock_beta_diversity.tsv") %>%
-	filter(str_detect(rows, "25x")) %>%
-	separate(rows, into=c("row_rounds", "polymerase", "row_mock")) %>%
-	separate(columns, into=c("col_rounds", "col_polymerase", "col_mock")) %>%
-	filter(polymerase == col_polymerase, method=="vsearch") %>%
-	select(polymerase, col_rounds, distances, method) %>%
-	arrange(polymerase) %>%
-	mutate(col_rounds = str_replace(col_rounds, "x", "")) %>%
-	ggplot(aes(x=polymerase, y=distances, fill=col_rounds))+
-		geom_col(position=position_dodge()) +
-		ggsave("results/figures/mock_beta.pdf")

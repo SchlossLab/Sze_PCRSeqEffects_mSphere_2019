@@ -23,31 +23,3 @@ read_dist(dist_file) %>%
 	mutate(rows = str_replace(rows, "_PMM_FS", ""),
 				columns = str_replace(columns, "_PMM_FS", "")) %>%
 	write_tsv("data/process/stool_beta_diversity.tsv")
-
-
-read_tsv("data/process/stool_beta_diversity.tsv") %>%
-	filter(str_detect(rows, "25x")) %>%
-	separate(rows, into=c("row_rounds", "polymerase", "subject")) %>%
-	separate(columns, into=c("rounds", "col_polymerase", "col_subject")) %>%
-	filter(polymerase == col_polymerase, subject == col_subject) %>%
-	select(polymerase, rounds, subject, distances) %>%
-	mutate(rounds = str_replace(rounds, "x", "")) %>%
-	ggplot(aes(x=subject, y=distances, fill=rounds))+
-		geom_col(position=position_dodge()) +
-		facet_wrap(.~polymerase) +
-		ggsave("results/figures/stool_beta.pdf")
-
-
-read_tsv("data/process/stool_beta_diversity.tsv") %>%
-	separate(rows, into=c("rounds", "polymerase", "row_subject")) %>%
-	separate(columns, into=c("col_rounds", "col_polymerase", "col_subject")) %>%
-	filter(rounds == col_rounds, polymerase == col_polymerase) %>%
-	select(rounds, polymerase, row_subject, col_subject, distances) %>%
-	group_by(rounds, polymerase) %>%
-	summarize(ave_dist = mean(distances), n = n()) %>%
-	ungroup() %>%
-	filter(n == 6) %>%
-	mutate(rounds = str_replace(rounds, "x", "")) %>%
-	ggplot(aes(x=rounds, y=ave_dist, group=polymerase, color=polymerase)) +
-		geom_line() +
-		ggsave('results/figures/stool_drift.pdf')

@@ -22,12 +22,3 @@ inner_join(pre_vsearch, post_vsearch, by="sample") %>%
 	mutate(rounds = as.numeric(str_replace(rounds, "x", ""))) %>%
 	select(-dummy1, -dummy2) %>%
 	write_tsv("data/process/stool_chimera.tsv")
-
-
-
-
-read_tsv("data/process/stool_chimera.tsv") %>%
-	ggplot(aes(x=rounds, y=frac_chimera, color=subject)) +
-		geom_line() +
-		facet_grid(.~polymerase) +
-		ggsave("results/figures/stool_chimera.pdf")

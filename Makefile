@@ -221,18 +221,16 @@ data/mothur/stool.trim.contigs.good.unique.good.filter.unique.precluster.pick.pi
 
 ################################################################################
 #
-# Part 3: Figure and table generation
-#
-#	Run scripts to generate figures and tables
+# Part 3: Summary table generation
 #
 ################################################################################
 
-data/process/taxa_mapping.shared : code/bias_analysis.R\
-		data/mothur/zymo_mock.filter.pick.fasta\
+data/process/taxa_mapping.shared data/process/mock_bias.tsv data/process/mock_bias_salmonella.tsv:\
+		code/bias_analysis.R\
+		data/mothur/zymo_mock.filter.pick.unique.fasta\
 		data/mothur/mock.trim.contigs.good.unique.good.filter.unique.pick.error.summary\
-		data/mothur/mock.trim.contigs.good.unique.good.filter.pick.count_table\
+		data/mothur/mock.trim.contigs.good.unique.good.filter.pick.count_table
 	Rscript code/bias_analysis.R
-
 
 data/process/error_chimera_rates.tsv : code/error_chimera_analysis.R\
 		data/mothur/mock.trim.contigs.good.unique.good.filter.unique.pick.error.summary\
@@ -273,20 +271,77 @@ data/process/stool_beta_diversity.tsv : code/stool_beta.R\
 	Rscript code/stool_beta.R
 
 
-results/figures/mock_pcoa.pdf : code/plot_mock_pcoa.R data/mothur/mock.trim.contigs.good.unique.good.filter.unique.pick.pick.precluster.vsearch.opti_mcc.braycurtis.0.03.lt.ave.pcoa.axes
-	Rscript $^
+################################################################################
+#
+# Part 6: Figure generation
+#
+################################################################################
 
-results/figures/stool_pcoa.pdf : code/plot_stool_pcoa.R data/mothur/stool.trim.contigs.good.unique.good.filter.unique.precluster.pick.pick.opti_mcc.braycurtis.0.03.lt.ave.pcoa.axes
-	Rscript $^
+results/figures/mock_error.pdf : code/plot_error_rate.R data/process/error_chimera_rates.tsv
+	Rscript $<
+
+results/figures/chimera_plots.pdf : code/plot_chimera_rate.R\
+																		data/process/error_chimera_rates.tsv\
+																		data/process/stool_chimera.tsv
+	Rscript $<
+
+results/figures/species_bias.pdf : code/plot_species_bias.R\
+																		data/process/mock_bias.tsv
+	Rscript $<
+
+results/figures/salmonella_bias.pdf : code/plot_salmonella_bias.R\
+																			data/process/mock_bias_salmonella.tsv
+	Rscript $<
+
+results/figures/mock_community.pdf : code/plot_mock_community.R\
+				data/process/mock_alpha_diversity.tsv\
+				data/process/mock_beta_diversity.tsv\
+				data/mothur/mock.trim.contigs.good.unique.good.filter.unique.pick.pick.precluster.vsearch.opti_mcc.braycurtis.0.03.lt.ave.pcoa.axes
+	Rscript $<
+
+results/figures/stool_community.pdf : code/plot_stool_community.R\
+				data/process/stool_alpha_diversity.tsv\
+				data/process/stool_beta_diversity.tsv\
+				data/mothur/stool.trim.contigs.good.unique.good.filter.unique.precluster.pick.pick.opti_mcc.braycurtis.0.03.lt.ave.pcoa.axes
+	Rscript $<
+
+results/figures/drift.pdf : code/plot_drift.R\
+				data/process/mock_beta_drift.csv\
+				data/process/stool_beta_diversity.tsv
+	Rscript $<
 
 
 ################################################################################
 #
-# Part 4: Pull it all together
+# Part 5: Pull it all together
 #
 # Render the manuscript
 #
 ################################################################################
+
+submission/figure_1.eps : results/figures/mock_error.pdf
+	pdf2ps $< $@
+
+submission/figure_2.eps : results/figures/chimera_plots.pdf
+	pdf2ps $< $@
+
+submission/figure_3.eps : results/figures/species_bias.pdf
+	pdf2ps $< $@
+
+submission/figure_4.eps : results/figures/mock_community.pdf
+	pdf2ps $< $@
+
+submission/figure_5.eps : results/figures/stool_community.pdf
+	pdf2ps $< $@
+
+submission/figure_6.eps : results/figures/drift.pdf
+	pdf2ps $< $@
+
+
+submission/figure_s1.eps : results/figures/salmonella_bias.pdf
+	pdf2ps $< $@
+
+
 
 
 $(FINAL)/manuscript.% : 			\ #include data files that are needed for paper don't leave this line with a : \

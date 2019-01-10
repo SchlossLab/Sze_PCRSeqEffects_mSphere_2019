@@ -32,7 +32,7 @@ mock_rel_abund <-
 # 	select(reference, species, exp_rel_abund)
 
 
-fasta <- scan("data/mothur/zymo_mock.filter.pick.fasta", quiet=T, what=character())
+fasta <- scan("data/mothur/zymo_mock.filter.pick.unique.fasta", quiet=T, what=character())
 
 mock_gc <- tibble(reference = str_replace(fasta[c(T,F)], ">", ""),
 										sequences = str_replace_all(fasta[c(F,T)], "[-.]", "")) %>%
@@ -65,21 +65,20 @@ contig_counts <- read_tsv(contig_count_file_name) %>%
 
 # This dataframe contains the average error rate for the sequences after running pre.cluster on
 # the data. We have pooled the four replicates to get a total average error rate.
-rel_abundances <- inner_join(contig_errors, contig_counts, by="seq_name") %>%
-			separate(sample, into=c("rounds", "polymerase", "mock", "dna")) %>%
-			mutate(rounds = str_replace(rounds, "x", "")) %>%
-			filter(numparents == 1, mismatches <= 20) %>%
-			select(species, rounds, polymerase, dna, count) %>%
-			group_by(polymerase, rounds) %>%
-			mutate(n_seqs = sum(count)) %>%
-			filter(n_seqs > 200) %>%
-			group_by(polymerase, rounds, species) %>%
-			summarize(obs_count = sum(count), obs_rel_abund = sum(count) / n_seqs[1]) %>%
-			ungroup() %>%
-			arrange(species)
-
-
-rel_abundances %>%
+inner_join(contig_errors, contig_counts, by="seq_name") %>%
+	separate(sample, into=c("rounds", "polymerase", "mock", "dna")) %>%
+	mutate(rounds = str_replace(rounds, "x", "")) %>%
+	filter(numparents == 1, mismatches <= 20) %>%
+	select(species, rounds, polymerase, dna, count) %>%
+	group_by(polymerase, rounds) %>%
+	mutate(n_seqs = sum(count)) %>%
+	filter(n_seqs > 200) %>%
+	group_by(polymerase, rounds, species) %>%
+	summarize(obs_count = sum(count), obs_rel_abund = sum(count) / n_seqs[1]) %>%
+	ungroup() %>%
+	arrange(species) %>%
+	inner_join(., mock, by="species") %>%
+	write_tsv("data/process/mock_bias_species.tsv") %>%
 	select(polymerase, rounds, species, obs_count) %>%
 	spread(species, obs_count) %>%
 	mutate(label="1", Group=paste(polymerase, rounds, sep="_"), numOtus=8) %>%
@@ -87,44 +86,19 @@ rel_abundances %>%
 	write_tsv("data/mothur/taxa_mapping.shared")
 
 
-inner_join(rel_abundances, mock, by="species") %>%
-	mutate(species = str_replace(species, "_", " ")) %>%
-	mutate(species = factor(species, levels= mock %>% arrange(percent_gc) %>% pull(species) %>% str_replace("_", " "))) %>%
-	ggplot(aes(x=rounds, y=obs_rel_abund, group=polymerase, color=polymerase)) +
-		facet_wrap(~species)+#, labeller = label_parsed) +
-		geom_hline(aes(yintercept=actual_rel_abund), col="gray") +
-		geom_line() +
-		geom_text(aes(x=1, y=0.25, label=format(percent_gc, nsmall=1L)), size=3, color="black") +
-		coord_cartesian(ylim=c(0,0.25)) +
-		theme_classic() +
-		theme(strip.text=element_text(face="italic"),
-					strip.text.x=element_text(hjust=0, size=9),
-					strip.background = element_rect(color = 'white', fill = 'white', size = 10)) +
-		ggsave("results/figures/mock_bias.pdf")
-
-
-
-
-
-
-salmonella_ratio <- inner_join(contig_errors, contig_counts, by="seq_name") %>%
-		separate(sample, into=c("rounds", "polymerase", "mock", "dna")) %>%
-		mutate(rounds = str_replace(rounds, "x", "")) %>%
-		filter(numparents == 1, mismatches <= 20) %>%
-		select(reference, rounds, polymerase, dna, count) %>%
-		group_by(polymerase, rounds) %>%
-		mutate(n_seqs = sum(count)) %>%
-		filter(n_seqs > 200) %>%
-		group_by(polymerase, rounds, reference) %>%
-		summarize(obs_rel_abund = sum(count) / n_seqs[1]) %>%
-		ungroup() %>%
-		filter(str_detect(reference, "Salmonella_enterica")) %>%
-		group_by(polymerase, rounds) %>%
-		summarize(ratio = obs_rel_abund[2]/obs_rel_abund[1]) %>%
-		ungroup()
-
-ggplot(salmonella_ratio, aes(x=rounds, y=ratio, group=polymerase, color=polymerase)) +
-	geom_hline(aes(yintercept=6), col="gray") +
-	geom_line() +
-	theme_classic() +
-	ggsave("results/figures/mock_salmonella_ratio.pdf")
+inner_join(contig_errors, contig_counts, by="seq_name") %>%
+	separate(sample, into=c("rounds", "polymerase", "mock", "dna")) %>%
+	mutate(rounds = str_replace(rounds, "x", "")) %>%
+	filter(numparents == 1, mismatches <= 20) %>%
+	select(reference, rounds, polymerase, dna, count) %>%
+	group_by(polymerase, rounds) %>%
+	mutate(n_seqs = sum(count)) %>%
+	filter(n_seqs > 200) %>%
+	group_by(polymerase, rounds, reference) %>%
+	summarize(obs_rel_abund = sum(count) / n_seqs[1]) %>%
+	ungroup() %>%
+	filter(str_detect(reference, "Salmonella_enterica")) %>%
+	group_by(polymerase, rounds) %>%
+	summarize(ratio = obs_rel_abund[2]/obs_rel_abund[1]) %>%
+	ungroup() %>%
+	write_tsv("data/process/mock_bias_salmonella.tsv")

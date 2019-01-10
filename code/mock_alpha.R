@@ -72,15 +72,3 @@ bind_rows(perfect_seq, vsearch_chimera, perfect_chimera) %>%
 	gather(key=metric, value=value, nseqs, coverage, invsimpson, shannon, sobs) %>%
 	inner_join(., ideal, by="metric") %>%
 	write_tsv("data/process/mock_alpha_diversity.tsv")
-
-
-
-
-read_tsv("data/process/mock_alpha_diversity.tsv") %>%
-	filter(metric== "invsimpson" | metric == "shannon" | metric == "sobs") %>%
-	mutate(metric = factor(metric, levels = c("sobs", "shannon", "invsimpson"))) %>%
-	ggplot(aes(x=rounds, y=value, group=method, color=method)) +
-	geom_hline(aes(yintercept=ideal)) +
-	geom_line() +
-	facet_grid(metric~polymerase, scales="free_y") +
-	ggsave("results/figures/mock_alpha.pdf")

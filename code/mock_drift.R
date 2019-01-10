@@ -36,9 +36,3 @@ bind_rows(perfect_dist, vsearch_dist) %>%
 	separate(rows, into=c("rounds", "polymerase")) %>%
 	mutate(rounds = as.numeric(str_replace(rounds, "x", ""))) %>%
 	write_csv("data/process/mock_beta_drift.csv")
-
-read_csv("data/process/mock_beta_drift.csv") %>%
-	filter(method == "vsearch") %>%
-	ggplot(aes(x=rounds, y=ave_dist, color=polymerase)) +
-		geom_line() +
-		ggsave("results/figures/mock_drift.pdf")
