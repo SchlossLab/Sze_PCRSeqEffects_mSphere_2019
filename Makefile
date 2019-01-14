@@ -346,14 +346,14 @@ figures : submission/figure_1.eps submission/figure_2.eps submission/figure_3.ep
 					submission/figure_s1.eps
 
 
-$(FINAL)/manuscript.pdf : \
+submission/manuscript.pdf : \
 						figures\
-						$(FINAL)/mbio.csl\
-						$(FINAL)/references.bib\
-						$(FINAL)/manuscript.Rmd
-	R -e 'library(rmarkdown); render("$(FINAL)/manuscript.Rmd", clean=FALSE)'
-	mv $(FINAL)/manuscript.knit.md submission/manuscript.md
-	rm $(FINAL)/manuscript.utf8.md
+						submission/mbio.csl\
+						submission/references.bib\
+						submission/manuscript.Rmd
+	R -e 'library(rmarkdown); render("submission/manuscript.Rmd", clean=FALSE)'
+	mv submission/manuscript.knit.md submission/manuscript.md
+	rm submission/manuscript.utf8.md
 
 
 # write.paper : $(TABLES)/table_1.pdf $(TABLES)/table_2.pdf\ #customize to include

@@ -136,11 +136,14 @@ The data analysis code for this study can be found at https://github.com/Schloss
 
 The authors thank the study participants in ERIN whose samples were utilized. We also would like to thank Judy Opp and April Cockburn for their effort in sequencing the samples as part of the Microbiome Core Facility at the University of Michigan. Additional thanks to members of the Schloss lab and Dr. Marcy Balunas for reading earlier drafts of the manuscript and providing helpful critiques. Salary support for Marc A. Sze came from the Canadian Institute of Health Research and NIH grant UL1TR002240. Salary support for Patrick D. Schloss came from NIH grants P30DK034933 and 1R01CA215574.   
 
+\newpage
+
 ## References
 
 <div id="refs"></div>
 
 
+\newpage
 
 **Figure 1. The error rate of assembled sequence reads increases with the number of rounds of PCR used and follows the relative error rates provided by the manufacturers; however, much of this error is mediated by denoising.**
 
