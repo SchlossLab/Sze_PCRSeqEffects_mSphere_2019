@@ -1,10 +1,13 @@
 library(tidyverse)
 library(cowplot)
-library(viridis)
+library(RColorBrewer)
+
+polymerase_colors <- brewer.pal(5, "RdBu")
+polymerase_colors[3] <- "darkgray"
 
 
-labels <- c('mock' = 'Intra-replicate mock community\nBray-Curtis distances',
-						'stool' = 'Inter-stool sample\nBray-Curtis distances')
+labels <- c('mock' = 'Mean intra-replicate Bray-Curtis\ndistances for the mock community',
+						'stool' = 'Mean inter-sample Bray-Curtis\ndistances for the stool samples')
 
 mock <- read_csv("data/process/mock_beta_drift.csv") %>%
 	filter(method == "vsearch") %>%
@@ -32,7 +35,7 @@ bind_rows(mock, stool) %>%
 		scale_color_manual(name=NULL,
 												breaks=c("ACC", "K", "PHU", "PL", "Q5"),
 												labels=c("Accuprime", "Kappa", "Phusion", "Platinum", "Q5"),
-												values=viridis(5)) +
+												values=polymerase_colors) +
 		labs(y=NULL, x="Number of rounds of PCR") +
 		theme_classic() +
 		theme(
@@ -42,4 +45,4 @@ bind_rows(mock, stool) %>%
 			legend.key.height = unit(0.8, "line")
 		)
 
-ggsave("results/figures/drift.pdf", width=6, height=3)
+ggsave("results/figures/drift.pdf", width=6.5, height=3)

@@ -58,12 +58,12 @@ rel_distance <- read_tsv("data/process/mock_beta_diversity.tsv") %>%
 	mutate(col_rounds = str_replace(col_rounds, "x", "")) %>%
 	ggplot(aes(x=polymerase, y=distances, fill=col_rounds))+
 		geom_col(position=position_dodge()) +
-		labs(x=NULL, y="Bray-Curtis Distance") +
+		labs(x=NULL, y="Bray-Curtis distance relative\nto 25 rounds of PCR") +
 		scale_x_discrete(labels=polymerase_names) +
 		scale_fill_manual(name=NULL, breaks=c(30, 35), labels=c("30 rounds", "35 rounds"), values=c("blue", "red")) +
 		theme_classic() +
 		theme(
-			legend.position=c(0.22, 0.90),
+			legend.position=c(0.23, 0.90),
 			axis.text.x=element_text(size=8)
 		)
 
