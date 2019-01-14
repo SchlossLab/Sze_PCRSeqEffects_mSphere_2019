@@ -123,7 +123,7 @@ The mothur software program (v 1.41) was used for all sequence processing steps 
 
 
 ***Statistical analysis.***
-All analysis was done with the R (v `r paste(version$major, ".", version$minor, sep = "")`) software package [@r_citation_2018]. Data transformation and graphing were completed using the tidyverse package (v `r paste(packageVersion("tidyverse")[1])`) [@Tidyverse2017]. The distance matrix data was analyzed using the adonis function within the vegan package (v `r paste(packageVersion("vegan")[1])`) [@Vegan2018].
+All analysis was done with the R (v 3.5.0) software package [@r_citation_2018]. Data transformation and graphing were completed using the tidyverse package (v 1.2.1) [@Tidyverse2017]. The distance matrix data was analyzed using the adonis function within the vegan package (v 2.5.3) [@Vegan2018].
 
 
 ***Reproducible methods.***
@@ -136,14 +136,11 @@ The data analysis code for this study can be found at https://github.com/Schloss
 
 The authors thank the study participants in ERIN whose samples were utilized. We also would like to thank Judy Opp and April Cockburn for their effort in sequencing the samples as part of the Microbiome Core Facility at the University of Michigan. Additional thanks to members of the Schloss lab and Dr. Marcy Balunas for reading earlier drafts of the manuscript and providing helpful critiques. Salary support for Marc A. Sze came from the Canadian Institute of Health Research and NIH grant UL1TR002240. Salary support for Patrick D. Schloss came from NIH grants P30DK034933 and 1R01CA215574.   
 
-\newpage
-
 ## References
 
 <div id="refs"></div>
 
 
-\newpage
 
 **Figure 1. The error rate of assembled sequence reads increases with the number of rounds of PCR used and follows the relative error rates provided by the manufacturers; however, much of this error is mediated by denoising.**
 

@@ -2,7 +2,7 @@ REFS = data/references
 FIGS = results/figures
 TABLES = results/tables
 PROC = data/process
-FINAL = submission/
+FINAL = submission
 
 # utility function to print various variables. For example, running the
 # following at the command line:
@@ -346,17 +346,18 @@ figures : submission/figure_1.eps submission/figure_2.eps submission/figure_3.ep
 					submission/figure_s1.eps
 
 
-$(FINAL)/manuscript.% : 			\ #include data files that are needed for paper don't leave this line with a : \
+$(FINAL)/manuscript.pdf : \
+						figures\
 						$(FINAL)/mbio.csl\
 						$(FINAL)/references.bib\
 						$(FINAL)/manuscript.Rmd
-	R -e 'render("$(FINAL)/manuscript.Rmd", clean=FALSE)'
+	R -e 'library(rmarkdown); render("$(FINAL)/manuscript.Rmd", clean=FALSE)'
 	mv $(FINAL)/manuscript.knit.md submission/manuscript.md
 	rm $(FINAL)/manuscript.utf8.md
 
 
-write.paper : $(TABLES)/table_1.pdf $(TABLES)/table_2.pdf\ #customize to include
-				$(FIGS)/figure_1.pdf $(FIGS)/figure_2.pdf\	# appropriate tables and
-				$(FIGS)/figure_3.pdf $(FIGS)/figure_4.pdf\	# figures
-				$(FINAL)/manuscript.Rmd $(FINAL)/manuscript.md\
-				$(FINAL)/manuscript.tex $(FINAL)/manuscript.pdf
+# write.paper : $(TABLES)/table_1.pdf $(TABLES)/table_2.pdf\ #customize to include
+# 				$(FIGS)/figure_1.pdf $(FIGS)/figure_2.pdf\	# appropriate tables and
+# 				$(FIGS)/figure_3.pdf $(FIGS)/figure_4.pdf\	# figures
+# 				$(FINAL)/manuscript.Rmd $(FINAL)/manuscript.md\
+# 				$(FINAL)/manuscript.tex $(FINAL)/manuscript.pdf
