@@ -1,4 +1,4 @@
-\documentclass[11,]{article}
+\documentclass[11pt,]{article}
 \usepackage{lmodern}
 \usepackage{amssymb,amsmath}
 \usepackage{ifxetex,ifluatex}
@@ -9,12 +9,10 @@
 \else % if luatex or xelatex
   \ifxetex
     \usepackage{mathspec}
-    \usepackage{xltxtra,xunicode}
   \else
     \usepackage{fontspec}
   \fi
-  \defaultfontfeatures{Mapping=tex-text,Scale=MatchLowercase}
-  \newcommand{\euro}{€}
+  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
 \fi
 % use upquote if available, for straight quotes in verbatim environments
 \IfFileExists{upquote.sty}{\usepackage{upquote}}{}
@@ -24,7 +22,12 @@
 \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
 }{}
 \usepackage[margin=1.0in]{geometry}
-\usepackage{graphicx}
+\usepackage{hyperref}
+\hypersetup{unicode=true,
+            pdfborder={0 0 0},
+            breaklinks=true}
+\urlstyle{same}  % don't use monospace font for urls
+\usepackage{graphicx,grffile}
 \makeatletter
 \def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
 \def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
@@ -33,27 +36,25 @@
 % margins by default, and it is still possible to overwrite the defaults
 % using explicit options in \includegraphics[width, height, ...]{}
 \setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
-\ifxetex
-  \usepackage[setpagesize=false, % page size defined by xetex
-              unicode=false, % unicode breaks when used with xetex
-              xetex]{hyperref}
-\else
-  \usepackage[unicode=true]{hyperref}
-\fi
-\hypersetup{breaklinks=true,
-            bookmarks=true,
-            pdfauthor={},
-            pdftitle={},
-            colorlinks=true,
-            citecolor=blue,
-            urlcolor=blue,
-            linkcolor=magenta,
-            pdfborder={0 0 0}}
-\urlstyle{same}  % don't use monospace font for urls
+\IfFileExists{parskip.sty}{%
+\usepackage{parskip}
+}{% else
 \setlength{\parindent}{0pt}
 \setlength{\parskip}{6pt plus 2pt minus 1pt}
+}
 \setlength{\emergencystretch}{3em}  % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
 \setcounter{secnumdepth}{0}
+% Redefines (sub)paragraphs to behave more like sections
+\ifx\paragraph\undefined\else
+\let\oldparagraph\paragraph
+\renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+\let\oldsubparagraph\subparagraph
+\renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
 
 %%% Use protect on footnotes to avoid problems with footnotes in titles
 \let\rmarkdownfootnote\footnote%
@@ -99,15 +100,15 @@
 
 \begin{document}
 
-
-
+\hypertarget{assessing-the-differences-in-16s-rrna-gene-sequencing-due-to-high-fidelity-dna-polymerase}{%
 \section{Assessing the Differences in 16S rRNA Gene Sequencing Due to
 High Fidelity DNA
-Polymerase}\label{assessing-the-differences-in-16s-rrna-gene-sequencing-due-to-high-fidelity-dna-polymerase}
+Polymerase}\label{assessing-the-differences-in-16s-rrna-gene-sequencing-due-to-high-fidelity-dna-polymerase}}
 
+\hypertarget{influence-of-dna-polymerase-on-pcr-bias-chimera-formation-and-errors-when-sequencing-16s-rrna-genes-from-complex-communities}{%
 \section{Influence of DNA Polymerase on PCR bias, chimera formation, and
 errors when sequencing 16S rRNA genes from complex
-communities}\label{influence-of-dna-polymerase-on-pcr-bias-chimera-formation-and-errors-when-sequencing-16s-rrna-genes-from-complex-communities}
+communities}\label{influence-of-dna-polymerase-on-pcr-bias-chimera-formation-and-errors-when-sequencing-16s-rrna-genes-from-complex-communities}}
 
 \begin{center}
 \vspace{25mm}
@@ -128,19 +129,21 @@ $1$ Department of Microbiology and Immunology, University of Michigan, Ann Arbor
 Co-author e-mails:
 
 \begin{itemize}
-\itemsep1pt\parskip0pt\parsep0pt
+\tightlist
 \item
-  \href{mailto:marcsze@med.umich.edu}{marcsze@med.umich.edu}
+  \href{mailto:marcsze@med.umich.edu}{\nolinkurl{marcsze@med.umich.edu}}
 \end{itemize}
 
 \newpage
 \linenumbers
 
-\subsection{Abstract}\label{abstract}
+\hypertarget{abstract}{%
+\subsection{Abstract}\label{abstract}}
 
 \newpage
 
-\subsection{Introduction}\label{introduction}
+\hypertarget{introduction}{%
+\subsection{Introduction}\label{introduction}}
 
 16S rRNA gene sequencing is a powerful and widely used tool for
 surveying the structure of microbial communities (1--3). This approach
@@ -246,7 +249,8 @@ smaller than the biological differences between individuals.
 
 \newpage
 
-\subsection{Results}\label{results}
+\hypertarget{results}{%
+\subsection{Results}\label{results}}
 
 \textbf{\emph{Sequencing errors vary by the number of cycles and the DNA
 polymerase used in PCR.}} The presence of sequence errors can confound
@@ -325,9 +329,9 @@ organism in the community. We compared the expected relative abundance
 of the 16S rRNA genes from each bacterium in the mock community to the
 data we generated across rounds of amplification and polymerase.
 Interestingly, for some bacteria, their representation became less
-biased with additional rounds of PCR (e.g. \emph{L. fermentum}), while
-others became more biased (e.g. \emph{E. faecalis}), and others had
-little change (e.g. \emph{B. subtilis}). The percentage of bases in the
+biased with additional rounds of PCR (e.g.~\emph{L. fermentum}), while
+others became more biased (e.g.~\emph{E. faecalis}), and others had
+little change (e.g.~\emph{B. subtilis}). The percentage of bases in the
 V4 region that were guanines or cytosines was not predictive of the
 amount of bias. Across the strains there was no variation in the length
 of their V4 regions and they each had the same sequence in the region
@@ -442,7 +446,8 @@ biologically relevant.
 
 \newpage
 
-\subsection{Discussion}\label{discussion}
+\hypertarget{discussion}{%
+\subsection{Discussion}\label{discussion}}
 
 Our results suggest that the number of rounds of PCR and to a lesser
 degree the choice of DNA polymerase impact the analysis of 16S rRNA gene
@@ -525,7 +530,8 @@ obtain robust results.
 
 \newpage
 
-\subsection{Materials \& Methods}\label{materials-methods}
+\hypertarget{materials-methods}{%
+\subsection{Materials \& Methods}\label{materials-methods}}
 
 \textbf{\emph{Mock community.}} The ZymoBIOMICS\textsuperscript{TM}
 Microbial Community DNA Standard (Zymo, CA, USA) was used for mock
@@ -556,7 +562,7 @@ Manufacturer recommendations were followed except for the annealing and
 extension times, which were selected based on previously published
 protocols (18, 37). Primers targeting the V4 region of the 16S rRNA gene
 were used with modifications to generate MiSeq amplicon libraries
-{[}Reference 18;
+{[}@Kozich2013;
 \url{https://github.com/SchlossLab/MiSeq_WetLab_SOP/}{]}. The number of
 rounds of PCR used for each sample and polymerase 15 and increased by 5
 rounds up to 35 cycles. Insufficient PCR product was generated using 15
@@ -565,10 +571,10 @@ rounds and has not been included in our analysis.
 \textbf{\emph{Library generation and sequencing.}} Each PCR condition
 (i.e.~combination of polymerase and number of rounds of PCR) were
 replicated four times for the mock community and one time for each fecal
-sample. Libraries were generated as described previously {[}Reference
-18; \url{https://github.com/SchlossLab/MiSeq_WetLab_SOP/}{]}. The
-libraries were sequenced using the Illumina MiSeq sequencing platform to
-generate paired 250-nt reads.
+sample. Libraries were generated as described previously {[}@Kozich2013;
+\url{https://github.com/SchlossLab/MiSeq_WetLab_SOP/}{]}. The libraries
+were sequenced using the Illumina MiSeq sequencing platform to generate
+paired 250-nt reads.
 
 \textbf{\emph{Sequence processing.}} The mothur software program (v
 1.41) was used for all sequence processing steps (44). The protocol has
@@ -614,7 +620,8 @@ raw sequences are available at the SRA (Accession SRP132931).
 
 \newpage
 
-\subsection{Acknowledgements}\label{acknowledgements}
+\hypertarget{acknowledgements}{%
+\subsection{Acknowledgements}\label{acknowledgements}}
 
 The authors thank the study participants in ERIN whose samples were
 utilized. We also would like to thank Judy Opp and April Cockburn for
@@ -628,9 +635,373 @@ P30DK034933 and 1R01CA215574.
 
 \newpage
 
-\subsection{References}\label{references}
+\hypertarget{references}{%
+\subsection{References}\label{references}}
+
+\hypertarget{refs}{}
+\leavevmode\hypertarget{ref-Gilbert2018}{}%
+1. \textbf{Gilbert JA}, \textbf{Jansson JK}, \textbf{Knight R}. 2018.
+Earth microbiome project and global systems biology. mSystems
+\textbf{3}.
+doi:\href{https://doi.org/10.1128/msystems.00217-17}{10.1128/msystems.00217-17}.
+
+\leavevmode\hypertarget{ref-HMP2012}{}%
+2. \textbf{Consortium HM}. 2012. Structure, function and diversity of
+the healthy human microbiome. Nature \textbf{486}:207--214.
+doi:\href{https://doi.org/10.1038/nature11234}{10.1038/nature11234}.
+
+\leavevmode\hypertarget{ref-Schloss2016}{}%
+3. \textbf{Schloss PD}, \textbf{Girard RA}, \textbf{Martin T},
+\textbf{Edwards J}, \textbf{Thrash JC}. 2016. Status of the archaeal and
+bacterial census: An update. mBio \textbf{7}.
+doi:\href{https://doi.org/10.1128/mbio.00201-16}{10.1128/mbio.00201-16}.
+
+\leavevmode\hypertarget{ref-Luo2016}{}%
+4. \textbf{Luo T}, \textbf{Srinivasan U}, \textbf{Ramadugu K},
+\textbf{Shedden KA}, \textbf{Neiswanger K}, \textbf{Trumble E},
+\textbf{Li JJ}, \textbf{McNeil DW}, \textbf{Crout RJ}, \textbf{Weyant
+RJ}, \textbf{Marazita ML}, \textbf{Foxman B}. 2016. Effects of specimen
+collection methodologies and storage conditions on the short-term
+stability of oral microbiome taxonomy. Applied and Environmental
+Microbiology \textbf{82}:5519--5529.
+doi:\href{https://doi.org/10.1128/aem.01132-16}{10.1128/aem.01132-16}.
+
+\leavevmode\hypertarget{ref-Bassis2017}{}%
+5. \textbf{Bassis CM}, \textbf{Nicholas M. Moore}, \textbf{Lolans K},
+\textbf{Seekatz AM}, \textbf{Weinstein RA}, \textbf{Young VB},
+\textbf{Hayden MK}. 2017. Comparison of stool versus rectal swab samples
+and storage conditions on bacterial community profiles. BMC Microbiology
+\textbf{17}.
+doi:\href{https://doi.org/10.1186/s12866-017-0983-9}{10.1186/s12866-017-0983-9}.
+
+\leavevmode\hypertarget{ref-Gorzelak2015}{}%
+6. \textbf{Gorzelak MA}, \textbf{Gill SK}, \textbf{Tasnim N},
+\textbf{Ahmadi-Vand Z}, \textbf{Jay M}, \textbf{Gibson DL}. 2015.
+Methods for improving human gut microbiome data by reducing variability
+through sample processing and storage of stool. PLOS ONE
+\textbf{10}:e0134802.
+doi:\href{https://doi.org/10.1371/journal.pone.0134802}{10.1371/journal.pone.0134802}.
+
+\leavevmode\hypertarget{ref-Dominianni2014}{}%
+7. \textbf{Dominianni C}, \textbf{Wu J}, \textbf{Hayes RB}, \textbf{Ahn
+J}. 2014. Comparison of methods for fecal microbiome biospecimen
+collection. BMC Microbiology \textbf{14}:103.
+doi:\href{https://doi.org/10.1186/1471-2180-14-103}{10.1186/1471-2180-14-103}.
+
+\leavevmode\hypertarget{ref-BautistadelosSantos2016}{}%
+8. \textbf{Santos QMB-d los}, \textbf{Schroeder JL}, \textbf{Blakemore
+O}, \textbf{Moses J}, \textbf{Haffey M}, \textbf{Sloan W}, \textbf{Pinto
+AJ}. 2016. The impact of sampling, PCR, and sequencing replication on
+discerning changes in drinking water bacterial community over diurnal
+time-scales. Water Research \textbf{90}:216--224.
+doi:\href{https://doi.org/10.1016/j.watres.2015.12.010}{10.1016/j.watres.2015.12.010}.
+
+\leavevmode\hypertarget{ref-Sinha2015}{}%
+9. \textbf{Sinha R}, \textbf{Chen J}, \textbf{Amir A}, \textbf{Vogtmann
+E}, \textbf{Shi J}, \textbf{Inman KS}, \textbf{Flores R},
+\textbf{Sampson J}, \textbf{Knight R}, \textbf{Chia N}. 2015. Collecting
+fecal samples for microbiome analyses in epidemiology studies. Cancer
+Epidemiology Biomarkers \& Prevention \textbf{25}:407--416.
+doi:\href{https://doi.org/10.1158/1055-9965.epi-15-0951}{10.1158/1055-9965.epi-15-0951}.
+
+\leavevmode\hypertarget{ref-Amir2017b}{}%
+10. \textbf{Amir A}, \textbf{McDonald D}, \textbf{Navas-Molina JA},
+\textbf{Debelius J}, \textbf{Morton JT}, \textbf{Hyde E},
+\textbf{Robbins-Pianka A}, \textbf{Knight R}. 2017. Correcting for
+microbial blooms in fecal samples during room-temperature shipping.
+mSystems \textbf{2}:e00199--16.
+doi:\href{https://doi.org/10.1128/msystems.00199-16}{10.1128/msystems.00199-16}.
+
+\leavevmode\hypertarget{ref-Lauber2010}{}%
+11. \textbf{Lauber CL}, \textbf{Zhou N}, \textbf{Gordon JI},
+\textbf{Knight R}, \textbf{Fierer N}. 2010. Effect of storage conditions
+on the assessment of bacterial community structure in soil and
+human-associated samples. FEMS Microbiology Letters \textbf{307}:80--86.
+doi:\href{https://doi.org/10.1111/j.1574-6968.2010.01965.x}{10.1111/j.1574-6968.2010.01965.x}.
+
+\leavevmode\hypertarget{ref-Song2016}{}%
+12. \textbf{Song SJ}, \textbf{Amir A}, \textbf{Metcalf JL},
+\textbf{Amato KR}, \textbf{Xu ZZ}, \textbf{Humphrey G}, \textbf{Knight
+R}. 2016. Preservation methods differ in fecal microbiome stability,
+affecting suitability for field studies. mSystems \textbf{1}:e00021--16.
+doi:\href{https://doi.org/10.1128/msystems.00021-16}{10.1128/msystems.00021-16}.
+
+\leavevmode\hypertarget{ref-Costea2017}{}%
+13. \textbf{Costea PI}, \textbf{Zeller G}, \textbf{Sunagawa S},
+\textbf{Pelletier E}, \textbf{Alberti A}, \textbf{Levenez F},
+\textbf{Tramontano M}, \textbf{Driessen M}, \textbf{Hercog R},
+\textbf{Jung F-E}, \textbf{Kultima JR}, \textbf{Hayward MR},
+\textbf{Coelho LP}, \textbf{Allen-Vercoe E}, \textbf{Bertrand L},
+\textbf{Blaut M}, \textbf{Brown JRM}, \textbf{Carton T},
+\textbf{Cools-Portier S}, \textbf{Daigneault M}, \textbf{Derrien M},
+\textbf{Druesne A}, \textbf{Vos WM de}, \textbf{Finlay BB},
+\textbf{Flint HJ}, \textbf{Guarner F}, \textbf{Hattori M},
+\textbf{Heilig H}, \textbf{Luna RA}, \textbf{Hylckama Vlieg J van},
+\textbf{Junick J}, \textbf{Klymiuk I}, \textbf{Langella P},
+\textbf{Chatelier EL}, \textbf{Mai V}, \textbf{Manichanh C},
+\textbf{Martin JC}, \textbf{Mery C}, \textbf{Morita H}, \textbf{O'Toole
+PW}, \textbf{Orvain C}, \textbf{Patil KR}, \textbf{Penders J},
+\textbf{Persson S}, \textbf{Pons N}, \textbf{Popova M}, \textbf{Salonen
+A}, \textbf{Saulnier D}, \textbf{Scott KP}, \textbf{Singh B},
+\textbf{Slezak K}, \textbf{Veiga P}, \textbf{Versalovic J}, \textbf{Zhao
+L}, \textbf{Zoetendal EG}, \textbf{Ehrlich SD}, \textbf{Dore J},
+\textbf{Bork P}. 2017. Towards standards for human fecal sample
+processing in metagenomic studies. Nature Biotechnology.
+doi:\href{https://doi.org/10.1038/nbt.3960}{10.1038/nbt.3960}.
+
+\leavevmode\hypertarget{ref-Haas2011}{}%
+14. \textbf{Haas BJ}, \textbf{Gevers D}, \textbf{Earl AM},
+\textbf{Feldgarden M}, \textbf{Ward DV}, \textbf{Giannoukos G},
+\textbf{Ciulla D}, \textbf{Tabbaa D}, \textbf{Highlander SK},
+\textbf{Sodergren E}, \textbf{Methe B}, \textbf{DeSantis TZ},
+\textbf{Petrosino JF}, \textbf{Knight R}, \textbf{and BWB}. 2011.
+Chimeric 16S rRNA sequence formation and detection in sanger and
+454-pyrosequenced PCR amplicons. Genome Research \textbf{21}:494--504.
+doi:\href{https://doi.org/10.1101/gr.112730.110}{10.1101/gr.112730.110}.
+
+\leavevmode\hypertarget{ref-Sinha2017}{}%
+15. \textbf{Sinha R}, \textbf{Abu-Ali G}, \textbf{Vogtmann E},
+\textbf{Fodor AA}, \textbf{Ren B}, \textbf{Amir A}, \textbf{Schwager E},
+\textbf{Crabtree J}, \textbf{Ma S}, \textbf{Abnet CC}, \textbf{Knight
+R}, \textbf{White O}, \textbf{Huttenhower C}. 2017. Assessment of
+variation in microbial community amplicon sequencing by the microbiome
+quality control (MBQC) project consortium. Nature Biotechnology.
+doi:\href{https://doi.org/10.1038/nbt.3981}{10.1038/nbt.3981}.
+
+\leavevmode\hypertarget{ref-Meisel2016}{}%
+16. \textbf{Meisel JS}, \textbf{Hannigan GD}, \textbf{Tyldsley AS},
+\textbf{SanMiguel AJ}, \textbf{Hodkinson BP}, \textbf{Zheng Q},
+\textbf{Grice EA}. 2016. Skin microbiome surveys are strongly influenced
+by experimental design. Journal of Investigative Dermatology
+\textbf{136}:947--956.
+doi:\href{https://doi.org/10.1016/j.jid.2016.01.016}{10.1016/j.jid.2016.01.016}.
+
+\leavevmode\hypertarget{ref-Caporaso2010}{}%
+17. \textbf{Caporaso JG}, \textbf{Lauber CL}, \textbf{Walters WA},
+\textbf{Berg-Lyons D}, \textbf{Lozupone CA}, \textbf{Turnbaugh PJ},
+\textbf{Fierer N}, \textbf{Knight R}. 2010. Global patterns of 16S rRNA
+diversity at a depth of millions of sequences per sample. Proceedings of
+the National Academy of Sciences \textbf{108}:4516--4522.
+doi:\href{https://doi.org/10.1073/pnas.1000080107}{10.1073/pnas.1000080107}.
+
+\leavevmode\hypertarget{ref-Kozich2013}{}%
+18. \textbf{Kozich JJ}, \textbf{Westcott SL}, \textbf{Baxter NT},
+\textbf{Highlander SK}, \textbf{Schloss PD}. 2013. Development of a
+dual-index sequencing strategy and curation pipeline for analyzing
+amplicon sequence data on the MiSeq illumina sequencing platform.
+Applied and Environmental Microbiology \textbf{79}:5112--5120.
+doi:\href{https://doi.org/10.1128/aem.01043-13}{10.1128/aem.01043-13}.
+
+\leavevmode\hypertarget{ref-Schloss2011}{}%
+19. \textbf{Schloss PD}, \textbf{Gevers D}, \textbf{Westcott SL}. 2011.
+Reducing the effects of PCR amplification and sequencing artifacts on
+16S rRNA-based studies. PLoS ONE \textbf{6}:e27310.
+doi:\href{https://doi.org/10.1371/journal.pone.0027310}{10.1371/journal.pone.0027310}.
+
+\leavevmode\hypertarget{ref-Bokulich2012}{}%
+20. \textbf{Bokulich NA}, \textbf{Subramanian S}, \textbf{Faith JJ},
+\textbf{Gevers D}, \textbf{Gordon JI}, \textbf{Knight R}, \textbf{Mills
+DA}, \textbf{Caporaso JG}. 2012. Quality-filtering vastly improves
+diversity estimates from illumina amplicon sequencing. Nature Methods
+\textbf{10}:57--59.
+doi:\href{https://doi.org/10.1038/nmeth.2276}{10.1038/nmeth.2276}.
+
+\leavevmode\hypertarget{ref-Parada2015}{}%
+21. \textbf{Parada AE}, \textbf{Needham DM}, \textbf{Fuhrman JA}. 2015.
+Every base matters: Assessing small subunit rRNA primers for marine
+microbiomes with mock communities, time series and global field samples.
+Environmental Microbiology \textbf{18}:1403--1414.
+doi:\href{https://doi.org/10.1111/1462-2920.13023}{10.1111/1462-2920.13023}.
+
+\leavevmode\hypertarget{ref-Wang1996}{}%
+22. \textbf{Wang GCY}, \textbf{Wang Y}. 1996. The frequency of chimeric
+molecules as a consequence of PCR co-amplification of 16S rRNA genes
+from different bacterial species. Microbiology \textbf{142}:1107--1114.
+doi:\href{https://doi.org/10.1099/13500872-142-5-1107}{10.1099/13500872-142-5-1107}.
+
+\leavevmode\hypertarget{ref-Potapov2017}{}%
+23. \textbf{Potapov V}, \textbf{Ong JL}. 2017. Examining sources of
+error in PCR by single-molecule sequencing. PLOS ONE
+\textbf{12}:e0169774.
+doi:\href{https://doi.org/10.1371/journal.pone.0169774}{10.1371/journal.pone.0169774}.
+
+\leavevmode\hypertarget{ref-Kebschull2015}{}%
+24. \textbf{Kebschull JM}, \textbf{Zador AM}. 2015. Sources of
+PCR-induced distortions in high-throughput sequencing data sets. Nucleic
+Acids Research gkv717.
+doi:\href{https://doi.org/10.1093/nar/gkv717}{10.1093/nar/gkv717}.
+
+\leavevmode\hypertarget{ref-McInerney2014}{}%
+25. \textbf{McInerney P}, \textbf{Adams P}, \textbf{Hadi MZ}. 2014.
+Error rate comparison during polymerase chain reaction by DNA
+polymerase. Molecular Biology International \textbf{2014}:1--8.
+doi:\href{https://doi.org/10.1155/2014/287430}{10.1155/2014/287430}.
+
+\leavevmode\hypertarget{ref-Cline1996}{}%
+26. \textbf{Cline J}. 1996. PCR fidelity of pfu DNA polymerase and other
+thermostable DNA polymerases. Nucleic Acids Research
+\textbf{24}:3546--3551.
+doi:\href{https://doi.org/10.1093/nar/24.18.3546}{10.1093/nar/24.18.3546}.
+
+\leavevmode\hypertarget{ref-Acinas2005}{}%
+27. \textbf{Acinas SG}, \textbf{Sarma-Rupavtarm R}, \textbf{Klepac-Ceraj
+V}, \textbf{Polz MF}. 2005. PCR-induced sequence artifacts and bias:
+Insights from comparison of two 16S rRNA clone libraries constructed
+from the same sample. Applied and Environmental Microbiology
+\textbf{71}:8966--8969.
+doi:\href{https://doi.org/10.1128/aem.71.12.8966-8969.2005}{10.1128/aem.71.12.8966-8969.2005}.
+
+\leavevmode\hypertarget{ref-Polz1998}{}%
+28. \textbf{Polz MF}, \textbf{Cavanaugh CM}. 1998. Bias in
+template-to-product ratios in multitemplate PCR. Applied and
+Environmental Microbiology \textbf{64}:3724--3730.
+
+\leavevmode\hypertarget{ref-Brooks2015}{}%
+29. \textbf{Brooks JP}, \textbf{David J Edwards}, \textbf{Harwich MD},
+\textbf{Rivera MC}, \textbf{Fettweis JM}, \textbf{Serrano MG},
+\textbf{Reris RA}, \textbf{Sheth NU}, \textbf{Huang B}, \textbf{Girerd
+P}, \textbf{Strauss JF}, \textbf{Jefferson KK}, \textbf{Buck GA}. 2015.
+The truth about metagenomics: Quantifying and counteracting bias in 16S
+rRNA studies. BMC Microbiology \textbf{15}.
+doi:\href{https://doi.org/10.1186/s12866-015-0351-6}{10.1186/s12866-015-0351-6}.
+
+\leavevmode\hypertarget{ref-Suzuki1996}{}%
+30. \textbf{Suzuki MT}, \textbf{Giovannoni SJ}. 1996. Bias caused by
+template annealing in the amplification of mixtures of 16S rRNA genes by
+pcr. Applied and environmental microbiology \textbf{62}:625--630.
+
+\leavevmode\hypertarget{ref-Chandler1997}{}%
+31. \textbf{Chandler D}, \textbf{Fredrickson J}, \textbf{Brockman F}.
+1997. Effect of pcr template concentration on the composition and
+distribution of total community 16S rDNA clone libraries. Molecular
+Ecology \textbf{6}:475--482.
+
+\leavevmode\hypertarget{ref-Wagner1994}{}%
+32. \textbf{Wagner A}, \textbf{Blackstone N}, \textbf{Cartwright P},
+\textbf{Dick M}, \textbf{Misof B}, \textbf{Snow P}, \textbf{Wagner GP},
+\textbf{Bartels J}, \textbf{Murtha M}, \textbf{Pendleton J}. 1994.
+Surveys of gene families using polymerase chain reaction: PCR selection
+and pcr drift. Systematic Biology \textbf{43}:250--261.
+
+\leavevmode\hypertarget{ref-Hansen1998}{}%
+33. \textbf{Hansen MC}, \textbf{Tolker-Nielsen T}, \textbf{Givskov M},
+\textbf{Molin S}. 1998. Biased 16S rDNA pcr amplification caused by
+interference from dna flanking the template region. FEMS Microbiology
+Ecology \textbf{26}:141--149.
+
+\leavevmode\hypertarget{ref-Kennedy2014}{}%
+34. \textbf{Kennedy K}, \textbf{Hall MW}, \textbf{Lynch MDJ},
+\textbf{Moreno-Hagelsieb G}, \textbf{Neufeld JD}. 2014. Evaluating bias
+of illumina-based bacterial 16S rRNA gene profiles. Applied and
+Environmental Microbiology \textbf{80}:5717--5722.
+doi:\href{https://doi.org/10.1128/aem.01451-14}{10.1128/aem.01451-14}.
+
+\leavevmode\hypertarget{ref-Edgar2011}{}%
+35. \textbf{Edgar RC}, \textbf{Haas BJ}, \textbf{Clemente JC},
+\textbf{Quince C}, \textbf{Knight R}. 2011. UCHIME improves sensitivity
+and speed of chimera detection. Bioinformatics \textbf{27}:2194--2200.
+doi:\href{https://doi.org/10.1093/bioinformatics/btr381}{10.1093/bioinformatics/btr381}.
+
+\leavevmode\hypertarget{ref-Edgar2017}{}%
+36. \textbf{Edgar RC}. 2017. UNBIAS: An attempt to correct abundance
+bias in 16S sequencing, with limited success.
+doi:\href{https://doi.org/10.1101/124149}{10.1101/124149}.
+
+\leavevmode\hypertarget{ref-Gohl2016}{}%
+37. \textbf{Gohl DM}, \textbf{Vangay P}, \textbf{Garbe J},
+\textbf{MacLean A}, \textbf{Hauge A}, \textbf{Becker A}, \textbf{Gould
+TJ}, \textbf{Clayton JB}, \textbf{Johnson TJ}, \textbf{Hunter R},
+\textbf{Knights D}, \textbf{Beckman KB}. 2016. Systematic improvement of
+amplicon marker gene methods for increased accuracy in microbiome
+studies. Nature Biotechnology \textbf{34}:942--949.
+doi:\href{https://doi.org/10.1038/nbt.3601}{10.1038/nbt.3601}.
+
+\leavevmode\hypertarget{ref-Salter2014}{}%
+38. \textbf{Salter SJ}, \textbf{Cox MJ}, \textbf{Turek EM},
+\textbf{Calus ST}, \textbf{Cookson WO}, \textbf{Moffatt MF},
+\textbf{Turner P}, \textbf{Parkhill J}, \textbf{Loman NJ},
+\textbf{Walker AW}. 2014. Reagent and laboratory contamination can
+critically impact sequence-based microbiome analyses. BMC Biology
+\textbf{12}.
+doi:\href{https://doi.org/10.1186/s12915-014-0087-z}{10.1186/s12915-014-0087-z}.
+
+\leavevmode\hypertarget{ref-Callahan2016}{}%
+39. \textbf{Callahan BJ}, \textbf{McMurdie PJ}, \textbf{Rosen MJ},
+\textbf{Han AW}, \textbf{Johnson AJA}, \textbf{Holmes SP}. 2016. DADA2:
+High-resolution sample inference from illumina amplicon data. Nature
+Methods \textbf{13}:581--583.
+doi:\href{https://doi.org/10.1038/nmeth.3869}{10.1038/nmeth.3869}.
+
+\leavevmode\hypertarget{ref-Edgar2016}{}%
+40. \textbf{Edgar RC}. 2016. UNOISE2: Improved error-correction for
+illumina 16S and ITS amplicon sequencing.
+doi:\href{https://doi.org/10.1101/081257}{10.1101/081257}.
+
+\leavevmode\hypertarget{ref-Amir2017a}{}%
+41. \textbf{Amir A}, \textbf{McDonald D}, \textbf{Navas-Molina JA},
+\textbf{Kopylova E}, \textbf{Morton JT}, \textbf{Xu ZZ},
+\textbf{Kightley EP}, \textbf{Thompson LR}, \textbf{Hyde ER},
+\textbf{Gonzalez A}, \textbf{Knight R}. 2017. Deblur rapidly resolves
+single-nucleotide community sequence patterns. mSystems \textbf{2}.
+doi:\href{https://doi.org/10.1128/msystems.00191-16}{10.1128/msystems.00191-16}.
+
+\leavevmode\hypertarget{ref-Schloss2018}{}%
+42. \textbf{Schloss PD}. 2018. Identifying and overcoming threats to
+reproducibility, replicability, robustness, and generalizability in
+microbiome research. mBio \textbf{9}.
+doi:\href{https://doi.org/10.1128/mbio.00525-18}{10.1128/mbio.00525-18}.
+
+\leavevmode\hypertarget{ref-Seekatz2016}{}%
+43. \textbf{Seekatz AM}, \textbf{Rao K}, \textbf{Santhosh K},
+\textbf{Young VB}. 2016. Dynamics of the fecal microbiome in patients
+with recurrent and nonrecurrent clostridium difficile infection. Genome
+Medicine \textbf{8}.
+doi:\href{https://doi.org/10.1186/s13073-016-0298-8}{10.1186/s13073-016-0298-8}.
+
+\leavevmode\hypertarget{ref-Schloss2009}{}%
+44. \textbf{Schloss PD}, \textbf{Westcott SL}, \textbf{Ryabin T},
+\textbf{Hall JR}, \textbf{Hartmann M}, \textbf{Hollister EB},
+\textbf{Lesniewski RA}, \textbf{Oakley BB}, \textbf{Parks DH},
+\textbf{Robinson CJ}, \textbf{Sahl JW}, \textbf{Stres B},
+\textbf{Thallinger GG}, \textbf{Horn DJV}, \textbf{Weber CF}. 2009.
+Introducing mothur: Open-source, platform-independent,
+community-supported software for describing and comparing microbial
+communities. Applied and Environmental Microbiology
+\textbf{75}:7537--7541.
+doi:\href{https://doi.org/10.1128/aem.01541-09}{10.1128/aem.01541-09}.
+
+\leavevmode\hypertarget{ref-Rognes2016}{}%
+45. \textbf{Rognes T}, \textbf{Flouri T}, \textbf{Nichols B},
+\textbf{Quince C}, \textbf{Mahé F}. 2016. VSEARCH: A versatile open
+source tool for metagenomics. PeerJ \textbf{4}:e2584.
+doi:\href{https://doi.org/10.7717/peerj.2584}{10.7717/peerj.2584}.
+
+\leavevmode\hypertarget{ref-Westcott2017}{}%
+46. \textbf{Westcott SL}, \textbf{Schloss PD}. 2017. OptiClust, an
+improved method for assigning amplicon-based sequence data to
+operational taxonomic units. mSphere \textbf{2}:e00073--17.
+doi:\href{https://doi.org/10.1128/mspheredirect.00073-17}{10.1128/mspheredirect.00073-17}.
+
+\leavevmode\hypertarget{ref-r_citation_2018}{}%
+47. \textbf{R Core Team}. 2018. R: A language and environment for
+statistical computing. R Foundation for Statistical Computing, Vienna,
+Austria.
+
+\leavevmode\hypertarget{ref-Tidyverse2017}{}%
+48. \textbf{Wickham H}. 2017. Tidyverse: Easily install and load the
+'tidyverse'.
+
+\leavevmode\hypertarget{ref-Vegan2018}{}%
+49. \textbf{Oksanen J}, \textbf{Blanchet FG}, \textbf{Friendly M},
+\textbf{Kindt R}, \textbf{Legendre P}, \textbf{McGlinn D},
+\textbf{Minchin PR}, \textbf{O'Hara RB}, \textbf{Simpson GL},
+\textbf{Solymos P}, \textbf{Stevens MHH}, \textbf{Szoecs E},
+\textbf{Wagner H}. 2018. Vegan: Community ecology package.
 
 \newpage
+
+\hypertarget{figure-lengends}{%
+\subsection{Figure Lengends}\label{figure-lengends}}
 
 \textbf{Figure 1. The error rate of assembled sequence reads increases
 with the number of rounds of PCR used and follows the relative error
@@ -690,323 +1061,10 @@ replicates of sequencing the same mock community or between the the
 human stool samples did not vary by number of rounds of PCR or by
 polymerase.
 
-\newpage
-
 \textbf{Figure S1: With the exception of the seuqence data generated
 using the Kappa polymerase, the ratio of the two \emph{Salmonella
 enterica} V4 sequences to a value was lower than the expected ratio of
 6:1.} The two \emph{S. enterica} V4 sequences differed by a single base.
 
-\newpage
-
-1. \textbf{Gilbert JA}, \textbf{Jansson JK}, \textbf{Knight R}. 2018.
-Earth microbiome project and global systems biology. mSystems
-\textbf{3}.
-doi:\href{http://dx.doi.org/10.1128/msystems.00217-17}{10.1128/msystems.00217-17}.
-
-2. \textbf{Consortium HM}. 2012. Structure, function and diversity of
-the healthy human microbiome. Nature \textbf{486}:207--214.
-doi:\href{http://dx.doi.org/10.1038/nature11234}{10.1038/nature11234}.
-
-3. \textbf{Schloss PD}, \textbf{Girard RA}, \textbf{Martin T},
-\textbf{Edwards J}, \textbf{Thrash JC}. 2016. Status of the archaeal and
-bacterial census: an update. mBio \textbf{7}.
-doi:\href{http://dx.doi.org/10.1128/mbio.00201-16}{10.1128/mbio.00201-16}.
-
-4. \textbf{Luo T}, \textbf{Srinivasan U}, \textbf{Ramadugu K},
-\textbf{Shedden KA}, \textbf{Neiswanger K}, \textbf{Trumble E},
-\textbf{Li JJ}, \textbf{McNeil DW}, \textbf{Crout RJ}, \textbf{Weyant
-RJ}, \textbf{Marazita ML}, \textbf{Foxman B}. 2016. Effects of specimen
-collection methodologies and storage conditions on the short-term
-stability of oral microbiome taxonomy. Applied and Environmental
-Microbiology \textbf{82}:5519--5529.
-doi:\href{http://dx.doi.org/10.1128/aem.01132-16}{10.1128/aem.01132-16}.
-
-5. \textbf{Bassis CM}, \textbf{Nicholas M. Moore}, \textbf{Lolans K},
-\textbf{Seekatz AM}, \textbf{Weinstein RA}, \textbf{Young VB},
-\textbf{Hayden MK}. 2017. Comparison of stool versus rectal swab samples
-and storage conditions on bacterial community profiles. BMC Microbiology
-\textbf{17}.
-doi:\href{http://dx.doi.org/10.1186/s12866-017-0983-9}{10.1186/s12866-017-0983-9}.
-
-6. \textbf{Gorzelak MA}, \textbf{Gill SK}, \textbf{Tasnim N},
-\textbf{Ahmadi-Vand Z}, \textbf{Jay M}, \textbf{Gibson DL}. 2015.
-Methods for improving human gut microbiome data by reducing variability
-through sample processing and storage of stool. PLOS ONE
-\textbf{10}:e0134802.
-doi:\href{http://dx.doi.org/10.1371/journal.pone.0134802}{10.1371/journal.pone.0134802}.
-
-7. \textbf{Dominianni C}, \textbf{Wu J}, \textbf{Hayes RB}, \textbf{Ahn
-J}. 2014. Comparison of methods for fecal microbiome biospecimen
-collection. BMC Microbiology \textbf{14}:103.
-doi:\href{http://dx.doi.org/10.1186/1471-2180-14-103}{10.1186/1471-2180-14-103}.
-
-8. \textbf{Santos QMB-d los}, \textbf{Schroeder JL}, \textbf{Blakemore
-O}, \textbf{Moses J}, \textbf{Haffey M}, \textbf{Sloan W}, \textbf{Pinto
-AJ}. 2016. The impact of sampling, PCR, and sequencing replication on
-discerning changes in drinking water bacterial community over diurnal
-time-scales. Water Research \textbf{90}:216--224.
-doi:\href{http://dx.doi.org/10.1016/j.watres.2015.12.010}{10.1016/j.watres.2015.12.010}.
-
-9. \textbf{Sinha R}, \textbf{Chen J}, \textbf{Amir A}, \textbf{Vogtmann
-E}, \textbf{Shi J}, \textbf{Inman KS}, \textbf{Flores R},
-\textbf{Sampson J}, \textbf{Knight R}, \textbf{Chia N}. 2015. Collecting
-fecal samples for microbiome analyses in epidemiology studies. Cancer
-Epidemiology Biomarkers \& Prevention \textbf{25}:407--416.
-doi:\href{http://dx.doi.org/10.1158/1055-9965.epi-15-0951}{10.1158/1055-9965.epi-15-0951}.
-
-10. \textbf{Amir A}, \textbf{McDonald D}, \textbf{Navas-Molina JA},
-\textbf{Debelius J}, \textbf{Morton JT}, \textbf{Hyde E},
-\textbf{Robbins-Pianka A}, \textbf{Knight R}. 2017. Correcting for
-microbial blooms in fecal samples during room-temperature shipping.
-mSystems \textbf{2}:e00199--16.
-doi:\href{http://dx.doi.org/10.1128/msystems.00199-16}{10.1128/msystems.00199-16}.
-
-11. \textbf{Lauber CL}, \textbf{Zhou N}, \textbf{Gordon JI},
-\textbf{Knight R}, \textbf{Fierer N}. 2010. Effect of storage conditions
-on the assessment of bacterial community structure in soil and
-human-associated samples. FEMS Microbiology Letters \textbf{307}:80--86.
-doi:\href{http://dx.doi.org/10.1111/j.1574-6968.2010.01965.x}{10.1111/j.1574-6968.2010.01965.x}.
-
-12. \textbf{Song SJ}, \textbf{Amir A}, \textbf{Metcalf JL},
-\textbf{Amato KR}, \textbf{Xu ZZ}, \textbf{Humphrey G}, \textbf{Knight
-R}. 2016. Preservation methods differ in fecal microbiome stability,
-affecting suitability for field studies. mSystems \textbf{1}:e00021--16.
-doi:\href{http://dx.doi.org/10.1128/msystems.00021-16}{10.1128/msystems.00021-16}.
-
-13. \textbf{Costea PI}, \textbf{Zeller G}, \textbf{Sunagawa S},
-\textbf{Pelletier E}, \textbf{Alberti A}, \textbf{Levenez F},
-\textbf{Tramontano M}, \textbf{Driessen M}, \textbf{Hercog R},
-\textbf{Jung F-E}, \textbf{Kultima JR}, \textbf{Hayward MR},
-\textbf{Coelho LP}, \textbf{Allen-Vercoe E}, \textbf{Bertrand L},
-\textbf{Blaut M}, \textbf{Brown JRM}, \textbf{Carton T},
-\textbf{Cools-Portier S}, \textbf{Daigneault M}, \textbf{Derrien M},
-\textbf{Druesne A}, \textbf{Vos WM de}, \textbf{Finlay BB},
-\textbf{Flint HJ}, \textbf{Guarner F}, \textbf{Hattori M},
-\textbf{Heilig H}, \textbf{Luna RA}, \textbf{Hylckama Vlieg J van},
-\textbf{Junick J}, \textbf{Klymiuk I}, \textbf{Langella P},
-\textbf{Chatelier EL}, \textbf{Mai V}, \textbf{Manichanh C},
-\textbf{Martin JC}, \textbf{Mery C}, \textbf{Morita H}, \textbf{O'Toole
-PW}, \textbf{Orvain C}, \textbf{Patil KR}, \textbf{Penders J},
-\textbf{Persson S}, \textbf{Pons N}, \textbf{Popova M}, \textbf{Salonen
-A}, \textbf{Saulnier D}, \textbf{Scott KP}, \textbf{Singh B},
-\textbf{Slezak K}, \textbf{Veiga P}, \textbf{Versalovic J}, \textbf{Zhao
-L}, \textbf{Zoetendal EG}, \textbf{Ehrlich SD}, \textbf{Dore J},
-\textbf{Bork P}. 2017. Towards standards for human fecal sample
-processing in metagenomic studies. Nature Biotechnology.
-doi:\href{http://dx.doi.org/10.1038/nbt.3960}{10.1038/nbt.3960}.
-
-14. \textbf{Haas BJ}, \textbf{Gevers D}, \textbf{Earl AM},
-\textbf{Feldgarden M}, \textbf{Ward DV}, \textbf{Giannoukos G},
-\textbf{Ciulla D}, \textbf{Tabbaa D}, \textbf{Highlander SK},
-\textbf{Sodergren E}, \textbf{Methe B}, \textbf{DeSantis TZ},
-\textbf{Petrosino JF}, \textbf{Knight R}, \textbf{and BWB}. 2011.
-Chimeric 16S rRNA sequence formation and detection in sanger and
-454-pyrosequenced PCR amplicons. Genome Research \textbf{21}:494--504.
-doi:\href{http://dx.doi.org/10.1101/gr.112730.110}{10.1101/gr.112730.110}.
-
-15. \textbf{Sinha R}, \textbf{Abu-Ali G}, \textbf{Vogtmann E},
-\textbf{Fodor AA}, \textbf{Ren B}, \textbf{Amir A}, \textbf{Schwager E},
-\textbf{Crabtree J}, \textbf{Ma S}, \textbf{Abnet CC}, \textbf{Knight
-R}, \textbf{White O}, \textbf{Huttenhower C}. 2017. Assessment of
-variation in microbial community amplicon sequencing by the microbiome
-quality control (MBQC) project consortium. Nature Biotechnology.
-doi:\href{http://dx.doi.org/10.1038/nbt.3981}{10.1038/nbt.3981}.
-
-16. \textbf{Meisel JS}, \textbf{Hannigan GD}, \textbf{Tyldsley AS},
-\textbf{SanMiguel AJ}, \textbf{Hodkinson BP}, \textbf{Zheng Q},
-\textbf{Grice EA}. 2016. Skin microbiome surveys are strongly influenced
-by experimental design. Journal of Investigative Dermatology
-\textbf{136}:947--956.
-doi:\href{http://dx.doi.org/10.1016/j.jid.2016.01.016}{10.1016/j.jid.2016.01.016}.
-
-17. \textbf{Caporaso JG}, \textbf{Lauber CL}, \textbf{Walters WA},
-\textbf{Berg-Lyons D}, \textbf{Lozupone CA}, \textbf{Turnbaugh PJ},
-\textbf{Fierer N}, \textbf{Knight R}. 2010. Global patterns of 16S rRNA
-diversity at a depth of millions of sequences per sample. Proceedings of
-the National Academy of Sciences \textbf{108}:4516--4522.
-doi:\href{http://dx.doi.org/10.1073/pnas.1000080107}{10.1073/pnas.1000080107}.
-
-18. \textbf{Kozich JJ}, \textbf{Westcott SL}, \textbf{Baxter NT},
-\textbf{Highlander SK}, \textbf{Schloss PD}. 2013. Development of a
-dual-index sequencing strategy and curation pipeline for analyzing
-amplicon sequence data on the MiSeq illumina sequencing platform.
-Applied and Environmental Microbiology \textbf{79}:5112--5120.
-doi:\href{http://dx.doi.org/10.1128/aem.01043-13}{10.1128/aem.01043-13}.
-
-19. \textbf{Schloss PD}, \textbf{Gevers D}, \textbf{Westcott SL}. 2011.
-Reducing the effects of PCR amplification and sequencing artifacts on
-16S rRNA-based studies. PLoS ONE \textbf{6}:e27310.
-doi:\href{http://dx.doi.org/10.1371/journal.pone.0027310}{10.1371/journal.pone.0027310}.
-
-20. \textbf{Bokulich NA}, \textbf{Subramanian S}, \textbf{Faith JJ},
-\textbf{Gevers D}, \textbf{Gordon JI}, \textbf{Knight R}, \textbf{Mills
-DA}, \textbf{Caporaso JG}. 2012. Quality-filtering vastly improves
-diversity estimates from illumina amplicon sequencing. Nature Methods
-\textbf{10}:57--59.
-doi:\href{http://dx.doi.org/10.1038/nmeth.2276}{10.1038/nmeth.2276}.
-
-21. \textbf{Parada AE}, \textbf{Needham DM}, \textbf{Fuhrman JA}. 2015.
-Every base matters: assessing small subunit rRNA primers for marine
-microbiomes with mock communities, time series and global field samples.
-Environmental Microbiology \textbf{18}:1403--1414.
-doi:\href{http://dx.doi.org/10.1111/1462-2920.13023}{10.1111/1462-2920.13023}.
-
-22. \textbf{Wang GCY}, \textbf{Wang Y}. 1996. The frequency of chimeric
-molecules as a consequence of PCR co-amplification of 16S rRNA genes
-from different bacterial species. Microbiology \textbf{142}:1107--1114.
-doi:\href{http://dx.doi.org/10.1099/13500872-142-5-1107}{10.1099/13500872-142-5-1107}.
-
-23. \textbf{Potapov V}, \textbf{Ong JL}. 2017. Examining sources of
-error in PCR by single-molecule sequencing. PLOS ONE
-\textbf{12}:e0169774.
-doi:\href{http://dx.doi.org/10.1371/journal.pone.0169774}{10.1371/journal.pone.0169774}.
-
-24. \textbf{Kebschull JM}, \textbf{Zador AM}. 2015. Sources of
-PCR-induced distortions in high-throughput sequencing data sets. Nucleic
-Acids Research gkv717.
-doi:\href{http://dx.doi.org/10.1093/nar/gkv717}{10.1093/nar/gkv717}.
-
-25. \textbf{McInerney P}, \textbf{Adams P}, \textbf{Hadi MZ}. 2014.
-Error rate comparison during polymerase chain reaction by DNA
-polymerase. Molecular Biology International \textbf{2014}:1--8.
-doi:\href{http://dx.doi.org/10.1155/2014/287430}{10.1155/2014/287430}.
-
-26. \textbf{Cline J}. 1996. PCR fidelity of pfu DNA polymerase and other
-thermostable DNA polymerases. Nucleic Acids Research
-\textbf{24}:3546--3551.
-doi:\href{http://dx.doi.org/10.1093/nar/24.18.3546}{10.1093/nar/24.18.3546}.
-
-27. \textbf{Acinas SG}, \textbf{Sarma-Rupavtarm R}, \textbf{Klepac-Ceraj
-V}, \textbf{Polz MF}. 2005. PCR-induced sequence artifacts and bias:
-Insights from comparison of two 16S rRNA clone libraries constructed
-from the same sample. Applied and Environmental Microbiology
-\textbf{71}:8966--8969.
-doi:\href{http://dx.doi.org/10.1128/aem.71.12.8966-8969.2005}{10.1128/aem.71.12.8966-8969.2005}.
-
-28. \textbf{Polz MF}, \textbf{Cavanaugh CM}. 1998. Bias in
-template-to-product ratios in multitemplate PCR. Applied and
-Environmental Microbiology \textbf{64}:3724--3730.
-
-29. \textbf{Brooks JP}, \textbf{David J Edwards}, \textbf{Harwich MD},
-\textbf{Rivera MC}, \textbf{Fettweis JM}, \textbf{Serrano MG},
-\textbf{Reris RA}, \textbf{Sheth NU}, \textbf{Huang B}, \textbf{Girerd
-P}, \textbf{Strauss JF}, \textbf{Jefferson KK}, \textbf{Buck GA}. 2015.
-The truth about metagenomics: quantifying and counteracting bias in 16S
-rRNA studies. BMC Microbiology \textbf{15}.
-doi:\href{http://dx.doi.org/10.1186/s12866-015-0351-6}{10.1186/s12866-015-0351-6}.
-
-30. \textbf{Suzuki MT}, \textbf{Giovannoni SJ}. 1996. Bias caused by
-template annealing in the amplification of mixtures of 16S rRNA genes by
-pCR. Applied and environmental microbiology \textbf{62}:625--630.
-
-31. \textbf{Chandler D}, \textbf{Fredrickson J}, \textbf{Brockman F}.
-1997. Effect of pCR template concentration on the composition and
-distribution of total community 16S rDNA clone libraries. Molecular
-Ecology \textbf{6}:475--482.
-
-32. \textbf{Wagner A}, \textbf{Blackstone N}, \textbf{Cartwright P},
-\textbf{Dick M}, \textbf{Misof B}, \textbf{Snow P}, \textbf{Wagner GP},
-\textbf{Bartels J}, \textbf{Murtha M}, \textbf{Pendleton J}. 1994.
-Surveys of gene families using polymerase chain reaction: PCR selection
-and pCR drift. Systematic Biology \textbf{43}:250--261.
-
-33. \textbf{Hansen MC}, \textbf{Tolker-Nielsen T}, \textbf{Givskov M},
-\textbf{Molin S}. 1998. Biased 16S rDNA pCR amplification caused by
-interference from dNA flanking the template region. FEMS Microbiology
-Ecology \textbf{26}:141--149.
-
-34. \textbf{Kennedy K}, \textbf{Hall MW}, \textbf{Lynch MDJ},
-\textbf{Moreno-Hagelsieb G}, \textbf{Neufeld JD}. 2014. Evaluating bias
-of illumina-based bacterial 16S rRNA gene profiles. Applied and
-Environmental Microbiology \textbf{80}:5717--5722.
-doi:\href{http://dx.doi.org/10.1128/aem.01451-14}{10.1128/aem.01451-14}.
-
-35. \textbf{Edgar RC}, \textbf{Haas BJ}, \textbf{Clemente JC},
-\textbf{Quince C}, \textbf{Knight R}. 2011. UCHIME improves sensitivity
-and speed of chimera detection. Bioinformatics \textbf{27}:2194--2200.
-doi:\href{http://dx.doi.org/10.1093/bioinformatics/btr381}{10.1093/bioinformatics/btr381}.
-
-36. \textbf{Edgar RC}. 2017. UNBIAS: An attempt to correct abundance
-bias in 16S sequencing, with limited success.
-doi:\href{http://dx.doi.org/10.1101/124149}{10.1101/124149}.
-
-37. \textbf{Gohl DM}, \textbf{Vangay P}, \textbf{Garbe J},
-\textbf{MacLean A}, \textbf{Hauge A}, \textbf{Becker A}, \textbf{Gould
-TJ}, \textbf{Clayton JB}, \textbf{Johnson TJ}, \textbf{Hunter R},
-\textbf{Knights D}, \textbf{Beckman KB}. 2016. Systematic improvement of
-amplicon marker gene methods for increased accuracy in microbiome
-studies. Nature Biotechnology \textbf{34}:942--949.
-doi:\href{http://dx.doi.org/10.1038/nbt.3601}{10.1038/nbt.3601}.
-
-38. \textbf{Salter SJ}, \textbf{Cox MJ}, \textbf{Turek EM},
-\textbf{Calus ST}, \textbf{Cookson WO}, \textbf{Moffatt MF},
-\textbf{Turner P}, \textbf{Parkhill J}, \textbf{Loman NJ},
-\textbf{Walker AW}. 2014. Reagent and laboratory contamination can
-critically impact sequence-based microbiome analyses. BMC Biology
-\textbf{12}.
-doi:\href{http://dx.doi.org/10.1186/s12915-014-0087-z}{10.1186/s12915-014-0087-z}.
-
-39. \textbf{Callahan BJ}, \textbf{McMurdie PJ}, \textbf{Rosen MJ},
-\textbf{Han AW}, \textbf{Johnson AJA}, \textbf{Holmes SP}. 2016. DADA2:
-High-resolution sample inference from illumina amplicon data. Nature
-Methods \textbf{13}:581--583.
-doi:\href{http://dx.doi.org/10.1038/nmeth.3869}{10.1038/nmeth.3869}.
-
-40. \textbf{Edgar RC}. 2016. UNOISE2: improved error-correction for
-illumina 16S and ITS amplicon sequencing.
-doi:\href{http://dx.doi.org/10.1101/081257}{10.1101/081257}.
-
-41. \textbf{Amir A}, \textbf{McDonald D}, \textbf{Navas-Molina JA},
-\textbf{Kopylova E}, \textbf{Morton JT}, \textbf{Xu ZZ},
-\textbf{Kightley EP}, \textbf{Thompson LR}, \textbf{Hyde ER},
-\textbf{Gonzalez A}, \textbf{Knight R}. 2017. Deblur rapidly resolves
-single-nucleotide community sequence patterns. mSystems \textbf{2}.
-doi:\href{http://dx.doi.org/10.1128/msystems.00191-16}{10.1128/msystems.00191-16}.
-
-42. \textbf{Schloss PD}. 2018. Identifying and overcoming threats to
-reproducibility, replicability, robustness, and generalizability in
-microbiome research. mBio \textbf{9}.
-doi:\href{http://dx.doi.org/10.1128/mbio.00525-18}{10.1128/mbio.00525-18}.
-
-43. \textbf{Seekatz AM}, \textbf{Rao K}, \textbf{Santhosh K},
-\textbf{Young VB}. 2016. Dynamics of the fecal microbiome in patients
-with recurrent and nonrecurrent clostridium difficile infection. Genome
-Medicine \textbf{8}.
-doi:\href{http://dx.doi.org/10.1186/s13073-016-0298-8}{10.1186/s13073-016-0298-8}.
-
-44. \textbf{Schloss PD}, \textbf{Westcott SL}, \textbf{Ryabin T},
-\textbf{Hall JR}, \textbf{Hartmann M}, \textbf{Hollister EB},
-\textbf{Lesniewski RA}, \textbf{Oakley BB}, \textbf{Parks DH},
-\textbf{Robinson CJ}, \textbf{Sahl JW}, \textbf{Stres B},
-\textbf{Thallinger GG}, \textbf{Horn DJV}, \textbf{Weber CF}. 2009.
-Introducing mothur: Open-source, platform-independent,
-community-supported software for describing and comparing microbial
-communities. Applied and Environmental Microbiology
-\textbf{75}:7537--7541.
-doi:\href{http://dx.doi.org/10.1128/aem.01541-09}{10.1128/aem.01541-09}.
-
-45. \textbf{Rognes T}, \textbf{Flouri T}, \textbf{Nichols B},
-\textbf{Quince C}, \textbf{Mah{é} F}. 2016. VSEARCH: a versatile open
-source tool for metagenomics. PeerJ \textbf{4}:e2584.
-doi:\href{http://dx.doi.org/10.7717/peerj.2584}{10.7717/peerj.2584}.
-
-46. \textbf{Westcott SL}, \textbf{Schloss PD}. 2017. OptiClust, an
-improved method for assigning amplicon-based sequence data to
-operational taxonomic units. mSphere \textbf{2}:e00073--17.
-doi:\href{http://dx.doi.org/10.1128/mspheredirect.00073-17}{10.1128/mspheredirect.00073-17}.
-
-47. \textbf{R Core Team}. 2018. R: A language and environment for
-statistical computing. R Foundation for Statistical ComputingVienna,
-Austria.
-
-48. \textbf{Wickham H}. 2017. tidyverse: Easily install and load the
-'tidyverse'.
-
-49. \textbf{Oksanen J}, \textbf{Blanchet FG}, \textbf{Friendly M},
-\textbf{Kindt R}, \textbf{Legendre P}, \textbf{McGlinn D},
-\textbf{Minchin PR}, \textbf{O'Hara RB}, \textbf{Simpson GL},
-\textbf{Solymos P}, \textbf{Stevens MHH}, \textbf{Szoecs E},
-\textbf{Wagner H}. 2018. vegan: Community ecology package.
 
 \end{document}

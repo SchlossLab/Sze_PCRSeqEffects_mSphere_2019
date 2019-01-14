@@ -145,6 +145,9 @@ The authors thank the study participants in ERIN whose samples were utilized. We
 
 \newpage
 
+## Figure Lengends
+
+
 **Figure 1. The error rate of assembled sequence reads increases with the number of rounds of PCR used and follows the relative error rates provided by the manufacturers; however, much of this error is mediated by denoising.**
 
 **Figure 2. The fraction of all denoised sequences that were identified as being chimeric increases with the number of rounds of PCR used and varied between polymerases.** (A) Sequencing of a mock community allowed us to identify the total fraction of sequences that were chimeric as well as the sensitivity and specificity of UCHIME to detect those chimeras. (B) Sequencing of four human stool samples after using one of five different polymerases again demonstrated increased rate of chimera formation with increasing number of rounds of PCR and variation across polymerases.
@@ -157,8 +160,4 @@ The authors thank the study participants in ERIN whose samples were utilized. We
 
 **Figure 6. There is little evidence for PCR drift adversely impacting the results of amplicon studies.** The average distance between replicates of sequencing the same mock community or between the the human stool samples did not vary by number of rounds of PCR or by polymerase.
 
-\newpage
-
 **Figure S1: With the exception of the seuqence data generated using the Kappa polymerase, the ratio of the two *Salmonella enterica* V4 sequences to a value was lower than the expected ratio of 6:1.** The two *S. enterica* V4 sequences differed by a single base.
-
-\newpage
