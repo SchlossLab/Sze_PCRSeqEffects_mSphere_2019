@@ -225,7 +225,7 @@ data/mothur/stool.trim.contigs.good.unique.good.filter.unique.precluster.pick.pi
 #
 ################################################################################
 
-data/process/taxa_mapping.shared data/process/mock_bias.tsv data/process/mock_bias_salmonella.tsv:\
+data/mothur/taxa_mapping.shared data/process/mock_bias_species.tsv data/process/mock_bias_salmonella.tsv:\
 		code/bias_analysis.R\
 		data/mothur/zymo_mock.filter.pick.unique.fasta\
 		data/mothur/mock.trim.contigs.good.unique.good.filter.unique.pick.error.summary\
@@ -286,7 +286,7 @@ results/figures/chimera_plots.pdf : code/plot_chimera_rate.R\
 	Rscript $<
 
 results/figures/species_bias.pdf : code/plot_species_bias.R\
-																		data/process/mock_bias.tsv
+																		data/process/mock_bias_species.tsv
 	Rscript $<
 
 results/figures/salmonella_bias.pdf : code/plot_salmonella_bias.R\
@@ -341,7 +341,9 @@ submission/figure_6.eps : results/figures/drift.pdf
 submission/figure_s1.eps : results/figures/salmonella_bias.pdf
 	pdf2ps $< $@
 
-
+figures : submission/figure_1.eps submission/figure_2.eps submission/figure_3.eps\
+					submission/figure_4.eps submission/figure_5.eps submission/figure_6.eps\
+					submission/figure_s1.eps
 
 
 $(FINAL)/manuscript.% : 			\ #include data files that are needed for paper don't leave this line with a : \

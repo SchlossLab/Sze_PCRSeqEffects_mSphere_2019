@@ -1,8 +1,9 @@
 library(tidyverse)
-library(viridis)
 library(RColorBrewer)
-
 library(cowplot)
+
+polymerase_colors <- brewer.pal(5, "RdBu")
+polymerase_colors[3] <- "darkgray"
 
 facet_names <- c(
 									'percentage' = "Total chimeras (%)",
@@ -24,7 +25,7 @@ mock <- read_tsv("data/process/error_chimera_rates.tsv") %>%
 		scale_color_manual(name=NULL,
 												breaks=c("ACC", "K", "PHU", "PL", "Q5"),
 												labels=c("Accuprime", "Kappa", "Phusion", "Platinum", "Q5"),
-												values=viridis(5)) +
+												values=polymerase_colors) +
 		theme_classic() +
 		theme(
 			panel.spacing=unit(0.5,"cm"),
