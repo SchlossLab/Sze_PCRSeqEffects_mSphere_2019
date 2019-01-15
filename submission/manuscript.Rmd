@@ -11,6 +11,36 @@ geometry: margin=1.0in
 bibliography: references.bib
 ---
 
+```{r knitr_settings, tidy=TRUE, eval=TRUE, echo=FALSE, cache=FALSE}
+options(tidyverse.quiet = TRUE)
+
+library(tidyverse)
+library(knitr)
+
+opts_chunk$set("tidy" = TRUE)
+opts_chunk$set("echo" = FALSE)
+opts_chunk$set("eval" = TRUE)
+opts_chunk$set("warning" = FALSE)
+opts_chunk$set("message" = FALSE)
+opts_chunk$set("cache" = FALSE)
+
+inline_hook <- function(x){
+	print(x)
+	if(is.list(x)){
+		x <- unlist(x)
+	}
+	if(is.numeric(x)){
+		if(abs(x - round(x)) < .Machine$double.eps^0.5){
+			paste(format(x,big.mark=',', digits=0, scientific=FALSE))
+		} else {
+			paste(format(x,big.mark=',', digits=2, nsmall=3, scientific=FALSE))
+		}
+	} else {
+    	paste(x)      
+	}
+}
+knitr::knit_hooks$set(inline=inline_hook)
+```
 
 # Assessing the Differences in 16S rRNA Gene Sequencing Due to High Fidelity DNA Polymerase
 
@@ -65,22 +95,141 @@ To better understand the impact of DNA polymerase choice on PCR artifacts, we se
 
 ## Results
 
-***Sequencing errors vary by the number of cycles and the DNA polymerase used in PCR.*** The presence of sequence errors can confound the ability to accurately classify 16S rRNA gene sequences and group sequences into operational taxonomic units (OTUs). More importantly, sequencing errors themselves can alter the representation of the community. Therefore, it is important to minimize the number of sequencing errors. Using a widely-used approach that generates the lowest reported error rate, we quantified the error rate by sequencing the V4 region of the 16S rRNA genes from an 8 member mock community. We also removed any contigs that were at least three bases more similar to a chimera of two references than to a single reference sequence [ref]. Regardless of the polymerase, the error rate increased with the number of rounds of amplification. Using 30 rounds of PCR is a common approach across diverse types of samples. Among the data generated using 30 rounds of PCR the Accuprime polymerase had the highest error rate (i.e. 0.XXX%) followed by the Platinum (i.e. 0.XXX%), Phusion (i.e. 0.XXX%), Kappa (i.e. 0.XXX%), and Q5 (i.e. 0.XXX%) polymerases (Figure 1). When we applied the pre.clustering denoising step, which merges the counts of reads within 2 nt of a more abundant sequence, the error rates dropped considerably such that the Platinum polymerase had the highest error rate (i.e. 0.XXX%) followed by the Accuprime (i.e. 0.XXX%), Phusion (i.e. 0.XXX%), Kappa (i.e. 0.XXX%), and Q5 (i.e. 0.XXX%) polymerases (Figure 1). Although specific recommendations are difficult to make because the impact of the actual community structure and concentration of the initial DNA template are likely to have an impact on the results, it is clear that using as few PCR cycles as necessary and a polymerase with the lowest possible error rate is a good guide to minimizing the impact of polymerase on the error rate.
+```{r errors}
+error <- read_tsv("../data/process/error_chimera_rates.tsv") %>%
+	filter(rounds == 30) %>%
+	select(polymerase, contig_error, pc_error) %>%
+	mutate(contig_error = 100 * contig_error,
+				pc_error = 100 * pc_error)
+```
+
+***Sequencing errors vary by the number of cycles and the DNA polymerase used in PCR.*** The presence of sequence errors can confound the ability to accurately classify 16S rRNA gene sequences and group sequences into operational taxonomic units (OTUs). More importantly, sequencing errors themselves can alter the representation of the community. Therefore, it is important to minimize the number of sequencing errors. Using a widely-used approach that generates the lowest reported error rate, we quantified the error rate by sequencing the V4 region of the 16S rRNA genes from an 8 member mock community. We also removed any contigs that were at least three bases more similar to a chimera of two references than to a single reference sequence [@Kozich2013; @Schloss2011; @Quince2011]. Regardless of the polymerase, the error rate increased with the number of rounds of amplification (Figure 1). Using 30 rounds of PCR is a common approach across diverse types of samples. Among the data generated using 30 rounds of PCR the Accuprime polymerase had the highest error rate (i.e. `r filter(error, polymerase=="ACC") %>% select(contig_error)`%) followed by the Platinum (i.e. `r filter(error, polymerase=="PL") %>% select(contig_error)`%), Phusion (i.e. `r filter(error, polymerase=="PHU") %>% select(contig_error)`%), Kappa (i.e. `r filter(error, polymerase=="K") %>% select(contig_error)`%), and Q5 (i.e. `r filter(error, polymerase=="Q5") %>% select(contig_error)`%) polymerases (Figure 1). When we applied the pre.clustering denoising step, which merges the counts of reads within 2 nt of a more abundant sequence, the error rates dropped considerably such that the Platinum polymerase had the highest error rate (i.e. `r filter(error, polymerase=="PL") %>% select(pc_error)`%) followed by the Accuprime (i.e. `r filter(error, polymerase=="ACC") %>% select(pc_error)`%), Q5 (i.e. `r filter(error, polymerase=="Q5") %>% select(pc_error)`%), Phusion (i.e. `r filter(error, polymerase=="PHU") %>% select(pc_error)`%), and Kappa (i.e. `r filter(error, polymerase=="K") %>% select(pc_error)`%) polymerases (Figure 1). Although specific recommendations are difficult to make because the impact of the actual community structure and concentration of the initial DNA template are likely to have an impact on the results, it is clear that using as few PCR cycles as necessary and a polymerase with the lowest possible error rate is a good guide to minimizing the impact of polymerase on the error rate.
 
 
-***The fraction of sequences identified as being chimeric varies by the number of cycles and the DNA polymerase used in PCR.*** Chimeric PCR products can significantly confound downstream analyses. Although numerous bioinformatic tools exist to identify and remove chimeric sequences with high specificity, their sensitivity is relatively low and can be reduced by the presence of sequencing errors. We identified those contigs that were at least three bases more similar to a chimera of two references than to a single reference sequence. As expected from previous studies, the number of chimeras increased with rounds of amplification. Interestingly, the fraction of chimeric sequences from the mock community varied by the type of polymerase used. After 30 rounds of PCR, the Platinum polymerase had the highest chimera rate (i.e. XX%) followed by the Q5 (i.e. XX%), Phusion (i.e. XX%), Kappa (i.e. XX%), and Accuprime (i.e. XX%) polymerases. We used the UChime algorithm to detect chimeras in our pre-clustered mock community data and calculate the algorithm's sensitivity and specificity. For all polymerases, the specificity was above XX% and showed a weak association with the number of cycles used. There was considerable inter-polymerase and inter-round of amplification variation in the sensitivity of UChime to detect the chimeras from the mock community. This suggested that the residual error rate after pre-clustering the sequence data did not compromise the sensitivity. In general, the sensitivity of UChime varied between XX and XX%. The generalizability of these results is limited because we used a single mock community with limited genetic diversity. Although we did not know the true chimera rate for our four human stool samples, we were able to calculate the fraction of sequences that UChime identified as being chimeric. These results followed those from the mock communities; additional rounds of amplification significantly increased the rate of chimeras and there was variation between the polymerases that we used. Although it was not possible to identify the features of a polymerase that resulted in higher rates of chimeras, it is clear that using the smallest number of PCR cycles possible will minimize the impacts of chimeras.
+```{r chimeras}
+chimera <- read_tsv("../data/process/error_chimera_rates.tsv") %>%
+	filter(rounds == 30) %>%
+	select(polymerase, pc_frac_chimera) %>%
+	mutate(pc_frac_chimera = 100 * pc_frac_chimera)
+
+min_specificity <- read_tsv("../data/process/error_chimera_rates.tsv") %>%
+	filter(rounds == 30) %>%
+	select(vsearch_sens, vsearch_spec) %>%
+	summarize(min_spec = min(100 * vsearch_spec))
+
+sensitivity <- read_tsv("../data/process/error_chimera_rates.tsv") %>%
+	filter(rounds == 30) %>%
+	select(vsearch_sens, vsearch_spec) %>%
+	summarize(min = min(100*vsearch_sens), max=max(100*vsearch_sens))
+
+inline_hook <- function(x){
+	print(x)
+	if(is.list(x)){
+		x <- unlist(x)
+	}
+	if(is.numeric(x)){
+		if(abs(x - round(x)) < .Machine$double.eps^0.5){
+			paste(format(x,big.mark=',', digits=0, scientific=FALSE))
+		} else {
+			paste(format(x,big.mark=',', digits=1, nsmall=1, scientific=FALSE))
+		}
+	} else {
+    	paste(x)      
+	}
+}
+knitr::knit_hooks$set(inline=inline_hook)
+
+```
+
+***The fraction of sequences identified as being chimeric varies by the number of cycles and the DNA polymerase used in PCR.*** Chimeric PCR products can significantly confound downstream analyses. Although numerous bioinformatic tools exist to identify and remove chimeric sequences with high specificity, their sensitivity is relatively low and can be reduced by the presence of sequencing errors. We identified those contigs that were at least three bases more similar to a chimera of two references than to a single reference sequence. As expected from previous studies, the number of chimeras increased with rounds of amplification (Figure 2A). Interestingly, the fraction of chimeric sequences from the mock community varied by the type of polymerase used. After 30 rounds of PCR, the Platinum polymerase had the highest chimera rate (i.e. `r filter(chimera, polymerase=="PL") %>% select(pc_frac_chimera)`%) followed by the Q5 (i.e. `r filter(chimera, polymerase=="Q5") %>% select(pc_frac_chimera)`%), Phusion (i.e. `r filter(chimera, polymerase=="PHU") %>% select(pc_frac_chimera)`%), Kappa (i.e. `r filter(chimera, polymerase=="K") %>% select(pc_frac_chimera)`%), and Accuprime (i.e. `r filter(chimera, polymerase=="ACC") %>% select(pc_frac_chimera)`%) polymerases. We used the UChime algorithm to detect chimeras in our pre-clustered mock community data and calculate the algorithm's sensitivity and specificity (Figure 2A). For all polymerases, the specificity was above `r min_specificity`% and showed a weak association with the number of cycles used. There was considerable inter-polymerase and inter-round of amplification variation in the sensitivity of UChime to detect the chimeras from the mock community. This suggested that the residual error rate after pre-clustering the sequence data did not compromise the sensitivity. The sensitivity of UChime varied between `r sensitivity["min"]` and `r sensitivity["max"]`%. The generalizability of these results is limited because we used a single mock community with limited genetic diversity. Although we did not know the true chimera rate for our four human stool samples, we were able to calculate the fraction of sequences that UChime identified as being chimeric  (Figure 2B). These results followed those from the mock communities; additional rounds of amplification significantly increased the rate of chimeras and there was variation between the polymerases that we used. Although it was not possible to identify the features of a polymerase that resulted in higher rates of chimeras, it is clear that using the smallest number of PCR cycles possible will minimize the impacts of chimeras.
 
 
-***At the sequence level, PCR amplification bias is subtle.*** Since researchers began using PCR to sequence 16S rRNA genes there has been concern that amplifying fragments from a mixed template pool could lead to a biased representation in the pool of products and would confound downstream analyses. The mock community was generated by mixing equal amounts of genomic DNA from each of the 8 bacteria resulting in uneven representation of the *rrn* operons across the bacteria. The vendor of the mock community subjects each lot of genomic DNA to shotgun sequencing to more accurately quantify the actual abundance of each organism in the community. We compared the expected relative abundance of the 16S rRNA genes from each bacterium in the mock community to the data we generated across rounds of amplification and polymerase. Interestingly, for some bacteria, their representation became less biased with additional rounds of PCR (e.g. *L. fermentum*), while others became more biased (e.g. *E. faecalis*), and others had little change (e.g. *B. subtilis*). The percentage of bases in the V4 region that were guanines or cytosines was not predictive of the amount of bias. Across the strains there was no variation in the length of their V4 regions and they each had the same sequence in the region that the primers annealed. One of the bacteria represented in the mock community, *S. enterica*, had 6 identical copies of the V4 region and 1 copy that differed from those by one nucleotide. The dominant copy had a thymidine and the rare copy had a guanine. We used the sequence data to calculate the ratio of the dominant to rare variants from *S. enterica* (Figure. XXX). The Accuprime, Phusion, Platinum, and Q5 polymerases converged to a ratio of 5.XXX; however, the ratio for the Kappa polymerase varied between 6.XXX and 7.XXX for 25 to 35 rounds of PCR. Given the subtle nature of the variation in the relative abundances of each 16S rRNA gene fragment, it was not possible to create generalizable rules that would explain the bias and the previous observation regarding the guanine and cytosine relative abundance was not observed with our data.
+```{r species_bias}
+salmonella_data <- read_tsv("../data/process/mock_bias_salmonella.tsv") %>%	filter(rounds == 35)
+
+others <- salmonella_data %>% filter(polymerase != "K") %>% summarize(mean = mean(ratio))
+
+kappa <- read_tsv("../data/process/mock_bias_salmonella.tsv") %>% filter(polymerase == "K", rounds >=25, rounds <= 35) %>% select(ratio) %>% summarize(min = min(ratio), max = max(ratio))
+```
+
+***At the sequence level, PCR amplification bias is subtle.*** Since researchers began using PCR to sequence 16S rRNA genes there has been concern that amplifying fragments from a mixed template pool could lead to a biased representation in the pool of products and would confound downstream analyses. The mock community was generated by mixing equal amounts of genomic DNA from each of the 8 bacteria resulting in uneven representation of the *rrn* operons across the bacteria. The vendor of the mock community subjects each lot of genomic DNA to shotgun sequencing to more accurately quantify the actual abundance of each organism in the community. We compared the expected relative abundance of the 16S rRNA genes from each bacterium in the mock community to the data we generated across rounds of amplification and polymerase (Figure 3). Interestingly, for some bacteria, their representation became less biased with additional rounds of PCR (e.g. *L. fermentum*), while others became more biased (e.g. *E. faecalis*), and others had little change (e.g. *B. subtilis*). The percentage of bases in the V4 region that were guanines or cytosines was not predictive of the amount of bias. Across the strains there was no variation in the length of their V4 regions and they each had the same sequence in the region that the primers annealed. One of the bacteria represented in the mock community, *S. enterica*, had 6 identical copies of the V4 region and 1 copy that differed from those by one nucleotide. The dominant copy had a thymidine and the rare copy had a guanine. We used the sequence data to calculate the ratio of the dominant to rare variants from *S. enterica* (Figure S1). The Accuprime, Phusion, Platinum, and Q5 polymerases converged to a ratio of `r others`; however, the ratio for the Kappa polymerase varied between `r kappa["min"]` and `r kappa["max"]` for 25 to 35 rounds of PCR. Given the subtle nature of the variation in the relative abundances of each 16S rRNA gene fragment, it was not possible to create generalizable rules that would explain the bias and the previous observation regarding the guanine and cytosine relative abundance was not observed with our data.
 
 
-***At the community level, the effects of PCR amplification bias grow with additional rounds of PCR.*** Because the distance between samples and across rounds of PCR could be artificially inflated due to sequencing errors and chimeras, we used analyzed the alpha and beta diversity of the mock community data at different phases of the sequence curation pipeline. First, we removed the chimeras from the mock community data as described above and mapped the individual reads to the OTUs that the 16S rRNA gene fragments would cluster into if there were no sequencing errors. This gave us a community distribution that reflected the distribution following PCR without any artifacts. Alpha diversity metrics such as richness and Shannon and Inverse Simpson diversity metrics increased with the number of rounds of PCR for all polymerases except for the Kappa polymerase, where the richness remained constant but the diversity decreased. These data suggest that PCR had the effect of making the community distribution more even than it was originally. Next, we used the true sequence diversity, but removed chimeras based on mapping reads to all possible chimeras between reference sequences, and clustered the reads to OTUs. The same trends were observed as with perfect sequence data except that the richness and diversity metrics trended higher. Finally, we used the observed sequence data and used the UCHIME algorithm to identify chimeras. Again, we observed the same trends as with the other analyses except the richness and diversity metrics trended higher. These comparisons demonstrated that although the bias at the sequence level was subtle, PCR does have a bias that is exacerbated by errors and chimeras. When we measured the Bray-Curtis distance between the communities observed after 25 rounds of amplification and those at 30 and 35 rounds of amplification the distances between 25 and 35 rounds were higher than between 25 and 30 rounds for each of the polymerases by an average of 0.XX units. The Platinum polymerase varied the most across rounds of amplification (25 vs 30 rounds: 0.XX; 25 vs 35 rounds: 0.XX). Although the distances between samples were small, the ordination of these distances showed a clear change in community structure with increasing rounds of PCR. This observation was supported by our statistical analysis, which revealed that the number of rounds of PCR (R^2^=0.XX, P=0.XXXX) was a larger factor than the choice of polymerase (R^2^=0.XX, P=0.XXXX). These results demonstrate that subtle differences in relative abundances can have an impact on overall community structure. This variation underscores the importance of only comparing sequence data that have been generated using the same PCR conditions.
+```{r community_bias}
+mock_beta <- read_tsv("../data/process/mock_beta_diversity.tsv") %>%
+	separate(rows, into=c("row_round", "row_poly", row="row_mock")) %>%
+	separate(columns, into=c("col_round", "col_poly", row="col_mock")) %>%
+	filter(row_poly == col_poly, row_round == "25x", method == "vsearch") %>%
+	select(col_round, row_poly, distances)
+
+mean_diff <- mock_beta %>%
+	group_by(row_poly) %>%
+	spread(key = col_round, value = distances) %>%
+	mutate(diff = `35x` - `30x`) %>%
+	ungroup() %>%
+	summarize(mean = mean(diff))
+
+pl <- mock_beta %>% filter(row_poly == "PL")
 
 
-***The choice of polymerase or the number of rounds of amplification have little impact on the relative interpretation of community-wide metrics of diversity.*** The biases that we observed at the population and community levels using mock community data appeared to be small relative to the expected differences between biological samples. To study this further, we calculated alpha and beta-diversity metrics using the human stool samples for each of the polymerases and rounds of amplification. We calculated the number of observed OTUs, Shannon diversity, inverse Simpson diversity index for each condition and donor. Although there were clear differences between conditions, the relative ordering of the stool samples did not meaningfully vary across conditions. When we characterized the variation between rounds of amplification using human stool samples, the distance between the 25 and 30 rounds and 25 and 35 rounds varied considerably between samples and polymerases. In general the inter-round variation was lowest for the data generated using the Kappa and Accuprime polymerases. The data generated using the Platinum polymerase was consistent across rounds, but it was more biased than these polymerases. Considering the average distance across the four samples varied between 0.XX and 0.XX, regardless of the polymerases and number of rounds of amplification, any bias due to amplification is unlikely to obscure community-wide differences between samples. In support of this was our principle coordinates analysis of the Bray-Curtis distances, which revealed distinct clusters by donor. Within each cluster there were no obvious patterns related to the polymerase or number of rounds of PCR. However, our statistical analysis using adonis revealed statistically significant differences in the community structures with the subject explaining the most variation (R^2^=0.XXX, P=0.XXXX), followed by the number of rounds of PCR (R^2^=0.XXX, P=0.XXXX) and the choice of polymerase (R^2^=0.XXX, P=0.XXXX). Together, these results indicate that for a coarse analysis of communities, the choice of number of rounds of amplification or polymerase are not important, but that they must be consistent across samples. It is difficult to develop a specific recommendation based on the level of bias across rounds of PCR or polymerases; however, the general suggestion is to use as few rounds of amplification as possible.
+mock_vegan <- read_tsv("../data/process/vegan_mock.tsv")
+stopifnot(mock_vegan$p < 0.001)
 
 
-***There is little evidence of a relationship between polymerase or number of rounds of amplification on PCR drift.*** There have been concerns that the same template DNA subjected to the same PCR conditions could result in different representations of communities because of random drift. To test this, we determined the average Bray-Curtis distance between replicate reactions using the same polymerase and number of rounds of amplification. Using the mock community data there were no obvious trends. The average Bray-Curtis distance within a set of conditions varied by 0.XX to 0.XX units. Although we did not obtain replicates of each of the stool samples, the intra-sample variation for each set of conditions was consistent and varied between 0.XX and 0.XX units. These data suggest that amplicon sequencing is robust to random variation in amplification and that any differences are likely to be smaller than what is considered biologically relevant.
+inline_hook <- function(x){
+	print(x)
+	if(is.list(x)){
+		x <- unlist(x)
+	}
+	if(is.numeric(x)){
+		if(abs(x - round(x)) < .Machine$double.eps^0.5){
+			paste(format(x,big.mark=',', digits=0, scientific=FALSE))
+		} else {
+			paste(format(x,big.mark=',', digits=2, nsmall=2, scientific=FALSE))
+		}
+	} else {
+    	paste(x)      
+	}
+}
+knitr::knit_hooks$set(inline=inline_hook)
+```
+
+***At the community level, the effects of PCR amplification bias grow with additional rounds of PCR.*** Because the distance between samples and across rounds of PCR could be artificially inflated due to sequencing errors and chimeras, we used analyzed the alpha and beta diversity of the mock community data at different phases of the sequence curation pipeline (Figure 4). First, we removed the chimeras from the mock community data as described above and mapped the individual reads to the OTUs that the 16S rRNA gene fragments would cluster into if there were no sequencing errors. This gave us a community distribution that reflected the distribution following PCR without any artifacts. Alpha diversity metrics such as richness and Shannon and Inverse Simpson diversity metrics increased with the number of rounds of PCR for all polymerases except for the Kappa polymerase, where the richness remained constant but the diversity decreased (Figure 4A). These data suggest that PCR had the effect of making the community distribution more even than it was originally. Next, we used the true sequence diversity, but removed chimeras based on mapping reads to all possible chimeras between reference sequences, and clustered the reads to OTUs. The same trends were observed as with perfect sequence data except that the richness and diversity metrics trended higher (Figure 4A). Finally, we used the observed sequence data and used the UCHIME algorithm to identify chimeras. Again, we observed the same trends as with the other analyses except the richness and diversity metrics trended higher (Figure 4A). These comparisons demonstrated that although the bias at the sequence level was subtle, PCR does have a bias that is exacerbated by errors and chimeras. When we measured the Bray-Curtis distance between the communities observed after 25 rounds of amplification and those at 30 and 35 rounds of amplification the distances between 25 and 35 rounds were higher than between 25 and 30 rounds for each of the polymerases by an average of `r mean_diff` units (Figure 4B). The Platinum polymerase varied the most across rounds of amplification (25 vs 30 rounds: `r filter(pl, col_round=="30x") %>% select(distances)`; 25 vs 35 rounds: `r filter(pl, col_round=="35x") %>% select(distances)`). Although the distances between samples were small, the ordination of these distances showed a clear change in community structure with increasing rounds of PCR (Figure 4C). This observation was supported by our statistical analysis, which revealed that the number of rounds of PCR (R^2^=`r filter(mock_vegan, effects=="rounds") %>% select(r_sq)`, P<0.001) was a larger factor than the choice of polymerase (R^2^=`r filter(mock_vegan, effects=="polymerase") %>% select(r_sq)`, P<0.001). These results demonstrate that subtle differences in relative abundances can have an impact on overall community structure. This variation underscores the importance of only comparing sequence data that have been generated using the same PCR conditions.
+
+
+```{r stool_community}
+inter_diversity <- read_tsv("../data/process/stool_beta_diversity.tsv") %>%
+	separate(rows, into=c("row_round", "row_poly", row="row_sample")) %>%
+	separate(columns, into=c("col_round", "col_poly", row="col_sample")) %>%
+	filter(row_poly == col_poly, row_round == col_round) %>%
+	group_by(row_poly,row_round) %>%
+	summarize(mean = mean(distances)) %>%
+	ungroup() %>%
+	summarize(min=min(mean), max=max(mean))
+
+stool_vegan <- read_tsv("../data/process/vegan_stool.tsv")
+stopifnot(stool_vegan$p < 0.001)
+```
+
+***The choice of polymerase or the number of rounds of amplification have little impact on the relative interpretation of community-wide metrics of diversity.*** The biases that we observed at the population and community levels using mock community data appeared to be small relative to the expected differences between biological samples. To study this further, we calculated alpha and beta-diversity metrics using the human stool samples for each of the polymerases and rounds of amplification. We calculated the number of observed OTUs, Shannon diversity, inverse Simpson diversity index for each condition and donor (Figure 5A). Although there were clear differences between conditions, the relative ordering of the stool samples did not meaningfully vary across conditions. When we characterized the variation between rounds of amplification using human stool samples, the distance between the 25 and 30 rounds and 25 and 35 rounds varied considerably between samples and polymerases (Figure 5B). In general the inter-round variation was lowest for the data generated using the Kappa and Accuprime polymerases. The data generated using the Platinum polymerase was consistent across rounds, but it was more biased than these polymerases. Considering the average distance across the four samples varied between `r inter_diversity["min"]` and `r inter_diversity["max"]`, regardless of the polymerases and number of rounds of amplification, any bias due to amplification is unlikely to obscure community-wide differences between samples. In support of this was our principle coordinates analysis of the Bray-Curtis distances, which revealed distinct clusters by donor (Figure 5C). Within each cluster there were no obvious patterns related to the polymerase or number of rounds of PCR. However, our statistical analysis using adonis revealed statistically significant differences in the community structures with the subject explaining the most variation (R^2^=`r filter(stool_vegan, effects=="subject") %>% select(r_sq)`, P<0.001), followed by the number of rounds of PCR (R^2^=`r filter(stool_vegan, effects=="rounds") %>% select(r_sq)`, P<0.001) and the choice of polymerase (R^2^=`r filter(stool_vegan, effects=="polymerase") %>% select(r_sq)`, P<0.001). Together, these results indicate that for a coarse analysis of communities, the choice of number of rounds of amplification or polymerase are not important, but that they must be consistent across samples. It is difficult to develop a specific recommendation based on the level of bias across rounds of PCR or polymerases; however, the general suggestion is to use as few rounds of amplification as possible.
+
+
+```{r drift}
+mock_drift <- read_csv("../data/process/mock_beta_drift.csv") %>% filter(method == "vsearch") %>% group_by(rounds, polymerase) %>% summarize(mean = mean(ave_dist)) %>% ungroup() %>% summarize(min = min(mean), max = max(mean))
+
+stool_drift <- read_tsv("../data/process/stool_beta_diversity.tsv") %>%
+	separate(rows, into=c("rounds", "polymerase", "row_subject")) %>%
+	separate(columns, into=c("col_rounds", "col_polymerase", "col_subject")) %>%
+	filter(rounds == col_rounds, polymerase == col_polymerase) %>%
+	select(rounds, polymerase, row_subject, col_subject, distances) %>%
+	group_by(rounds, polymerase) %>%
+	summarize(ave_dist = mean(distances), n = n()) %>%
+	ungroup() %>%
+	filter(n == 6) %>%
+	summarize(min = min(ave_dist), max = max(ave_dist))
+```
+
+***There is little evidence of a relationship between polymerase or number of rounds of amplification on PCR drift.*** There have been concerns that the same template DNA subjected to the same PCR conditions could result in different representations of communities because of random drift. To test this, we determined the average Bray-Curtis distance between replicate reactions using the same polymerase and number of rounds of amplification (Figure 6). Using the mock community data there were no obvious trends. The average Bray-Curtis distance within a set of conditions varied by `r mock_drift["min"]` to `r mock_drift["max"]` units. Although we did not obtain replicates of each of the stool samples, the intra-sample variation for each set of conditions was consistent and varied between `r stool_drift["min"]` and `r stool_drift["max"]` units. These data suggest that amplicon sequencing is robust to random variation in amplification and that any differences are likely to be smaller than what is considered biologically relevant.
 
 
 
@@ -91,7 +240,7 @@ To better understand the impact of DNA polymerase choice on PCR artifacts, we se
 
 Our results suggest that the number of rounds of PCR and to a lesser degree the choice of DNA polymerase impact the analysis of 16S rRNA gene sequence data from bacterial communities. Although it was not possible to make direct connections between PCR conditions and specific sources of bias, we were able to identify general recommendations that reduce the amount of error, chimera formation, and bias. Researchers should strive to minimize the number of rounds of PCR and should use a high fidelity polymerase. Although specific PCR conditions impact the precise interpretation of the data, the effects were consistent and were smaller than the biological differences between individuals. Based on these observations, within a study, amplicons must be generated by consistent protocols to yield meaningful comparisons. When comparing across studies, values like richness, diversity, and relative abundances must be made in relative and not absolute terms.
 
-The observed sequencing error rates and alpha diversity metrics followed the manufacturers' measurements of their polymerases' fidelity. Accuprime and Platinum have fidelity that are approximately 10-times higher than that of Taq whereas the fidelity of Phusion, Q5, and Kappa are more than 100 times higher. Among these polymerases, the Kappa polymerase resulted in the the lowest error rate, lowest chimera rate, and least bias across rounds of PCR. Considering polymerase development is an active area of commercial development and it likely that new polymerases will come to market, it is important for researchers to understand how changing the polymerase impacts downstream analyses for their type of samples.
+The observed sequencing error rates and alpha diversity metrics followed the manufacturers' measurements of their polymerases' fidelity (Figure 1). Accuprime and Platinum have fidelity that are approximately 10-times higher than that of Taq whereas the fidelity of Phusion, Q5, and Kappa are more than 100 times higher. Among these polymerases, the Kappa polymerase resulted in the the lowest error rate, lowest chimera rate, and least bias across rounds of PCR. Considering polymerase development is an active area of commercial development and it likely that new polymerases will come to market, it is important for researchers to understand how changing the polymerase impacts downstream analyses for their type of samples.
 
 Over the past 20 years, a large literature has attempted to document various PCR biases and underscores the fact that data based on amplification of DNA from a mixed community are not a true representation of the actual community. In addition to obvious biases imposed by primer selection, other factors inherent in PCR can influence the representation of communities. Factors that can lead to preferential amplification of one fragment over another have included guanine and cytosine composition, length, flanking DNA composition, amount of DNA shearing, and number of rounds of PCR [@Kebschull2015; @Acinas2005; @Polz1998; @Brooks2015; @Suzuki1996; @Chandler1997; @Wagner1994; @Hansen1998]. In addition, environmental and reagent contaminants can also have a significant impact on the analysis of low biomass samples [@Salter2014]. Less well understood is the effect of phylogenetic diversity on bias and chimera formation. Communities with low phylogenetic diversity may be more prone to chimera formation since chimeras are more likely to form among closely related sequences [@Haas2011; @Edgar2011]. The interaction of these various influences on PCR artifacts are complex and difficult to tease apart. Minimizing the level of DNA shearing and using the fewest number of rounds of PCR with a polymerase that has the highest possible fidelity are strategies that can be employed to minimize the formation of chimeras. Although care should always be taken when choosing a polymerase for 16S rRNA gene sequencing, our observations show that the differences between a variety of polymerases are smaller than the actual biological variation in fecal communities between individuals. Therefore, if the biological signal of interest is similar to differences in fecal bacterial communities found between individuals, then the type of high fidelity DNA polymerase used will only minimally change the results.
 
@@ -111,11 +260,11 @@ Fecal samples were obtained from 4 individuals who were part of an earlier study
 
 
 ***PCR protocol.***
-Five high fidelity DNA polymerases were tested including AccuPrime^TM^ (ThermoFisher, MA, USA), KAPA HIFI (Roche, IN, USA), Phusion (New England Biolabs, MA, USA), Platinum (ThermoFisher, MA, USA), and Q5 (New England Biolabs, MA, USA). Manufacturer recommendations were followed except for the annealing and extension times, which were selected based on previously published protocols [@Kozich2013; @Gohl2016]. Primers targeting the V4 region of the 16S rRNA gene were used with modifications to generate MiSeq amplicon libraries [@Kozich2013; https://github.com/SchlossLab/MiSeq_WetLab_SOP/]. The number of rounds of PCR used for each sample and polymerase 15 and increased by 5 rounds up to 35 cycles. Insufficient PCR product was generated using 15 rounds and has not been included in our analysis.
+Five high fidelity DNA polymerases were tested including AccuPrime^TM^ (ThermoFisher, MA, USA), KAPA HIFI (Roche, IN, USA), Phusion (New England Biolabs, MA, USA), Platinum (ThermoFisher, MA, USA), and Q5 (New England Biolabs, MA, USA). Manufacturer recommendations were followed except for the annealing and extension times, which were selected based on previously published protocols [@Kozich2013; @Gohl2016]. Primers targeting the V4 region of the 16S rRNA gene were used with modifications to generate MiSeq amplicon libraries [@Kozich2013] (https://github.com/SchlossLab/MiSeq_WetLab_SOP/). The number of rounds of PCR used for each sample and polymerase 15 and increased by 5 rounds up to 35 cycles. Insufficient PCR product was generated using 15 rounds and has not been included in our analysis.
 
 
 ***Library generation and sequencing.***
-Each PCR condition (i.e. combination of polymerase and number of rounds of PCR) were replicated four times for the mock community and one time for each fecal sample. Libraries were generated as described previously [@Kozich2013; https://github.com/SchlossLab/MiSeq_WetLab_SOP/]. The libraries were sequenced using the Illumina MiSeq sequencing platform to generate paired 250-nt reads.
+Each PCR condition (i.e. combination of polymerase and number of rounds of PCR) were replicated four times for the mock community and one time for each fecal sample. Libraries were generated as described previously [@Kozich2013] (https://github.com/SchlossLab/MiSeq_WetLab_SOP/). The libraries were sequenced using the Illumina MiSeq sequencing platform to generate paired 250-nt reads.
 
 
 ***Sequence processing.***

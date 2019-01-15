@@ -270,6 +270,10 @@ data/process/stool_beta_diversity.tsv : code/stool_beta.R\
 		data/mothur/stool.trim.contigs.good.unique.good.filter.unique.precluster.pick.pick.opti_mcc.braycurtis.0.03.lt.ave.dist
 	Rscript code/stool_beta.R
 
+data/process/vegan_stool.tsv data/process/vegan_mock.tsv : code/vegan_analysis.R\
+		data/mothur/mock.trim.contigs.good.unique.good.filter.unique.pick.pick.precluster.vsearch.opti_mcc.braycurtis.0.03.lt.ave.dist\
+		data/mothur/stool.trim.contigs.good.unique.good.filter.unique.precluster.pick.pick.opti_mcc.braycurtis.0.03.lt.ave.dist
+	Rscript code/vegan_analysis.R
 
 ################################################################################
 #
@@ -348,6 +352,12 @@ figures : submission/figure_1.eps submission/figure_2.eps submission/figure_3.ep
 
 submission/manuscript.pdf : \
 						figures\
+						data/process/error_chimera_rates.tsv\
+						data/process/mock_bias_salmonella.tsv\
+						data/process/mock_beta_diversity.tsv\
+						data/process/vegan_stool.tsv\
+						data/process/stool_beta_diversity.tsv\
+						data/process/vegan_mock.tsv\
 						submission/mbio.csl\
 						submission/references.bib\
 						submission/manuscript.Rmd
@@ -356,8 +366,4 @@ submission/manuscript.pdf : \
 	rm submission/manuscript.utf8.md
 
 
-# write.paper : $(TABLES)/table_1.pdf $(TABLES)/table_2.pdf\ #customize to include
-# 				$(FIGS)/figure_1.pdf $(FIGS)/figure_2.pdf\	# appropriate tables and
-# 				$(FIGS)/figure_3.pdf $(FIGS)/figure_4.pdf\	# figures
-# 				$(FINAL)/manuscript.Rmd $(FINAL)/manuscript.md\
-# 				$(FINAL)/manuscript.tex $(FINAL)/manuscript.pdf
+write.paper : submission/manuscript.pdf

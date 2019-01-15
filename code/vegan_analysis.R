@@ -27,30 +27,20 @@ read_dist <- function(dist_file_name){
 	as.dist(distance_matrix)
 }
 
-
 ####################################################################################################
 
-pmock_file_name <- "data/mothur/mock.trim.contigs.good.unique.good.filter.unique.pick.pick.precluster.perfect.opti_mcc.braycurtis.0.03.lt.ave.dist"
+mock_file_name <- "data/mothur/mock.trim.contigs.good.unique.good.filter.unique.pick.pick.precluster.vsearch.opti_mcc.braycurtis.0.03.lt.ave.dist"
 
-pmock_dist <- read_dist(pmock_file_name)
+mock_dist <- read_dist(mock_file_name)
 
-pmock_samples <- tibble(names = attr(pmock_dist, "Labels")) %>% mutate(names=str_replace(names, "_Mock_.*", "")) %>% separate(names, into=c("rounds", "polymerase"))
+mock_samples <- tibble(names = attr(mock_dist, "Labels")) %>% mutate(names=str_replace(names, "_Mock_.*", "")) %>% separate(names, into=c("rounds", "polymerase"))
 
-pmock_adonis <- adonis(pmock_dist~pmock_samples$rounds+pmock_samples$polymerase, permutations=9999)
-pmock_r2 <- pmock_adonis$aov.tab$R2[1:2]
-names(pmock_r2) <- c("rounds", "polymerase")
+mock_adonis <- adonis(mock_dist~mock_samples$rounds+mock_samples$polymerase, permutations=9999)
 
-####################################################################################################
-
-vmock_file_name <- "data/mothur/mock.trim.contigs.good.unique.good.filter.unique.pick.pick.precluster.vsearch.opti_mcc.braycurtis.0.03.lt.ave.dist"
-
-vmock_dist <- read_dist(vmock_file_name)
-
-vmock_samples <- tibble(names = attr(vmock_dist, "Labels")) %>% mutate(names=str_replace(names, "_Mock_.*", "")) %>% separate(names, into=c("rounds", "polymerase"))
-
-vmock_adonis <- adonis(vmock_dist~vmock_samples$rounds+vmock_samples$polymerase, permutations=9999)
-vmock_r2 <- vmock_adonis$aov.tab$R2[1:2]
-names(vmock_r2) <- c("rounds", "polymerase")
+tibble(effects = c("rounds", "polymerase"),
+			r_sq = mock_adonis$aov.tab$R2[1:2],
+			p = mock_adonis$aov.tab$Pr[1:2]) %>%
+	write_tsv("data/process/vegan_mock.tsv")
 
 ####################################################################################################
 
@@ -61,7 +51,11 @@ stool_dist <- read_dist(stool_file_name)
 stool_samples <- tibble(names = attr(stool_dist, "Labels")) %>% mutate(names=str_replace(names, "_PMM_FS", "")) %>% separate(names, into=c("rounds", "polymerase", "subject"))
 
 stool_adonis <- adonis(stool_dist~stool_samples$subject+stool_samples$rounds+stool_samples$polymerase, permutations=9999)
-stool_r2 <- stool_adonis$aov.tab$R2[1:3]
-names(stool_r2) <- c("subject", "rounds", "polymerase")
+
+tibble(effects = c("subject", "rounds", "polymerase"),
+			r_sq = stool_adonis$aov.tab$R2[1:3],
+			p = stool_adonis$aov.tab$Pr[1:3]) %>%
+	write_tsv("data/process/vegan_stool.tsv")
+
 
 ####################################################################################################
