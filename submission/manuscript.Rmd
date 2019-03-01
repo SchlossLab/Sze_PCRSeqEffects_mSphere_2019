@@ -284,7 +284,7 @@ The data analysis code for this study can be found at https://github.com/Schloss
 
 ## Acknowledgements
 
-We appreciate the willingness of the donors to provide stool samples. We also thank Judy Opp and April Cockburn for their assistance in sequencing the samples as part of the Microbiome Core Facility at the University of Michigan. Additional thanks to members of the Schloss lab and Dr. Marcy Balunas for reading earlier drafts of the manuscript and providing helpful critiques. Support for MAS came from the Canadian Institute of Health Research and NIH grant UL1TR002240 and support for PDS came from NIH grants P30DK034933 and 1R01CA215574.   
+We appreciate the willingness of the donors to provide stool samples. We also thank Judy Opp and April Cockburn for their assistance in sequencing the samples as part of the Microbiome Core Facility at the University of Michigan. Additional thanks to members of the Schloss lab and Dr. Marcy Balunas for reading earlier drafts of the manuscript and providing helpful critiques. Support for MAS came from the Canadian Institute of Health Research and NIH grant UL1TR002240 and support for PDS came from NIH grants P30DK034933,  R01CA215574, and U19AI09087.   
 
 \newpage
 
