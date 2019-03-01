@@ -1,6 +1,8 @@
 library(tidyverse)
 library(vegan)
 
+set.seed(19760620) #pds birthday
+
 ####################################################################################################
 
 read_dist <- function(dist_file_name){
