@@ -366,4 +366,3 @@ submission/manuscript.pdf : \
 	rm submission/manuscript.utf8.md
 
 
-write.paper : submission/manuscript.pdf
