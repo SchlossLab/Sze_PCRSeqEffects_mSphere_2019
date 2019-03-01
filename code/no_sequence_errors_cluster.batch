@@ -1,0 +1,3 @@
+pre.cluster(fasta=data/mothur/zymo_mock.filter.pick.unique.fasta, count=data/mothur/zymo_mock.filter.pick.count_table, diffs=2)
+dist.seqs(fasta=current, cutoff=0.03, processors=1)
+cluster(column=current, count=current)

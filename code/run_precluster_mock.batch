@@ -1,0 +1,1 @@
+pre.cluster(fasta=data/mothur/mock.trim.contigs.good.unique.good.filter.unique.pick.pick.fasta, count=data/mothur/mock.trim.contigs.good.unique.good.filter.pick.pick.count_table, diffs=2, processors=8)

@@ -1,0 +1,2 @@
+chimera.vsearch(fasta=data/mothur/mock.trim.contigs.good.unique.good.filter.unique.pick.pick.precluster.fasta, count=data/mothur/mock.trim.contigs.good.unique.good.filter.unique.pick.pick.precluster.count_table, processors=8, dereplicate=T)
+remove.seqs(fasta=current, accnos=current)

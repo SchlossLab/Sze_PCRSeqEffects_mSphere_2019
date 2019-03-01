@@ -1,0 +1,3 @@
+dist.seqs(fasta=data/mothur/mock.trim.contigs.good.unique.good.filter.unique.pick.pick.precluster.perfect.fasta, cutoff=0.03)
+cluster(column=current, count=data/mothur/mock.trim.contigs.good.unique.good.filter.unique.pick.pick.precluster.perfect.count_table)
+make.shared(label=0.03, list=current, count=current)
